@@ -117,6 +117,39 @@ Crear pedidos en PSK Cloud desde WooCommerce con prioridad de almacén:
 | `/Api/Vendedores` | GET | Listar vendedores |
 | `/Api/Usuarios` | GET | Listar usuarios del sistema |
 
+### 4. Productos Combo (Agrupados con Precio Fijo)
+
+Sistema de productos combo tipo `grouped` con precio fijo personalizado, bypass de stock del padre y descuento de stock de componentes al confirmar el pedido.
+
+**Archivos involucrados:**
+- `combo-price.php` — MU plugin (meta box, cart handler, stock deduction, filters)
+- `grouped.php` — override en child theme `nutritix-child` (template grouped)
+- `combo-fix-reservestock.php` — parche para WooCommerce 10.x ReserveStock
+
+**Configuración de un combo:**
+1. Crear producto tipo agrupado (`grouped`)
+2. Agregar hijos (productos simples/variables que lo componen)
+3. En el meta box "Precio del Combo" (sidebar), fijar el precio
+4. Si hay productos variables entre los hijos, configurar "Sabores permitidos"
+5. Dejar `_manage_stock=no`, `_stock` vacío (el stock lo manejan los hijos)
+
+**Flujo en carrito:**
+- El producto padre se agrega como 1 ítem con precio `_combo_price`
+- Bypass completo de `WC()->cart->add_to_cart()` (inserción directa a `cart_contents`)
+- Los hijos NO se agregan como items separados
+
+**Descuento de stock:**
+- Se descuenta stock de cada hijo al confirmar el pedido (`woocommerce_checkout_order_processed`)
+- Cada combo resta 1 unidad de cada componente por cada unidad comprada
+
+**Fix WooCommerce 10.x — ReserveStock:**
+- WooCommerce 10.x introdujo `ReserveStock` que lee `_stock` directamente de la BD (bypasea filtros PHP)
+- Para combos con `_manage_stock=no` y `_stock` vacío, la consulta SQL devuelve 0 y rechaza el pedido
+- Solución: filtro `woocommerce_hold_stock_for_checkout` que desactiva ReserveStock cuando hay combos en el carrito
+
+**Ahorro mostrado en ficha:**
+- `Ahorra $X.xx` en rojo, `font-size:0.8em`, `margin-left:12px`, al lado del precio
+
 ## Notas Técnicas
 
 - **Autenticación API**: Header `clave-api-business` (usar guiones `clave-api-business`, no guiones bajos)
