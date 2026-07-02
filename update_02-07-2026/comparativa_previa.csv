@@ -31,7 +31,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 6009544947608,L-ARGININE 1000MG 60 CAPS USN,,,,,0,0,,
 6009544954132,PROTEINA BLUE LAB 100% WHEY CHOCOLATE 4.5LB USN,,,,,0,0,,
 6009544954170,PROTEINA BLUE LAB 100% WHEY VAINILLA 4.5LB USN,,,,,0,0,,
-607766541022,AGUA 500 ML,,,,,0,896,,
+607766541022,AGUA 500 ML,,,,,0,895,,
 608631655271,AMINO ESENCIAL 52 SERV. 520G BERRY ICE TEA IMPULSE,Amino Esencial - Impulse - 52 Serv - Recuperación y Energía - Berry Ice Tea,21120,608631655271,variation,21118,4,5,-1
 608631655288,AMINO ESENCIAL 52 SERVIN 20 GRAMOS PINK LEMONADE IMPULSE,Amino Esencial - Impulse - 52 Serv - Recuperación y Energía - Pink Lemonade,21119,608631655288,variation,21118,0,0,0
 608631655424,CREATINA STIM PRO52 SERV. FRUIT PUNCH IMPULSE,Creatina Stim Pro - Impulse - 52 Serv - Creatina con Estimulantes - Fruit Punch,18893,608631655424,variation,18887,56,57,-1
@@ -51,14 +51,14 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 612590415975,AMINO REVOLUTION FRUIT PUNCH+ELECTROLITOS- LANDERFIT,,,,,0,1,,
 612590415982,AMINO REVOLUTION LANDERFIT GREEN APPLE-LANDERFIT,,,,,0,0,,
 612590416002,AMINO REVOLUTION LANDERFIT RASPBERRY LEMONADE + ELECTROLITROS,"Amino Revolution + Electrolitos - Landerfit - Rendimiento, Hidratación y Recuperación - Raspberry Lemonade",19956,612590416002,variation,9171,0,0,0
-612590416019,"OMEGA 3, ACEITE DE PESCADO LANDERFIT",Omega 3 – Landerfit - Salud Cardiovascular y Cerebral,9200,612590416019,simple,0,98,99,-1
+612590416019,"OMEGA 3, ACEITE DE PESCADO LANDERFIT",Omega 3 – Landerfit - Salud Cardiovascular y Cerebral,9200,612590416019,simple,0,97,99,-2
 612590416033,MELATONINA 10 MG 120 CAPSULAS- LANDERFIT,Melatonina 10 mg – LanderFit – 120 cápsulas – Mejora del Sueño y Relajación Natural,14429,612590416033,simple,0,22,22,0
 612590416040,DHEA 50 MG 90 CAPSULAS- LANDERFIT,,,,,0,0,,
 612590416057,CLA -2000 120 CAPSULAS- LANDERFIT,CLA 2000 - Landerfit - 120 Cápsulas - Apoyo para Reducción de Grasa Corporal,9190,612590416057,simple,0,19,19,0
 612590416064,LIPO REVOLUTION STIM FREE 60 CAPSULAS- LANDERFIT,,,,,0,0,,
 612590416071,TRIBULUS TERRESTRIS STI 90-CAPSULAS- LANDERFIT,"Tribulus Terrestris – LanderFit – 90 cápsulas –  Potencia, Vitalidad y Equilibrio Hormonal",9208,612590416071,simple,0,23,23,0
 612590416088,TESTOLANDER BOOSTER 120 CAPSULAS- LANDERFIT,,,,,0,0,,
-612590416101,BCAA REVOLUTION GREEN APPLE 30 SERV-LANDERFITERFIT,,,,,0,1,,
+612590416101,BCAA REVOLUTION GREEN APPLE 30 SERV-LANDERFITERFIT,,,,,0,0,,
 612590416118,BCAA REVOLUTION LEMON 30 SERV- LANDERFIT,,,,,0,0,,
 612590416163,PREMIUM WHEY DULCE DE LECHE 2 LBS- LANDERFIT,,,,,0,0,,
 612590416170,PREMIUM WHEY DULCE DE LECHE 5LBS-LANDERFIT,,,,,0,0,,
@@ -71,7 +71,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 612590416293,PREMIUN WHEY COOKIES AND CREAN 2.06 LBS LANDERFIT,,,,,0,1,,
 612590416309,PREMIUM WHEY PEANUT BUTTER 2.06 LBS- LANDERFIT,,,,,0,0,,
 612590416378,AMINO REVOLUTION GRAPE+ELECTRO LITROS-LANDERFIT,,,,,0,0,,
-612590416385,BCAA REVOLUTION PINEAPLE 30 SERVLANDERFITI,,,,,0,3,,
+612590416385,BCAA REVOLUTION PINEAPLE 30 SERVLANDERFITI,,,,,0,2,,
 612590416392,BCAA REVOLUTION LANDERFIT WATERMELON,,,,,0,0,,
 612590416439,LIPO REVOLUTION 60 CAPS NEGRO- LANDERFIT,,,,,0,0,,
 612590416446,VITAMINA C- 1000MG -LANDFERFIT,Vitamina C – LanderFit – 1000 mg –  Defensa Inmunológica y Antioxidante,9214,612590416446,simple,0,9,9,0
@@ -112,7 +112,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 631656716979,MASS TECH -EXTREME 2000- VAINILLA 2000 6 LBS MUSCLETECH,Ganador de Masa Muscular Mass Tech - MuscleTech – 6 LBS – Aumento de Peso y Músculo - Vainilla Milkshake,18958,631656716979,variation,18955,4,7,-3
 631656716986,MAS TECH EXTREME 2000 TRIPLE CHOCOLATE BROWNIE 20 LBS,,,,,0,0,,
 644225727139,POWER CRUNCH STRAWERRY CREME,,,,,0,6,,
-644225727382,POWER CRUNCH FRENCH VAINILLA,,,,,0,15,,
+644225727382,POWER CRUNCH FRENCH VAINILLA,,,,,0,14,,
 644225727733,POWER CRUNCH PEANUT BUTTER FUDGE,,,,,0,14,,
 644225727832,POWER CRUNCH TRIPLE CHOCOLATE,,,,,0,6,,
 650076635196,BCCA FRUIT PONCHS FLAVOR 30 SERVING,,,,,0,98,,
@@ -134,7 +134,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 703556204751,L-CARNITINA 3500 WATERMELON IMPULSE,L-Carnitina Impulse 3500 - Suplemento para Quema de Grasa - Watermelon,18870,703556204751,variation,18869,8,8,0
 703556204785,CORESHIELD -XR MULTIVITAMINAS,CoreShield XR - Multivitaminas - Apoyo Integral para Salud General y Energía,14415,703556204785,simple,0,57,57,0
 703556204808,COLAGENO DR. JOINT PROFESSIONAL JOINT SUPPORT TUTTI FRUTTI 52 SERV. IMPULSE,"Colágeno para Articulaciones Doctor Joint - Impulse - Sabor Tutti Frutti - 52 Serv - Alivia artritis, fortalece tendones y huesos",128,703556204808,simple,0,53,53,0
-703556204815,PROLIVE BIO5 BUTTER BLASTER DE 5 LBS IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Butter Blaster,18195,703556204815,variation,18186,109,110,-1
+703556204815,PROLIVE BIO5 BUTTER BLASTER DE 5 LBS IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Butter Blaster,18195,703556204815,variation,18186,108,110,-2
 703556204822,PROLIVE BIO5 WHITE CHOCORAINBOW DE 5 LB IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - White ChocoRainbow,18188,703556204822,variation,18186,32,37,-5
 703556204839,PROLIVE BIO5 CHOCO MINT DE 5LB IMPULSE,,,,,0,0,,
 703556204846,PROLIVE BIO5 CARAMEL PEANUT BUTTER DE 5 LBS IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Caramel Peanut Butter,18189,703556204846,variation,18186,44,46,-2
@@ -148,13 +148,13 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 705016353217,ISO 100 VAINILLA 5 LBS DYMATIZE,Proteína ISO100 – Dymatize – 5 LBS – Isolatada e Hidrolizada para Recuperación Muscular - Vainilla,20385,705016353217,variation,19183,160,164,-4
 705016353231,ISO 100 FUDGE BROWNIE 3 LIBRAS DYMATIZE,Proteína ISO100 - Dymatize - 3 LBS - Isolatada e Hidrolizada para Recuperación Muscular - Fudge Brownie,19227,705016353231,variation,19225,2,2,0
 705016353415,ISO 100 FRUTY PEBBLES 3 LBS DYMATIZE,Proteína ISO100 - Dymatize - 3 LBS - Isolatada e Hidrolizada para Recuperación Muscular - Fruity Pebbles,19228,705016353415,variation,19225,13,14,-1
-705016353422,ISO 100 COCOA PEBBLES 3 LBS DYMATIZE,Proteína ISO100 - Dymatize - 3 LBS - Isolatada e Hidrolizada para Recuperación Muscular - Cocoa Pebbles,19229,705016353422,variation,19225,11,13,-2
+705016353422,ISO 100 COCOA PEBBLES 3 LBS DYMATIZE,Proteína ISO100 - Dymatize - 3 LBS - Isolatada e Hidrolizada para Recuperación Muscular - Cocoa Pebbles,19229,705016353422,variation,19225,10,13,-3
 705016353439,ISO 100 FRUTY PEBLLES 5 LBS DYMATIZE,Proteína ISO100 – Dymatize – 5 LBS – Isolatada e Hidrolizada para Recuperación Muscular - Fruity Pebbles,19190,705016353439,variation,19183,14,14,0
 705016353446,ISO 100 COCOA PEBBLES 5 LBS DYMATIZE,Proteína ISO100 – Dymatize – 5 LBS – Isolatada e Hidrolizada para Recuperación Muscular - Cocoa Pebbles,19188,705016353446,variation,19183,6,6,0
 705016354207,PROTEINA ISO 100 FRUITY PEBBLES 20 SERV. 1.34 LBS DYMATIZE,,,,,0,398,,
 705016356201,ISO 100 COCOA PEBBLES 1.34 LBS DYMATIZE,,,,,0,0,,
 705016357208,ISO 100 GOURMET CHOCOLATE 1.34 LBS DYMATIZE,,,,,0,0,,
-705016358205,ISO 100 VAINILLA 20 SERV. 1.34 LBS DYMATIZE,Proteína ISO100 - Dymatize - 1.34 LBS - Ganancia Muscular - Vainilla,20388,705016358205,variation,19205,186,192,-6
+705016358205,ISO 100 VAINILLA 20 SERV. 1.34 LBS DYMATIZE,Proteína ISO100 - Dymatize - 1.34 LBS - Ganancia Muscular - Vainilla,20388,705016358205,variation,19205,185,192,-7
 705016500406,ISO 100 FUGGE BROWNIE 5 LBS DYMATIZE,,,,,0,0,,
 705016500420,ISO 100 BIRTHDAY CAKE 5 LBS DYMATIZE,Proteína ISO100 – Dymatize – 5 LBS – Isolatada e Hidrolizada para Recuperación Muscular - Birthday Cake,19191,705016500420,variation,19183,21,21,0
 705016599141,ISO 100 WHEY ELITE CHOCOLATE RICH 2 LB DYMATIZE,,,,,0,0,,
@@ -172,7 +172,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 710779770218,LEAN BODY SALTD CARAMEL LABARADA 17OZ,,,,,0,224,,
 7113101732151,ULTRA VEGANA CARAMELO PEANUT BUTTER 3 LBS IMPULSE,Proteína Vegana - Impulse - 3 LBS - Ganancia Muscular y Recuperación - Caramelo Peanut Butter,18864,7113101732151,variation,18861,13,13,0
 713101731994,PROLIVE BIO5 DE MANGO 6 LB IMPULSE,,,,,0,0,,
-713101732007,PROLIVE BIO5 SUNDEY CARAMEL DE 6 LB IMPULSE,Proteína Blend – Impulse – 6 LBS – Ganancia Muscular y Recuperación - Sundae Caramel,18858,713101732007,variation,18854,56,58,-2
+713101732007,PROLIVE BIO5 SUNDEY CARAMEL DE 6 LB IMPULSE,Proteína Blend – Impulse – 6 LBS – Ganancia Muscular y Recuperación - Sundae Caramel,18858,713101732007,variation,18854,55,58,-3
 713101732014,PROLIVE BIO6 COCONUT 6 LBS IMPULSE,Proteína Blend – Impulse – 6 LBS – Ganancia Muscular y Recuperación - Coconut,18857,713101732014,variation,18854,1,1,0
 713101732021,PROLIVE BIO6 PIÑA COLADA DE 6 LBS IMPULSE,,,,,0,0,,
 713101732038,PROLIVE BIO6 COFFEE LOVERS DE 6 LB IMPULSE,Proteína Blend – Impulse – 6 LBS – Ganancia Muscular y Recuperación - Coffe Lovers,18856,713101732038,variation,18854,46,51,-5
@@ -188,7 +188,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 722252601445,BUILDERS CHOCOLATE MINT,,,,,0,7,,
 7401165100018,TASU CHIPS MANGO,,,,,0,14,,
 7401165100032,TASU CHIPS BANANA FRESA,,,,,0,15,,
-7451009770051,AGUA CRISTALINA,,,,,0,333,,
+7451009770051,AGUA CRISTALINA,,,,,0,331,,
 745560721971,RAPTOR X5 FRUIT PUNCH IMPULSE,Raptor X5 - Impulse - Sabor Fruit Punch - Suplemento Pre-Entreno para Energía y Rendimiento,12945,745560721971,simple,0,0,0,0
 745560722008,L-CARNITINA 3500 BLUE BERRY IMPULSE,,,,,0,0,,
 745560722015,"CREATINE SUPER ATP, 80 SERVS). 400G (UNFLAVORED) (CREATINA)",Creatina Super ATP - Impulse - 80 Srv - Creatina Sin Sabor para Fuerza y Rendimiento,108,745560722015,simple,0,25,26,-1
@@ -197,11 +197,11 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 745560722039,L- CARNITINA 3500 MANGO ALEGRE IMPULSE,L-Carnitina Impulse 3500 - Suplemento para Quema de Grasa - Mango Alegre,18871,745560722039,variation,18869,4,6,-2
 745560722053,BCAA + GLUTAMINA 30 SERVS. 330G UVA (AMINO BCAA) IMPULSE,,,,,0,0,,
 745560722084,BCAA + GLUTAMINE 30 SERV. 330G FRUIT PONCHS (AMINO BCAA) IMPULSE,,,,,0,0,,
-745560722138,PROLIVE BIO5 VAINILLA DE 5 LB IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Vainilla,18187,745560722138,variation,18186,74,79,-5
+745560722138,PROLIVE BIO5 VAINILLA DE 5 LB IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Vainilla,18187,745560722138,variation,18186,73,79,-6
 745560722145,PROLIVE BIO5 STRAWBERRY ICE CREAN 5 LBS IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Strawberry Ice Cream,18190,745560722145,variation,18186,122,127,-5
-745560722152,PROLIVE BIO5 DE CHOCOLATE 5 LBS IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Chocolate,18192,745560722152,variation,18186,242,248,-6
+745560722152,PROLIVE BIO5 DE CHOCOLATE 5 LBS IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Chocolate,18192,745560722152,variation,18186,241,248,-7
 745560722169,PROLIVE BIO5 CHOCO COCO DE 5 LBS IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Choco Coco,18193,745560722169,variation,18186,1,1,0
-745560722176,PROLIVE BIO5 COOKIS AND CREAM DE 5LB IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Cookies and Cream,18191,745560722176,variation,18186,91,98,-7
+745560722176,PROLIVE BIO5 COOKIS AND CREAM DE 5LB IMPULSE,Proteína Blend - Impulse - 5 LBS - Ganancia Muscular y Recuperación - Cookies and Cream,18191,745560722176,variation,18186,92,98,-6
 745560722183,L CARNITINA 3500 FRUIT PONCHS IMPULSE,L-Carnitina Impulse 3500 - Suplemento para Quema de Grasa - Fruit Punch,18874,745560722183,variation,18869,3,3,0
 745560722206,THERMOBLAST M5 (FAT BURNER) 120 CAPS (QUEMADOR HOMBRE) IMPULSE,Thermoblast M5 - Impulse - 120 Cápsulas - Quemador de Grasa para Hombre,93,745560722206,simple,0,0,0,0
 745560722213,THERMOBLAST H2 (FAT BURNER) 120 CAPS (QUEMADOR MUJER) IMPULSE,Thermoblast H2 - Impulse - 120 Cápsulas - Quemador de Grasa para Mujer,94,745560722213,simple,0,4,4,0
@@ -222,7 +222,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 748927026665,AMINO ENERGY FRUIT FUSION 270 G,"Optimum Nutrition Amino Energy - 270 g - Energía, Recuperación Muscular y Enfoque Mental - Fruit Fusion",19856,748927026665,variation,19843,132,132,0
 748927026672,AMINO ENERGY WATERMELON 270 G,"Optimum Nutrition Amino Energy - 270 g - Energía, Recuperación Muscular y Enfoque Mental - Watermelon",19854,748927026672,variation,19843,91,91,0
 748927026825,AMINO ENERGY BLUE RASPBERRY 270 G,,,,,0,43,,
-748927028614,GOLD STANDARD WEY DOBLE RICH CHOCOLATE 2 LB,Optimum Nutrition Proteína 100% Whey Gold Standard - 2 lb - Recuperación Muscular - Doble Rich Chocolate,19818,748927028614,variation,19817,40,40,0
+748927028614,GOLD STANDARD WEY DOBLE RICH CHOCOLATE 2 LB,Optimum Nutrition Proteína 100% Whey Gold Standard - 2 lb - Recuperación Muscular - Doble Rich Chocolate,19818,748927028614,variation,19817,39,40,-1
 748927028652,GOLD STANDAR WHEY VAINILLA ICE CREAN 1.98 LBS,Optimum Nutrition Proteína 100% Whey Gold Standard - 2 lb - Recuperación Muscular - Vainilla Ice Cream,19819,748927028652,variation,19817,24,24,0
 748927028669,GOLD STANDARD WEY DOUBLE RICH CHOCOLATE 5 LBS,Optimum Nutrition Proteína 100% Whey Gold Standard - 5 lb - Recuperación Muscular - Doble Rich Chocolate,19837,748927028669,variation,19835,388,389,-1
 748927028706,GOLD STANDAR WHEY VAINILLA ICE CREAM 5 LBS,Optimum Nutrition Proteína 100% Whey Gold Standard - 5 lb - Recuperación Muscular - Vanilla Ice Cream,19838,748927028706,variation,19835,42,43,-1
@@ -236,13 +236,13 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 748927060140,GOLD STANDAR WHEY DOBLE RICH 1.47 LBS 22 SERVING,Optimum Nutrition Proteína 100% Whey Gold Standard - 1.5 lb - Recuperación Muscular - Doble Rich Chocolate,19828,748927060140,variation,19826,1,1,0
 748927060522,AMINO ENERGY WATERMELON SPLASH 270 G + ELECTROLITOS,,,,,0,35,,
 748927060607,AMINO ENERGY RTD SPARLING AE JUCY STRAWERRY OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Juicy Strawberry,19085,748927060607,variation,19081,82,85,-3
-748927060614,AMINO ENERGY SPARLING AE WATHERMELO OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Sandia,19087,748927060614,variation,19081,395,438,-43
+748927060614,AMINO ENERGY SPARLING AE WATHERMELO OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Sandia,19087,748927060614,variation,19081,391,438,-47
 748927060621,AMINO ENERGY RTD SPANLING AE GRAPE OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Uva,19083,748927060621,variation,19081,332,344,-12
 748927060638,BLUEBERRY LEMONADE,,,,,0,312,,
 748927062113,AMINO ENERGY BLUEBERRY LIMON 270 G,"Optimum Nutrition Amino Energy - 270 g - Energía, Recuperación Muscular y Enfoque Mental - BlueBerry Limon",19849,748927062113,variation,19843,5,5,0
 748927062731,AMINO ENERGY RTD SPARLING AE JUCY CHERRY OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Juicy Cherry,19084,748927062731,variation,19081,371,379,-8
 748927062748,AMINO ENERGY SPARLING AE MANGO PINIAPLE LIMONADE OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Mango Pineapple Lemonade,19086,748927062748,variation,19081,369,382,-13
-748927063486,AMINO ENERGY SPARLING AE PEACH BELLINI OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Peach Bellini﻿,19089,748927063486,variation,19081,459,510,-51
+748927063486,AMINO ENERGY SPARLING AE PEACH BELLINI OPTIMUN NUTRICION,Bebida Energetica - Optimum Nutrition - Pack de 12 - Energía y Recuperación - Peach Bellini﻿,19089,748927063486,variation,19081,456,510,-54
 748927063646,AMINO ENERGY WILD BERRY 270 G,"Optimum Nutrition Amino Energy - 270 g - Energía, Recuperación Muscular y Enfoque Mental - Wild Berry",19850,748927063646,variation,19843,1,1,0
 748927066005,AMINO ENERGY RTD SPARLING AE ORANGE OPTIMUN NUTRICION,,,,,0,0,,
 748927066586,PROTEIN SHAKER VAINILLA 325 ML OPTIMUN NUTRICION,Batido de Proteínas - 325 ml - 12 Pack - Recuperación Muscular - Vainilla,19074,748927066586,variation,19071,1580,1597,-17
@@ -253,7 +253,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 748927069662,AMINO CITRUS SPRITZ 585 GM 65 SERVING OPTIMO,,,,,0,60,,
 748927069815,PROTEIN SHAKE STRAWBERRY 325ML OPTIMUN NUTRICION,Batido de Proteínas - 325 ml - 12 Pack - Recuperación Muscular - Strawberry,19073,748927069815,variation,19071,1233,1237,-4
 749826126449,PURE PROTEINA CHEWY CHOCOLATE CHIP,,,,,0,9,,
-749826126487,PURE PROTEIN CHOCOLATE PEANUT BUTTER,,,,,0,15,,
+749826126487,PURE PROTEIN CHOCOLATE PEANUT BUTTER,,,,,0,14,,
 749826126517,PURE PROTEINA CHOCOLATE DELUXE,,,,,0,7,,
 7500634000528,CREATINAMONOHIDRATADA 72 SERVING,Creatina Monohidratada - Forzagen - 72 Srv - Suplemento para Fuerza y Rendimiento,13154,7500634000528,simple,0,54,54,0
 7500634001853,BCAA+GLUTAMINE WITH HYDRAGEN COMPLEX SNOW CONE FORZAGEN,,,,,0,0,,
@@ -275,14 +275,14 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 7503029522945,CAFE AMERICANO,,,,,0,77,,
 7503029522946,EAAS AMINO  PINK LEMONADE,,,,,0,17,,
 7503029522947,CREATINA NUTREX 60 SERVING,,,,,0,65,,
-7503029522948,CAPUCHINO CON LECHE ENTERA,,,,,0,43,,
+7503029522948,CAPUCHINO CON LECHE ENTERA,,,,,0,42,,
 7503029522949,RAPTOR PREWORK IMPULSE,,,,,0,28,,
 7503029522951,PEANUT BUTTER,,,,,0,68,,
 7503029522952,FRESAS,,,,,0,42,,
 7503029522953,AVENA,,,,,0,65,,
-7503029522954,LECHE DE ALMENDRAS,,,,,0,58,,
-7503029522955,LECHE ENTERA,,,,,0,73,,
-7503029522956,BANANA - GUINEO,,,,,0,114,,
+7503029522954,LECHE DE ALMENDRAS,,,,,0,57,,
+7503029522955,LECHE ENTERA,,,,,0,72,,
+7503029522956,BANANA - GUINEO,,,,,0,112,,
 7503029522957,SHAKER BLANCO MAGNUM,,,,,0,2,,
 7503029522958,SHAKER BLANCO DYMATIZE,,,,,0,0,,
 7503029522959,NUTREX SHAKER,,,,,0,76,,
@@ -309,13 +309,13 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 75030295522935,MELATONIN 60 VEGAN CAPS EMINECE,,,,,0,12,,
 75030295522936,ASWAGANDHA KSM-66 60 VEG CAPS EMINENCE,,,,,0,12,,
 75030295522937,VTAMINA D 3 60 VEG CAPS EMINENCE,,,,,0,12,,
-75030295522938,EVOFUSION CHOCOLATE PEANUT BUTTER,,,,,0,57,,
+75030295522938,EVOFUSION CHOCOLATE PEANUT BUTTER,,,,,0,56,,
 753656701202,THINK CREAMYPEANUT BUTTER,,,,,0,0,,
 753656701271,THINK BROWNIE CRUNCH,,,,,0,0,,
 764009041395,GATORATE UVA,,,,,0,4,,
 764009041401,GATORATE NARANJA,,,,,0,23,,
 764009041432,GATORATE ROJO,,,,,0,3,,
-78656000000,MET--RX SALTED CARAMEL BROWNIE CRUNCH,,,,,0,563,,
+78656000000,MET--RX SALTED CARAMEL BROWNIE CRUNCH,,,,,0,561,,
 786560000642,MET--RX VAINILLA CARAMEL CHURRO,,,,,0,554,,
 786560153126,MET-RX SUPER COOKIE CRUNCH,,,,,0,557,,
 799142775005,AMINO REVOLUTION + ELECTROLITROS COCONUT 30 SERVI-LANDERFIT,"Amino Revolution + Electrolitos - Landerfit - Rendimiento, Hidratación y Recuperación - Coconut",19959,799142775005,variation,9171,2,2,0
@@ -374,7 +374,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 810121056417,ISOJECT CHOCOLATE PEANUTBUTTER BANANA 1.76 LBS ISOJET EVOGEN,Proteína ISOJECT - Evogen - 1.7 LBS - Ganancia y Recuperación - Chocolate Peanut Butter Banana,19750,810121056417,variation,19744,2,2,0
 810121056455,ISOJECT MINI CRISPY COOKIES 1.87 LBS EVOGEN,Proteína ISOJECT - Evogen - 1.7 LBS - Ganancia y Recuperación - Mini Crisp Cookies,19756,810121056455,variation,19744,3,3,0
 810121056462,ISOJECT COOKIES AND CREAM 1.82 ISOJET EVOGEN,Proteína ISOJECT - Evogen - 1.7 LBS - Ganancia y Recuperación - Cookies and Cream,19753,810121056462,variation,19744,0,0,0
-810121056486,BETA-ALANINE EVOGEN,Beta-Alanine - Evogen - Resistencia Muscular y  Rendimiento Deportivo,11861,810121056486,simple,0,19,19,0
+810121056486,BETA-ALANINE EVOGEN,Beta-Alanine - Evogen - Resistencia Muscular y  Rendimiento Deportivo,11861,810121056486,simple,0,18,19,-1
 810121056493,L- CITRULINA EVOGEN,,,,,0,0,,
 810121056660,ISOJECT CHOCOLATE - 25 SRV EVOGEN,Proteína ISOJECT - Evogen - 1.7 LBS - Ganancia y Recuperación - Chocolate,19749,810121056660,variation,19744,1,1,0
 810121056684,ISOJECT VAINILLA COLD BREW COOFFE 1.76 LBSEVOGEN,Proteína ISOJECT - Evogen - 1.7 LBS - Ganancia y Recuperación - Vainilla Cold Brew Coffe,19759,810121056684,variation,19744,1,1,0
@@ -389,9 +389,9 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 810121057261,HIDRATACION PEACH TEA,Evogen Hydration – Electrolitos en Polvo y Voluminizador Muscular Sin Estimulantes - Peach Tea,19278,810121057261,variation,19277,14,14,0
 810121057940,EVP XTREME N.O. JUCY GRAPPE-EVOGEN,Suplemento Pre Entreno Evogen - EVP Xtreme N.O. - Pump y Rendimiento Muscular - Juicy Grape,19406,810121057940,variation,19402,5,5,0
 8101210579694,EVP 3D JUCY GRAPPE EVOGEN,"Pre-Entreno Evogen EVP-3D - Fuerza, Potencia y Rendimiento - Juicy Grape",19305,8101210579694,variation,19304,9,9,0
-8101210579695,INBODDY DE CORTESIA- VALIDO UN MES MOSTRAR FACTURA,,,,,0,2873,,
+8101210579695,INBODDY DE CORTESIA- VALIDO UN MES MOSTRAR FACTURA,,,,,0,2872,,
 8101210579699,VASOS PARA CAFE 8OZ,,,,,0,1057,,
-8101210579700,VASOS PARA CAFE 6,,,,,0,248,,
+8101210579700,VASOS PARA CAFE 6,,,,,0,247,,
 8101210579701,COKIES PROLIVE BIO 5,,,,,0,64,,
 8101210579702,CHOCOLATE PROLIVE BIO 5,,,,,0,18,,
 8101210579703,STRAWERRY PROLIVE BIO 5,,,,,0,16,,
@@ -405,23 +405,23 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 8101210579710,CINAMON CRUNCH RAW,,,,,0,24,,
 8101210579711,VAINILLA AOTMEAL COKIES RAW,,,,,0,19,,
 8101210579712,MASTECH TRIPLE CHOCOLATE BROWNIE,,,,,0,36,,
-8101210579713,VASO 16OZ,,,,,0,15,,
-8101210579714,VASO 14OZ,,,,,0,87,,
+8101210579713,VASO 16OZ,,,,,0,14,,
+8101210579714,VASO 14OZ,,,,,0,86,,
 8101210579715,VASO 12 ONZA,,,,,0,27,,
-8101210579716,CAPUCHINO PROLIVEBIO 5,,,,,0,95,,
+8101210579716,CAPUCHINO PROLIVEBIO 5,,,,,0,94,,
 8101210579717,MUSCLE PUMP,,,,,0,2,,
 8101210579718,CRYSPI TOFFE PROLIVE BIO 6,,,,,0,94,,
 8101210579719,CAPUCHINO PROLIVE BIO 5,,,,,0,80,,
 8101210579720,COKIES PROLIVE BIO 5,,,,,0,74,,
 8101210579721,VAINILLA PROLIVE BIO 5,,,,,0,55,,
-8101210579722,STRAWERRY PROLIVE BIO 5,,,,,0,87,,
-8101210579723,AVENA EN HOJUELAS METRO MALL,,,,,0,83,,
+8101210579722,STRAWERRY PROLIVE BIO 5,,,,,0,86,,
+8101210579723,AVENA EN HOJUELAS METRO MALL,,,,,0,82,,
 8101210579724,PEANUT BUTTER METRO MALL,,,,,0,103,,
-8101210579725,FRESAS METRO MALL,,,,,0,31,,
+8101210579725,FRESAS METRO MALL,,,,,0,30,,
 8101210579726,GUINEO- BANANA,,,,,0,39,,
 8101210579727,CAFE AMERICANO,,,,,0,0,,
 8101210579728,LECHE ENTERA,,,,,0,367,,
-8101210579729,LECHE DE ALMENDRAS,,,,,0,569,,
+8101210579729,LECHE DE ALMENDRAS,,,,,0,568,,
 8101210579730,CHOCOLATE PROLIVE BIO 5,,,,,0,80,,
 8101210579731,RAPTOR,,,,,0,10,,
 8101210579732,CREATINA NUTREX,,,,,0,30,,
@@ -443,7 +443,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 810139572534,BIOTIN 120 CAPSULAS,,,,,0,0,,
 810139572879,BERBERINA 60 CAPSULAS,,,,,0,61,,
 810139573739,MILK THISTLE 120 CASULAS,Milk Thistle - Nutricost - 120 Cápsulas - Apoyo Hepático y Detoxificación Natural,13379,810139573739,simple,0,2,2,0
-810139574088,MAGNESIUM COMPLEX 30 CAPSULAS,,,,,0,55,,
+810139574088,MAGNESIUM COMPLEX 30 CAPSULAS,,,,,0,54,,
 810139574149,NAC DE 600 MG 30 CAPSULAS,NAC - Nutricost - 30 Cápsulas - Apoyo Respiratorio y Desintoxicación Hepática,13382,810139574149,simple,0,23,23,0
 810139574170,MAGNESIUM CITRATE 60 CAPSULAS,Citrato de Magnesio - Nutricost - 60 Cápsulas - Relajación Muscular y Salud Ósea,13377,810139574170,simple,0,68,68,0
 810139574361,VITAMINA- E 30 CAPSULAS,Vitamina E - Nutricost - 30 Cápsulas - Antioxidante y Salud de la Piel,13390,810139574361,simple,0,21,21,0
@@ -459,6 +459,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 811445020405,ZMA PRIMA FORCE ABOLIC MINERAL SUPORT 180 CAPSULAS,ZMA PrimaForce - Nutricost - 180 Cápsulas - Apoyo Hormonal y Mejora del Sueño,13393,811445020405,simple,0,2,2,0
 811445021105,CREATINA MICRONIZADA MOHIDRATADA EN CAPSULAS 240 CAPSULAS,,,,,0,0,,
 811445021389,ASWHAGANDHA -KSM -66 DE 60 CAPSULAS,,,,,0,0,,
+811662020172,CREAKONG CREATINA SUPLENT 75 SERVING,,,,,0,22,,
 811662029489,MASS EXTREME 2500 VAINILLA ICE CREAM MUTANT,,,,,0,60,,
 811662029496,MASS EXTREME 2500 TRIPLE CHOCOLATE MUTANT,,,,,0,60,,
 811662029502,MASS EXTREME 2500 COOKIES & CREAM MUTANT,,,,,0,60,,
@@ -496,7 +497,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 817189028301,FUNELL - ENBUDO NEGRO EVOGEN,,,,,0,32,,
 817189028318,FUNELL-ENBUDO AZUL EVOGEN,,,,,0,23,,
 817189028523,AMINO K.E.M SOUR CANDY- EVOGEN,Aminoácido Evogen - Amino K.E.M. - Energía y Rendimiento - Sour Candy,19259,817189028523,variation,19253,7,7,0
-817189028530,EVP XTREMEN.O. SOUR CANDY-EVOGEN,Suplemento Pre Entreno Evogen - EVP Xtreme N.O. - Pump y Rendimiento Muscular - Sour Candy,19413,817189028530,variation,19402,3,3,0
+817189028530,EVP XTREMEN.O. SOUR CANDY-EVOGEN,Suplemento Pre Entreno Evogen - EVP Xtreme N.O. - Pump y Rendimiento Muscular - Sour Candy,19413,817189028530,variation,19402,2,3,-1
 817189028981,ISOJECT DE 4 LBS CHOCOLATE EVOGEN,Proteína ISOJECT - Evogen - 4 LBS - Isolatada para Ganancia Muscular - Chocolate,19237,817189028981,variation,19235,1,1,0
 817189028998,ISOJECT COOKIE AND CREAM 4 LBS EVOGEN,Proteína ISOJECT - Evogen - 4 LBS - Isolatada para Ganancia Muscular - Cookie and Cream,19236,817189028998,variation,19235,2,2,0
 817189029032,CREATINA MICRONIZADA MONOHIDRATADA 60SERV. EVOGEN,Creatina Micronizada Monohidratada - Evogen - 60 Serv - Suplemento para Fuerza y Rendimiento,11853,817189029032,simple,0,46,52,-6
@@ -534,7 +535,7 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 842595106114,C4 ORIGINAL PINK LEMONADE 30 SERV (PRE-WORK) CELLUCOR,,,,,0,0,,
 842595106121,C4 ORIGINAL PINK LEMONADE 60 SERV (PRE-WORK) CELLUCOR,,,,,0,0,,
 842595106572,C4 PERFORMANCE ENERGY 16OZ STRAWBERY WATTERMELON ICE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Strawberry Watermelon Ice",20466,842595106572,variation,20464,85,86,-1
-842595106596,C4 PERFORMANCE ENERGY 16OZ FROZEN BOMBSICLE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Frozen Bombsicle",20474,842595106596,variation,20464,52,55,-3
+842595106596,C4 PERFORMANCE ENERGY 16OZ FROZEN BOMBSICLE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Frozen Bombsicle",20474,842595106596,variation,20464,51,55,-4
 842595106619,C4 PERFORMANCE ENERGY 16OZ ARCTIC SNOW CONE,"Bebida Energética C4 Ultimate Energy Carb WWP - 16 oz - Pack de 12 - Energía, Resistencia y Rendimiento Físico - Artic Snow Cone",20431,842595106619,variation,20430,43,47,-4
 842595109368,C4 PERFORMANCE ENERGY 16OZ ORANGE SLICE,,,,,0,0,,
 842595109832,C4 PERFORMANCE ENERGY 16OZ ORANGE STARBURST,,,,,0,0,,
@@ -543,27 +544,27 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 842595114980,C4 RIPPED RASPBERRY LEMONADE 30 SERV (PRE-WORK) CELLUCOR,,,,,0,0,,
 842595117080,C4 PERFORMANCE ENERGY 16OZ PEACH MANGO,,,,,0,0,,
 842595119831,C4 PERFORMANCE ENERGY 16OZ SPARLING CHERY BERRY LIME,,,,,0,0,,
-842595121650,C4 PERFORMANCE 16OZ FRUIT PUNCH,"Bebida Energética C4 Ultimate Energy Carb WWP - 16 oz - Pack de 12 - Energía, Resistencia y Rendimiento Físico - Fruit Punch",20432,842595121650,variation,20430,84,84,0
-842595121759,C4 PERFORMANCE ENERGY 16OZ STRAWBERRY BLAST,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Strawberry Blast",20472,842595121759,variation,20464,92,95,-3
+842595121650,C4 PERFORMANCE 16OZ FRUIT PUNCH,"Bebida Energética C4 Ultimate Energy Carb WWP - 16 oz - Pack de 12 - Energía, Resistencia y Rendimiento Físico - Fruit Punch",20432,842595121650,variation,20430,83,84,-1
+842595121759,C4 PERFORMANCE ENERGY 16OZ STRAWBERRY BLAST,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Strawberry Blast",20472,842595121759,variation,20464,91,95,-4
 842595121766,C4 PERFORMANCE COSMIC RAINBOW,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Cosmic Rainbow",20471,842595121766,variation,20464,118,123,-5
 842595127027,C4 PERFORMANCE ENERGY 16OZ ORANGE CREAM,,,,,0,0,,
 842595129342,XTEND VASO,,,,,0,25,,
 842595130999,C4 PERFORMANCE 16OZ SOUR BLUE RAZZILLA,,,,,0,56,,
 842595131253,C4 PERFORMANCE 16OZ CHERRY,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Cherry Popsicle",20470,842595131253,variation,20464,91,103,-12
-842595131277,C4 PERFORMANCE 16OZ POPSICLE GRAPE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Grape Popsicle",20475,842595131277,variation,20464,186,222,-36
-842595131291,C4 PERFORMANCE 16OZ HAWAIIAN PINEAPLE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Hawaiian Pineaple Popsicle",20467,842595131291,variation,20464,2905,2953,-48
+842595131277,C4 PERFORMANCE 16OZ POPSICLE GRAPE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Grape Popsicle",20475,842595131277,variation,20464,185,222,-37
+842595131291,C4 PERFORMANCE 16OZ HAWAIIAN PINEAPLE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Hawaiian Pineaple Popsicle",20467,842595131291,variation,20464,2903,2953,-50
 842595131628,C4 PERFORMANCE 16OZ CREAMISCLE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Orange creamsicle",20468,842595131628,variation,20464,73,73,0
 842595131727,C4 PERFORMANCE 16OZ ELECTRIC SOUR APPLE,"Bebida Energética C4 Ultimate Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Físico - Electric Sour Apple",20447,842595131727,variation,20442,70,71,-1
 842595131741,C4 PERFORMANCE 16OZ ATOMIC GRAPE,"Bebida Energética C4 Ultimate Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Físico - Atomic Grape",20445,842595131741,variation,20442,35,36,-1
-842595133608,C4 PERFORMANCE ENERGY 16OZ HAWAIIAN PUNCH TROPIC JUICE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Hawaiian Punch",20476,842595133608,variation,20464,63,71,-8
+842595133608,C4 PERFORMANCE ENERGY 16OZ HAWAIIAN PUNCH TROPIC JUICE,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Hawaiian Punch",20476,842595133608,variation,20464,62,71,-9
 842595134957,C4 PERFORMANCE ENERGY 16OZ BLUE RASPBERRY JOLLY RANCHER,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Blue Raspberry Jolly Rancher",20469,842595134957,variation,20464,89,92,-3
 842595134964,C4 PERFORMANCE ENERGY 16OZ WATERMELON JOLLY RANCHER,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Watermelon Jolly Rancher",20478,842595134964,variation,20464,86,92,-6
 842595134971,C4 PERFORMANCE ENERGY 16OZ GREEN APPLE JOLLY RANCHER,"Bebida Energética C4 Performance Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Diario - Green Apple Jolly Rancher",20473,842595134971,variation,20464,81,81,0
 842595135534,C4 PERFORMANCE 16OZ FROST BITTEN CITRUS,"Bebida Energética C4 Ultimate Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Físico - Frost Bitten Citrus",20448,842595135534,variation,20442,47,59,-12
 842595135541,C4 PERFORMANCE CHERRY BOMB FROST,"Bebida Energética C4 Ultimate Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Físico - Cherry Bomb Frost",20446,842595135541,variation,20442,33,36,-3
-842595135558,C4 PERFORMANCE 16OZ TROPICAL TUNDRA FROST,"Bebida Energética C4 Ultimate Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Físico - Tropical Tundra",20449,842595135558,variation,20442,65,72,-7
-842595136050,C4 16 OZ SOUR GUMMY SPLAS,,,,,0,1854,,
-842595138269,C4 PERFORMANCE 16OZ CLASSIC LEMONADE,,,,,0,89,,
+842595135558,C4 PERFORMANCE 16OZ TROPICAL TUNDRA FROST,"Bebida Energética C4 Ultimate Energy - 16 oz - Pack de 12 - Energía, Enfoque y Rendimiento Físico - Tropical Tundra",20449,842595135558,variation,20442,64,72,-8
+842595136050,C4 16 OZ SOUR GUMMY SPLAS,,,,,0,1851,,
+842595138269,C4 PERFORMANCE 16OZ CLASSIC LEMONADE,,,,,0,88,,
 842595139310,C4 PERFORMANCE 16OZ MANGO FUEGO,,,,,0,30,,
 850005755807,NUTREX BCAA 6000 GREEN APPLE 30 SERV,,,,,0,4,,
 850005755876,ANABOL HARDCORE 60 CAPSULAS NUTREX,,,,,0,0,,
@@ -573,10 +574,10 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 850016779373,BROWNIE CHOCOLATE FUDGE,Brownie con Colágeno﻿ - Cuidado de Piel y Salud - Chocolate Fudge,19044,850016779373,variation,19043,204,204,0
 850026029055,WHEY 100% VAINILLA 2 LBS NUTREX,Proteína Whey - Nutrex - 2 LBS - Aumento de Masa Muscular y Recuperación - Vainilla,19802,850026029055,variation,19800,73,17,56
 850026029062,PROTEINA 100% WHEY VANILLA 5LB NUTREX,,,,,0,0,,
-850026029079,WHEY 100 % CHOCOLATE 2 LBS 26 SERVING NUTREX,Proteína Whey - Nutrex - 2 LBS - Aumento de Masa Muscular y Recuperación - Chocolate,19801,850026029079,variation,19800,81,23,58
+850026029079,WHEY 100 % CHOCOLATE 2 LBS 26 SERVING NUTREX,Proteína Whey - Nutrex - 2 LBS - Aumento de Masa Muscular y Recuperación - Chocolate,19801,850026029079,variation,19800,80,23,57
 850026029086,PROTEINA 100% WHEY CHOCOLATE 5LB NUTREX,,,,,0,0,,
 850026029314,LIPO 6 BCCA WASTERMELO 30 SERV NUTREX,,,,,0,0,,
-850026029925,CREATINA MONOHIDRATE 200 SERVING NUTREX,Creatina Monohidratada - Nutrex - 200 Serv - Aumento de Fuerza y Rendimiento Muscular,13114,850026029925,simple,0,358,374,-16
+850026029925,CREATINA MONOHIDRATE 200 SERVING NUTREX,Creatina Monohidratada - Nutrex - 200 Serv - Aumento de Fuerza y Rendimiento Muscular,13114,850026029925,simple,0,356,374,-18
 850030689016,ASHWAGANDHA KSM-66 REVIVE,Ashwagandha KSM-66 Revive - Reducción del Estrés y Mejora del Enfoque Mental,11248,850030689016,simple,0,17,17,0
 850030689054,VITAMINA C REVIVE,,,,,0,1,,
 850030689153,OPTIZINC REVIVE,OptiZinc Revive - 60 Cápsulas - Suplemento para Salud de la Piel y Sistema Inmunológico,11224,850030689153,simple,0,18,18,0
@@ -644,10 +645,10 @@ codigo,nombre_psk,nombre_wc,wc_id,wc_sku,wc_type,wc_parent,stock_psk,stock_wc,de
 850060362675,WHEY 100% COOKIES AND CREAN 2LBS NUTREX,Proteína Whey - Nutrex - 2 LBS - Aumento de Masa Muscular y Recuperación - Cookies and Cream,19803,850060362675,variation,19800,80,22,58
 853237000202,NUTREX LIPO-6 CLA 45CT NUTREX,Lipo-6 CLA - Nutrex - 45 Cápsulas - Reducción de Grasa Corporal y Control del Peso,8690,853237000202,simple,0,2,2,0
 853237000738,PROTEINA ISOFIT COOKIES &CREAM 30 SERV. NUTREX,Proteína ISOFIT  – Nutrex – 30 Serv – Aumento de Masa Muscular y Recuperación - Cookies & Cream,19780,853237000738,variation,19778,7,7,0
-853237000745,CREATINA MONOHIDRATADA DRIVE 300G NUTREX,Creatina Monohidratada 60 serv - Nutrex - Aumento de Fuerza y Rendimiento Muscular,268,853237000745,simple,0,1812,1851,-39
+853237000745,CREATINA MONOHIDRATADA DRIVE 300G NUTREX,Creatina Monohidratada 60 serv - Nutrex - Aumento de Fuerza y Rendimiento Muscular,268,853237000745,simple,0,1808,1851,-43
 853237000769,ISOFIT COOKIES AND CREAM 70SRV 5 LBS NUTREX,Proteína ISOFIT - Nutrex - 5 LBS - Aumento de Masa Muscular y Recuperación - Cookies and Cream,19792,853237000769,variation,19790,3,3,0
 853237000837,ISOFIT 30 SERVING STRAWERRY NUTREX,Proteína ISOFIT  – Nutrex – 30 Serv – Aumento de Masa Muscular y Recuperación - Sabor Strawberry,19779,853237000837,variation,19778,60,8,52
-853519004102,CREAKONG 30 SERVING,,,,,0,60,,
+853519004102,CREAKONG CREATINE AMINO SUPLEMENT30 SERVING,,,,,0,38,,
 857268005410,NUTREX L-CARNITINA LIQUIDA 3000ML BERRY BLAST 16 SERV,,,,,0,0,,
 857268005977,MASS FUSION VAINILLA 12 LBS NUTREX,,,,,0,0,,
 857268005984,MASS FUSION CHOCOLATE 12 LBS NUTREX,,,,,0,0,,
