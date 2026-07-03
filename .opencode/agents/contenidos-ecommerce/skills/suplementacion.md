@@ -5,6 +5,12 @@ mercado: Panama
 
 # Skill: Suplementacion Deportiva
 
+> **Archivos complementarios:**
+> - `skills-especificos-suplementacion.md` — Skills detalladas del nicho (dominio técnico, SEO, GEO, vocabulario)
+> - `ejemplos-practicos-content-suplementacion.md` — 3 fichas completa con desglose UX/SEO/GEO
+> - `competitors/analisis-competidores-suplementos-panama.md` — Analisis competitivo completo con 8 competidores
+> - Cargar `habi.md` (directorio padre) como metodologia general base
+
 Segmento de suplementos deportivos para el mercado panameno.
 
 ## Keywords Core

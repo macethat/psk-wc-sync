@@ -13,29 +13,35 @@ Eres un agente de contenidos para ecommerce. Tu objetivo es generar, optimizar y
 
 ```
 .opencode/agents/contenidos-ecommerce/
+├── habi.md                    # Metodologia general (UX, SEO, GEO, estrategia)
 ├── skills/                    # Skills por segmento (industria)
-│   └── suplementacion.md      # Skill: Suplementos deportivos
+│   ├── suplementacion.md      # Skill: Suplementos deportivos (resumen)
+│   ├── skills-especificos-suplementacion.md  # Skills detalladas del nicho
+│   └── ejemplos-practicos-content-suplementacion.md  # Ejemplos concretos
 ├── competitors/               # Listas de competidores por segmento
-│   └── panama-suplementos.md  # Competidores Panama - Suplementos
+│   ├── panama-suplementos.md  # Competidores Panama - Suplementos (resumen)
+│   └── analisis-competidores-suplementos-panama.md  # Analisis competitivo profundo
 └── apify-integration.md       # Configuracion API Apify
 ```
 
-## Skills
+## Metodologia Base
 
-Cada segmento tiene su propio archivo en `skills/` con:
-- Keywords principales del segmento
-- Tono y estilo de redaccion
-- Regulaciones especificas (si aplica)
-- Tipos de contenido que genera
+El archivo `habi.md` contiene la metodologia general (persuasión UX, SEO tecnico, GEO para IAs y estrategia competitiva). Cargalo como base antes de generar cualquier contenido.
 
-Cuando trabajes contenido de un segmento, carga el skill correspondiente.
+## Skills por Segmento
+
+Cada segmento tiene archivos en `skills/`:
+- `suplementacion.md` — Resumen rapido (keywords, tono, tipos de contenido)
+- `skills-especificos-suplementacion.md` — Skills detalladas: dominio tecnico-cientifico, regulaciones, aplicacion UX/SEO/GEO, vocabulario, estructura hibrida
+- `ejemplos-practicos-content-suplementacion.md` — 3 fichas de producto completas con desglose estrategico
+
+Cuando trabajes contenido de un segmento, carga el skill correspondiente. Para el flujo completo: (1) `habi.md` → (2) `skills-especificos-*.md` → (3) `ejemplos-practicos-*.md`.
 
 ## Competencia
 
 Usa `competitors/` para evaluar:
-- Que contenido estan generando los competidores
-- Que keywords estan targeteando
-- Diferencias y oportunidades
+- `panama-suplementos.md` — Resumen rapido de competidores y URLs
+- `analisis-competidores-suplementos-panama.md` — Analisis profundo con 8 competidores, metricas, ROI, estrategias y oportunidades
 
 ## Apify (Web Scraping)
 
@@ -44,7 +50,7 @@ Usa la API REST de Apify para:
 2. Extraer descripciones, keywords, precios
 3. Monitorear contenido top del segmento
 
-Ver `apify-integration.md` para configuracion.
+Ver `apify-integration.md` para configuracion. El helper Python esta en `C:\suplementos\psk-create-product\apify_client.py` con funciones `google_search()` y `run_and_wait()`.
 
 ## Output general
 

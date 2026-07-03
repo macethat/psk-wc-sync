@@ -1,77 +1,109 @@
 ---
 tool: Apify
 plan: Gratuito ($5/mes credito)
-estado: Configuracion inicial
+token: configurado en `psk-create-product/apify_config.json` (local, no subido a git)
+estado: Operacional
 ---
 
 # Integracion Apify
 
-Usamos la API REST de Apify para web scraping, no el CLI (por restricciones de ejecucion en el entorno).
+Usamos la API REST de Apify con autenticacion Bearer token.
 
-## Setup
+## Autenticacion
 
-1. Crear cuenta en https://apify.com (plan gratuito)
-2. Obtener API token desde Apify Console > Integrations > API
-3. Guardar token en variable de entorno `APIFY_TOKEN`
+Token guardado en `C:\suplementos\psk-create-product\apify_config.json`:
 
-## Uso via Python
+```json
+{"api_token": "apfy_api_...", "base_url": "https://api.apify.com/v2"}
+```
+
+Usar header `Authorization: Bearer {token}` en todas las requests.
+
+**Importante**: No usar query param `?token=`, solo Bearer header.
+
+## API Usage
+
+- Actors store: `GET /store` (listar actores publicos)
+- Actor info: `GET /acts/{owner}~{name}` (nota: tilde `~`, no slash `/`)
+- Run actor: `POST /acts/{owner}~{name}/runs` con input en body
+- Check run: `GET /acts/{owner}~{name}/runs/{runId}`
+- Get results: `GET /datasets/{datasetId}/items`
+
+## Helper Python (urllib nativo, sin dependencias)
+
+Archivo: `C:\suplementos\psk-create-product\apify_client.py`
 
 ```python
-import requests, json
+import urllib.request, json, time
 
-APIFY_TOKEN = "tu_token_aqui"
-APIFY_BASE = "https://api.apify.com/v2"
+def load_config():
+    import os
+    cfg = os.path.join(os.path.dirname(__file__), 'apify_config.json')
+    with open(cfg) as f:
+        return json.load(f)['api_token']
 
-# Ejemplo: Ejecutar Web Scraper en una URL
-actor_id = "apify/web-scraper"  # Actor generico
-resp = requests.post(
-    f"{APIFY_BASE}/acts/{actor_id}/runs",
-    params={"token": APIFY_TOKEN},
-    json={
-        "runInput": {
-            "startUrls": [{"url": "https://ejemplo.com"}],
-            "pageFunction": """async function pageFunction(context) {
-    const $ = context.jQuery;
-    return {
-        title: $('title').text(),
-        description: $('meta[name=description]').attr('content'),
-        body: $('body').text().substring(0, 5000)
-    };
-}"""
-        }
-    }
-)
-run_id = resp.json()["data"]["id"]
+TOKEN = load_config()
+BASE = 'https://api.apify.com/v2'
+HEADERS = {'Authorization': f'Bearer {TOKEN}', 'Content-Type': 'application/json'}
 
-# Esperar a que termine y obtener resultados
-import time
-while True:
-    r = requests.get(f"{APIFY_BASE}/acts/{actor_id}/runs/{run_id}", params={"token": APIFY_TOKEN})
-    status = r.json()["data"]["status"]
-    if status == "SUCCEEDED":
-        dataset_id = r.json()["data"]["defaultDatasetId"]
-        data = requests.get(f"{APIFY_BASE}/datasets/{dataset_id}/items", params={"token": APIFY_TOKEN, "format": "json"})
-        print(data.json())
-        break
-    elif status in ("FAILED", "ABORTED"):
-        print("Error:", status)
-        break
-    time.sleep(3)
+def _req(method, path, data=None):
+    url = f'{BASE}{path}'
+    payload = json.dumps(data).encode() if data else None
+    req = urllib.request.Request(url, data=payload, headers=HEADERS, method=method)
+    return json.loads(urllib.request.urlopen(req).read())
+
+def get(path):
+    return _req('GET', path)
+
+def post(path, data):
+    return _req('POST', path, data)
+
+def run_and_wait(actor_id, run_input, poll_sec=3):
+    """Run actor and wait for completion. Returns dataset items."""
+    run = post(f'/acts/{actor_id}/runs', run_input)
+    rid = run['data']['id']
+    while True:
+        time.sleep(poll_sec)
+        r = get(f'/acts/{actor_id}/runs/{rid}')
+        st = r['data']['status']
+        if st == 'SUCCEEDED':
+            did = r['data']['defaultDatasetId']
+            return get(f'/datasets/{did}/items')
+        elif st in ('FAILED', 'ABORTED', 'TIMED-OUT'):
+            raise Exception(f'Run {rid} {st}: {r["data"].get("errorMessage","?")}')
+
+def google_search(query, count=5):
+    """Search Google via Apify. Returns list of organic results (title, url, snippet)."""
+    items = run_and_wait('apify~google-search-scraper', {
+        'queries': query,
+        'resultsPerPage': count,
+        'maxPagesPerQuery': 1,
+        'maxConcurrency': 1,
+        'mobileResults': False,
+        'saveHtml': False,
+        'includeUnfilteredResults': False
+    })
+    results = []
+    for it in items:
+        results.extend(it.get('organicResults', []))
+    return results
 ```
 
 ## Actores recomendados
 
-| Actor | ID | Uso |
-|-------|----|-----|
-| Web Scraper | `apify/web-scraper` | Scrap generico con jQuery |
-| Cheerio Scraper | `apify/cheerio-scraper` | Scrap rapido (HTML parse) |
-| Google Search Scraper | `apify/google-search-scraper` | Resultados de busqueda Google |
-| Amazon Product Scraper | `jungle-scout/amazon-product-scraper` | Productos Amazon |
-| Instagram Scraper | `apify/instagram-scraper` | Contenido redes |
+| Actor | ID | Permisos | Uso |
+|-------|----|----------|-----|
+| Google Search Scraper | `apify~google-search-scraper` | LIMITED | Buscar product info en Google |
+| Website Content Crawler | `apify~website-content-crawler` | LIMITED | Crawlear sitio oficial |
+| Web Scraper | `apify~web-scraper` | FULL (aprob. manual) | Scrap generico con jQuery |
+| Cheerio Scraper | `apify~cheerio-scraper` | FULL (aprob. manual) | Scrap rapido HTML |
+
+**Nota**: Los actores FULL_PERMISSIONS requieren aprobacion manual desde la web:
+`https://console.apify.com/actors/{id}?approvePermissions=true`
 
 ## Limites plan gratuito
 
-- $5 de credito mensual
-- $0.025 por hora de computo (Web Scraper)
-- ~200 horas/mes de scraper ligero
+- $5/mes credito
+- Google Search: ~$0.50/1000 resultados
+- Web Scraper: ~$0.025/hora
 - Dataset: 10GB almacenamiento
