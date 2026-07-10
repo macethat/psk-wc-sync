@@ -122,21 +122,36 @@ Crear pedidos en PSK Cloud desde WooCommerce con prioridad de almacén:
 Sistema de productos combo tipo `grouped` con precio fijo personalizado, bypass de stock del padre y descuento de stock de componentes al confirmar el pedido.
 
 **Archivos involucrados:**
-- `combo-price.php` — MU plugin (meta box, cart handler, stock deduction, filters)
-- `grouped.php` — override en child theme `nutritix-child` (template grouped)
+- `combo-price.php` — MU plugin (meta box, cart handler, stock deduction, filters, restriction by variations)
+- `grouped.php` — override en child theme `nutritix-child` (template grouped con variaciones)
+- `combo-debug.php` — MU plugin auxiliar (debug logs, override `is_in_stock` con threshold)
 - `combo-fix-reservestock.php` — parche para WooCommerce 10.x ReserveStock
 
 **Configuración de un combo:**
 1. Crear producto tipo agrupado (`grouped`)
-2. Agregar hijos (productos simples/variables que lo componen)
-3. En el meta box "Precio del Combo" (sidebar), fijar el precio
-4. Si hay productos variables entre los hijos, configurar "Sabores permitidos"
-5. Dejar `_manage_stock=no`, `_stock` vacío (el stock lo manejan los hijos)
+2. Agregar hijos (productos simples/variables que lo componen) en la sección "Productos agrupados"
+3. En el meta box "Configuración del Combo" (sidebar), fijar el precio
+4. Si hay productos variables entre los hijos, usar "Variaciones permitidas" (máx. 3 campos) para restringir qué variaciones están disponibles. Si se deja vacío, se muestran todas.
+5. Asignar la meta `_children` con los IDs de los productos relacionados separados por coma (o usar la UI de WooCommerce)
+6. Dejar `_manage_stock=no`, `_stock` vacío (el stock lo manejan los hijos)
+
+**Regla de stock (threshold):**
+- Si un hijo maneja stock (`manage_stock=true`) y su cantidad es ≤ 6, se considera no disponible (outofstock) hasta que se reponga inventario
+- Esto aplica tanto en la ficha del producto como en el handler del carrito
+- Productos sin manejo de stock usan `is_in_stock()` estándar
+
+**Variaciones restringidas:**
+- Los combos pueden tener hijos variables con variaciones específicas permitidas
+- Meta `_combo_variations_{child_id}` contiene IDs de variación separados por coma
+- En el template `grouped.php`: si solo 1 variación permitida → auto-seleccionada sin dropdown; si 2+ → dropdown con solo esas opciones
+- Las variaciones no permitidas no se muestran ni son seleccionables
 
 **Flujo en carrito:**
 - El producto padre se agrega como 1 ítem con precio `_combo_price`
 - Bypass completo de `WC()->cart->add_to_cart()` (inserción directa a `cart_contents`)
 - Los hijos NO se agregan como items separados
+- Antes de agregar, el handler verifica que TODOS los hijos tengan stock disponible (incluyendo threshold ≤ 6)
+- Si falta stock, muestra error y rechaza la operación
 
 **Descuento de stock:**
 - Se descuenta stock de cada hijo al confirmar el pedido (`woocommerce_checkout_order_processed`)
@@ -146,6 +161,12 @@ Sistema de productos combo tipo `grouped` con precio fijo personalizado, bypass 
 - WooCommerce 10.x introdujo `ReserveStock` que lee `_stock` directamente de la BD (bypasea filtros PHP)
 - Para combos con `_manage_stock=no` y `_stock` vacío, la consulta SQL devuelve 0 y rechaza el pedido
 - Solución: filtro `woocommerce_hold_stock_for_checkout` que desactiva ReserveStock cuando hay combos en el carrito
+
+**Stock status del combo:**
+- El filtro `woocommerce_product_get_stock_status` retorna `outofstock` si algún hijo no está disponible
+- El filtro `woocommerce_product_is_in_stock` (en combo-debug.php) retorna `false` si algún hijo no está disponible
+- El filtro `woocommerce_product_get_stock_quantity` retorna 0 si algún hijo no está disponible, 9999 si todos ok
+- Template `grouped.php`: deshabilita quantity inputs, botón y muestra "Producto no disponible" en cada fila sin stock
 
 **Ahorro mostrado en ficha:**
 - `Ahorra $X.xx` en rojo, `font-size:0.8em`, `margin-left:12px`, al lado del precio
