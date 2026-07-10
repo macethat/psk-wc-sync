@@ -130,21 +130,47 @@ Sistema de productos combo tipo `grouped` con precio fijo personalizado, bypass 
 **Configuración de un combo:**
 1. Crear producto tipo agrupado (`grouped`)
 2. Agregar hijos (productos simples/variables que lo componen) en la sección "Productos agrupados"
-3. En el meta box "Configuración del Combo" (sidebar), fijar el precio
-4. Si hay productos variables entre los hijos, usar "Variaciones permitidas" (máx. 3 campos) para restringir qué variaciones están disponibles. Si se deja vacío, se muestran todas.
+3. En el meta box "Configuración del Combo" (sidebar), fijar el precio en el campo "Precio del combo ($)"
+4. Si hay productos variables entre los hijos, usar "Variaciones permitidas" (hasta 3 campos hijo) para restringir qué variaciones están disponibles. Cada campo es un multi-select con todas las variaciones de ese hijo. Si se deja vacío, se muestran todas.
 5. Asignar la meta `_children` con los IDs de los productos relacionados separados por coma (o usar la UI de WooCommerce)
 6. Dejar `_manage_stock=no`, `_stock` vacío (el stock lo manejan los hijos)
+
+**Meta box "Configuración del Combo" (sidebar):**
+
+| Campo | Meta key | Tipo | Descripción |
+|-------|----------|------|-------------|
+| Precio del combo ($) | `_combo_price` | text | Precio fijo del combo |
+| Variaciones permitidas (hijo 1) | `_combo_variations_{child_id}` | multi-select | Variaciones disponibles para ese hijo variable |
+| Variaciones permitidas (hijo 2) | `_combo_variaciones_{child_id}` | multi-select | (si hay 2do hijo variable) |
+| Variaciones permitidas (hijo 3) | `_combo_variaciones_{child_id}` | multi-select | (si hay 3er hijo variable) |
+
+- El meta box se renderiza en el sidebar del editor de producto
+- Los 3 campos de variaciones se etiquetan con el nombre del producto hijo correspondiente (ej. "Variaciones permitidas — BCAA 12:1:1 VMS")
+- Si el combo tiene menos de 3 hijos variables, los campos sobrantes se ocultan automáticamente
+- Guardar el producto persiste tanto `_combo_price` como las metas `_combo_variations_{child_id}`
+
+**Helper `combo_child_is_available($product)`:**
+- Función compartida entre `combo-price.php` y template `grouped.php`
+- Retorna `false` si el producto maneja stock Y tiene cantidad ≤ 6 (threshold de reposición)
+- Retorna `false` si `is_in_stock()` es `false`
+- Para variaciones de productos variables, se aplica el mismo criterio
 
 **Regla de stock (threshold):**
 - Si un hijo maneja stock (`manage_stock=true`) y su cantidad es ≤ 6, se considera no disponible (outofstock) hasta que se reponga inventario
 - Esto aplica tanto en la ficha del producto como en el handler del carrito
 - Productos sin manejo de stock usan `is_in_stock()` estándar
 
-**Variaciones restringidas:**
+**Variaciones restringidas (backend + frontend):**
 - Los combos pueden tener hijos variables con variaciones específicas permitidas
-- Meta `_combo_variations_{child_id}` contiene IDs de variación separados por coma
-- En el template `grouped.php`: si solo 1 variación permitida → auto-seleccionada sin dropdown; si 2+ → dropdown con solo esas opciones
-- Las variaciones no permitidas no se muestran ni son seleccionables
+- Meta `_combo_variations_{child_id}` contiene IDs de variación separados por coma (ej. `21546,21547`)
+- En el template `grouped.php`:
+  - Si solo 1 variación permitida → auto-seleccionada sin dropdown, se muestra el precio y stock de esa variación
+  - Si 2+ variaciones permitidas → dropdown `<select>` con solo esas opciones, con precio dinámico vía AJAX
+  - Si la meta está vacía → se muestran todas las variaciones del hijo (`get_available_variations()`)
+- El dropdown usa WooCommerce `wc_get_variation_prices()` para precios dinámicos
+- Al seleccionar una variación en el dropdown, se actualiza el precio en la tabla vía AJAX
+- Las variaciones sin stock se filtran tanto en el template como en el handler del carrito
+- El carrito lee `combo_variation_id[child_id]` del POST (template nuevo) o `variation_id[child_id]` (backward compat)
 
 **Flujo en carrito:**
 - El producto padre se agrega como 1 ítem con precio `_combo_price`
@@ -167,6 +193,12 @@ Sistema de productos combo tipo `grouped` con precio fijo personalizado, bypass 
 - El filtro `woocommerce_product_is_in_stock` (en combo-debug.php) retorna `false` si algún hijo no está disponible
 - El filtro `woocommerce_product_get_stock_quantity` retorna 0 si algún hijo no está disponible, 9999 si todos ok
 - Template `grouped.php`: deshabilita quantity inputs, botón y muestra "Producto no disponible" en cada fila sin stock
+
+**Precio dinámico vía AJAX:**
+- Endpoint `wp_ajax_get_variation_by_attributes` + `wp_ajax_nopriv` en `combo-price.php`
+- Cuando el usuario selecciona una variación en el dropdown del combo, se envía una petición AJAX con `attribute_pa_sabor`
+- El servidor busca la variación que coincide con el atributo y devuelve `price_html` y `stock_html`
+- El JavaScript en `grouped.php` actualiza el precio en la fila correspondiente de la tabla
 
 **Ahorro mostrado en ficha:**
 - `Ahorra $X.xx` en rojo, `font-size:0.8em`, `margin-left:12px`, al lado del precio
