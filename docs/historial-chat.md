@@ -38,7 +38,27 @@ Configuración del repositorio de historial de chat y solución responsive en te
 - Template `grouped.php` modificado con estructura responsive mobile completada
 - Sistema de combos funcional con `combo-price.php` (MU plugin)
 
-### Próximos pasos
-- Corregir `generar_diferencias.py`: `left_on='Codigo', right_on='SKU'` y `stock_status` (≤6 = out_of_stock)
-- Probar el responsive del template grouped.php en producción
-- Agregar entrada de sesión al finalizar cada día de trabajo
+### Solución responsive productos relacionados (functions.php child theme)
+- **Problema**: Los productos relacionados (`section.related.products`) adoptaban el layout horizontal del theme (imagen 35% + precio 65%) en mobile, quedando muy apretados. No era causado por cambios en `grouped.php` sino por CSS preexistente en `nutritix-child/functions.php`
+- **Solución**: Se agregó `@media (max-width: 500px)` dentro del bloque `@media (max-width: 767px)` que:
+  - Cambia `flex-direction: column` para apilar verticalmente
+  - Setea image y precio al 100% de ancho
+  - Mantiene el layout horizontal en pantallas > 500px
+- **Archivo**: `wp-content/themes/nutritix-child/functions.php`
+- **Backup**: `functions.php.bak`
+
+### Corrección de precios en producto Elite Performance Stack
+- **Problema**: Precio del combo cambiado a $101.99, pero descripción larga y excerpt tenían valores viejos ($68.50, $118.47, 63%)
+- **Solución**: Se restauró descripción desde revisión 21662 y se reemplazaron valores: $118.47→$84.98, $68.50→$101.99, 63%→45%
+- **Vía**: Script PHP vía SSH + WP-CLI
+
+### Cambios realizados en grouped.php
+- **Solución final**: Se eliminó todo el CSS mobile que rompía la tabla. Solo se agregó `get_image(50,50)` inline con el nombre del producto dentro del label cell
+- **Archivo**: `grouped.php` (child theme `nutritix-child`)
+- El combo mantiene estructura de tabla original, la imagen aparece inline con el nombre
+
+### Estado actual
+- ✅ Productos del combo: imagen visible en mobile y desktop
+- ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
+- ✅ Precios del Elite Performance Stack corregidos
+- Pendiente: corregir `generar_diferencias.py`
