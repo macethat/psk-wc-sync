@@ -44,6 +44,66 @@ do_action('woocommerce_before_add_to_cart_form');
 ?>
 <style>
 .woocommerce-grouped-product-list-item__price { white-space: nowrap; }
+
+/* Mobile: <= 768px */
+@media (max-width: 768px) {
+    .woocommerce-grouped-product-list.group_table,
+    .woocommerce-grouped-product-list.group_table tbody,
+    .woocommerce-grouped-product-list.group_table tr,
+    .woocommerce-grouped-product-list.group_table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .woocommerce-grouped-product-list.group_table tr {
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .woocommerce-grouped-product-list-item__label {
+        padding: 0 !important;
+    }
+
+    .woocommerce-grouped-product-list-item__price {
+        display: none !important;
+    }
+
+    .combo-item-stock-info {
+        margin-top: 4px;
+        margin-bottom: 8px;
+    }
+
+    .combo-mobile-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-top: 8px;
+    }
+
+    .combo-mobile-thumb {
+        flex: 0 0 70px;
+    }
+
+    .combo-mobile-thumb img {
+        width: 70px;
+        height: auto;
+        border-radius: 4px;
+    }
+
+    .combo-mobile-price {
+        flex: 1;
+        text-align: left;
+    }
+}
+
+/* Desktop: hide mobile-only elements */
+@media (min-width: 769px) {
+    .combo-mobile-row {
+        display: none;
+    }
+}
 </style>
 <form class="cart grouped_form" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype='multipart/form-data'>
 
@@ -98,31 +158,62 @@ do_action('woocommerce_before_add_to_cart_form');
 
                 switch ($column_id) {
                     case 'label':
-                        $value = '<label class="combo-product-label">';
+                        $thumbnail = $grouped_product_child->get_image(array(70, 70));
+
+                        $value = '<div class="combo-item">';
+
+                        // --- Header: name + variations ---
+                        $value .= '<div class="combo-item-header">';
+                        $value .= '<label class="combo-product-label">';
                         $value .= $grouped_product_child->is_visible() ? '<a href="' . esc_url(apply_filters('woocommerce_grouped_product_list_link', $grouped_product_child->get_permalink(), $grouped_product_child->get_id())) . '">' . $grouped_product_child->get_name() . '</a>' : $grouped_product_child->get_name();
+                        $value .= '</label>';
 
                         if (!$is_available) {
-                            $value .= '<div style="margin-top:4px"><span style="color:#c00;font-size:12px;font-weight:600">Producto no disponible</span></div>';
+                            $value .= '<div class="combo-item-stock-info" style="color:#c00;font-size:12px;font-weight:600">Producto no disponible</div>';
                         } elseif ($grouped_product_child->is_type('variable')) {
                             if (!empty($allowed_variations)) {
                                 $value .= '<div class="combo-variation-selector" style="margin-top:6px">';
                                 if (count($allowed_variations) === 1) {
                                     $single = $allowed_variations[0];
-                                    $value .= '<span class="combo-variation-fixed" style="font-size:13px;color:#666">' . esc_html($single->get_attribute_summary()) . '</span>';
+                                    $single_labels = combo_get_variation_labels($single);
+                                    $value .= '<span class="combo-variation-fixed" style="font-size:13px;color:#666">' . esc_html($single_labels) . '</span>';
                                     $value .= '<input type="hidden" name="combo_variation_id[' . esc_attr($grouped_product_child->get_id()) . ']" value="' . esc_attr($single->get_id()) . '">';
                                 } else {
                                     $value .= '<select name="combo_variation_id[' . esc_attr($grouped_product_child->get_id()) . ']" class="combo-variation-select" data-child_id="' . esc_attr($grouped_product_child->get_id()) . '" style="width:100%;max-width:260px;padding:3px 6px;font-size:13px">';
                                     $value .= '<option value="">Seleccionar</option>';
                                     foreach ($allowed_variations as $v) {
-                                        $value .= '<option value="' . esc_attr($v->get_id()) . '">' . esc_html($v->get_attribute_summary()) . '</option>';
+                                        $v_labels = combo_get_variation_labels($v);
+                                        $value .= '<option value="' . esc_attr($v->get_id()) . '">' . esc_html($v_labels) . '</option>';
                                     }
                                     $value .= '</select>';
                                 }
                                 $value .= '</div>';
                             }
                         }
+                        $value .= '</div>'; // .combo-item-header
 
-                        $value .= '</label>';
+                        // --- Mobile: image + price row ---
+                        $mobile_price = '';
+                        if (!$is_available) {
+                            $mobile_price = '<span style="color:#c00;font-size:13px;white-space:nowrap">Agotado</span>';
+                        } elseif ($grouped_product_child->is_type('variable') && !empty($allowed_variations) && count($allowed_variations) === 1) {
+                            $mobile_price = $allowed_variations[0]->get_price_html() . wc_get_stock_html($allowed_variations[0]);
+                        } else {
+                            $mobile_price = $grouped_product_child->get_price_html() . wc_get_stock_html($grouped_product_child);
+                        }
+
+                        $value .= '<div class="combo-mobile-row">';
+                        $value .= '<div class="combo-mobile-thumb">';
+                        if ($grouped_product_child->is_visible()) {
+                            $value .= '<a href="' . esc_url(apply_filters('woocommerce_grouped_product_list_link', $grouped_product_child->get_permalink(), $grouped_product_child->get_id())) . '">' . $thumbnail . '</a>';
+                        } else {
+                            $value .= $thumbnail;
+                        }
+                        $value .= '</div>'; // .combo-mobile-thumb
+                        $value .= '<div class="combo-mobile-price">' . $mobile_price . '</div>';
+                        $value .= '</div>'; // .combo-mobile-row
+
+                        $value .= '</div>'; // .combo-item
                         break;
 
                     case 'price':
