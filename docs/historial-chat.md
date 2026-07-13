@@ -80,9 +80,31 @@ Conexión Google Search Console API y script de consulta de datos.
 - Script funcional: consulta última semana (2026-07-06 a 2026-07-13)
 - Top query: "suplementos panama" (51 clicks, 147 impresiones, posición 1.6)
 
+### Inspección de combos en GSC
+- Se encontraron **24 productos grouped** (combos) via WP-CLI + SSH
+- Se inspeccionaron las URLs una por una en GSC via `urlInspection.index.inspect`
+- **2 indexados** (`isoject-vanilla-creatina-vms` y `creatina-evogen-60-serv-beta-alanina-raw`)
+- **22 no indexados** (creados 10-11 julio, Google no los ha descubierto aún)
+- El `product-sitemap.xml` fue enviado a Google
+- Se corrigió error: URLs de productos usan `/product/` no `/producto/`
+- Archivos creados: `gsc_inspect_combos.py`, `combos_inspection.json`, `gsc_fetch_pages.py`, `gsc_analyze_pages.py`, `gsc_pages.json`
+
+### Archivos creados/modificados
+- `gsc_query.py`: Agregadas funciones de sitemaps, URL inspection, menú interactivo, modo CLI
+- `gsc_inspect_combos.py`: Inspección batch de los 24 combos en GSC
+- `gsc_fetch_pages.py`: Descarga lista de páginas indexadas desde Search Analytics
+- `gsc_analyze_pages.py`: Análisis de las páginas obtenidas
+- `local/get_combos.py`: Script para extraer combos del export de WooCommerce
+
+### Plataformas conectadas en el proyecto (actualizado)
+8. **Google Search Console API** — OAuth 2.0, credenciales de escritorio (analytics, sitemaps, URL inspection)
+9. **SiteGround SSH** — WP-CLI para WooCommerce
+
 ### Estado actual
 - ✅ Productos del combo: imagen visible en mobile y desktop
 - ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
 - ✅ Precios del Elite Performance Stack corregidos
 - ✅ Google Search Console API conectada y funcional
+- ✅ 24 combos identificados, 2 indexados, 22 pendientes
+- ⏳ Esperar a que Google procese el sitemap para indexar los 22 combos restantes
 - Pendiente: corregir `generar_diferencias.py`
