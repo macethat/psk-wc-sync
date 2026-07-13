@@ -100,11 +100,22 @@ Conexión Google Search Console API y script de consulta de datos.
 8. **Google Search Console API** — OAuth 2.0, credenciales de escritorio (analytics, sitemaps, URL inspection)
 9. **SiteGround SSH** — WP-CLI para WooCommerce
 
+### Asignación de categorías a combos desde sus componentes
+- **Problema**: Los 24 combos solo tenían categorías "Combos" y "Promociones", sin las categorías de sus productos componentes
+- **Solución**: Script PHP via SSH+WP-CLI que para cada grouped product:
+  1. Obtiene los productos hijos (_children)
+  2. Obtiene las categorías de cada hijo
+  3. Asigna al combo las categorías existentes + las de los hijos sin duplicar
+- **Archivos**: `local/assign_combo_cats.php` (subido temporalmente al servidor, luego eliminado)
+- **Resultado**: Todos los combos ahora tienen las categorías correctas (ej: Creatina, Proteína de Suero / Whey Protein, BCAA, etc. según los componentes)
+- Uno de los 24 combos (ID 21088) no fue procesado por el PHP, se corrigió manualmente via `wp post term set`
+
 ### Estado actual
 - ✅ Productos del combo: imagen visible en mobile y desktop
 - ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
 - ✅ Precios del Elite Performance Stack corregidos
 - ✅ Google Search Console API conectada y funcional
 - ✅ 24 combos identificados, 2 indexados, 22 pendientes
+- ✅ Categorías de componentes asignadas a los 24 combos
 - ⏳ Esperar a que Google procese el sitemap para indexar los 22 combos restantes
 - Pendiente: corregir `generar_diferencias.py`
