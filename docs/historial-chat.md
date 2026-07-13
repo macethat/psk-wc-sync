@@ -126,6 +126,12 @@ Conexión Google Search Console API y script de consulta de datos.
 - **Archivos**: `local/sp-global-product-schema.php` (copia local), `local/patch_schema.php` (patcher PHP)
 - **Verificación**: Página de combo ahora incluye `validFrom`, `hasMerchantReturnPolicy`, `shippingDetails`, `gtin14`
 
+### Corrección Rich Results en variantes (hasVariant children)
+- **Problema**: Los 3 componentes del `hasVariant` reportaban falta de `description`, `shippingDetails`, `hasMerchantReturnPolicy` y error de tipo de objeto inválido
+- **Solución**: Se agregó `description` (short description del hijo), `shippingDetails` (envío gratis, 1-5 días PA) y `hasMerchantReturnPolicy` (30 días, reembolso completo) a cada variante en la función `sp_output_combo_structured_data()`
+- **Archivo**: `wp-content/themes/nutritix-child/functions.php` (parche via SSH)
+- **Verificación**: Las 3 variantes ahora incluyen description, hasMerchantReturnPolicy (MerchantReturnFiniteReturnWindow) y shippingDetails (value=0)
+
 ### Estado actual
 - ✅ Productos del combo: imagen visible en mobile y desktop
 - ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
@@ -135,6 +141,7 @@ Conexión Google Search Console API y script de consulta de datos.
 - ✅ Categorías de componentes asignadas a los 24 combos
 - ✅ Schema JSON-LD con hasVariant implementado en todos los combos
 - ✅ Rich Results Test: 4 errores corregidos (returnPolicy, shipping, validFrom, GTIN)
+- ✅ Variantes del hasVariant: description, shippingDetails, hasMerchantReturnPolicy agregados
 - ✅ MU Plugin global para schema de todos los productos
 - ⏳ Esperar a que Google procese el sitemap para indexar los 22 combos restantes
 - Pendiente: corregir `generar_diferencias.py`
