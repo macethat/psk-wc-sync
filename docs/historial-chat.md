@@ -118,6 +118,14 @@ Conexión Google Search Console API y script de consulta de datos.
 - **Verificación**: Schema visible en HTML de `elite-performance-stack` con 3 hasVariant, SKU, MPN, brand, ahorro $84.98
 - **Archivos**: `local/combo_schema_snippet.php` (código subido al servidor y luego eliminado)
 
+### Corrección Rich Results Test — 4 errores de schema
+- **Problema**: Google Rich Results Test reportaba falta de `hasMerchantReturnPolicy`, `shippingDetails`, `validFrom`, y GTIN en `offers`
+- **Solución** (vía SSH):
+  1. Se parcheó `sp_output_combo_structured_data()` en `functions.php` con `validFrom`, `hasMerchantReturnPolicy`, `shippingDetails` (envío gratis, 1-5 días, Panamá), y `gtin14` derivado del SKU
+  2. Se creó MU plugin `wp-content/mu-plugins/sp-global-product-schema.php` que agrega los mismos campos + políticas globales a nivel Organization para TODOS los productos vía filtro `rank_math/json_ld`
+- **Archivos**: `local/sp-global-product-schema.php` (copia local), `local/patch_schema.php` (patcher PHP)
+- **Verificación**: Página de combo ahora incluye `validFrom`, `hasMerchantReturnPolicy`, `shippingDetails`, `gtin14`
+
 ### Estado actual
 - ✅ Productos del combo: imagen visible en mobile y desktop
 - ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
@@ -126,5 +134,7 @@ Conexión Google Search Console API y script de consulta de datos.
 - ✅ 24 combos identificados, 2 indexados, 22 pendientes
 - ✅ Categorías de componentes asignadas a los 24 combos
 - ✅ Schema JSON-LD con hasVariant implementado en todos los combos
+- ✅ Rich Results Test: 4 errores corregidos (returnPolicy, shipping, validFrom, GTIN)
+- ✅ MU Plugin global para schema de todos los productos
 - ⏳ Esperar a que Google procese el sitemap para indexar los 22 combos restantes
 - Pendiente: corregir `generar_diferencias.py`
