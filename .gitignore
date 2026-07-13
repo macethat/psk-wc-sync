@@ -1,3 +1,7 @@
+# Google API credentials
+credentials.json
+token.json
+
 # Archivos de inventario (cambian diario)
 ListaInvFisic.csv
 ListaInvFisic.xls

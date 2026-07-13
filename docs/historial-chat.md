@@ -57,8 +57,32 @@ Configuración del repositorio de historial de chat y solución responsive en te
 - **Archivo**: `grouped.php` (child theme `nutritix-child`)
 - El combo mantiene estructura de tabla original, la imagen aparece inline con el nombre
 
+## 2026-07-13
+
+### Tema
+Conexión Google Search Console API y script de consulta de datos.
+
+### Decisiones
+- Se usa el proyecto existente "suplementos-panama" en Google Cloud Console
+- Se creó credencial OAuth 2.0 tipo "Aplicación de escritorio" para GSC API
+- Se agregó `suplementospanamacrm@gmail.com` como usuario de prueba
+- Se creó `gsc_query.py` como script principal de consulta
+- Se agregaron `credentials.json` y `token.json` a `.gitignore`
+
+### Plataformas conectadas en el proyecto (actualizado)
+8. **Google Search Console API** — OAuth 2.0, credenciales de escritorio
+
+### Archivos creados/modificados
+- `gsc_query.py`: Script Python que consulta GSC (queries, clicks, impresiones, CTR, posición)
+- `.gitignore`: Se agregaron `credentials.json` y `token.json`
+
+### Verificación
+- Script funcional: consulta última semana (2026-07-06 a 2026-07-13)
+- Top query: "suplementos panama" (51 clicks, 147 impresiones, posición 1.6)
+
 ### Estado actual
 - ✅ Productos del combo: imagen visible en mobile y desktop
 - ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
 - ✅ Precios del Elite Performance Stack corregidos
+- ✅ Google Search Console API conectada y funcional
 - Pendiente: corregir `generar_diferencias.py`
