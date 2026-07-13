@@ -110,6 +110,14 @@ Conexión Google Search Console API y script de consulta de datos.
 - **Resultado**: Todos los combos ahora tienen las categorías correctas (ej: Creatina, Proteína de Suero / Whey Protein, BCAA, etc. según los componentes)
 - Uno de los 24 combos (ID 21088) no fue procesado por el PHP, se corrigió manualmente via `wp post term set`
 
+### Schema JSON-LD mejorado para combos (hasVariant)
+- **Problema**: Rank Math generaba schema Product simple para combos, sin `hasVariant`, `sku`, `brand`, `mpn`
+- **Solución**: Se agregaron 2 funciones al `functions.php` del child theme via SSH:
+  1. `sp_output_combo_structured_data()` — genera schema completo con `hasVariant` (hijos), `sku`, `mpn`, `brand`, ahorro en description
+  2. Filtro `rank_math/json_ld` — remueve el schema Product duplicado de Rank Math para páginas grouped
+- **Verificación**: Schema visible en HTML de `elite-performance-stack` con 3 hasVariant, SKU, MPN, brand, ahorro $84.98
+- **Archivos**: `local/combo_schema_snippet.php` (código subido al servidor y luego eliminado)
+
 ### Estado actual
 - ✅ Productos del combo: imagen visible en mobile y desktop
 - ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
@@ -117,5 +125,6 @@ Conexión Google Search Console API y script de consulta de datos.
 - ✅ Google Search Console API conectada y funcional
 - ✅ 24 combos identificados, 2 indexados, 22 pendientes
 - ✅ Categorías de componentes asignadas a los 24 combos
+- ✅ Schema JSON-LD con hasVariant implementado en todos los combos
 - ⏳ Esperar a que Google procese el sitemap para indexar los 22 combos restantes
 - Pendiente: corregir `generar_diferencias.py`
