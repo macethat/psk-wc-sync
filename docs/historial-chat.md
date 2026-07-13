@@ -132,6 +132,18 @@ Conexión Google Search Console API y script de consulta de datos.
 - **Archivo**: `wp-content/themes/nutritix-child/functions.php` (parche via SSH)
 - **Verificación**: Las 3 variantes ahora incluyen description, hasMerchantReturnPolicy (MerchantReturnFiniteReturnWindow) y shippingDetails (value=0)
 
+### Corrección: Eliminar schema Product duplicado de Rank Math en combos
+- **Problema**: El schema Product de Rank Math se superponía con nuestro `sp-combo-schema`, generando errores en Rich Results Test porque Rank Math NO incluía `hasMerchantReturnPolicy`, `shippingDetails`, `validFrom`, `hasVariant`, `gtin14`
+- **Causa raíz**: Los filtros anteriores en `rank_math/json_ld` intentaban modificar `$data['@graph']`, pero esa estructura NO existe aún en ese punto — `@graph` se construye DESPUÉS del filtro. Los datos están en `$data['richSnippet']`
+- **Solución**: 
+  1. Se corrigió el filter para apuntar a `$data['richSnippet']` y eliminarlo para grouped products con `_combo_price` seteado
+  2. Se mantiene activo el `sp_output_combo_structured_data()` via `wp_head` priority 99 (nuestro schema completo)
+- **Filtro**: `unset($data['richSnippet'])` en priority 98 de `rank_math/json_ld`, condicionado a `is_type('grouped')` y `_combo_price` existente
+- **Cache**: Se purgó el caché de SG Optimizer vía PHP `Supercacher::purge_cache()`
+- **Verificación**: 
+  - Producto combo (Elite Performance Stack): solo schema `sp-combo-schema` con hasVariant, hasMerchantReturnPolicy, shippingDetails, validFrom, gtin14, brand ✅
+  - Producto simple (Prolive Bio6 6lb): Rank Math schema presente, sin sp-combo-schema ✅
+
 ### Estado actual
 - ✅ Productos del combo: imagen visible en mobile y desktop
 - ✅ Productos relacionados: layout vertical en ≤500px, horizontal >500px
@@ -143,5 +155,7 @@ Conexión Google Search Console API y script de consulta de datos.
 - ✅ Rich Results Test: 4 errores corregidos (returnPolicy, shipping, validFrom, GTIN)
 - ✅ Variantes del hasVariant: description, shippingDetails, hasMerchantReturnPolicy agregados
 - ✅ MU Plugin global para schema de todos los productos
+- ✅ Eliminado schema Product duplicado de Rank Math en combos (solo queda sp-combo-schema)
 - ⏳ Esperar a que Google procese el sitemap para indexar los 22 combos restantes
+- ⏳ Correr Rich Results Test para confirmar que todos los errores desaparecieron
 - Pendiente: corregir `generar_diferencias.py`
