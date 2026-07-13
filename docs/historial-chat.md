@@ -4,6 +4,33 @@ Este archivo registra las sesiones de trabajo con el asistente para preservar co
 
 ---
 
+## 2026-07-13
+
+### Tema
+Corrección de datos estructurados — schema Product duplicado de Rank Math en combos, verificación global.
+
+### Problema
+Los combos (productos grouped) tenían el schema Product de Rank Math duplicado junto al `sp-combo-schema` personalizado, causando errores en Rich Results Test (faltaban `shippingDetails`, `hasMerchantReturnPolicy`, `validFrom`, `hasVariant` en el schema de Rank Math).
+
+### Causa raíz
+El filtro `rank_math/json_ld` intentaba manipular `$data['@graph']`, pero en ese hook `@graph` aún no existe — la estructura real es `$data['richSnippet']`. `@graph` se construye después con `array_values($data)`.
+
+### Solución
+- `unset($data['richSnippet'])` para grouped products con `_combo_price` seteado
+- Se agregó `addressCountry: "PA"` a la dirección de Organization
+- Se eliminó generación de GTIN fake
+- Se agregó `@id` a cada variante en `hasVariant`
+- Se agregó `url` a cada `offers` de variante
+
+### Verificación
+- **22/22 combos verificados** — todos pasaron: sin Product en Rank Math, `addressCountry: "PA"` presente, `sp-combo-schema` presente con `@id` y `url` en variantes, sin GTIN fake
+- Cache SG Optimizer purgado
+- El filtro global funciona correctamente para todos los combos sin necesidad de parches individuales
+
+### Archivos modificados
+- `functions.php` (servidor): filtro `rank_math/json_ld`, función `sp_output_combo_structured_data()`
+- `local/functions_current.php` (copia local)
+
 ## 2026-07-11
 
 ### Tema
