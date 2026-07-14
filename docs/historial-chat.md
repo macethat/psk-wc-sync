@@ -4,6 +4,42 @@ Este archivo registra las sesiones de trabajo con el asistente para preservar co
 
 ---
 
+## 2026-07-14
+
+### Tema
+Flag `--update-prices` para sincronizar precios desde PSK Cloud + fix stock_status via `wp post meta update`
+
+### Problemas detectados
+1. **Bug en WC CLI:** `wc product_variation update --in_stock=false` reporta "Success" pero no cambia el stock_status. Solución: usar `wp post meta update <id> _stock_status outofstock`
+2. **Sin actualización de precios:** El script solo sincronizaba stock, no precios. PSK Cloud devuelve `precios[]` con tipo 3 (DETAL) que corresponde al precio retail.
+
+### Cambios implementados
+
+#### `daily_stock_update.py`:
+- Fix: `--in_stock=false` reemplazado por `wp post meta update _stock_status outofstock`
+- Nuevo flag `--update-prices`: extrae `precio_neto` tipo 3 de PSK, compara con `regular_price` de WC y actualiza si difiere > $0.01
+- Nuevo reporte `cambios_precios.csv` en cada carpeta de update
+- Verificación post-update también chequea precios
+- Precio y stock se procesan independientemente
+
+#### `wc_export_ssh.php`:
+- Agregados campos `regular_price` y `sale_price` al export
+
+#### Cron:
+- Cambiado de `0 21 * * *` (21:00 UTC = 4pm Panamá) a `0 2 * * *` (2:00 UTC = 9pm Panamá)
+
+#### `grouped.php`:
+- Imagen 50x50 envuelta en `<span class="combo-mobile-thumb">` con CSS `display:none` en desktop, visible solo en mobile vía media query
+
+### Archivos modificados
+- `daily_stock_update.py`
+- `wc_export_ssh.php` (servidor)
+- `.opencode/skills/stock-update/SKILL.md`
+- `grouped.php`
+- `docs/historial-chat.md`
+
+---
+
 ## 2026-07-13
 
 ### Tema
