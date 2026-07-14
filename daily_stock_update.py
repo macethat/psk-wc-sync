@@ -1,21 +1,26 @@
-#!/usr/bin/env python3
-import os, sys, csv, subprocess, json
+import os
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+
+import pandas as pd
+import json
+import sys
+import subprocess
+import shutil
 from datetime import datetime
-import http.client
-sys.stdout.reconfigure(encoding='utf-8')
 
 CARPETA_BASE = os.path.dirname(os.path.abspath(__file__))
 STOCK_LIMIT = 6
 WP_DIR = os.path.expanduser("~/www/suplementospanama.net/public_html")
 EXPORT_PHP = os.path.expanduser("~/wc_export_ssh.php")
-WP_PATH = os.path.expanduser("~/www/suplementospanama.net/public_html")
 
 PSK_PIN = "46558"
 PSK_API_KEY = "BQxQrt5/FwARtlVUwT0GFw=="
 PSK_API_HOST = "adm.premium-soft.com"
 
 def run_wp(cmd, timeout=60):
-    full = f"wp --user=Fersho --path={WP_PATH} {cmd}"
+    full = f"wp --user=Fersho --path={WP_DIR} {cmd}"
     r = subprocess.run(full, shell=True, capture_output=True, timeout=timeout)
     if r.returncode != 0:
         err = r.stderr.decode('utf-8', errors='replace').strip()
@@ -26,22 +31,23 @@ def run_wp(cmd, timeout=60):
 def get_wc_export(suffix=""):
     print("Exportando productos localmente...")
     out = run_wp(f'eval-file {EXPORT_PHP}')
-    local = os.path.join(CARPETA_BASE, f"tmp_wc_export{suffix}.json")
-    with open(local, 'w', encoding='utf-8') as f:
-        f.write(out)
     if not out:
         print("  ERROR: salida vacia de WP-CLI")
         return None
     try:
         data = json.loads(out)
-        print(f"  Exportados: {len(data)} productos")
     except json.JSONDecodeError as e:
         print(f"  ERROR: JSON invalido - {e}")
         print(f"  Primeros 200 chars: {out[:200]}")
         return None
+    local = os.path.join(CARPETA_BASE, f"tmp_wc_export{suffix}.json")
+    with open(local, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False)
+    print(f"  Exportados: {len(data)} productos")
     return local
 
 def fetch_from_psk_api():
+    import http.client
     print("Extrayendo inventario desde PSK Cloud API...")
     conn = http.client.HTTPSConnection(PSK_API_HOST)
     conn.request('GET', f'/Api/Articulos?pin={PSK_PIN}&pagina=0&cant_pagina=99999',
@@ -50,246 +56,258 @@ def fetch_from_psk_api():
     if r.status != 200:
         print(f"ERROR: API respondio con status {r.status}")
         sys.exit(1)
-    data = json.loads(r.read().decode('utf-8'))
-    print(f"  Extraidos {len(data)} articulos desde PSK Cloud API")
-    articulos = {}
+    data = json.loads(r.read().decode())
+    if not isinstance(data, list):
+        print(f"ERROR: Respuesta inesperada de API: {data}")
+        sys.exit(1)
+    rows = []
     for a in data:
-        cod = a.get('codigo', '').strip()
-        nom = a.get('nombre', '').strip()
+        cod = a.get('codigo', '')
+        nom = a.get('nombre', '')
+        ext = a.get('existencias', '0')
         try:
-            cant = int(float(str(a.get('existencias', '0'))))
+            ext = int(float(ext))
         except:
-            cant = 0
-        if cod:
-            articulos[cod] = {'nombre': nom, 'cantidad': cant}
-    return articulos
+            ext = 0
+        rows.append({"Codigo": cod, "Nombre": nom, "Cant.Total": ext})
+    df = pd.DataFrame(rows)
+    df["Codigo"] = df["Codigo"].str.strip()
+    print(f"  Extraidos {len(df)} articulos desde PSK Cloud API")
+    return df
 
-def check_salidas():
+def git_commit_and_push(carpeta, ok, fail, disc):
+    git_key = os.path.join(CARPETA_BASE, "github-key-nopass")
+    msg = f"update {os.path.basename(carpeta).replace('update_', '')}: {ok} OK, {fail} fail, {disc} disc"
+    repo_dir = CARPETA_BASE
+    env = os.environ.copy()
+    env["GIT_SSH_COMMAND"] = f'ssh -i "{git_key}" -o StrictHostKeyChecking=no'
     try:
-        conn = http.client.HTTPSConnection(PSK_API_HOST)
-        conn.request('GET', f'/Api/Salidas?pin={PSK_PIN}&pagina=0&cant_pagina=99999',
-                     headers={'clave-api-business': PSK_API_KEY})
-        r = conn.getresponse()
-        if r.status == 200:
-            return json.loads(r.read().decode('utf-8'))
-    except:
-        pass
-    return []
+        subprocess.run(["git", "add", carpeta], cwd=repo_dir, capture_output=True, env=env)
+        subprocess.run(["git", "commit", "-m", msg], cwd=repo_dir, capture_output=True, env=env)
+        r = subprocess.run(["git", "push", "origin", "master"], cwd=repo_dir, capture_output=True, timeout=30, env=env)
+        out = r.stdout.decode() + r.stderr.decode()
+        print(f"  GitHub: {out.splitlines()[-1] if out.splitlines() else 'ok'}")
+    except Exception as e:
+        print(f"  GitHub WARN: {e}")
 
 def main():
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--live', action='store_true', help='Ejecutar actualizacion real (no solo preview)')
-    parser.add_argument('--api', action='store_true', help='Usar API PSK en vez de CSV local')
-    parser.add_argument('--fecha', help='Fecha especifica DD-MM-YYYY')
-    args = parser.parse_args()
-    fecha_arg = args.fecha
+    dry_run = "--live" not in sys.argv
+    fecha_arg = None
+    for i, a in enumerate(sys.argv):
+        if a == "--fecha" and i+1 < len(sys.argv):
+            fecha_arg = sys.argv[i+1]
+            sys.argv.pop(i+1); sys.argv.pop(i)
+            break
+
+    print("=== ACTUALIZACION DIARIA DE STOCK (SiteGround) ===")
+    print(f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}\n")
+
     fec = datetime.strptime(fecha_arg, "%d-%m-%Y") if fecha_arg else datetime.now()
     carpeta = os.path.join(CARPETA_BASE, f"update_{fec.strftime('%d-%m-%Y')}")
     os.makedirs(carpeta, exist_ok=True)
 
-    print("=" * 62)
-    print(f"=== ACTUALIZACION DIARIA DE STOCK (SiteGround) ===")
-    print(f"Fecha: {fec.strftime('%d/%m/%Y %H:%M')}")
-    print()
-
-    if args.api:
-        articulos = fetch_from_psk_api()
-    else:
-        csv_path = os.path.join(CARPETA_BASE, "ListaInvFisic.csv")
-        print(f"Leyendo inventario fisico desde {csv_path} ...")
-        if not os.path.exists(csv_path):
-            print(f"ERROR: No se encuentra {csv_path}")
-            sys.exit(1)
-        with open(csv_path, encoding='utf-8') as f:
-            reader = csv.DictReader(f)
-            articulos = {r['Codigo'].strip(): {'nombre': r['Nombre'].strip(), 'cantidad': int(r['Cant.Total'])} for r in reader}
-        print(f"  Leidos {len(articulos)} productos del CSV")
-
-    df_inv = [{'codigo': k, 'nombre': v['nombre'], 'stock_fisico': v['cantidad'], 'stock_psk': v['cantidad']} for k, v in sorted(articulos.items())]
-    with open(os.path.join(carpeta, "ListaInvFisic.csv"), 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=['codigo', 'nombre', 'stock_fisico', 'stock_psk'])
-        w.writeheader()
-        w.writerows(df_inv)
+    df_inv = fetch_from_psk_api()
+    df_inv.to_csv(os.path.join(carpeta, "ListaInvFisic.csv"), index=False)
 
     wc_json = get_wc_export(suffix="_1")
     if wc_json is None:
         sys.exit(1)
     wc_path = os.path.join(carpeta, "wc_export.json")
-    with open(wc_path, 'w', encoding='utf-8') as f:
-        json.dump(json.load(open(wc_json, encoding='utf-8')), f, ensure_ascii=False)
+    shutil.copy2(wc_json, wc_path)
 
     with open(wc_json, encoding='utf-8') as f:
-        wc_prods = json.load(f)
-    wc_idx = {}
-    for p in wc_prods:
-        sku = p.get('sku', '').strip().upper()
-        if sku:
-            wc_idx[sku] = p
-    total_wc = len(wc_prods)
+        wc_products = json.load(f)
 
-    comp = []
-    for cod, info in sorted(articulos.items()):
-        sku_up = cod.upper().strip()
-        wc = wc_idx.get(sku_up, {})
-        wc_id = wc.get('id', '')
-        wc_sku = wc.get('sku', '')
-        wc_stock = wc.get('stock_qty')
-        if wc_stock is None:
-            wc_stock_str = wc.get('stock_st', '')
-        else:
-            wc_stock_str = str(wc_stock)
-        wc_type = wc.get('type', '')
-        wc_parent = wc.get('parent', 0)
-        wc_name = wc.get('name', '')
-        delta = (info['cantidad'] - (wc_stock if isinstance(wc_stock, (int, float)) else 0)) if isinstance(wc_stock, (int, float)) else ''
-        comp.append({
-            'codigo': cod,
-            'nombre_psk': info['nombre'],
-            'nombre_wc': wc_name,
-            'wc_id': wc_id,
-            'wc_sku': wc_sku,
-            'wc_type': wc_type,
-            'wc_parent': wc_parent,
-            'stock_psk': info['cantidad'],
-            'stock_wc': wc_stock_str,
-            'delta': delta,
+    wc_by_sku = {}
+    for p in wc_products:
+        sku = p["sku"].strip() if p["sku"] else ""
+        if sku:
+            wc_by_sku[sku] = p
+
+    cod_inv = set(df_inv["Codigo"].dropna().unique())
+    sku_wc = set(wc_by_sku.keys())
+    coinciden = cod_inv & sku_wc
+
+    rows_comp = []
+    for sku in coinciden:
+        wc_p = wc_by_sku[sku]
+        inv_row = df_inv[df_inv["Codigo"] == sku].iloc[0]
+        old_s = wc_p["stock_qty"] if wc_p["stock_qty"] is not None else 0
+        try:
+            ns = int(inv_row["Cant.Total"])
+        except:
+            continue
+        ns_status = "outofstock" if ns <= STOCK_LIMIT else "instock"
+        diff = ns - old_s
+        rows_comp.append({
+            "sku": sku, "nombre": inv_row.get("Nombre", wc_p.get("name", "")),
+            "tipo": wc_p["type"], "wc_stock": old_s, "wc_status": wc_p["stock_st"],
+            "inv_stock": ns, "nuevo_status": ns_status, "diferencia": diff,
+            "cambiara": "SI" if (diff != 0 or wc_p["stock_st"] != ns_status) else "no"
+        })
+    for sku in (sku_wc - cod_inv):
+        wc_p = wc_by_sku[sku]
+        old_s = wc_p["stock_qty"] if wc_p["stock_qty"] is not None else 0
+        if old_s <= STOCK_LIMIT:
+            rows_comp.append({
+                "sku": sku, "nombre": wc_p.get("name", ""),
+                "tipo": wc_p["type"], "wc_stock": old_s, "wc_status": wc_p["stock_st"],
+                "inv_stock": "(solo WC)", "nuevo_status": "outofstock", "diferencia": "-",
+                "cambiara": "SI"
+            })
+    comp_df = pd.DataFrame(rows_comp)
+    comp_df.to_csv(os.path.join(carpeta, "comparativa_previa.csv"), index=False)
+    cambiaran = sum(1 for r in rows_comp if r["cambiara"] == "SI")
+    print(f"  Comparativa previa: {len(rows_comp)} productos ({cambiaran} cambiaran)")
+
+    updates = []
+    for sku in coinciden:
+        wc_p = wc_by_sku[sku]
+        inv_row = df_inv[df_inv["Codigo"] == sku].iloc[0]
+        old_stock = wc_p["stock_qty"] if wc_p["stock_qty"] is not None else 0
+        try:
+            ns = int(inv_row["Cant.Total"])
+        except:
+            continue
+        updates.append({
+            "id": wc_p["id"], "parent": wc_p["parent"],
+            "tipo": wc_p["type"], "sku": sku,
+            "nombre": inv_row.get("Nombre", wc_p.get("name", "")),
+            "old_stock": old_stock, "new_stock": ns,
+            "new_status": "outofstock" if ns <= STOCK_LIMIT else "instock",
+            "old_status": wc_p["stock_st"],
+            "manage": wc_p["manage"],
         })
 
-    solo_psk = [c for c in comp if not c['wc_id']]
-    coinciden = [c for c in comp if c['wc_id']]
-    print(f"\n=== CRUCE: {len(coinciden)} coincidencias, {len(solo_psk)} solo PSK, {total_wc - len(coinciden)} solo WC ===")
+    for sku in (sku_wc - cod_inv):
+        wc_p = wc_by_sku[sku]
+        cs = wc_p["stock_qty"] if wc_p["stock_qty"] is not None else 0
+        if cs <= STOCK_LIMIT:
+            updates.append({
+                "id": wc_p["id"], "parent": wc_p["parent"],
+                "tipo": wc_p["type"], "sku": sku,
+                "nombre": wc_p.get("name", ""),
+                "old_stock": cs, "new_stock": cs,
+                "new_status": "outofstock",
+                "old_status": wc_p["stock_st"],
+                "manage": wc_p["manage"],
+            })
 
-    with open(os.path.join(carpeta, "comparativa_previa.csv"), 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=comp[0].keys())
-        w.writeheader()
-        w.writerows(comp)
+    df_prev = pd.DataFrame(updates)
+    df_prev.to_csv(os.path.join(carpeta, "reporte_preview.csv"), index=False)
+    print(f"\n{'='*70}")
+    print(f"  {'SIMULACION' if dry_run else 'ACTUALIZACION EN VIVO'}")
+    print(f"  Total a procesar: {len(updates)} productos")
+    print(f"  Coincidencias: {len(coinciden)} | Solo WC (low stock): {len(updates)-len(coinciden)}")
+    print(f"{'='*70}")
 
-    cambios = [c for c in comp if c['wc_id'] and isinstance(c['delta'], (int, float)) and c['delta'] != 0]
-    cambios_stock = [c for c in cambios if c['wc_type'] in ('simple', 'variation') and c['delta'] != 0]
-    preview = [{'codigo': c['codigo'], 'nombre': c['nombre_psk'], 'stock_actual': c['stock_wc'], 'stock_nuevo': c['stock_psk'], 'diferencia': c['delta']} for c in cambios]
+    needs_wp = []
+    for u in updates:
+        diff = u["new_stock"] - u["old_stock"]
+        signo = "+" if diff > 0 else ""
+        needs_update = (diff != 0) or (u["new_status"] != u["old_status"])
 
-    with open(os.path.join(carpeta, "reporte_preview.csv"), 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=['codigo', 'nombre', 'stock_actual', 'stock_nuevo', 'diferencia'])
-        w.writeheader()
-        w.writerows(preview)
+        print(f"  {u['tipo']:<9} ID:{u['id']:<6} SKU:{u['sku']:<15} "
+              f"{u['old_stock']:>4}->{u['new_stock']:>4} ({signo}{diff}) "
+              f"{u['new_status']:<10}", end="")
 
-    print(f"\n=== PREVIEW ===")
-    print(f"  Productos con cambios: {len(cambios)}")
-    print(f"  Cambios de stock (simples/variations): {len(cambios_stock)}")
-    if cambios:
-        print(f"  Ejemplos:")
-        for c in cambios[:10]:
-            print(f"    {c['codigo']}: {c['stock_wc']} -> {c['stock_psk']} ({c['delta']:+d})")
+        if not needs_update:
+            print(" -> SIN CAMBIOS")
+            continue
 
-    if not args.live:
-        print(f"\nSolo preview. Para ejecutar usar --live")
-        guardar_y_salir(carpeta, args)
-        return
+        pid = u["id"]
+        needs_wp.append(f"post meta update {pid} _stock {u['new_stock']}")
+        needs_wp.append(f"post meta update {pid} _stock_status {u['new_status']}")
+        if not u["manage"] or u["manage"] == "parent":
+            needs_wp.append(f"post meta update {pid} _manage_stock yes")
 
-    print(f"\n=== EJECUTANDO CAMBIOS ({len(cambios_stock)} actualizaciones) ===")
-    ok, fail, disc = 0, 0, 0
-    resultados = []
-    for c in cambios_stock:
-        pid = c['wc_id']
-        nuevo_stock = max(0, c['stock_psk'])
-        try:
-            r = run_wp(f'post meta update {pid} _stock {nuevo_stock}')
-            if r == '' or 'Success' in r:
-                new_status = 'instock' if nuevo_stock > STOCK_LIMIT else 'outofstock'
-                run_wp(f'post meta update {pid} _stock_status {new_status}')
+        if dry_run:
+            print(f" -> {'outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock'} (dry)")
+        else:
+            print(" -> pendiente")
+
+    cambios_df = pd.DataFrame([u for u in updates if u["new_stock"] != u["old_stock"] or u["new_status"] != u["old_status"]])
+    if not cambios_df.empty:
+        cambios_df["tipo_cambio"] = cambios_df.apply(
+            lambda r: "solo_status" if r["new_stock"] == r["old_stock"] else "stock+/-", axis=1)
+        cambios_df.to_csv(os.path.join(carpeta, "cambios.csv"), index=False)
+        cambios_stock = cambios_df[cambios_df["new_stock"] != cambios_df["old_stock"]]
+        if not cambios_stock.empty:
+            cambios_stock.to_csv(os.path.join(carpeta, "cambios_stock.csv"), index=False)
+            print(f"  Cambios reales guardados: {len(cambios_df)} en cambios.csv ({len(cambios_stock)} con cambio de stock en cambios_stock.csv)")
+
+    if dry_run:
+        cambios = sum(1 for u in updates if u["new_stock"] != u["old_stock"])
+        print(f"\n  Con cambio stock: {cambios}  Solo status: {len(updates)-cambios}")
+        print(f"  Comandos WP-CLI generados: {len(needs_wp)}")
+    else:
+        print(f"\n  Ejecutando {len(needs_wp)} comandos WP-CLI...")
+        ok = fail = 0
+        for i, cmd in enumerate(needs_wp, 1):
+            out = run_wp(cmd, timeout=60)
+            sys.stdout.write(f"\r  [{i}/{len(needs_wp)}] ")
+            sys.stdout.flush()
+            if out and "Success:" in out:
                 ok += 1
-                resultados.append({'codigo': c['codigo'],'nombre': c['nombre_psk'],'wc_id': pid,'stock_anterior': c['stock_wc'],'stock_nuevo': nuevo_stock,'status_nuevo': new_status,'resultado': 'OK'})
-                print(f"  OK #{pid} {c['codigo']}: {c['stock_wc']} -> {nuevo_stock} ({new_status})")
             else:
                 fail += 1
-                resultados.append({'codigo': c['codigo'],'nombre': c['nombre_psk'],'wc_id': pid,'stock_anterior': c['stock_wc'],'stock_nuevo': nuevo_stock,'status_nuevo': '','resultado': f'FAIL: {r[:100]}'})
-                print(f"  FAIL #{pid} {c['codigo']}: {r[:100]}")
-        except subprocess.TimeoutExpired:
-            fail += 1
-            resultados.append({'codigo': c['codigo'],'nombre': c['nombre_psk'],'wc_id': pid,'stock_anterior': c['stock_wc'],'stock_nuevo': nuevo_stock,'status_nuevo': '','resultado': 'TIMEOUT'})
-            print(f"  TIMEOUT #{pid} {c['codigo']}")
-        except Exception as e:
-            fail += 1
-            resultados.append({'codigo': c['codigo'],'nombre': c['nombre_psk'],'wc_id': pid,'stock_anterior': c['stock_wc'],'stock_nuevo': nuevo_stock,'status_nuevo': '','resultado': str(e)[:100]})
-            print(f"  ERROR #{pid} {c['codigo']}: {e}")
+        sys.stdout.write("\n")
+        sys.stdout.flush()
 
-    if resultados:
-        with open(os.path.join(carpeta, "cambios.csv"), 'w', newline='', encoding='utf-8') as f:
-            w = csv.DictWriter(f, fieldnames=resultados[0].keys())
-            w.writeheader()
-            w.writerows(resultados)
+        print(f"\n  OK: {ok}  Fallidos: {fail}")
 
-    with open(os.path.join(carpeta, "cambios_stock.csv"), 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=['codigo', 'nombre', 'stock_actual', 'stock_nuevo', 'diferencia'])
-        w.writeheader()
-        w.writerows(preview)
+        print("\n--- VERIFICACION ---", flush=True)
+        wc_json2 = get_wc_export(suffix="_2")
+        if wc_json2 is None:
+            disc = ok + fail
+            print(f"  No se pudo verificar. {ok} OK, {fail} fail")
+            df_result = pd.DataFrame(updates)
+            df_result.to_csv(os.path.join(carpeta, "reporte_actualizacion.csv"), index=False)
+            os.remove(wc_json)
+            git_commit_and_push(carpeta, ok, fail, disc)
+            return
+        with open(wc_json2, encoding='utf-8') as f:
+            wc2 = json.load(f)
+        wc2_by_sku = {}
+        for p in wc2:
+            sku = p["sku"].strip() if p["sku"] else ""
+            if sku:
+                wc2_by_sku[sku] = p
 
-    print(f"\n=== VERIFICACION ===")
-    wc_json2 = get_wc_export(suffix="_2")
-    if wc_json2 is None:
-        disc = ok + fail
-        guardar_y_salir(carpeta, ok, fail, disc)
-        return
-    with open(wc_json2, encoding='utf-8') as f:
-        wc2 = json.load(f)
-    wc2_idx = {}
-    for p in wc2:
-        sku = p.get('sku', '').strip().upper()
-        if sku:
-            wc2_idx[sku] = p
-    ver_ok, ver_fail = 0, 0
-    resultados_v = []
-    for c in cambios_stock:
-        sku_up = c['codigo'].upper().strip()
-        w2 = wc2_idx.get(sku_up, {})
-        w2_stock = w2.get('stock_qty')
-        esperado = max(0, c['stock_psk'])
-        if w2_stock == esperado:
-            ver_ok += 1
+        disc = 0
+        for u in updates:
+            wc2_p = wc2_by_sku.get(u["sku"])
+            if not wc2_p:
+                continue
+            actual = wc2_p["stock_qty"] if wc2_p["stock_qty"] is not None else 0
+            if actual != u["new_stock"]:
+                disc += 1
+                print(f"  DISCREPANCIA: {u['sku']} esperado={u['new_stock']} actual={actual}")
+
+        if disc == 0:
+            print("  Todas las actualizaciones verificadas correctamente.")
         else:
-            ver_fail += 1
-        resultados_v.append({'codigo': c['codigo'], 'nombre': c['nombre_psk'], 'esperado': esperado, 'real': w2_stock, 'estado': 'OK' if w2_stock == esperado else 'FAIL'})
+            print(f"  {disc} discrepancias encontradas.")
 
-    if resultados_v:
-        with open(os.path.join(carpeta, "verificacion.csv"), 'w', newline='', encoding='utf-8') as f:
-            w = csv.DictWriter(f, fieldnames=resultados_v[0].keys())
-            w.writeheader()
-            w.writerows(resultados_v)
+        df_result = pd.DataFrame(updates)
+        if not df_result.empty:
+            df_result["aplicado"] = df_result.apply(
+                lambda r: "si" if (r["new_stock"] != r["old_stock"] or r["new_stock"] <= STOCK_LIMIT) else "no_omitido",
+                axis=1
+            )
+        df_result.to_csv(os.path.join(carpeta, "reporte_actualizacion.csv"), index=False)
+        with open(os.path.join(carpeta, "verificacion.txt"), "w") as f:
+            f.write(f"Discrepancias: {disc}\n")
+            f.write(f"OK: {ok}  Fallidos: {fail}\n")
+        os.remove(wc_json2)
 
-    with open(os.path.join(carpeta, "reporte_actualizacion.csv"), 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=resultados[0].keys())
-        w.writeheader()
-        w.writerows(resultados)
-
-    with open(os.path.join(carpeta, "verificacion.txt"), 'w') as f:
-        f.write(f"Verificacion: {ver_ok} OK, {ver_fail} fail\n")
-
-    print(f"\n  Verificacion: {ver_ok} OK, {ver_fail} fail")
+    os.remove(wc_json)
     print(f"\nArchivos en: {carpeta}")
-    for fn in sorted(os.listdir(carpeta)):
-        fp = os.path.join(carpeta, fn)
-        print(f"  {fn} ({os.path.getsize(fp)} bytes)")
-    print(f"\nResumen: {ok} OK, {fail} fail, {disc} disc")
-    guardar_y_salir(carpeta, ok, fail, disc)
+    for f in sorted(os.listdir(carpeta)):
+        print(f"  - {f}")
 
-def guardar_y_salir(carpeta, *args):
-    try:
-        repo_dir = CARPETA_BASE
-        env = os.environ.copy()
-        git_key = os.path.join(CARPETA_BASE, "github-key-nopass")
-        env['GIT_SSH_COMMAND'] = f"ssh -i {git_key} -o StrictHostKeyChecking=no"
-        subprocess.run(["git", "add", carpeta], cwd=repo_dir, capture_output=True, env=env)
-        msg = f"update {os.path.basename(carpeta).replace('update_', '')}: {args[0] if args else '?'} OK"
-        subprocess.run(["git", "commit", "-m", msg], cwd=repo_dir, capture_output=True, env=env)
-        r = subprocess.run(["git", "push", "origin", "master"], cwd=repo_dir, capture_output=True, timeout=30, env=env)
-        if r.returncode == 0:
-            print(f"  Git push OK")
-        else:
-            print(f"  Git push: {r.stderr.decode()[:200]}")
-    except Exception as e:
-        print(f"  Git: {e}")
-    sys.exit(0)
+    if not dry_run:
+        git_commit_and_push(carpeta, ok, fail, disc)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
