@@ -15,6 +15,25 @@ STOCK_LIMIT = 6
 WP_DIR = os.path.expanduser("~/www/suplementospanama.net/public_html")
 EXPORT_PHP = os.path.expanduser("~/wc_export_ssh.php")
 
+# Productos excluidos temporalmente de actualizacion de precios (pack products)
+# Stock se actualiza normal, solo se salta el precio
+PRICE_EXCLUDE_SKUS = {
+    # RTD Carnivor 500ml
+    "891597004034", "891597006137", "891597006427", "891597006113",
+    # Batido Proteinas 325ml 12 Pack
+    "748927066593", "748927069815", "748927066586",
+    # ON Amino Energy Pack 12
+    "748927060621", "748927062731", "748927060607", "748927062748",
+    "748927060614", "748927068269", "748927063486",
+    # C4 Ultimate Pack 12
+    "842595131741", "842595135541", "842595131727", "842595135534", "842595135558",
+    # C4 Performance Pack 12
+    "842595111071", "842595106572", "842595131291", "842595131628",
+    "842595134957", "842595131253", "842595121766", "842595121759",
+    "842595134971", "842595106596", "842595131277", "842595133608",
+    "842595111095", "842595134964",
+}
+
 PSK_PIN = "46558"
 PSK_API_KEY = "BQxQrt5/FwARtlVUwT0GFw=="
 PSK_API_HOST = "adm.premium-soft.com"
@@ -250,15 +269,18 @@ def main():
         signo = "+" if diff > 0 else ""
         stock_changed = (diff != 0) or (u["new_status"] != u["old_status"])
 
-        # Check price change
+        # Check price change (skip excluded SKUs)
         price_changed = False
-        if update_prices and u["new_price"] is not None and u["old_price"] is not None:
+        if update_prices and u["sku"] not in PRICE_EXCLUDE_SKUS and u["new_price"] is not None and u["old_price"] is not None:
             try:
                 op = float(u["old_price"])
                 np = float(u["new_price"])
                 price_changed = abs(op - np) > 0.01
             except:
                 pass
+        elif update_prices and u["sku"] in PRICE_EXCLUDE_SKUS:
+            if u["tipo"] == "variation":
+                print(f"  (precio excluido para {u['sku']})", end="")
 
         needs_update = stock_changed or price_changed
 
@@ -357,8 +379,8 @@ def main():
             if actual != u["new_stock"]:
                 disc += 1
                 print(f"  DISCREPANCIA stock: {u['sku']} esperado={u['new_stock']} actual={actual}")
-            # Verify price
-            if update_prices and u["new_price"] is not None:
+            # Verify price (skip excluded SKUs)
+            if update_prices and u["sku"] not in PRICE_EXCLUDE_SKUS and u["new_price"] is not None:
                 actual_price = wc2_p.get("regular_price")
                 if actual_price is not None:
                     try:
