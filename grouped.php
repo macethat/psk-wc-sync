@@ -44,6 +44,10 @@ do_action('woocommerce_before_add_to_cart_form');
 ?>
 <style>
 .woocommerce-grouped-product-list-item__price { white-space: nowrap; }
+.combo-mobile-thumb { display: none; vertical-align: middle; margin-right: 8px; }
+@media (max-width: 768px) {
+    .combo-mobile-thumb { display: inline-block; }
+}
 </style>
 <form class="cart grouped_form" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype='multipart/form-data'>
 
@@ -99,7 +103,9 @@ do_action('woocommerce_before_add_to_cart_form');
                 switch ($column_id) {
                     case 'label':
                         $value = '<label class="combo-product-label">';
-                        $value .= $grouped_product_child->is_visible() ? '<a href="' . esc_url(apply_filters('woocommerce_grouped_product_list_link', $grouped_product_child->get_permalink(), $grouped_product_child->get_id())) . '">' . $grouped_product_child->get_name() . '</a>' : $grouped_product_child->get_name();
+                        $thumb = $grouped_product_child->get_image(array(50, 50));
+                        $thumb_wrapped = '<span class="combo-mobile-thumb">' . $thumb . '</span>';
+                        $value .= $grouped_product_child->is_visible() ? '<a href="' . esc_url(apply_filters('woocommerce_grouped_product_list_link', $grouped_product_child->get_permalink(), $grouped_product_child->get_id())) . '">' . $thumb_wrapped . ' ' . $grouped_product_child->get_name() . '</a>' : $thumb_wrapped . ' ' . $grouped_product_child->get_name();
 
                         if (!$is_available) {
                             $value .= '<div style="margin-top:4px"><span style="color:#c00;font-size:12px;font-weight:600">Producto no disponible</span></div>';

@@ -31,6 +31,30 @@ El filtro `rank_math/json_ld` intentaba manipular `$data['@graph']`, pero en ese
 - `functions.php` (servidor): filtro `rank_math/json_ld`, función `sp_output_combo_structured_data()`
 - `local/functions_current.php` (copia local)
 
+---
+
+### Homepage — SEO + contenido textual
+
+Se agregaron meta keywords y dos bloques de texto SEO en la homepage mediante containers de Elementor (no PHP hooks).
+
+| Elemento | Método | Detalle |
+|----------|--------|---------|
+| Meta keywords | `wp_head` hook | 12 keywords (short-tail + long-tail) |
+| Texto intro "¿Lo quieres? Lo tienes" | Container Elementor (S3) | Font: Plus Jakarta Sans, 19px, color negro |
+| Texto detallado SEO | Container Elementor (S7) | Título 22px, párrafo 16px, mismo font |
+
+Archivos: `functions.php` (meta keywords), `_elementor_data` de page ID 18625
+
+### grouped.php — Imagen mobile solo en mobile
+
+La imagen 50x50 agregada para mobile estaba visible también en desktop, duplicándose con la imagen 150x150 del tema.
+
+**Solución:** Envolver el thumbnail en `<span class="combo-mobile-thumb">` con CSS:
+- `display: none` por defecto (desktop)
+- `display: inline-block` en max-width: 768px (mobile)
+
+Archivo: `grouped.php` líneas 45-50 (CSS) y 103-104 (wrapper span)
+
 ## 2026-07-11
 
 ### Tema
