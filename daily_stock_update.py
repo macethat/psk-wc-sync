@@ -20,17 +20,30 @@ PSK_API_KEY = "BQxQrt5/FwARtlVUwT0GFw=="
 PSK_API_HOST = "adm.premium-soft.com"
 
 def run_wp(cmd, timeout=60):
-    full = f"wp --user=Suplementos {cmd}"
-    r = subprocess.run(full, shell=True, capture_output=True, timeout=timeout, cwd=WP_DIR)
+    full = f"wp --user=Fersho --path={WP_DIR} {cmd}"
+    r = subprocess.run(full, shell=True, capture_output=True, timeout=timeout)
+    if r.returncode != 0:
+        err = r.stderr.decode('utf-8', errors='replace').strip()
+        print(f"  ERROR WP-CLI ({r.returncode}): {err[:200]}")
+        return ""
     return r.stdout.decode('utf-8', errors='replace').strip()
 
 def get_wc_export(suffix=""):
     print("Exportando productos localmente...")
-    out = run_wp(f'eval-file {EXPORT_PHP} 2>/dev/null')
+    out = run_wp(f'eval-file {EXPORT_PHP}')
+    if not out:
+        print("  ERROR: salida vacia de WP-CLI")
+        return None
+    try:
+        data = json.loads(out)
+    except json.JSONDecodeError as e:
+        print(f"  ERROR: JSON invalido - {e}")
+        print(f"  Primeros 200 chars: {out[:200]}")
+        return None
     local = os.path.join(CARPETA_BASE, f"tmp_wc_export{suffix}.json")
     with open(local, 'w', encoding='utf-8') as f:
-        f.write(out)
-    print(f"  Exportados: {len(json.loads(out))} productos")
+        json.dump(data, f, ensure_ascii=False)
+    print(f"  Exportados: {len(data)} productos")
     return local
 
 def fetch_from_psk_api():
@@ -97,6 +110,8 @@ def main():
     df_inv.to_csv(os.path.join(carpeta, "ListaInvFisic.csv"), index=False)
 
     wc_json = get_wc_export(suffix="_1")
+    if wc_json is None:
+        sys.exit(1)
     wc_path = os.path.join(carpeta, "wc_export.json")
     shutil.copy2(wc_json, wc_path)
 
@@ -200,15 +215,11 @@ def main():
             print(" -> SIN CAMBIOS")
             continue
 
-        in_stock = "true" if u["new_status"] == "instock" else "false"
-        if u["tipo"] == "variation":
-            wp_cmd = f"wc product_variation update {u['parent']} {u['id']}"
-        else:
-            wp_cmd = f"wc product update {u['id']}"
-        wp_cmd += f" --stock_quantity={u['new_stock']} --in_stock={in_stock}"
+        pid = u["id"]
+        needs_wp.append(f"post meta update {pid} _stock {u['new_stock']}")
+        needs_wp.append(f"post meta update {pid} _stock_status {u['new_status']}")
         if not u["manage"] or u["manage"] == "parent":
-            wp_cmd += " --manage_stock=true"
-        needs_wp.append(wp_cmd)
+            needs_wp.append(f"post meta update {pid} _manage_stock yes")
 
         if dry_run:
             print(f" -> {'outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock'} (dry)")
@@ -247,6 +258,14 @@ def main():
 
         print("\n--- VERIFICACION ---", flush=True)
         wc_json2 = get_wc_export(suffix="_2")
+        if wc_json2 is None:
+            disc = ok + fail
+            print(f"  No se pudo verificar. {ok} OK, {fail} fail")
+            df_result = pd.DataFrame(updates)
+            df_result.to_csv(os.path.join(carpeta, "reporte_actualizacion.csv"), index=False)
+            os.remove(wc_json)
+            git_commit_and_push(carpeta, ok, fail, disc)
+            return
         with open(wc_json2, encoding='utf-8') as f:
             wc2 = json.load(f)
         wc2_by_sku = {}
