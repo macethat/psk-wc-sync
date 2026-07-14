@@ -12,8 +12,10 @@ description: Actualiza el inventario de WooCommerce desde un CSV de inventario f
 ### 2. Ejecucion
 ```powershell
 cd C:\suplementos\stock-suplementos
-python daily_stock_update.py          # dry-run (simulacion)
-python daily_stock_update.py --live   # actualizacion en vivo
+python daily_stock_update.py                    # dry-run solo stock (simulacion)
+python daily_stock_update.py --live             # actualizacion en vivo solo stock
+python daily_stock_update.py --update-prices    # dry-run stock + precios
+python daily_stock_update.py --live --update-prices  # actualizacion en vivo stock + precios
 ```
 
 ### 3. Que hace el script
@@ -24,15 +26,17 @@ python daily_stock_update.py --live   # actualizacion en vivo
    - stock y status actual (WC) vs inventario fisico
    - diferencia de unidades
    - nuevo status segun regla (outofstock si <= 6)
-   - columna "cambiara" (SI/no)
+   - precio actual (WC) vs precio de PSK Cloud (tipo 3 DETAL)
+   - columna "cambiara" (SI/no) segun stock o precio
 5. Cruza `Codigo` (inventario) con `SKU` (WooCommerce)
 6. Para cada producto coincidente:
    - Actualiza `stock_quantity` al valor de `Cant.Total`
    - Si stock <= 6, establece `stock_status = "outofstock"`
    - Si stock > 6, establece `stock_status = "instock"`
+   - Si `--update-prices` y el precio difiere, actualiza `_regular_price`
 7. Productos solo en WooCommerce con stock <= 6 tambien se marcan outofstock
-8. En modo `--live`, aplica los cambios via SSH (WP-CLI `wc product update` / `wc product_variation update`)
-9. Re-exporta y verifica que los cambios se aplicaron correctamente
+8. En modo `--live`, aplica los cambios via SSH (WP-CLI `post meta update`)
+9. Re-exporta y verifica que los cambios se aplicaron correctamente (stock + precio)
 
 ### 4. Reglas de negocio
 - **Stock <= 6 unidades** → `outofstock` (aplica a todos los productos, incluso sin cambio de cantidad)
@@ -42,11 +46,13 @@ python daily_stock_update.py --live   # actualizacion en vivo
 
 ### 5. Archivos generados
 En la carpeta `update_DD-MM-YYYY/`:
-- `ListaInvFisic.csv` — copia del inventario original
-- `wc_export.json` — export de WooCommerce via WP-CLI
+- `ListaInvFisic.csv` — copia del inventario original (incluye columna Precio)
+- `wc_export.json` — export de WooCommerce via WP-CLI (incluye regular_price)
 - `comparativa_previa.csv` — comparacion pre-actualizacion (WC vs inventario)
 - `reporte_preview.csv` — detalle de cada producto a actualizar
 - `cambios.csv` — solo productos con cambio real (stock o status)
+- `cambios_stock.csv` — solo cambios de stock
+- `cambios_precios.csv` — solo cambios de precio (solo con --update-prices)
 - `reporte_actualizacion.csv` — resultado post-actualizacion (solo --live)
 - `verificacion.txt` — resultado de la verificacion (solo --live)
 

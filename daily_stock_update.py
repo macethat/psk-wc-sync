@@ -50,7 +50,7 @@ def fetch_from_psk_api():
     import http.client
     print("Extrayendo inventario desde PSK Cloud API...")
     conn = http.client.HTTPSConnection(PSK_API_HOST)
-    conn.request('GET', f'/Api/Articulos?pin={PSK_PIN}&pagina=0&cant_pagina=99999',
+    conn.request('GET', f'/Api/Articulos?pin={PSK_PIN}&pagina=0&cant_pagina=99999&precios=1',
                  headers={'clave-api-business': PSK_API_KEY})
     r = conn.getresponse()
     if r.status != 200:
@@ -69,7 +69,16 @@ def fetch_from_psk_api():
             ext = int(float(ext))
         except:
             ext = 0
-        rows.append({"Codigo": cod, "Nombre": nom, "Cant.Total": ext})
+        # Extract retail price (tipo 3 = DETAL)
+        precio = None
+        for p in a.get('precios', []):
+            if p['id_tipo_precio'] == '3':
+                try:
+                    precio = round(float(p['precio_neto']), 2)
+                except:
+                    pass
+                break
+        rows.append({"Codigo": cod, "Nombre": nom, "Cant.Total": ext, "Precio": precio})
     df = pd.DataFrame(rows)
     df["Codigo"] = df["Codigo"].str.strip()
     print(f"  Extraidos {len(df)} articulos desde PSK Cloud API")
@@ -99,8 +108,13 @@ def main():
             sys.argv.pop(i+1); sys.argv.pop(i)
             break
 
+    update_prices = "--update-prices" in sys.argv
     print("=== ACTUALIZACION DIARIA DE STOCK (SiteGround) ===")
     print(f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}\n")
+    if update_prices:
+        print("  [Modo: stock + precios]\n")
+    else:
+        print("  [Modo: solo stock]\n")
 
     fec = datetime.strptime(fecha_arg, "%d-%m-%Y") if fecha_arg else datetime.now()
     carpeta = os.path.join(CARPETA_BASE, f"update_{fec.strftime('%d-%m-%Y')}")
@@ -139,11 +153,33 @@ def main():
             continue
         ns_status = "outofstock" if ns <= STOCK_LIMIT else "instock"
         diff = ns - old_s
+        # Price comparison
+        wc_price = wc_p.get("regular_price")
+        inv_price = inv_row.get("Precio")
+        price_diff = ""
+        price_change = ""
+        if update_prices and inv_price is not None and wc_price is not None:
+            try:
+                wp = float(wc_price)
+                ip = float(inv_price)
+                if abs(wp - ip) > 0.01:
+                    price_diff = f"{ip:.2f}"
+                    price_change = "SI"
+                else:
+                    price_diff = f"{ip:.2f}"
+                    price_change = "no"
+            except:
+                pass
+        elif inv_price is not None:
+            price_diff = f"{inv_price:.2f}" if isinstance(inv_price, float) else str(inv_price)
+            price_change = "nuevo" if not wc_price else ""
         rows_comp.append({
             "sku": sku, "nombre": inv_row.get("Nombre", wc_p.get("name", "")),
             "tipo": wc_p["type"], "wc_stock": old_s, "wc_status": wc_p["stock_st"],
             "inv_stock": ns, "nuevo_status": ns_status, "diferencia": diff,
-            "cambiara": "SI" if (diff != 0 or wc_p["stock_st"] != ns_status) else "no"
+            "wc_price": wc_price, "inv_price": price_diff,
+            "price_change": price_change,
+            "cambiara": "SI" if (diff != 0 or wc_p["stock_st"] != ns_status or price_change == "SI") else "no"
         })
     for sku in (sku_wc - cod_inv):
         wc_p = wc_by_sku[sku]
@@ -153,6 +189,7 @@ def main():
                 "sku": sku, "nombre": wc_p.get("name", ""),
                 "tipo": wc_p["type"], "wc_stock": old_s, "wc_status": wc_p["stock_st"],
                 "inv_stock": "(solo WC)", "nuevo_status": "outofstock", "diferencia": "-",
+                "wc_price": wc_p.get("regular_price"), "inv_price": "", "price_change": "",
                 "cambiara": "SI"
             })
     comp_df = pd.DataFrame(rows_comp)
@@ -169,6 +206,7 @@ def main():
             ns = int(inv_row["Cant.Total"])
         except:
             continue
+        inv_price = inv_row.get("Precio")
         updates.append({
             "id": wc_p["id"], "parent": wc_p["parent"],
             "tipo": wc_p["type"], "sku": sku,
@@ -177,6 +215,8 @@ def main():
             "new_status": "outofstock" if ns <= STOCK_LIMIT else "instock",
             "old_status": wc_p["stock_st"],
             "manage": wc_p["manage"],
+            "old_price": wc_p.get("regular_price"),
+            "new_price": f"{inv_price:.2f}" if inv_price is not None else None,
         })
 
     for sku in (sku_wc - cod_inv):
@@ -191,6 +231,8 @@ def main():
                 "new_status": "outofstock",
                 "old_status": wc_p["stock_st"],
                 "manage": wc_p["manage"],
+                "old_price": wc_p.get("regular_price"),
+                "new_price": None,
             })
 
     df_prev = pd.DataFrame(updates)
@@ -202,14 +244,32 @@ def main():
     print(f"{'='*70}")
 
     needs_wp = []
+    price_updates = []
     for u in updates:
         diff = u["new_stock"] - u["old_stock"]
         signo = "+" if diff > 0 else ""
-        needs_update = (diff != 0) or (u["new_status"] != u["old_status"])
+        stock_changed = (diff != 0) or (u["new_status"] != u["old_status"])
+
+        # Check price change
+        price_changed = False
+        if update_prices and u["new_price"] is not None and u["old_price"] is not None:
+            try:
+                op = float(u["old_price"])
+                np = float(u["new_price"])
+                price_changed = abs(op - np) > 0.01
+            except:
+                pass
+
+        needs_update = stock_changed or price_changed
+
+        price_tag = ""
+        if price_changed:
+            price_tag = f" ${u['old_price']}->${u['new_price']}"
+            price_updates.append(u)
 
         print(f"  {u['tipo']:<9} ID:{u['id']:<6} SKU:{u['sku']:<15} "
               f"{u['old_stock']:>4}->{u['new_stock']:>4} ({signo}{diff}) "
-              f"{u['new_status']:<10}", end="")
+              f"{u['new_status']:<10}{price_tag}", end="")
 
         if not needs_update:
             print(" -> SIN CAMBIOS")
@@ -221,8 +281,16 @@ def main():
         if not u["manage"] or u["manage"] == "parent":
             needs_wp.append(f"post meta update {pid} _manage_stock yes")
 
+        if price_changed:
+            needs_wp.append(f"post meta update {pid} _regular_price {u['new_price']}")
+
         if dry_run:
-            print(f" -> {'outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock'} (dry)")
+            status_str = ""
+            if stock_changed:
+                status_str = 'outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock'
+            if price_changed:
+                status_str += f" +precio"
+            print(f" -> {status_str} (dry)")
         else:
             print(" -> pendiente")
 
@@ -235,6 +303,11 @@ def main():
         if not cambios_stock.empty:
             cambios_stock.to_csv(os.path.join(carpeta, "cambios_stock.csv"), index=False)
             print(f"  Cambios reales guardados: {len(cambios_df)} en cambios.csv ({len(cambios_stock)} con cambio de stock en cambios_stock.csv)")
+
+    if price_updates:
+        precios_df = pd.DataFrame(price_updates)
+        precios_df.to_csv(os.path.join(carpeta, "cambios_precios.csv"), index=False)
+        print(f"  Cambios de precio: {len(price_updates)} en cambios_precios.csv")
 
     if dry_run:
         cambios = sum(1 for u in updates if u["new_stock"] != u["old_stock"])
@@ -275,6 +348,7 @@ def main():
                 wc2_by_sku[sku] = p
 
         disc = 0
+        disc_precio = 0
         for u in updates:
             wc2_p = wc2_by_sku.get(u["sku"])
             if not wc2_p:
@@ -282,12 +356,25 @@ def main():
             actual = wc2_p["stock_qty"] if wc2_p["stock_qty"] is not None else 0
             if actual != u["new_stock"]:
                 disc += 1
-                print(f"  DISCREPANCIA: {u['sku']} esperado={u['new_stock']} actual={actual}")
+                print(f"  DISCREPANCIA stock: {u['sku']} esperado={u['new_stock']} actual={actual}")
+            # Verify price
+            if update_prices and u["new_price"] is not None:
+                actual_price = wc2_p.get("regular_price")
+                if actual_price is not None:
+                    try:
+                        if abs(float(actual_price) - float(u["new_price"])) > 0.01:
+                            disc_precio += 1
+                            print(f"  DISCREPANCIA precio: {u['sku']} esperado={u['new_price']} actual={actual_price}")
+                    except:
+                        pass
 
-        if disc == 0:
+        if disc == 0 and disc_precio == 0:
             print("  Todas las actualizaciones verificadas correctamente.")
         else:
-            print(f"  {disc} discrepancias encontradas.")
+            if disc > 0:
+                print(f"  {disc} discrepancias de stock encontradas.")
+            if disc_precio > 0:
+                print(f"  {disc_precio} discrepancias de precio encontradas.")
 
         df_result = pd.DataFrame(updates)
         if not df_result.empty:
