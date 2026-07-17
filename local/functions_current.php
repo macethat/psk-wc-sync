@@ -240,42 +240,6 @@ function sp_output_combo_structured_data() {
                 'availability' => $child->is_in_stock() 
                     ? 'https://schema.org/InStock' 
                     : 'https://schema.org/OutOfStock',
-                'hasMerchantReturnPolicy' => array(
-                    '@type' => 'MerchantReturnPolicy',
-                    'applicableCountry' => 'PA',
-                    'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
-                    'merchantReturnDays' => 30,
-                    'returnMethod' => 'https://schema.org/ReturnInStore',
-                    'returnFees' => 'https://schema.org/FreeReturn',
-                    'refundType' => 'https://schema.org/FullRefund',
-                ),
-                'shippingDetails' => array(
-                    '@type' => 'OfferShippingDetails',
-                    'shippingRate' => array(
-                        '@type' => 'MonetaryAmount',
-                        'value' => 0,
-                        'currency' => 'USD',
-                    ),
-                    'shippingDestination' => array(
-                        '@type' => 'DefinedRegion',
-                        'addressCountry' => 'PA',
-                    ),
-                    'deliveryTime' => array(
-                        '@type' => 'ShippingDeliveryTime',
-                        'handlingTime' => array(
-                            '@type' => 'QuantitativeValue',
-                            'minValue' => 0,
-                            'maxValue' => 1,
-                            'unitCode' => 'DAY',
-                        ),
-                        'transitTime' => array(
-                            '@type' => 'QuantitativeValue',
-                            'minValue' => 1,
-                            'maxValue' => 5,
-                            'unitCode' => 'DAY',
-                        ),
-                    ),
-                ),
                 'url' => get_permalink($child_id),
             ),
         );
