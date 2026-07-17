@@ -10,6 +10,17 @@ function combo_child_is_available($product) {
     return $product->is_in_stock();
 }
 
+function combo_get_variation_labels($variation) {
+    $labels = array();
+    $meta = get_post_meta($variation->get_id());
+    foreach ($meta as $key => $val) {
+        if (strpos($key, 'attribute_') === 0) {
+            $labels[] = is_array($val) ? $val[0] : $val;
+        }
+    }
+    return !empty($labels) ? implode(', ', $labels) : $variation->get_attribute_summary();
+}
+
 function combo_price_metabox() {
     add_meta_box('combo_price_box', 'Configuración del Combo', 'combo_price_metabox_cb', 'product', 'side', 'default');
 }
