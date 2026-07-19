@@ -166,8 +166,9 @@ Inicio de implementación de selección de sucursal para retiro en tienda (local
 | 2 | Líneas horizontales separadoras (`.sp-toc-hr`, `.sp-section-hr`) siempre grises, no se adaptaban al fondo | Agregado soporte para meta `highlight_hr_color` en functions.php — si se setea, cambia el color de borde de ambos `<hr>`. Si no, mantiene gris `#e0d6d0` por defecto |
 | 3 | No había registro de que los colores de highlights deben coincidir con los tonos de la cover image | Documentado en pseudo-template-blog-power-rack.md: el prompt de IA ahora incluye hex color exacto, y ese mismo hex debe usarse en `highlight_accent` |
 
-### Nuevo meta
+### Nuevos meta
 - `highlight_hr_color` — color de las líneas `<hr>` en ToC y entre secciones. Útil para fondos oscuros donde el gris no destaca.
+- `highlight_bullet_color` — color de la viñeta ● (más tenue/suave que `highlight_accent`). Si no se setea, usa el mismo `highlight_accent`.
 
 ### Archivos modificados
 - `local/functions_current.php:876-879` — lógica de colores extendida para incluir `highlight_hr_color`

@@ -51,13 +51,15 @@ Los colores de fondo, viñetas y líneas deben **corresponder con los tonos pred
 | Meta | Valor | Ejemplo |
 |------|-------|---------|
 | `highlight_bg` | Color fondo ToC | `#f0ebe6`, `#E8F5E9` |
-| `highlight_accent` | Color viñeta + flecha (extraer de cover image) | `#A078C8`, `#6a808d` |
+| `highlight_accent` | Color flecha ▸ (toggle) | `#A078C8`, `#6a808d` |
+| `highlight_bullet_color` | Color viñeta ● (más tenue que accent) | `#E0D0EC`, `#D4D4D4` |
 | `highlight_hr_color` | Color líneas horizontales separadoras en ToC y entre secciones | `#e0d6d0` (gris claro), `#ffffff` (blanco para fondos oscuros) |
 
 **Reglas:**
-- `highlight_accent`: debe ser el tono más predominante de la cover image (lila, azul, verde, etc.)
-- `highlight_hr_color`: si el fondo (`highlight_bg`) es oscuro, usar blanco `#ffffff` para que las líneas destaquen. Si el fondo es claro, mantener gris `#e0d6d0` por defecto.
-- Si no se especifica `highlight_accent`, usa los defaults lila (`#d8bfe8`).
+- `highlight_accent`: color de la flecha ▸, debe ser el tono más predominante de la cover image
+- `highlight_bullet_color`: **siempre más tenue/suave que `highlight_accent`** — la viñeta debe ser sutil, no competitiva
+- `highlight_hr_color`: si el fondo (`highlight_bg`) es oscuro, usar blanco `#ffffff`. Si es claro, mantener gris `#e0d6d0`
+- Si no se especifica `highlight_accent`, usa defaults lila (`accent: #d8bfe8`, `bullet: #E0D0EC`)
 
 ## Productos relacionados
 
