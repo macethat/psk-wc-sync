@@ -123,10 +123,37 @@ Inicio de implementación de selección de sucursal para retiro en tienda (local
 | 10 | SP METROMALL | SP Metromall |
 | 8 | POWER CLUB ALTOS DE PANAMA | SP Altos de Panamá |
 
-### Pendiente de implementación
-- [ ] Integrar stock por sucursal en `daily_stock_update.py` desde `/Api/Existencias`
-- [ ] Registrar sucursales como shipping locations en WooCommerce
-- [ ] Mostrar disponibilidad por sucursal en ficha de producto
-- [ ] Selector de sucursal en checkout al elegir retiro local
-- [ ] Guardar sucursal seleccionada en order meta
-- [ ] Notificación a sucursal al recibir orden
+### Implementado ✓
+
+| # | Funcionalidad | Estado |
+|---|---------------|--------|
+| 1 | Mostrar disponibilidad por sucursal en ficha de producto | ✓ |
+| 2 | Selector de sucursal en checkout al elegir retiro local | ✓ |
+| 3 | Guardar sucursal seleccionada en order meta | ✓ |
+
+## 2026-07-18 — Checkout: sucursal en resumen + layout fixes
+
+| # | Problema | Solución |
+|---|----------|----------|
+| 1 | El resumen del checkout aparecía muy abajo | Código duplicado creaba `<div>` extra rompiendo el layout. Eliminado el bloque duplicado de `sp-sucursal-selected-info` y `</div>` extra |
+| 2 | IDs duplicados en el DOM (`id="sp_sucursal_retiro_field"` en wrapper y en `woocommerce_form_field`) | Wrapper cambió a clase `sp-sucursal-wrap` en vez de ID |
+| 3 | Sucursal no aparecía en resumen del checkout (sección Envío) después de seleccionarla en el carrito | El AJAX de WooCommerce en el carrito solo envía el método de envío, no el campo sucursal. Agregado `spBindSucursalChange('sp_sucursal_retiro_cart')` que guarda en sesión via AJAX directo (`sp_save_sucursal_ajax`) |
+| 4 | Sucursal no aparecía en resumen del checkout (sección Envío) | Usado hook `woocommerce_review_order_after_shipping` + fragmento AJAX `woocommerce_update_order_review_fragments` + JS polling cada 800ms como fallback |
+| 5 | Palabras cortadas en dirección de sucursal (2 líneas) | Agregado `word-break:keep-all;overflow-wrap:break-word` al `<td>` y `<span>` contenedor |
+
+### Nuevos hooks y funciones agregados
+
+- `sp_save_sucursal_ajax()` — endpoint `wp_ajax_sp_save_sucursal` / `wp_ajax_nopriv_sp_save_sucursal`
+- `sp_review_order_sucursal()` — muestra fila en resumen checkout
+- `sp_sucursal_fragment()` — fragmento AJAX para actualizar la fila
+- `spBindSucursalChange(selId)` — listener genérico para selects de sucursal (carrito y checkout)
+
+### Archivos modificados
+
+- `local/functions_current.php` — ~1200 líneas, todas las funciones de sucursales
+
+### Flujo final
+
+1. Carrito: seleccionas "Recoger en local" → aparece selector de sucursal → seleccionas sucursal → se guarda en sesión via AJAX directo
+2. Checkout: al cargar, la sesión tiene la sucursal pre-seleccionada + aparece "Sucursal: nombre / dirección" debajo de "Envío" en el resumen
+3. Cambio de sucursal en checkout: actualiza inline + fila en resumen vía JS directo + AJAX + polling
