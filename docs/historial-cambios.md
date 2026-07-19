@@ -157,3 +157,26 @@ Inicio de implementación de selección de sucursal para retiro en tienda (local
 1. Carrito: seleccionas "Recoger en local" → aparece selector de sucursal → seleccionas sucursal → se guarda en sesión via AJAX directo
 2. Checkout: al cargar, la sesión tiene la sucursal pre-seleccionada + aparece "Sucursal: nombre / dirección" debajo de "Envío" en el resumen
 3. Cambio de sucursal en checkout: actualiza inline + fila en resumen vía JS directo + AJAX + polling
+
+## 2026-07-19 — Magnesio: highlights color + registro de workflow colores consistentes
+
+| # | Problema | Solución |
+|---|----------|----------|
+| 1 | Viñetas highlights en artículo Magnesio (post 21716) usaban lila default `#d8bfe8` en vez del tono lila de la cover image | Seteado `highlight_accent = #A078C8` vía WP-CLI |
+| 2 | Líneas horizontales separadoras (`.sp-toc-hr`, `.sp-section-hr`) siempre grises, no se adaptaban al fondo | Agregado soporte para meta `highlight_hr_color` en functions.php — si se setea, cambia el color de borde de ambos `<hr>`. Si no, mantiene gris `#e0d6d0` por defecto |
+| 3 | No había registro de que los colores de highlights deben coincidir con los tonos de la cover image | Documentado en pseudo-template-blog-power-rack.md: el prompt de IA ahora incluye hex color exacto, y ese mismo hex debe usarse en `highlight_accent` |
+
+### Nuevo meta
+- `highlight_hr_color` — color de las líneas `<hr>` en ToC y entre secciones. Útil para fondos oscuros donde el gris no destaca.
+
+### Archivos modificados
+- `local/functions_current.php:876-879` — lógica de colores extendida para incluir `highlight_hr_color`
+- `local/functions_current.php` — subido a servidor (funciona en functions.php del child theme)
+- `docs/pseudo-template-blog-power-rack.md` — sección de prompts actualizada con ejemplo real + workflow de colores
+- `docs/historial-cambios.md` — este registro
+
+### Workflow documentado para artículos futuros
+1. Al generar la cover image, especificar en el prompt los hex colors exactos (ej: `#A078C8 lilac purple`)
+2. Asignar `highlight_accent` con el mismo hex del prompt
+3. Si el fondo (`highlight_bg`) es oscuro, asignar `highlight_hr_color = #ffffff`
+4. Si el fondo es claro, no asignar `highlight_hr_color` (usa gris default)

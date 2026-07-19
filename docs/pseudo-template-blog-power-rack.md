@@ -1,5 +1,7 @@
 # Pseudo-Template para Artículos de Power Rack
 
+⚠️ **IMPORTANTE**: Cada artículo nuevo debe crearse en estado **`draft`** (borrador). El usuario lo revisa antes de publicar.
+
 ## Estructura de cada artículo
 
 ```
@@ -44,12 +46,18 @@ Se genera automáticamente al inicio del artículo via `functions.php`:
 
 ### Configuración de color por artículo
 
+Los colores de fondo, viñetas y líneas deben **corresponder con los tonos predominantes de la cover image** de cada artículo.
+
 | Meta | Valor | Ejemplo |
 |------|-------|---------|
 | `highlight_bg` | Color fondo ToC | `#f0ebe6`, `#E8F5E9` |
-| `highlight_accent` | Color viñeta + flecha | `#d8bfe8`, `#6a808d` |
+| `highlight_accent` | Color viñeta + flecha (extraer de cover image) | `#A078C8`, `#6a808d` |
+| `highlight_hr_color` | Color líneas horizontales separadoras en ToC y entre secciones | `#e0d6d0` (gris claro), `#ffffff` (blanco para fondos oscuros) |
 
-Si no se especifica `highlight_accent`, usa los defaults lila.
+**Reglas:**
+- `highlight_accent`: debe ser el tono más predominante de la cover image (lila, azul, verde, etc.)
+- `highlight_hr_color`: si el fondo (`highlight_bg`) es oscuro, usar blanco `#ffffff` para que las líneas destaquen. Si el fondo es claro, mantener gris `#e0d6d0` por defecto.
+- Si no se especifica `highlight_accent`, usa los defaults lila (`#d8bfe8`).
 
 ## Productos relacionados
 
@@ -88,10 +96,41 @@ Si se necesita un texto personalizado (ej: plural "creatinas" en lugar de "creat
 
 ## Imágenes
 
-| Tipo | Tamaño | Alt text |
-|------|--------|----------|
-| Portada (Featured) | 1200×630 px | Keyword focus descriptivo |
-| Interna | 600×900 px vertical | "Infografia [tema] dosis beneficios" |
+| Tipo | Tamaño (reales) | Ratio | Alt text |
+|------|----------------|-------|----------|
+| Portada (Featured) | **1424×751 px** (ideal ≥1200px ancho) | ~16:9 | Keyword focus descriptivo |
+| Interna (vertical, en contenido) | **848×1264 px** | ~2:3 | "Infografia [tema] dosis beneficios" |
+
+### Nomenclatura de archivos
+- Cover: `[tema]-cover-sp.jpg` (ej: `magnesio-sueno-recuperacion-cover-sp.jpg`)
+- Interna: `[tema]-sp-02.jpg` (ej: `proteina-wey-vs-vegetal-sp-02.jpg`)
+
+### Prompt para generar imágenes (IA)
+
+El prompt debe especificar los **tonos de color exactos** que se usarán en el artículo. Esos mismos colores se aplican después a los highlights del artículo.
+
+```
+Prompt cubierta horizontal — dimensiones 1424×751 px:
+"Illustration of [tema], clean minimal style, soft pastel tones, 
+[#HEX] [color-name] and [#HEX] [secondary-color] color palette,
+suplementos deportivos aesthetic, no text overlay, 16:9 ratio, 
+high quality product photography style"
+
+Prompt imagen vertical interna — dimensiones 848×1264 px:
+"Vertical infographic style illustration about [tema], 
+clean white background, [#HEX] [color-name] accent palette, 2:3 ratio, 
+educational supplement content aesthetic"
+```
+
+**Ejemplo real (artículo Magnesio, post 21716):**
+```
+"Illustration of magnesium for sleep and muscle recovery, clean minimal style, 
+soft pastel tones, #A078C8 lilac purple and #D8BFE8 light lavender palette,
+suplementos deportivos aesthetic, no text overlay, 16:9 ratio, 
+high quality product photography style"
+```
+
+**Regla:** el color `#HEX` principal del prompt debe coincidir con el meta `highlight_accent` del artículo.
 
 ## Schema Article (JSON-LD)
 
@@ -121,8 +160,8 @@ Guardar en post meta `power_rack_schema`. Campos obligatorios:
 ### Blog listing (categorías) en mobile
 
 - Orden de cada entrada: Título → Meta → Imagen (reordenado con Flexbox `order`)
-- Título: `font-size: 22px`, `margin-bottom: 24px`
-- Separación entre posts: `row-gap: 25px` en `.blog-style-grid`
+- Título: `font-size: 22px`, `margin-bottom: 4px`
+- Separación entre posts: `row-gap: 0px` mobile, `35px` desktop en `.blog-style-grid`
 - CSS aplica en `@media (max-width: 767px)`
 
 ## Cover image
