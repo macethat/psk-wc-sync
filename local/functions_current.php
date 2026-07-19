@@ -180,6 +180,434 @@ add_action('wp_head', function() {
     <?php
 });
 
+// === SUCURSALES / LOCAL PICKUP ===
+define('SP_SUCURSALES', serialize(array(
+    '1'  => array('name' => 'SP El Cangrejo',     'address' => 'Plaza El Cangrejo, Av. Manuel Espinosa Batista, Panamá'),
+    '5'  => array('name' => 'SP Megapolis',       'address' => 'Megapolis, Piso 3 frente al Smartfit, Av. Vasco Nuñez de Balboa, Panamá'),
+    '6'  => array('name' => 'SP Atrio Mall',      'address' => 'Av Marina del Norte, Costa del Este, Panamá'),
+    '7'  => array('name' => 'SP San Francisco',   'address' => 'Plaza Arval, C. 72 Este, dentro de PowerCLUB San Francisco, Panamá'),
+    '8'  => array('name' => 'SP Altos de Panamá', 'address' => 'Plaza Caminos del Centennial piso 1, dentro de PowerCLUB, Panamá'),
+    '10' => array('name' => 'SP Metromall',       'address' => 'Av. Domingo Díaz, Estación Metro Cerro Viento, Panamá'),
+)));
+
+function sp_get_sucursales() {
+    return unserialize(SP_SUCURSALES);
+}
+
+function sp_get_meta_id($item) {
+    return !empty($item['variation_id']) ? $item['variation_id'] : $item['product_id'];
+}
+
+function sp_get_valid_sucursales_for_cart() {
+    $sucursales = sp_get_sucursales();
+    $cart_items = WC()->cart->get_cart();
+    if (empty($cart_items)) return array();
+    $valid = array();
+    foreach ($sucursales as $aid => $s) {
+        $all_available = true;
+        foreach ($cart_items as $item) {
+            $meta_id = sp_get_meta_id($item);
+            $prod_sucs = get_post_meta($meta_id, '_sucursales_disponibles', true);
+            if (empty($prod_sucs) || !in_array((string)$aid, explode(',', $prod_sucs))) {
+                $all_available = false;
+                break;
+            }
+        }
+        if ($all_available) $valid[$aid] = $s;
+    }
+    return $valid;
+}
+
+// Hide local_pickup when no cart item has sucursal stock
+add_filter('woocommerce_package_rates', 'sp_filter_shipping_methods', 10, 2);
+function sp_filter_shipping_methods($rates, $package) {
+    if (!function_exists('WC') || !WC()->cart) return $rates;
+    $any_sucursal = false;
+    foreach (WC()->cart->get_cart() as $item) {
+        $meta_id = sp_get_meta_id($item);
+        $prod_sucs = get_post_meta($meta_id, '_sucursales_disponibles', true);
+        if (!empty($prod_sucs)) { $any_sucursal = true; break; }
+    }
+    if (!$any_sucursal) {
+        foreach ($rates as $rate_id => $rate) {
+            if (strpos($rate_id, 'local_pickup') !== false) {
+                unset($rates[$rate_id]);
+            }
+        }
+    }
+    return $rates;
+}
+
+function sp_save_sucursal_session() {
+    if (!empty($_POST['sp_sucursal_retiro']) && function_exists('WC') && WC()->session) {
+        WC()->session->set('sp_sucursal_retiro', sanitize_text_field($_POST['sp_sucursal_retiro']));
+    }
+}
+add_action('template_redirect', 'sp_save_sucursal_session', 10);
+add_action('woocommerce_cart_updated', 'sp_save_sucursal_session');
+add_action('woocommerce_checkout_update_order_review', 'sp_save_sucursal_session');
+add_action('wp_ajax_sp_save_sucursal', 'sp_save_sucursal_ajax');
+add_action('wp_ajax_nopriv_sp_save_sucursal', 'sp_save_sucursal_ajax');
+function sp_save_sucursal_ajax() {
+    if (!empty($_POST['sucursal']) && function_exists('WC') && WC()->session) {
+        WC()->session->set('sp_sucursal_retiro', sanitize_text_field($_POST['sucursal']));
+        wp_send_json_success();
+    }
+    wp_send_json_error();
+}
+
+// Ensure local pickup is available (creates default zone if none exists)
+add_action('init', function () {
+    $zones = WC_Shipping_Zones::get_zones();
+    if (!empty($zones)) return;
+    $zone = new WC_Shipping_Zone(0);
+    $zone->add_shipping_method('local_pickup');
+});
+
+// Cart page: show sucursal selection after shipping totals
+add_action('woocommerce_cart_totals_after_shipping', 'sp_cart_sucursal_field');
+function sp_cart_sucursal_field() {
+    $valid = sp_get_valid_sucursales_for_cart();
+    if (empty($valid)) return;
+    $current = WC()->session->get('sp_sucursal_retiro', '');
+    echo '<tr class="sp-sucursal-row" style="display:none">';
+    echo '<td colspan="2"><label for="sp_sucursal_retiro_cart">Sucursal para retiro <abbr class="required" title="obligatorio">*</abbr></label>';
+    echo '<select name="sp_sucursal_retiro" id="sp_sucursal_retiro_cart" style="width:100%">';
+    echo '<option value="">Selecciona una sucursal</option>';
+    foreach ($valid as $aid => $s) {
+        echo '<option value="' . esc_attr($aid) . '" ' . selected($aid, $current, false) . '>' . esc_html($s['name']) . '</option>';
+    }
+    echo '</select></td></tr>';
+}
+
+// Product page: show availability per sucursal
+add_action('woocommerce_single_product_summary', 'sp_show_sucursal_stock', 31);
+function sp_show_sucursal_stock() {
+    global $product;
+    if (!$product) return;
+    $sucursales = sp_get_sucursales();
+    $is_variable = $product->is_type('variable');
+    $product_ids = $is_variable ? $product->get_visible_children() : array($product->get_id());
+    $sucursal_stock = array();
+    $variation_data = array();
+    foreach ($product_ids as $pid) {
+        $disponibles = get_post_meta($pid, '_sucursales_disponibles', true);
+        $var_sucs = array();
+        if (!empty($disponibles)) {
+            foreach (explode(',', $disponibles) as $aid) {
+                $aid = trim($aid);
+                if (!isset($sucursales[$aid])) continue;
+                $stock = (int) get_post_meta($pid, '_sucursal_' . $aid . '_stock', true);
+                $var_sucs[$aid] = $stock;
+                $sucursal_stock[$aid] = ($sucursal_stock[$aid] ?? 0) + $stock;
+            }
+        } else {
+            foreach ($sucursales as $aid => $s) {
+                $var_sucs[$aid] = 0;
+            }
+        }
+        if ($is_variable) $variation_data[$pid] = $var_sucs;
+    }
+    if (empty($sucursal_stock)) {
+        echo '<div class="sp-sucursal-stock" style="margin-top:15px;padding:12px;background:#f8f8f8;border-radius:6px;color:#999;font-size:13px">Solo disponible para <strong>Delivery</strong> (no hay stock en sucursales)</div>';
+        return;
+    }
+    $uid = 'sp-suc-' . $product->get_id();
+    $container_extra = '';
+    if ($is_variable && !empty($variation_data)) {
+        $container_extra = ' data-sp-agg="' . esc_attr(json_encode($sucursal_stock)) . '" data-sp-var="' . esc_attr(json_encode($variation_data)) . '"';
+    }
+    echo '<div class="sp-sucursal-stock" style="margin-top:15px;padding:12px;background:#f8f8f8;border-radius:6px"' . $container_extra . '>';
+    echo '<h4 style="margin:0 0 8px;font-size:14px">Disponible para retiro en:</h4>';
+    echo '<ul id="' . $uid . '" style="margin:0;padding:0;list-style:none">';
+    foreach ($sucursal_stock as $aid => $stock) {
+        $color = $stock > 0 ? '#2e7d32' : '#999';
+        echo '<li data-sucursal="' . $aid . '" style="padding:3px 0;font-size:13px;color:' . $color . '">';
+        echo '✓ ' . esc_html($sucursales[$aid]['name']);
+        echo ' <span class="sp-stock-qty" style="color:#666;font-size:12px">(' . $stock . ' unid.)</span>';
+        echo '</li>';
+    }
+    echo '</ul></div>';
+}
+
+// Footer JS for sucursal UI (cart/checkout toggle + variable product variation switching)
+add_action('wp_footer', 'sp_sucursal_js');
+function sp_sucursal_js() {
+    if (!is_cart() && !is_checkout() && !is_product()) return;
+    ?>
+<script>
+var sp_ajax = {ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>'};
+document.addEventListener('DOMContentLoaded', function() {
+    // Variation switching for variable products
+    var spContainer = document.querySelector('.sp-sucursal-stock[data-sp-var]');
+    if (spContainer) {
+        var spAgg = JSON.parse(spContainer.getAttribute('data-sp-agg'));
+        var spVar = JSON.parse(spContainer.getAttribute('data-sp-var'));
+        function spUpdateStock(variationId) {
+            var data = spVar[variationId] || {};
+            var allZero = true;
+            spContainer.querySelectorAll('li').forEach(function(li) {
+                var a = li.getAttribute('data-sucursal');
+                var q = data[a] !== void 0 ? data[a] : (spAgg[a] || 0);
+                li.style.color = q > 0 ? '#2e7d32' : '#999';
+                li.querySelector('.sp-stock-qty').textContent = '(' + q + ' unid.)';
+                if (q > 0) allZero = false;
+            });
+            var spMsg = spContainer.querySelector('.sp-delivery-msg');
+            if (allZero) {
+                if (!spMsg) {
+                    spMsg = document.createElement('div');
+                    spMsg.className = 'sp-delivery-msg';
+                    spMsg.style.cssText = 'margin-top:8px;padding:8px;background:#fff3e0;border-radius:4px;color:#e65100;font-size:12px';
+                    spMsg.textContent = 'Solo disponible para Delivery (sin stock en sucursales)';
+                    spContainer.querySelector('h4').after(spMsg);
+                }
+                spContainer.querySelector('h4').style.display = 'none';
+                spContainer.querySelector('ul').style.display = 'none';
+                spMsg.style.display = '';
+            } else {
+                if (spMsg) spMsg.style.display = 'none';
+                spContainer.querySelector('h4').style.display = '';
+                spContainer.querySelector('ul').style.display = '';
+            }
+        }
+        var spLastVarId = '';
+        (function spPollVar() {
+            var spVarInput = document.querySelector('input.variation_id');
+            if (spVarInput && spVarInput.value !== spLastVarId) {
+                spLastVarId = spVarInput.value;
+                var vid = parseInt(spVarInput.value);
+                spUpdateStock(vid > 0 ? vid : null);
+            }
+            setTimeout(spPollVar, 400);
+        })();
+    }
+
+    // Cart / Checkout: show/hide sucursal field based on shipping method
+    var spFields = [];
+
+    function spBindSucursalToggle() {
+        spFields = document.querySelectorAll('.sp-sucursal-wrap, .sp-sucursal-row');
+        if (!spFields.length) return;
+        var methods = document.querySelectorAll('input[name^="shipping_method"]');
+        var isPickup = false;
+        methods.forEach(function(m) {
+            if (m.checked && m.value.indexOf('local_pickup') !== -1) isPickup = true;
+        });
+        spFields.forEach(function(f) { f.style.display = isPickup ? '' : 'none'; });
+        if (!isPickup) {
+            spFields.forEach(function(f) {
+                var sel = f.querySelector('select');
+                if (sel) sel.value = '';
+            });
+        }
+    }
+
+    spBindSucursalToggle();
+    document.addEventListener('change', function(e) {
+        if (e.target.name && e.target.name.indexOf('shipping_method') !== -1) {
+            spBindSucursalToggle();
+        }
+    });
+    // Direct change listener on the sucursal select (checkout + cart) + save + trigger WooCommerce refresh
+    function spBindSucursalChange(selId) {
+        var spSel = document.getElementById(selId);
+        if (!spSel) return;
+        spSel.addEventListener('change', function() {
+            spUpdateSucursalInfo();
+            var val = this.value;
+            if (!val) return;
+            // Save to session via AJAX (independent of WooCommerce)
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', sp_ajax.ajax_url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('action=sp_save_sucursal&sucursal=' + encodeURIComponent(val));
+            // Then trigger WooCommerce refresh
+            if (typeof jQuery !== 'undefined') {
+                jQuery(document.body).trigger('update_checkout');
+            }
+        });
+    }
+    spBindSucursalChange('sp_sucursal_retiro');
+    spBindSucursalChange('sp_sucursal_retiro_cart');
+    function spUpdateSucursalInfo() {
+        var sel = document.getElementById('sp_sucursal_retiro');
+        var field = document.querySelector('.sp-sucursal-wrap');
+        if (!sel || !sel.value || !field) {
+            var stale = document.querySelector('tr.sp-sucursal-review');
+            if (stale) stale.remove();
+            var info = document.querySelector('.sp-sucursal-wrap .sp-sucursal-selected-info');
+            if (info) info.remove();
+            return;
+        }
+        var selOpt = sel.options[sel.selectedIndex];
+        if (!selOpt || !selOpt.text || selOpt.text === 'Selecciona una sucursal') {
+            var stale = document.querySelector('tr.sp-sucursal-review');
+            if (stale) stale.remove();
+            var info = document.querySelector('.sp-sucursal-wrap .sp-sucursal-selected-info');
+            if (info) info.remove();
+            return;
+        }
+        // Look up address from data-sp-valid
+        var valid = {};
+        try { valid = JSON.parse(field.getAttribute('data-sp-valid')); } catch(e) {}
+        var addr = (valid[sel.value] && valid[sel.value].address) || '';
+
+        // Update inline info
+        var info = document.querySelector('.sp-sucursal-wrap .sp-sucursal-selected-info');
+        if (!info) {
+            info = document.createElement('div');
+            info.className = 'sp-sucursal-selected-info';
+            info.style.cssText = 'margin-top:4px;padding:8px;background:#e8f5e9;border-radius:4px;font-size:13px';
+            if (field) field.appendChild(info);
+        }
+        info.innerHTML = '<strong>' + selOpt.text + '</strong><br>' + addr;
+
+        // Update order review row
+        var shipRow = document.querySelector('tr.woocommerce-shipping-totals');
+        if (shipRow) {
+            var existing = document.querySelector('tr.sp-sucursal-review');
+            if (existing) {
+                existing.querySelector('td').innerHTML = '<span style="word-break:keep-all;overflow-wrap:break-word">' + selOpt.text + (addr ? '<br><small>' + addr + '</small>' : '') + '</span>';
+            } else {
+                var tr = document.createElement('tr');
+                tr.className = 'sp-sucursal-review';
+                tr.innerHTML = '<th>Sucursal</th><td style="word-break:keep-all;overflow-wrap:break-word">' + selOpt.text + (addr ? '<br><small>' + addr + '</small>' : '') + '</td>';
+                shipRow.parentNode.insertBefore(tr, shipRow.nextSibling);
+            }
+        }
+    }
+    // Poll for AJAX cart/checkout refreshes that replace the DOM
+    setInterval(spBindSucursalToggle, 800);
+    setInterval(spUpdateSucursalInfo, 800);
+});
+</script>
+    <?php
+}
+
+// Checkout: add sucursal selection field
+add_action('woocommerce_after_checkout_shipping_form', 'sp_checkout_sucursal_field');
+function sp_checkout_sucursal_field($checkout) {
+    $valid = sp_get_valid_sucursales_for_cart();
+    if (empty($valid)) return;
+    $options = array('' => 'Selecciona una sucursal');
+    foreach ($valid as $aid => $s) {
+        $options[$aid] = $s['name'];
+    }
+    $default = $checkout->get_value('sp_sucursal_retiro');
+    if (empty($default)) {
+        $default = WC()->session->get('sp_sucursal_retiro', '');
+    }
+    $chosen = WC()->session->get('chosen_shipping_methods')[0] ?? '';
+    $is_pickup = strpos($chosen, 'local_pickup') !== false;
+    $field_style = $is_pickup ? '' : 'display:none';
+    $debug_sel = !empty($_POST['sp_sucursal_retiro']) ? $_POST['sp_sucursal_retiro'] : (WC()->session->get('sp_sucursal_retiro', ''));
+    echo '<!-- SP_DEBUG selected=' . esc_attr($debug_sel) . ' method=' . esc_attr($chosen) . ' -->';
+    echo '<div class="sp-sucursal-wrap" style="' . $field_style . '" data-sp-valid=\'' . wp_json_encode($valid, JSON_HEX_APOS) . '\'>';
+    woocommerce_form_field('sp_sucursal_retiro', array(
+        'type'     => 'select',
+        'class'    => array('form-row-wide', 'sp-sucursal-field'),
+        'label'    => 'Sucursal para retiro',
+        'required' => true,
+        'options'  => $options,
+    ), $default);
+    $display_name = '';
+    $display_addr = '';
+    if (!empty($default) && isset($valid[$default])) {
+        $display_name = $valid[$default]['name'];
+        $display_addr = $valid[$default]['address'];
+    }
+    echo '<div class="sp-sucursal-selected-info" style="' . ($display_name ? 'margin-top:4px;padding:8px;background:#e8f5e9;border-radius:4px;font-size:13px' : 'display:none') . '">';
+    if ($display_name) {
+        echo '<strong>' . esc_html($display_name) . '</strong><br>' . esc_html($display_addr);
+    }
+    echo '</div>';
+    echo '</div>';
+}
+
+// Order review: show selected sucursal after shipping row
+// Show selected sucursal in order review + AJAX fragment
+add_action('woocommerce_review_order_after_shipping', 'sp_review_order_sucursal');
+add_filter('woocommerce_update_order_review_fragments', 'sp_sucursal_fragment');
+function sp_review_order_sucursal() {
+    echo sp_get_sucursal_review_html();
+}
+function sp_get_sucursal_review_html() {
+    $selected = '';
+    if (!empty($_POST['sp_sucursal_retiro'])) {
+        $selected = sanitize_text_field($_POST['sp_sucursal_retiro']);
+    } elseif (function_exists('WC') && WC()->session) {
+        $selected = WC()->session->get('sp_sucursal_retiro', '');
+    }
+    if (empty($selected)) return '';
+    $sucursales = sp_get_sucursales();
+    $chosen_method = '';
+    if (!empty($_POST['shipping_method'])) {
+        $chosen_method = is_array($_POST['shipping_method']) ? $_POST['shipping_method'][0] : $_POST['shipping_method'];
+    } elseif (function_exists('WC') && WC()->session) {
+        $chosen_method = WC()->session->get('chosen_shipping_methods')[0] ?? '';
+    }
+    if (strpos($chosen_method, 'local_pickup') === false) return '';
+    if (!isset($sucursales[$selected])) return '';
+    return '<tr class="sp-sucursal-review"><th>Sucursal</th><td style="word-break:keep-all;overflow-wrap:break-word">' . esc_html($sucursales[$selected]['name']) . '<br><small>' . esc_html($sucursales[$selected]['address']) . '</small></td></tr>';
+}
+function sp_sucursal_fragment($fragments) {
+    $html = sp_get_sucursal_review_html();
+    if ($html) {
+        $fragments['tr.sp-sucursal-review'] = $html;
+    }
+    return $fragments;
+}
+
+// Validate
+add_action('woocommerce_checkout_process', 'sp_validate_sucursal_field');
+function sp_validate_sucursal_field() {
+    $chosen = WC()->session->get('chosen_shipping_methods')[0] ?? '';
+    if (strpos($chosen, 'local_pickup') === false) return;
+    if (empty($_POST['sp_sucursal_retiro'])) {
+        wc_add_notice('Por favor selecciona la sucursal donde retirarás tu pedido.', 'error');
+    }
+}
+
+// Save order meta
+add_action('woocommerce_checkout_update_order_meta', 'sp_save_sucursal_order_meta');
+function sp_save_sucursal_order_meta($order_id) {
+    if (!empty($_POST['sp_sucursal_retiro'])) {
+        $sucursales = sp_get_sucursales();
+        $aid = sanitize_text_field($_POST['sp_sucursal_retiro']);
+        if (isset($sucursales[$aid])) {
+            update_post_meta($order_id, '_sp_sucursal_retiro_id', $aid);
+            update_post_meta($order_id, '_sp_sucursal_retiro_name', $sucursales[$aid]['name']);
+            update_post_meta($order_id, '_sp_sucursal_retiro_address', $sucursales[$aid]['address']);
+        }
+    }
+}
+
+// Show in admin order details
+add_action('woocommerce_admin_order_data_after_shipping_address', 'sp_admin_order_sucursal');
+function sp_admin_order_sucursal($order) {
+    $sucursal_name = $order->get_meta('_sp_sucursal_retiro_name');
+    $sucursal_address = $order->get_meta('_sp_sucursal_retiro_address');
+    if ($sucursal_name) {
+        echo '<p><strong>Sucursal de retiro:</strong><br>' . esc_html($sucursal_name) . '<br>' . esc_html($sucursal_address) . '</p>';
+    }
+}
+
+// Show in email
+add_action('woocommerce_email_customer_details', 'sp_email_sucursal', 25, 4);
+function sp_email_sucursal($order, $sent_to_admin, $plain_text, $email) {
+    $sucursal_name = $order->get_meta('_sp_sucursal_retiro_name');
+    $sucursal_address = $order->get_meta('_sp_sucursal_retiro_address');
+    if ($sucursal_name) {
+        if ($plain_text) {
+            echo "Sucursal de retiro: $sucursal_name ($sucursal_address)\n";
+        } else {
+            echo '<p><strong>Sucursal de retiro:</strong><br>' . esc_html($sucursal_name) . '<br>' . esc_html($sucursal_address) . '</p>';
+        }
+    }
+}
+
+
 /**
  * Enhanced Structured Data for Grouped Products (Combos)
  * Adds hasVariant data linking child products to the combo
@@ -412,6 +840,23 @@ add_filter('rank_math/json_ld', function($data, $jsonld) {
             $data[$key]['address']['addressCountry'] = 'PA';
         }
     }
+    if (is_product_category() || is_shop() || is_product_tag()) {
+        $walk = function(&$item) use (&$walk) {
+            if (is_array($item)) {
+                if (isset($item['itemListElement']) && is_array($item['itemListElement'])) {
+                    foreach ($item['itemListElement'] as &$li) {
+                        if (isset($li['item']['@type']) && $li['item']['@type'] === 'Product') {
+                            unset($li['item']['@type']);
+                        }
+                    }
+                }
+                foreach ($item as &$v) {
+                    $walk($v);
+                }
+            }
+        };
+        $walk($data);
+    }
     return $data;
 }, 98, 2);
 
@@ -425,8 +870,8 @@ add_action('template_redirect', function () {
 
 // === CSS para Power Rack posts ===
 add_action('wp_head', function () {
-    if (!is_single() && !is_home()) return;
-    echo '<style>.content-area h2, .content-area h3, .content-area h4, #primary h2, #primary h3, #primary h4 { color: #000000 !important; } .single-post .entry-title { font-size: 48px !important; } .content-area p, #primary p { font-size: 17px !important; line-height: 1.8 !important; } .content-area li, #primary li { font-size: 17px !important; line-height: 1.8 !important; } .sp-toc-wrap { text-align: left; } .sp-toc { display: inline-block; padding: 20px 25px; border-radius: 8px; margin-bottom: 30px; text-align: left; } .sp-toc-title { font-size: 18px; display: block; margin-bottom: 10px; color: #333; } .sp-toc > ul { list-style: none; margin: 0; padding: 0; } .sp-toc li { list-style: none; margin-bottom: 6px; } .sp-toc li:last-child { margin-bottom: 0; } .sp-toc-hr { border: none; border-top: 1px solid #e0d6d0; margin: 6px 0; } .sp-section-hr { border: none; border-top: 1px solid #e0d6d0; margin: 30px 0; } .sp-toc-h2-line { display: flex; align-items: flex-start; gap: 8px; position: relative; padding-right: 35px; } .sp-toc-h2-line a { color: #333; text-decoration: none; font-size: 15px; line-height: 1.4; } .sp-toc-h2-line a:hover { text-decoration: underline; } .sp-toc-bullet { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #d8bfe8; flex-shrink: 0; margin-top: 6px; } .sp-toc-toggle { cursor: pointer; font-size: 40px; line-height: 1; position: absolute; right: 0; top: -8px; user-select: none; color: #9b59b6; transition: transform .2s; } .sp-toc-toggle.open { transform: rotate(90deg); } .sp-toc-sub { display: none; margin: 4px 0 0 16px !important; padding: 0; } .sp-toc-sub.open { display: block; } .sp-toc-sub li { margin: 4px 0; font-size: inherit !important; } .sp-toc-sub li a { color: #555; text-decoration: none; font-size: 14px; line-height: 1.4; } .sp-toc-sub li a:hover { text-decoration: underline; } @media (max-width: 767px) { .single-post .entry-title { font-size: 27px !important; } .content-area h2, #primary h2 { font-size: 22px !important; } .content-area h3, #primary h3 { font-size: 19px !important; } }</style>' . "\n";
+    if (!is_single() && !is_home() && !is_category()) return;
+    echo '<style>.content-area h2, .content-area h3, .content-area h4, #primary h2, #primary h3, #primary h4 { color: #000000 !important; } .single-post .entry-title { font-size: 48px !important; } .content-area p, #primary p { font-size: 17px !important; line-height: 1.8 !important; } .content-area li, #primary li { font-size: 17px !important; line-height: 1.8 !important; } @media (max-width: 767px) { .blog-style-grid .entry-title { font-size: 22px !important; margin-bottom: 4px !important; } .blog-style-grid .entry-title a { font-size: 22px !important; } .blog-style-grid .elementor-grid-item { display: flex; flex-direction: column; } .blog-style-grid .entry-header { order: 1; } .blog-style-grid .entry-meta { order: 2; } .blog-style-grid .post-thumbnail { order: 3; } .blog-style-grid { row-gap: 0px !important; } } .blog-style-grid .entry-title { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; display: block !important; -webkit-line-clamp: unset !important; -webkit-box-orient: unset !important; } .blog-style-grid { row-gap: 35px !important; } .sp-toc-wrap { text-align: left; } .sp-toc { display: inline-block; padding: 20px 25px; border-radius: 8px; margin-bottom: 30px; text-align: left; } .sp-toc-title { font-size: 18px; display: block; margin-bottom: 10px; color: #333; } .sp-toc > ul { list-style: none; margin: 0; padding: 0; } .sp-toc li { list-style: none; margin-bottom: 6px; } .sp-toc li:last-child { margin-bottom: 0; } .sp-toc-hr { border: none; border-top: 1px solid #e0d6d0; margin: 6px 0; } .sp-section-hr { border: none; border-top: 1px solid #e0d6d0; margin: 30px 0; } .sp-toc-h2-line { display: flex; align-items: flex-start; gap: 8px; position: relative; padding-right: 35px; } .sp-toc-h2-line a { color: #333; text-decoration: none; font-size: 15px; line-height: 1.4; } .sp-toc-h2-line a:hover { text-decoration: underline; } .sp-toc-bullet { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #d8bfe8; flex-shrink: 0; margin-top: 6px; } .sp-toc-toggle { cursor: pointer; font-size: 40px; line-height: 1; position: absolute; right: 0; top: -8px; user-select: none; color: #9b59b6; transition: transform .2s; } .sp-toc-toggle.open { transform: rotate(90deg); } .sp-toc-sub { display: none; margin: 4px 0 0 16px !important; padding: 0; } .sp-toc-sub.open { display: block; } .sp-toc-sub li { margin: 4px 0; font-size: inherit !important; } .sp-toc-sub li a { color: #555; text-decoration: none; font-size: 14px; line-height: 1.4; } .sp-toc-sub li a:hover { text-decoration: underline; } @media (max-width: 767px) { .single-post .entry-title { font-size: 27px !important; } .content-area h2, #primary h2 { font-size: 22px !important; } .content-area h3, #primary h3 { font-size: 19px !important; } }</style>' . "\n";
     echo '<script>document.addEventListener("click",function(e){var t=e.target.closest(".sp-toc-toggle");if(t){t.classList.toggle("open");var s=t.parentElement.nextElementSibling;if(s&&s.classList.contains("sp-toc-sub"))s.classList.toggle("open")}});</script>' . "\n";
     $accent = get_post_meta(get_the_ID(), 'highlight_accent', true);
     if ($accent) {
@@ -518,6 +963,228 @@ add_action('wp_head', function () {
 add_action('wp_head', function () {
     if (!is_front_page()) return;
     echo '<meta name="keywords" content="suplementos panamá, creatina panamá, proteína panamá, aminoácidos panamá, pre-entreno panamá, whey protein panamá, tienda de suplementos panamá, suplementos deportivos panamá, donde comprar creatina en panamá, quemadores de grasa panamá, vitaminas panamá, nutrición deportiva panamá" />' . "\n";
+});
+
+// === META PIXEL + CAPI para Combos (campaña Meta Ads) ===
+define('SP_META_PIXEL_ID', '1366708898928630');
+define('SP_META_CAPI_TOKEN', 'EAAbqUui0F1YBR9R51WQFmLYFXozFUDWjoUcOVrX4IgXBuZCAQnaj98VDUqXfZAcSi5os7vDZBAkiUhZBbF0xfs3rqzeV3dK7DRXO2eKg83M3xtxElDS87NqZAXfohHM7JlDUHwnuyRRP7sUCmmpsLYKra6cJhaZBdMZAUMlAmEhRKzNPT9qEbZBy3h2PD4HYKwZDZD');
+
+// Base pixel code on all pages
+add_action('wp_head', function () {
+    $pid = SP_META_PIXEL_ID;
+    ?>
+<!-- Meta Pixel Code (Combos) -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '<?php echo esc_js($pid); ?>');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=<?php echo esc_attr($pid); ?>&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+    <?php
+});
+
+// === CAPI: send server-side event to Meta ===
+function sp_capi_send($event_name, $custom_data, $event_id = null, $extra_user_data = array()) {
+    $user_data = array(
+        'client_ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
+        'client_user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+        'fbp' => $_COOKIE['_fbp'] ?? '',
+        'fbc' => $_COOKIE['_fbc'] ?? '',
+    );
+    $user_data = array_merge($user_data, $extra_user_data);
+    $payload = array(
+        'data' => array(array(
+            'event_name' => $event_name,
+            'event_time' => time(),
+            'action_source' => 'website',
+            'event_source_url' => home_url(add_query_arg(null, null)),
+            'user_data' => $user_data,
+            'custom_data' => $custom_data,
+        )),
+        'access_token' => SP_META_CAPI_TOKEN,
+    );
+    if ($event_id) $payload['data'][0]['event_id'] = $event_id;
+    wp_remote_post('https://graph.facebook.com/v21.0/' . SP_META_PIXEL_ID . '/events', array(
+        'headers' => array('Content-Type' => 'application/json'),
+        'body' => json_encode($payload),
+        'timeout' => 5,
+        'blocking' => false,
+        'sslverify' => true,
+    ));
+}
+
+// ViewContent on single combo product pages
+add_action('wp_head', function () {
+    if (!is_product()) return;
+    $product_id = get_queried_object_id();
+    $product = wc_get_product($product_id);
+    if (!$product || !$product->is_type('grouped')) return;
+    $combo_price = get_post_meta($product_id, '_combo_price', true);
+    if ($combo_price === '' || $combo_price === false) return;
+    $category = wp_strip_all_tags(wc_get_product_category_list($product_id));
+    $event_id = 'vc_' . $product_id . '_' . time();
+    sp_capi_send('ViewContent', array(
+        'content_type' => 'product_group',
+        'content_ids' => array((string) $product_id),
+        'content_name' => $product->get_name(),
+        'content_category' => $category,
+        'value' => (float) $combo_price,
+        'currency' => get_woocommerce_currency(),
+    ), $event_id);
+    ?>
+<script>
+fbq('track', 'ViewContent', {
+    content_type: 'product_group',
+    content_ids: ['<?php echo esc_js($product_id); ?>'],
+    content_name: '<?php echo esc_js($product->get_name()); ?>',
+    content_category: '<?php echo esc_js($category); ?>',
+    value: <?php echo (float) $combo_price; ?>,
+    currency: '<?php echo esc_js(get_woocommerce_currency()); ?>'
+});
+</script>
+    <?php
+});
+
+// Helper: get all combo parent IDs (cached)
+function sp_get_combo_ids() {
+    $ids = wp_cache_get('sp_combo_ids', 'sp_meta');
+    if ($ids === false) {
+        $ids = get_posts(array(
+            'post_type'      => 'product',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'meta_query'     => array(
+                array('key' => '_combo_price', 'value' => '', 'compare' => '!='),
+            ),
+        ));
+        wp_cache_set('sp_combo_ids', $ids, 'sp_meta', HOUR_IN_SECONDS);
+    }
+    return $ids;
+}
+
+// Helper: find parent combo ID for a child product
+function sp_find_combo_parent($child_id) {
+    $combo_ids = sp_get_combo_ids();
+    foreach ($combo_ids as $parent_id) {
+        $parent = wc_get_product($parent_id);
+        if ($parent && $parent->is_type('grouped')) {
+            $children = $parent->get_children();
+            if (in_array($child_id, $children)) return $parent_id;
+        }
+    }
+    return null;
+}
+
+// AddToCart when a combo product is added
+add_action('woocommerce_add_to_cart', function ($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+    $parent_id = sp_find_combo_parent($product_id);
+    if (!$parent_id) return;
+    $parent = wc_get_product($parent_id);
+    if (!$parent) return;
+    $combo_price = get_post_meta($parent_id, '_combo_price', true);
+    $event_id = 'atc_' . $parent_id . '_' . time();
+    sp_capi_send('AddToCart', array(
+        'content_type' => 'product_group',
+        'content_ids' => array((string) $parent_id),
+        'content_name' => $parent->get_name(),
+        'value' => (float) $combo_price,
+        'currency' => get_woocommerce_currency(),
+    ), $event_id);
+    ?>
+<script>
+fbq('track', 'AddToCart', {
+    content_type: 'product_group',
+    content_ids: ['<?php echo esc_js($parent_id); ?>'],
+    content_name: '<?php echo esc_js($parent->get_name()); ?>',
+    value: <?php echo (float) $combo_price; ?>,
+    currency: '<?php echo esc_js(get_woocommerce_currency()); ?>'
+});
+</script>
+    <?php
+}, 10, 6);
+
+// InitiateCheckout if cart contains combos
+add_action('woocommerce_before_checkout_form', function () {
+    $found = [];
+    foreach (WC()->cart->get_cart() as $item) {
+        $pid = sp_find_combo_parent($item['product_id']);
+        if ($pid) $found[] = $pid;
+    }
+    if (empty($found)) return;
+    $unique = array_unique($found);
+    $event_id = 'ic_' . md5(implode(',', $unique) . time());
+    sp_capi_send('InitiateCheckout', array(
+        'content_type' => 'product_group',
+        'content_ids' => array_map('strval', $unique),
+        'num_items' => WC()->cart->get_cart_contents_count(),
+        'value' => (float) WC()->cart->get_total('numeric'),
+        'currency' => get_woocommerce_currency(),
+    ), $event_id);
+    ?>
+<script>
+fbq('track', 'InitiateCheckout', {
+    content_type: 'product_group',
+    content_ids: <?php echo json_encode(array_map('strval', $unique)); ?>,
+    num_items: <?php echo (int) WC()->cart->get_cart_contents_count(); ?>,
+    value: <?php echo (float) WC()->cart->get_total('numeric'); ?>,
+    currency: '<?php echo esc_js(get_woocommerce_currency()); ?>'
+});
+</script>
+    <?php
+});
+
+// Purchase on thank you page for orders with combos
+add_action('woocommerce_thankyou', function ($order_id) {
+    $order = wc_get_order($order_id);
+    if (!$order) return;
+    $combo_ids = [];
+    $combo_total = 0;
+    $extra = array();
+    foreach ($order->get_items() as $item) {
+        $product = $item->get_product();
+        if (!$product) continue;
+        $pid = sp_find_combo_parent($product->get_id());
+        if ($pid) {
+            $combo_ids[] = (string) $pid;
+            $combo_total += (float) get_post_meta($pid, '_combo_price', true);
+        }
+    }
+    if (empty($combo_ids)) return;
+    $billing_email = $order->get_billing_email();
+    $billing_phone = $order->get_billing_phone();
+    if ($billing_email) $extra['em'] = hash('sha256', strtolower(trim($billing_email)));
+    if ($billing_phone) $extra['ph'] = hash('sha256', preg_replace('/[^0-9]/', '', $billing_phone));
+    $unique = array_unique($combo_ids);
+    $event_id = 'pur_' . $order_id . '_' . time();
+    sp_capi_send('Purchase', array(
+        'content_type' => 'product_group',
+        'content_ids' => $unique,
+        'value' => (float) $combo_total,
+        'currency' => get_woocommerce_currency(),
+        'num_items' => $order->get_item_count(),
+    ), $event_id, $extra);
+    ?>
+<script>
+fbq('track', 'Purchase', {
+    content_type: 'product_group',
+    content_ids: <?php echo json_encode($unique); ?>,
+    value: <?php echo (float) $combo_total; ?>,
+    currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
+    num_items: <?php echo (int) $order->get_item_count(); ?>
+});
+</script>
+    <?php
 });
 
 
