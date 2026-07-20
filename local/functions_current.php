@@ -448,18 +448,16 @@ document.addEventListener('DOMContentLoaded', function() {
         (function spPollGrp() {
             var changed = false;
             Object.keys(spGrpVar).forEach(function(pid) {
-                var form = document.querySelector('.grouped_form .woocommerce-grouped-product-list-item[data-id="' + pid + '"]');
-                if (!form) {
-                    form = document.querySelector('.woocommerce-grouped-product-list-item .product-type-variable[data-product_id="' + pid + '"]');
-                    if (!form) form = document.querySelector('input.variation_id[data-product_id="' + pid + '"]');
+                var sel = document.querySelector('select.combo-variation-select[data-child_id="' + pid + '"]');
+                var vid;
+                if (sel) {
+                    vid = sel.value;
+                } else {
+                    var hidden = document.querySelector('input[name="combo_variation_id[' + pid + ']"]');
+                    if (hidden) vid = hidden.value;
                 }
-                var inp;
-                if (form) inp = form.querySelector('input.variation_id');
-                if (!inp) inp = document.querySelector('input[name="variation_id"][data-product_id="' + pid + '"]');
-                if (!inp) return;
-                var vid = inp.value;
                 if (vid !== (spGrpLast[pid] || '')) {
-                    spGrpLast[pid] = vid;
+                    spGrpLast[pid] = vid || '';
                     changed = true;
                 }
             });
