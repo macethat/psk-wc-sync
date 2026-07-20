@@ -289,23 +289,30 @@ function sp_show_sucursal_stock() {
     $is_variable = $product->is_type('variable');
     $is_grouped = $product->is_type('grouped');
     $product_ids = $is_variable ? $product->get_visible_children() : ($is_grouped ? $product->get_children() : array($product->get_id()));
-    // For grouped products: if any child is variable, availability requires variation selection
-    if ($is_grouped) {
-        $has_variable_child = false;
-        foreach ($product_ids as $pid) {
-            $child = wc_get_product($pid);
-            if ($child && $child->is_type('variable')) { $has_variable_child = true; break; }
-        }
-        if ($has_variable_child) {
-            echo '<div class="sp-sucursal-stock" style="margin-top:15px;padding:12px;background:#fff8e1;border-radius:6px;color:#333;font-size:13px">';
-            echo 'Selecciona cada producto y su variación para ver disponibilidad en sucursales';
-            echo '</div>';
-            return;
-        }
-    }
     $sucursal_stock = array();
     $variation_data = array();
+    $has_variable_child_grp = false;
+    $grouped_var_data = array();
+
     foreach ($product_ids as $pid) {
+        $child = wc_get_product($pid);
+        if ($is_grouped && $child && $child->is_type('variable')) {
+            $has_variable_child_grp = true;
+            $var_ids = $child->get_visible_children();
+            $grouped_var_data[$pid] = array();
+            foreach ($var_ids as $vid) {
+                $disp = get_post_meta($vid, '_sucursales_disponibles', true);
+                $grp_stock = array();
+                if (!empty($disp)) {
+                    foreach (explode(',', $disp) as $aid) {
+                        $aid = trim($aid);
+                        $grp_stock[$aid] = (int) get_post_meta($vid, '_sucursal_' . $aid . '_stock', true);
+                    }
+                }
+                $grouped_var_data[$pid][$vid] = $grp_stock;
+            }
+            continue;
+        }
         $disponibles = get_post_meta($pid, '_sucursales_disponibles', true);
         $var_sucs = array();
         if (!empty($disponibles)) {
@@ -315,7 +322,6 @@ function sp_show_sucursal_stock() {
                 $stock = (int) get_post_meta($pid, '_sucursal_' . $aid . '_stock', true);
                 $var_sucs[$aid] = $stock;
                 if ($is_grouped) {
-                    // For combos: track per-product stock per sucursal
                     if (!isset($sucursal_stock[$aid])) $sucursal_stock[$aid] = array();
                     $sucursal_stock[$aid][] = $stock;
                 } else {
@@ -329,7 +335,27 @@ function sp_show_sucursal_stock() {
         }
         if ($is_variable) $variation_data[$pid] = $var_sucs;
     }
-    // For grouped: combo available in sucursal only if ALL components have stock there
+
+    if ($has_variable_child_grp) {
+        $uid = 'sp-suc-' . $product->get_id();
+        echo '<div class="sp-sucursal-stock" style="margin-top:15px;padding:12px;background:#f8f8f8;border-radius:6px"';
+        echo ' data-sp-grouped="1"';
+        echo ' data-sp-simple=\'' . wp_json_encode($sucursal_stock, JSON_HEX_APOS) . '\'';
+        echo ' data-sp-grpvar=\'' . wp_json_encode($grouped_var_data, JSON_HEX_APOS) . '\'';
+        echo ' data-sp-sucs=\'' . wp_json_encode($sucursales, JSON_HEX_APOS) . '\'';
+        echo '>';
+        echo '<h4 style="margin:0 0 8px;font-size:14px">Disponible para retiro en:</h4>';
+        echo '<ul id="' . $uid . '" style="margin:0;padding:0;list-style:none">';
+        foreach ($sucursales as $aid => $s) {
+            echo '<li data-sucursal="' . $aid . '" style="padding:3px 0;font-size:13px;color:#999">';
+            echo '✓ ' . esc_html($s['name']);
+            echo ' <span class="sp-stock-qty" style="color:#666;font-size:12px">(0 unid.)</span>';
+            echo '</li>';
+        }
+        echo '</ul></div>';
+        return;
+    }
+
     if ($is_grouped) {
         $combo_stock = array();
         foreach ($sucursal_stock as $aid => $stocks) {
@@ -409,6 +435,81 @@ document.addEventListener('DOMContentLoaded', function() {
                 spUpdateStock(vid > 0 ? vid : null);
             }
             setTimeout(spPollVar, 400);
+        })();
+    }
+
+    // Grouped product (combo) with variable children: poll variation selections
+    var spGrpContainer = document.querySelector('.sp-sucursal-stock[data-sp-grouped]');
+    if (spGrpContainer) {
+        var spSimpleStock = JSON.parse(spGrpContainer.getAttribute('data-sp-simple'));
+        var spGrpVar = JSON.parse(spGrpContainer.getAttribute('data-sp-grpvar'));
+        var spSucs = JSON.parse(spGrpContainer.getAttribute('data-sp-sucs'));
+        var spGrpLast = {};
+        (function spPollGrp() {
+            var changed = false;
+            Object.keys(spGrpVar).forEach(function(pid) {
+                var form = document.querySelector('.grouped_form .woocommerce-grouped-product-list-item[data-id="' + pid + '"]');
+                if (!form) {
+                    form = document.querySelector('.woocommerce-grouped-product-list-item .product-type-variable[data-product_id="' + pid + '"]');
+                    if (!form) form = document.querySelector('input.variation_id[data-product_id="' + pid + '"]');
+                }
+                var inp;
+                if (form) inp = form.querySelector('input.variation_id');
+                if (!inp) inp = document.querySelector('input[name="variation_id"][data-product_id="' + pid + '"]');
+                if (!inp) return;
+                var vid = inp.value;
+                if (vid !== (spGrpLast[pid] || '')) {
+                    spGrpLast[pid] = vid;
+                    changed = true;
+                }
+            });
+            if (changed) {
+                var combined = JSON.parse(JSON.stringify(spSimpleStock));
+                Object.keys(spGrpVar).forEach(function(pid) {
+                    var selVarId = spGrpLast[pid] || '';
+                    if (selVarId && spGrpVar[pid][selVarId]) {
+                        Object.keys(spGrpVar[pid][selVarId]).forEach(function(aid) {
+                            if (!combined[aid]) combined[aid] = [];
+                            combined[aid].push(spGrpVar[pid][selVarId][aid]);
+                        });
+                    } else {
+                        Object.keys(spSucs).forEach(function(aid) {
+                            if (!combined[aid]) combined[aid] = [];
+                            combined[aid].push(0);
+                        });
+                    }
+                });
+                var finalStock = {};
+                Object.keys(combined).forEach(function(aid) {
+                    finalStock[aid] = Math.min.apply(null, combined[aid]);
+                });
+                var allZero = true;
+                spGrpContainer.querySelectorAll('li').forEach(function(li) {
+                    var a = li.getAttribute('data-sucursal');
+                    var q = finalStock[a] !== void 0 ? finalStock[a] : 0;
+                    li.style.color = q > 0 ? '#2e7d32' : '#999';
+                    li.querySelector('.sp-stock-qty').textContent = '(' + q + ' unid.)';
+                    if (q > 0) allZero = false;
+                });
+                var spMsg = spGrpContainer.querySelector('.sp-delivery-msg');
+                if (allZero) {
+                    if (!spMsg) {
+                        spMsg = document.createElement('div');
+                        spMsg.className = 'sp-delivery-msg';
+                        spMsg.style.cssText = 'margin-top:8px;padding:8px;background:#fff3e0;border-radius:4px;color:#e65100;font-size:12px';
+                        spMsg.textContent = 'Solo disponible para Delivery (sin stock en sucursales)';
+                        spGrpContainer.querySelector('h4').after(spMsg);
+                    }
+                    spGrpContainer.querySelector('h4').style.display = 'none';
+                    spGrpContainer.querySelector('ul').style.display = 'none';
+                    spMsg.style.display = '';
+                } else {
+                    if (spMsg) spMsg.style.display = 'none';
+                    spGrpContainer.querySelector('h4').style.display = '';
+                    spGrpContainer.querySelector('ul').style.display = '';
+                }
+            }
+            setTimeout(spPollGrp, 600);
         })();
     }
 
