@@ -114,13 +114,13 @@ do_action('woocommerce_before_add_to_cart_form');
                                 $value .= '<div class="combo-variation-selector" style="margin-top:6px">';
                                 if (count($allowed_variations) === 1) {
                                     $single = $allowed_variations[0];
-                                    $value .= '<span class="combo-variation-fixed" style="font-size:13px;color:#666">' . esc_html($single->get_attribute_summary()) . '</span>';
+                                    $value .= '<span class="combo-variation-fixed" style="font-size:13px;color:#666">' . esc_html(implode(', ', $single->get_attributes())) . '</span>';
                                     $value .= '<input type="hidden" name="combo_variation_id[' . esc_attr($grouped_product_child->get_id()) . ']" value="' . esc_attr($single->get_id()) . '">';
                                 } else {
                                     $value .= '<select name="combo_variation_id[' . esc_attr($grouped_product_child->get_id()) . ']" class="combo-variation-select" data-child_id="' . esc_attr($grouped_product_child->get_id()) . '" style="width:100%;max-width:260px;padding:3px 6px;font-size:13px">';
                                     $value .= '<option value="">Seleccionar</option>';
                                     foreach ($allowed_variations as $v) {
-                                        $value .= '<option value="' . esc_attr($v->get_id()) . '">' . esc_html($v->get_attribute_summary()) . '</option>';
+                                        $value .= '<option value="' . esc_attr($v->get_id()) . '">' . esc_html(implode(', ', $v->get_attributes())) . '</option>';
                                     }
                                     $value .= '</select>';
                                 }
