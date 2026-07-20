@@ -289,6 +289,20 @@ function sp_show_sucursal_stock() {
     $is_variable = $product->is_type('variable');
     $is_grouped = $product->is_type('grouped');
     $product_ids = $is_variable ? $product->get_visible_children() : ($is_grouped ? $product->get_children() : array($product->get_id()));
+    // For grouped products: if any child is variable, availability requires variation selection
+    if ($is_grouped) {
+        $has_variable_child = false;
+        foreach ($product_ids as $pid) {
+            $child = wc_get_product($pid);
+            if ($child && $child->is_type('variable')) { $has_variable_child = true; break; }
+        }
+        if ($has_variable_child) {
+            echo '<div class="sp-sucursal-stock" style="margin-top:15px;padding:12px;background:#fff8e1;border-radius:6px;color:#333;font-size:13px">';
+            echo 'Selecciona cada producto y su variación para ver disponibilidad en sucursales';
+            echo '</div>';
+            return;
+        }
+    }
     $sucursal_stock = array();
     $variation_data = array();
     foreach ($product_ids as $pid) {
@@ -300,7 +314,13 @@ function sp_show_sucursal_stock() {
                 if (!isset($sucursales[$aid])) continue;
                 $stock = (int) get_post_meta($pid, '_sucursal_' . $aid . '_stock', true);
                 $var_sucs[$aid] = $stock;
-                $sucursal_stock[$aid] = ($sucursal_stock[$aid] ?? 0) + $stock;
+                if ($is_grouped) {
+                    // For combos: track per-product stock per sucursal
+                    if (!isset($sucursal_stock[$aid])) $sucursal_stock[$aid] = array();
+                    $sucursal_stock[$aid][] = $stock;
+                } else {
+                    $sucursal_stock[$aid] = ($sucursal_stock[$aid] ?? 0) + $stock;
+                }
             }
         } else {
             foreach ($sucursales as $aid => $s) {
@@ -308,6 +328,14 @@ function sp_show_sucursal_stock() {
             }
         }
         if ($is_variable) $variation_data[$pid] = $var_sucs;
+    }
+    // For grouped: combo available in sucursal only if ALL components have stock there
+    if ($is_grouped) {
+        $combo_stock = array();
+        foreach ($sucursal_stock as $aid => $stocks) {
+            $combo_stock[$aid] = min($stocks);
+        }
+        $sucursal_stock = $combo_stock;
     }
     if (empty($sucursal_stock)) {
         echo '<div class="sp-sucursal-stock" style="margin-top:15px;padding:12px;background:#f8f8f8;border-radius:6px;color:#999;font-size:13px">Solo disponible para <strong>Delivery</strong> (no hay stock en sucursales)</div>';
