@@ -271,3 +271,15 @@ Conexión Google Search Console API y script de consulta de datos.
 ### Fix grouped stock
 - ✅ `sp_show_sucursal_stock()` corregido para productos grouped: ahora obtiene children y suma stock por sucursal
 - ✅ Subido a servidor + commit `d478d13`
+
+### Fix spPollGrp selectors — stock por sucursal en combos con hijos variables
+- **Problema:** `spPollGrp` buscaba `input.variation_id` (WooCommerce estándar), pero el template personalizado `grouped.php` renderiza `<select class="combo-variation-select" data-child_id="PID">`. El JS nunca encontraba el selector, no detectaba cambios, y el stock por sucursal no se actualizaba.
+- **Solución:** Reemplazar selectores por `select.combo-variation-select[data-child_id="PID"]` con fallback a `input[name="combo_variation_id[PID]"]` para variación única.
+- **Archivos:** `local/functions_current.php` (JS `spPollGrp`)
+- **Commit:** `7aee17e`
+
+### Fix dropdown variación combo — solo valores sin etiquetas
+- **Problema:** `get_attribute_summary()` devolvía "Elije el sabor de tu proteína: Vainilla" ocupando mucho espacio en el selector.
+- **Solución:** Reemplazar con `implode(', ', get_attributes())` que muestra solo "Vainilla" (o "Vainilla, 2 kg" para múltiples).
+- **Archivos:** `grouped.php` (líneas 117 y 123)
+- **Commit:** `8751b97`
