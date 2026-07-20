@@ -181,3 +181,43 @@ Inicio de implementación de selección de sucursal para retiro en tienda (local
 2. Asignar `highlight_accent` con el mismo hex del prompt
 3. Si el fondo (`highlight_bg`) es oscuro, asignar `highlight_hr_color = #ffffff`
 4. Si el fondo es claro, no asignar `highlight_hr_color` (usa gris default)
+
+## 2026-07-19 — Documentación: estructura psk-create-product
+
+Se documenta la estructura del proyecto auxiliar `C:\suplementos\psk-create-product\` para creación y subida de productos nuevos.
+
+### Estructura
+
+```
+C:\suplementos\psk-create-product\
+├── fotos/                         # Imágenes de productos (para fichas nuevas)
+│   ├── 608631655486.jpg           # Archivos por SKU/código de barras
+│   ├── 650076635196.jpg
+│   ├── ... (26 imágenes)
+│   ├── combos/                    # Imágenes de combos específicos
+│   └── home/                      # Imágenes promocionales para homepage
+│       ├── combo-dymatize-iso-100-fruity-pebbles-730g-angry-suppl-creatine-mono.png
+│       ├── combo-dymatize-iso-100-fruity-pebbles-730g-raw-pre-workout-orange-399g.png
+│       ├── combo-evofusion-intl-choc-pb-4.76-lb-raw-pre-workout-blue-raspberry-618g.png
+│       ├── combo-evofusion-intl-choc-pb-PB-4.76-lb+raw+pre-workout-blue-raspberry-618g.png
+│       └── combo-iso-total-pack-dymatize-iso-100-fruity-pebbles-730g-bcaa-vms-fruit-punch-30-serv-angry-suppl-creatine-mono.png
+│
+├── *.py                   # Scripts Python para automatización (200+ archivos)
+├── *.php                  # Scripts PHP para ejecución vía WP-CLI
+├── *.sh                   # Scripts shell para SSH
+├── psk-create-product.py  # Script principal de creación de productos
+├── propuesta_sku.csv      # Catálogo de SKUs propuestos
+├── propuesta_sku_combos.csv   # SKUs de combos
+├── wc_sin_sku.csv         # Productos sin SKU
+├── ssh-key-nopass         # Llave SSH para conexión al servidor
+└── (no hay README — documentación implícita en nombres de scripts)
+```
+
+### Reglas de uso
+
+- `fotos/` — imágenes para asignar a productos nuevos (subir a WooCommerce)
+- `fotos/home/` — banners promocionales para la homepage (combos)
+- `fotos/combos/` — imágenes para fichas de productos combos
+- Los scripts `.py` se ejecutan desde esta carpeta, no desde `stock-suplementos`
+- La llave `ssh-key-nopass` es la misma que en `stock-suplementos`
+
