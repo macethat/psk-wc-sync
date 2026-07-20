@@ -287,7 +287,8 @@ function sp_show_sucursal_stock() {
     if (!$product) return;
     $sucursales = sp_get_sucursales();
     $is_variable = $product->is_type('variable');
-    $product_ids = $is_variable ? $product->get_visible_children() : array($product->get_id());
+    $is_grouped = $product->is_type('grouped');
+    $product_ids = $is_variable ? $product->get_visible_children() : ($is_grouped ? $product->get_children() : array($product->get_id()));
     $sucursal_stock = array();
     $variation_data = array();
     foreach ($product_ids as $pid) {
