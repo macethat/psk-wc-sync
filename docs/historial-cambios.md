@@ -220,4 +220,14 @@ C:\suplementos\psk-create-product\
 - `fotos/combos/` — imágenes para fichas de productos combos
 - Los scripts `.py` se ejecutan desde esta carpeta, no desde `stock-suplementos`
 - La llave `ssh-key-nopass` es la misma que en `stock-suplementos`
+- `fotos/home/prompts-titulos-nanobanana.md` — prompts para insertar títulos bilingües (EN+ES) en imágenes de combos
+
+## 2026-07-20 — Fix: visor de sucursales en productos grouped (combos)
+
+| # | Problema | Solución |
+|---|----------|----------|
+| 1 | El visor "Disponible para retiro en" mostraba "Solo disponible para Delivery" en todos los combos (productos grouped), aunque sus productos componentes tuvieran stock en sucursales | `sp_show_sucursal_stock()` solo manejaba `variable` y `simple`. Agregado `$is_grouped` check: si es grouped, obtiene los children con `$product->get_children()` y suma el stock de cada uno |
+
+### Archivos modificados
+- `local/functions_current.php:290` — línea `$product_ids` extendida para incluir grouped
 

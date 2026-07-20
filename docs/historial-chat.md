@@ -246,3 +246,28 @@ Conexión Google Search Console API y script de consulta de datos.
 - ⏳ Esperar a que Google procese el sitemap para indexar los 22 combos restantes
 - ⏳ Correr Rich Results Test para confirmar que todos los errores desaparecieron
 - Pendiente: corregir `generar_diferencias.py`
+
+## 2026-07-20 — GA4 setup + fix grouped stock + imágenes combos
+
+### GA4
+- ✅ Creada propiedad GA4 `G-2JFR6V4SY7` con cuenta `suplementospanamacrm@gmail.com`
+- ✅ Configurada etiqueta GA4 Configuration en GTM container `GTM-PR4ZSMC7`
+- ✅ Enhanced Measurement activado (scroll 90%, outbound clicks, site search, video, downloads)
+- ✅ GSC vinculado con GA4 — datos visibles
+- ✅ Etiqueta GA4 - Eventos WooCommerce creada con triggers para: view_item, add_to_cart, begin_checkout, purchase
+- ✅ DebugView verificado: eventos llegando correctamente
+- ✅ Esquema completo de configuración GA4 guardado en `.opencode/agents/analytics-ecommerce/sp/esquema-configuracion-ga4-suplementos-panama.md`
+
+### Base de conocimientos analytics-ecommerce
+- ✅ 4 manuales genéricos creados: QuickStart, Checklist, Troubleshooting, WooCommerce config
+- ✅ 3 archivos SP específicos: diagnóstico actual, plugins/servidor, URLs consulta
+- ✅ Documentada estructura de `C:\suplementos\psk-create-product\`
+
+### Imágenes combos homepage
+- ✅ 5 imágenes de combos subidas a biblioteca de medios WordPress (IDs 21735-21739)
+- ✅ Títulos EN impactantes + subtítulos ES + alt text + captions + descripciones
+- ✅ Prompt para Nano Banana guardado en `fotos/home/prompts-titulos-nanobanana.md`
+
+### Fix grouped stock
+- ✅ `sp_show_sucursal_stock()` corregido para productos grouped: ahora obtiene children y suma stock por sucursal
+- ✅ Subido a servidor + commit `d478d13`
