@@ -41,6 +41,32 @@ if (!function_exists('nutritix_form_login')) {
     }
 }
 
+// 301 Redirects for Instagram Ads 404 URLs
+add_action('template_redirect', function() {
+    if (!is_404()) return;
+    $request = trailingslashit(strtok($_SERVER['REQUEST_URI'], '?'));
+    $redirects = array(
+        '/product/proteinas-iso-nutrex-2-lb-creatina-nutrex-60-serv/' => '/product/prolive-bio6-creatina-nutrex/',
+        '/product/proteina-forzagen-5-lb-creatina-nutrex-60-serv/' => '/product/proteina-whey-forzagen-5-lb/',
+        '/product/l-carnitina-3500-lipocide-evogen/' => '/product/l-carnitina-impulse-3500/',
+        '/product/primeval-labs-proteinas-creatina-nutrex/' => '/product/proteina-primeval-labs-4-8-lb/',
+        '/product/proteina-vms-5-lb-creatina-nutrex-200-serv/' => '/product/proteina-blend-vms-nutrition-5-lb/',
+        '/product/cla-landerfit-l-carnitina-3500/' => '/product/cla-2000-landerfit-120-capsulas/',
+        '/product/nitro-up-5-lb-creatina-nutrex-60-serv/' => '/product/proteina-nitro-up-muscleology-5-lbs/',
+        '/product/proteina-vms-5-lb-creatina-forzagen-72-serv/' => '/product/proteina-blend-vms-nutrition-5-lb/',
+        '/product/proteina-vms-5-lb-creatina-evogen-60-serv/' => '/product/proteina-blend-vms-nutrition-5-lb/',
+        '/product/proteina-gold-standard-1-47-lb-creatina-categoria-5/' => '/product/proteina-100-whey-gold-standard/',
+        '/product/lean-gainer-8-lb-creatina-forzagen-72-serv/' => '/product/ganador-de-masa-magra-lean-gainer/',
+        '/product/prolive-bio5-bum-pre-blue-razz/' => '/product/prolive-bio5-bum-pre-blue-raspberry/',
+        '/product/creatina-evogen-60-serv-beta-alanina-raw/' => '/product/creatina-micronizada-monohidratada/',
+        '/product/evp-xtreme-n-o-polar-cherry-frost/' => '/product/suplemento-pre-entreno/',
+    );
+    if (isset($redirects[$request])) {
+        wp_redirect($redirects[$request], 301);
+        exit;
+    }
+});
+
 // Fix product search dropdown + mobile responsive fixes for grouped products
 add_action('wp_head', function() {
     ?>
