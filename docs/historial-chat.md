@@ -283,3 +283,22 @@ Conexión Google Search Console API y script de consulta de datos.
 - **Solución:** Reemplazar con `implode(', ', get_attributes())` que muestra solo "Vainilla" (o "Vainilla, 2 kg" para múltiples).
 - **Archivos:** `grouped.php` (líneas 117 y 123)
 - **Commit:** `8751b97`
+
+---
+
+## 2026-07-26
+
+### Tema
+Configuración MCP de Google Stitch para diseño visual de páginas de sucursales
+
+### Cambios implementados
+#### `opencode.json`:
+- Configurado MCP server `stitch-pro-mcp` con API key de Google Stitch
+- Formato: `mcp.stitch.type=local`, `command=["npx","-y","stitch-pro-mcp"]`, `environment.STITCH_API_KEY`
+- Requiere reinicio de opencode para activar tools de Stitch
+
+### Próximos pasos
+- Reiniciar opencode con Stitch MCP activo
+- Extraer design system de suplementospanama.com vía Stitch
+- Generar diseños de hub y landings de sucursales
+- Adaptar a templates PHP en theme child nutritix
