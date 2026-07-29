@@ -298,7 +298,52 @@ Configuración MCP de Google Stitch para diseño visual de páginas de sucursale
 - Requiere reinicio de opencode para activar tools de Stitch
 
 ### Próximos pasos
-- Reiniciar opencode con Stitch MCP activo
-- Extraer design system de suplementospanama.com vía Stitch
-- Generar diseños de hub y landings de sucursales
-- Adaptar a templates PHP en theme child nutritix
+- Ajustes finos responsive hub sucursales
+- Replicar mejoras a páginas individuales de sucursales
+
+---
+
+## 2026-07-28 (continuación)
+
+### Tema
+Finalización landing hub sucursales: horarios reales por sucursal, imágenes hero, CSS responsive, FAQ editada
+
+### Cambios implementados
+
+#### `sucursales/data.php`
+- Horarios reales por sucursal (formato 24h en datos, convertido a 12h AM/PM en vistas):
+  - **El Cangrejo:** L-V 09-20, S-D 09-17:30
+  - **Megapolis:** L-V 10-20, S 10:30-19, D 10:30-19
+  - **Atrio Mall:** L-V 10:30-20, S-D 11-19
+  - **San Francisco:** L-V 06-21, S 07-17, D Cerrado
+  - **Altos de Panamá:** L-V 06-21, S 07-17, D Cerrado (dirección corregida: PowerClub)
+  - **Metromall:** L-V 10-20, S 10:30-20, D 11-19
+
+#### `sucursales/{id}/images/hero-{id}.jpg`
+- 6 imágenes hero 1250×675px agregadas para todas las sucursales
+
+#### `page-sucursal-single.php`
+- Schema JSON-LD `image` actualizado a `ImageObject` con width/height dinámicos via `getimagesize()`
+
+#### `functions-additions.php`
+- Nueva función `sp_format_12h($h24)` para conversión a formato AM/PM
+- `sp_horario_hoy()` y `sp_horario_status()` actualizados para usar formato 12h
+
+#### `page-sucursales.php` (hub)
+- FAQ editada: nuevo título "Lo que necesitas saber", respuestas actualizadas (WhatsApp, Cripto, horarios variables), nueva pregunta de asesoría en posición 3
+- Blog Power Rack: query sin filtro de categoría (power-rack no existía), cards como `<a>` completas
+
+#### `sucursales.css`
+- `.sp-card-image`: `aspect-ratio: 16/9` en vez de `height: 200px` fijo
+- `.sp-section-tag`: 12px → 14px
+- `.sp-branch-status`: 12px → 13px
+- Icono reloj: `margin-right: 6px`
+- FAQ: `button::after` anulado, respuesta 16px
+- Blog card título: 24px responsive 20/18
+- `.sp-btn`: 15px desktop, 14px mobile (≤768px)
+- `.sp-branch-link-name`: 18px mobile
+- `@media (max-width: 768px)` añadido para branch-links y buttons
+
+### Commits
+- **psk-sucursales master:** `08408a5` — sp-btn: 15px desktop, 14px mobile
+- **stock-suplementos feature/retiro-sucursal:** `72ecc17` — psk-sucursales: sp-btn 15/14px
