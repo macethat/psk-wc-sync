@@ -347,3 +347,22 @@ Finalización landing hub sucursales: horarios reales por sucursal, imágenes he
 ### Commits
 - **psk-sucursales master:** `08408a5` — sp-btn: 15px desktop, 14px mobile
 - **stock-suplementos feature/retiro-sucursal:** `72ecc17` — psk-sucursales: sp-btn 15/14px
+
+---
+
+## 2026-07-28 (sesión 3)
+
+### Tema
+Ajustes responsive mobile en hub de sucursales
+
+### Cambios implementados
+
+#### `sucursales.css`
+- `.sp-product-card h3` (nombres de producto): 17px → **22px** en ≤768px
+- `.sp-faq-question` (preguntas FAQ): 16px → **13px** en ≤768px
+- `.sp-btn`: 15px desktop / **14px** ≤768px, con `!important` removido
+- `.sp-branch-link-name`: **18px** en ≤768px
+
+### Commits
+- **psk-sucursales master:** `1eebbe5` — mobile: faq question 13px
+- **stock-suplementos feature/retiro-sucursal:** `ee7b35a` — psk-sucursales: faq 13px mobile
