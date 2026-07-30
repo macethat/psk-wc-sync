@@ -76,3 +76,54 @@
 - `df1ff47` en `psk-sucursales` — hero: overlay más claro
 - `6774631` en `psk-sucursales` — hero: sin subtítulo, solo título
 - Previamente: hero padding, título color/font, etc.
+
+## 2026-07-29 — Página single de sucursal: mapa GBP, FAQ dinámico, galería con fallback
+
+### Mapa con coordenadas exactas de GBP
+- El embed del mapa cambió de text search (`maps?q=NOMBRE+DIRECC`) a coordenadas precisas (`maps?q=LAT,LNG&z=17`) usando los valores de cada sucursal
+- Coordenadas de El Cangrejo actualizadas a las del perfil de Google Business (`8.9842946, -79.5302391`)
+
+### FAQ con horarios reales del branch
+- Título cambiado de "Preguntas Frecuentes — {sucursal}" a "Lo que necesitas saber" (consistente con hub)
+- La pregunta de horarios ahora genera dinámicamente el texto agrupando días con el mismo rango horario desde `data.php`
+- Ejemplo El Cangrejo: "Lunes, Martes, Miércoles, Jueves, Viernes de 9:00am - 8:00pm; Sábado, Domingo de 9:00am - 5:30pm"
+- Incluye "Horarios sujetos a cambios en días feriados"
+- Aplica a todas las 6 sucursales automáticamente
+
+### Galería con fallback
+- Las imágenes secundarias (`sucursal-1.jpg`, `sucursal-2.jpg`) no existen en el servidor
+- El template ahora verifica `file_exists()` y oculta el sidebar si no hay imágenes
+- Cuando solo hay hero, la galería usa `sp-gallery-single` (1 columna, centrada)
+- CSS añadido: `.sp-gallery-single` con `grid-template-columns: 1fr`
+
+### Cambios generales (se replican a las 6 sucursales)
+- **`page-sucursal-single.php`**: mapa con coordenadas, FAQ dinámico, galería condicional
+- **`sucursales.css`**: reglas para galería single-column
+- **`functions-additions.php`**: version bump a `1.13` (cache busting)
+- **`data.php`**: coordenadas El Cangrejo actualizadas
+
+### Commits
+- `6873a1c` en `psk-sucursales` — feat(single): mapa coordenadas GBP, FAQ horarios reales, galería fallback
+- `519b48f` en `stock-suplementos` — docs: historial actualizado + submodule reference
+
+## 2026-07-30 — Sucursales cercanas con miniatura, horarios sincronizados a Panama
+
+### Problema
+- Las imágenes de sucursales cercanas no se veían (absolute positioning no funcionaba)
+- En desktop la miniatura quedaba al borde de la card en vez de dentro del contenedor
+- Se necesitaba miniatura landscape en desktop, cuadrada en mobile
+- El día "Hoy" usaba `date('l')` (hora del servidor) en vez de `current_time('l')` (hora Panama)
+
+### Cambios realizados
+- **CSS**: imagen dentro de `.sp-branch-card-body` con `display:flex; gap:16px`; desktop: 200px landscape (16/9) sin bordes redondeados; mobile: cuadrada (1/1) debajo de datos
+- **JS**: template reordenado: datos primero, imagen después, dentro del body
+- **PHP**: `page-sucursal-single.php:85` — `date('l')` reemplazado por `current_time('l')` para sincronizar con timezone WordPress (America/Panama)
+- **Versiones**: CSS `1.18`, JS `1.14`
+
+### Despliegue
+- SCP a SiteGround de JS (`1.14`), CSS (`1.18`), PHP
+- Eliminados archivos combinados CSS y JS de SG Optimizer
+- `wp cache flush` ejecutado
+
+### Commits
+- `9a9ce44` en `psk-sucursales` — feat: sucursales cercanas con miniatura landscape, timezone Panama fix
