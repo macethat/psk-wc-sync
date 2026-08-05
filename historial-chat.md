@@ -173,3 +173,115 @@
 - `/product/bcaa/` → 301 → `/product/bcaa-1211-vms-30-servings/` (para no perder indexación del legacy)
 - Backup `backup_htaccess_20260805-002220.bak`
 - Verificado: `/product/bcaa/` y `/product/bcaa` → 301 → variable (200)
+
+## 2026-08-05 — Header y footer de la home aplicados a la página shop (HFE)
+
+### Problema
+- La página shop (`/shop/`, ID 5) mostraba un header y footer **diferentes** a los de la home
+- La shop usa la plantilla normal del tema con templates HFE (Header Footer Elementor): header `20649` y footer `414`
+- La home (ID 18625) usa plantilla `elementor_canvas`: su header ("1 Pannel", "2 Panel", "3 Panel") y su footer (contenedores 16/17/18) viven **dentro** del propio `_elementor_data` de la página, no en templates HFE
+
+### Decisión (confirmada con el usuario)
+- **Método**: editar los templates HFE (aplica a la shop y a todas las páginas con HFE), en vez de convertir la shop a canvas (más arriesgado, rompe archive/paginación de productos)
+- **Alcance del header**: solo la franja superior "1 Pannel" (`696739`) de la home; se mantienen logo/búsqueda/carrito/menú actuales de la shop
+- **Footer**: reemplazado completo por los contenedores 16 (`3205c4`), 17 (`afa928`) y 18 (`9fe537`) de la home
+
+### Cambios realizados
+- **Header HFE `20649`**: reemplazado solo el contenedor `e6dccf2` ("1 Panel") por el "1 Pannel" de la home (`696739`); se conservan los contenedores `274df59` (2 Panel: logo) y `087078a` (3 Panel: menú)
+- **Footer HFE `414`**: reemplazado todo su `_elementor_data` (secciones viejas con columns) por los 3 contenedores de la home (`3205c4`, `afa928`, `9fe537`)
+- Script `apply_hfe_home.php` (lee `new_header_data.json` / `new_footer_data.json` con los contenedores extraídos de la home) vía `wp eval-file`
+- Cachés purgadas: `wp elementor flush_css --force`, `wp cache flush`, `wp sg purge`
+
+### Backups (en servidor, `~/backups_hfe/`)
+- `header_20649_20260805-053222.json`
+- `footer_414_20260805-053222.json`
+- `home_18625_20260805-053222.json`
+- `shop_5_20260805-053222.json` (vacío: la shop no tiene `_elementor_data`, es esperado)
+
+### Verificación
+- `https://suplementospanama.net/shop/?nocache=hfe1` (200):
+  - Header: `data-id="696739"` presente, `e6dccf2` eliminado, menú `087078a` conservado
+  - Footer: `3205c4`, `afa928`, `9fe537` presentes; `03090b5` (footer viejo) eliminado
+  - CSS de Elementor regenerado: `.elementor-element-696739`, `-3205c4`, `-afa928`, `-9fe537` presentes
+- Nota: las capturas de pantalla generadas no pudieron revisarse (modelo sin soporte de imágenes); la verificación se hizo por HTML/CSS del render
+
+## 2026-08-05 — Formulario de newsletter en el footer (MC4WP + Mailchimp)
+
+### Contexto
+- El footer HFE `414` (ya unificado con la home) debía capturar suscripciones de email/WhatsApp
+- La cuenta Mailchimp conectada es `agenciadigitalterceracto@gmail.com` (ajena a la empresa) → se planificó migración a cuenta corporativa nueva
+- Solo existe MC4WP (API key `<redactada>-us14`); no hay WooCommerce Subscriptions; MailPoet sin forms
+
+### Cambios realizados
+- **Form MC4WP `417`** (`update_form417.php`): inputs `FNAME` ("Tu nombre"), `EMAIL` ("Correo Electronico"), `PHONE` ("WhatsApp") — todos required; doble opt-in activo (`double_optin=1`); botón "suscribete"; lista `b7303a6210` ("Agencia Digital Tercer Acto")
+- **Footer HFE `414`**: sección newsletter `nwsltr01` insertada al inicio (`add_newsletter_footer.php`): heading "SUSCRÍBETE AHORA", text-editor "Manténgase actualizado..." y widget shortcode `[mc4wp_form id="417"]`
+  - El widget nativo `nutritix-mailchmip` no renderiza: el tema usa `nutritix_is_mailchimp_activated()` → `function_exists('_mc4wp_load_plugin')`, no definida en MC4WP 4.14 → sustituido por widget shortcode (`fix_newsletter_widget.php`)
+- Verificado en `/shop/`: `mc4wp-form-417` + inputs FNAME/EMAIL/PHONE presentes
+- Nota: la home (18625, plantilla `elementor_canvas`) NO usa el footer HFE: sus paneles 14/15 ("SUSCRÍBETE AHORA") no tienen form real (solo heading + icono)
+
+### Exportación de contactos (para migrar)
+- 9 suscriptores (todos `subscribed`, sin FNAME/PHONE, últimos opt-in oct-2024) exportados de la lista `b7303a6210` → `mailchimp_export.csv` (local en `C:\suplementos\stock-suplementos\mailchimp_export.csv`)
+- Contactos: `agenciadigitalterceracto@gmail.com`, `jjean1661@gmail.com`, `joel76346@gmail.com`, `didimotrejos5@gmail.com`, `franciscobarreiro12@gmail.com`, `Jjovane@gmail.com`, `ja.panama@mailo.com`, `lexdom21@gmail.com`, `dapena5793@gmail.com`
+- Archivo del servidor (`~/mailchimp_export.csv`) eliminado tras la copia local
+
+### Backups (en servidor, `~/`)
+- `backup_footer414_pre_newsletter_20260805-135214.json`
+- `backup_form417_content_20260805-135214.txt`
+- `backup_form417_settings_20260805-135214.txt`
+
+### Migración ejecutada (2026-08-05)
+- Usuario creó la cuenta nueva en mailchimp.com y entregó API key `<redactada>-us1` (DC **us1**)
+- La cuenta nueva ya tenía la audiencia por defecto **"Suplementos Panamá" (id `27b4cb9f8c`)**, dueño `suplementospanamashop@gmail.com`
+- Script `~/migrate_mailchimp.php` (subido al servidor) ejecutado: `wp eval-file ~/migrate_mailchimp.php -- <API_KEY> 27b4cb9f8c`
+  - Nota: `wp eval-file` pasa `--` como primer `$args`; el script lo filtra
+- **Resultado**:
+  - Backup de la config previa (API key antigua) guardado en `~/backup_mc4wp_<fecha>.json`
+  - Los 9 contactos reimportados vía batch (id `38rov03dn5`): **finished 9/9, errored 0**, todos `subscribed` + el dueño de la cuenta = 10 miembros
+  - Opción `mc4wp` → api_key nueva (`-us1`); form 417 → lista `27b4cb9f8c` (doble opt-in sigue activo)
+  - Cachés purgadas (`wp elementor flush_css --force`, `wp cache flush`)
+- **Verificación en vivo** `/shop/?nocache=mig2`: `mc4wp-form-417` presente, campos FNAME/EMAIL/PHONE + "SUSCRÍBETE AHORA" renderizados, sin errores MC4WP
+- **Prueba de suscripción real**: el filtro anti-spam de MC4WP bloqueó el POST automatizado ("Tu envío ha sido marcado como spam") → confirma que el form procesa contra la cuenta nueva; los envíos de navegador real no se ven afectados
+
+### Estado tras la migración
+- Form del footer capturando contra la cuenta corporativa nueva (`suplementospanamashop@gmail.com`, lista `27b4cb9f8c`)
+- Pendiente (opcional, del lado del usuario): cerrar/bloquear la cuenta vieja `agenciadigitalterceracto@gmail.com` desde su panel de Mailchimp (la API no lo permite)
+
+## 2026-08-05 — Newsletter: form en todas las páginas + estilos (mensaje, botón, texto) + incidente JSON
+
+### Contexto
+- El form del newsletter debía aparecer en **todas** las páginas (incluida la home)
+- El mensaje de confirmación se veía gris oscuro (CSS del tema `#0f834d` sobre fondo `#151515`), el form estaba mal alineado y en mobile se veía un **bloque de código** debajo del form
+- El correo de confirmación llegaba en **inglés** y caía en **spam**
+
+### Form en todas las páginas
+- Verificado: el form aparecía en shop, producto y sucursales (via footer HFE 414), pero **NO** en la home (18625, plantilla `elementor_canvas` — no usa footer HFE)
+- Se insertó el widget shortcode `[mc4wp_form id="417"]` (`homenwsltrf`) en el panel 15 de la home (`781140`, tras el text-editor `59db94`) → form ahora presente en home, shop y producto
+
+### Correo de confirmación (Mailchimp)
+- **Inglés**: la lista `27b4cb9f8c` tenía `language=en` → corregido a `es` (PATCH lists/27b4cb9f8c con `campaign_defaults.language=es` + `permission_reminder` en español)
+- **Spam**: el remitente es un Gmail (`suplementospanamashop@gmail.com`) sin dominio verificado → pendiente verificar dominio `suplementospanama.net` en Mailchimp (requiere acceso DNS del usuario)
+- Los correos de confirmación los genera Mailchimp (doble opt-in); la personalización (logo, textos) se hace en **Audience → Signup forms → Form builder → "Opt-in confirmation email"**
+
+### Incidente JSON de Elementor (importante)
+- Primer intento de agregar widgets al `_elementor_data` usó `update_post_meta(...)`, que aplica `wp_unslash` y **rompe las comillas escapadas del JSON** → el footer dejó de renderizar por completo (página shop 351K→297K, sin `nwsltr01`/`3205c4`)
+- **Fix**: restaurar con `update_metadata('post', $id, '_elementor_data', wp_slash($json))` (método correcto) + `wp elementor flush_css --force` + `wp sg purge`
+- **Lección**: para editar `_elementor_data` siempre usar `update_metadata` + `wp_slash`, nunca `update_post_meta`
+- Widgets modificados/insertados: el primer widget HTML con CSS (`nwsltrcss`) perdió su tag `<style>` al renderizar y quedó como **texto visible** (el "bloque de código" en mobile) → se eliminó y el CSS se movió a `functions-additions.php` via `wp_head`
+
+### Estilos (en `functions-additions.php` del child theme, inyectados via `wp_head` en `<style id="sp-mc4wp-alert">`)
+- **Mensaje de confirmación**: `color:#b0ffaf` (verde claro) con fondo `rgba(255,255,255,.10)`, `!important` para no ser pisado por el tema
+- **Mensaje de error**: `color:#ffc1b8`
+- **Botón "suscribete"**: `background:#C0392B` (rojo), hover `#96281B`
+- **Alineación del form**: `.mc4wp-form-fields{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;width:100%}`; inputs `flex:1 1 200px` con fondo blanco/borde; mobile (`@media max-width:767px`): columnas apiladas al 100%
+- **Texto sobre el form** ("Manténgase actualizado..."): `color:#CACACA` — aplicado en footer (`nwslrte1`) y home (`59db94`) tanto en `_elementor_data` como via regla CSS `.elementor-element-59db94,.elementor-element-nwslrte1{color:#CACACA!important}` (porque el CSS de Elementor de la home canvas se carga como archivo externo y no reflejaba el cambio)
+
+### Backups (en servidor, `~/backups_newsletter2/`)
+- `footer414_pre_fix2.json`, `home18625_pre_fix2.json` (previos a reaplicar estilos)
+- `functions-additions_pre_newsletter_css.php` (previo a anexar el CSS de newsletter)
+
+### Verificación final en vivo
+- Shop y home: `mc4wp-form-417` presente, `<style id="sp-mc4wp-alert">` con `#b0ffaf`/`#C0392B`/`#CACACA`, sin bloque de código visible, sin errores PHP
+
+### Pendiente
+- Verificar dominio remitente `suplementospanama.net` en Mailchimp para evitar spam (requiere acceso DNS)
+- Documentar (este mismo registro) cubre todos los cambios de hoy
