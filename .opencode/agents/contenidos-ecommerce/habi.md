@@ -6,6 +6,9 @@ A continuación, se detallan las habilidades esenciales divididas en estas tres 
 
 ---
 
+## 0. REGLA FUNDAMENTAL DE ORTOGRAFÍA ESPAÑOLA (REQUERIDO)
+**REGLA ESTRICTA**: todo el texto generado DEBE usar vocales acentuadas correctas en español (á, é, í, ó, ú). Está terminantemente prohibido escribir sin acentos palabras que lo requieren. Errores comunes que NO deben ocurrir: `proteina` → `proteína`, `absorcion` → `absorción`, `recuperacion` → `recuperación`, `suplementacion` → `suplementación`, `informacion` → `información`, `despues` → `después`, `tambien` → `también`, `segun` → `según`, `rapido` → `rápido`, `mas` (cuantificador) → `más`, `musculo` → `músculo`, `Panama` → `Panamá`, `anos` → `años`, `cientifico` → `científico`, `dietetico` → `dietético`, `farmacologico` → `farmacológico`, `tecnica` → `técnica`, `practica` → `práctica`, `medico` → `médico`, `linea` → `línea`, `especifico` → `específico`, `cafeina` → `cafeína`, `combinacion` → `combinación`, `definicion` → `definición`, `condicion` → `condición`, `opcion` → `opción`, `porcion` → `porción`, `sesion` → `sesión`, `sintesis` → `síntesis`.
+
 ## 1. Habilidades para los "Browsers" (Persuasión y Experiencia de Usuario)
 El objetivo aquí es convertir la visita en venta. La IA y Google pueden traer el tráfico, pero el copywriting cierra el trato.
 

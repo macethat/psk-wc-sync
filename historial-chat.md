@@ -127,3 +127,49 @@
 
 ### Commits
 - `9a9ce44` en `psk-sucursales` — feat: sucursales cercanas con miniatura landscape, timezone Panama fix
+
+## 2026-08-04 — Fix combo 21647 (ProLive Full Stack), redirect contacto→sucursales, favicon completo
+
+### Fix combo 21647 — ProLive Full Stack
+- **Problema**: al agregar al carrito el combo 21647 (ProLive Full Stack), el amino BCAA no aparecía y el sistema rechazaba la compra ("producto no disponible")
+- **Causa raíz**: el hijo 21459 (amino) NO existía en WooCommerce. El BCAA correcto es el padre variable 21545 con variaciones 21546 (Fruit Punch) y 21547 (Grape)
+- **Corrección**:
+  - `_children` de `[18186,21455,21459]` → `[18186,21455,21545]`
+  - Meta nueva `_combo_variations_21545 = 21547` (BCAA Grape, SKU 650076635202, PSK id 1789)
+  - Backup en `/home/u1910-kbd9lgn9dh44/backup_combo_21647_20260804-233604/`
+- **Verificación**: simulación add-to-cart con Cookies and Cream (V18191) + creatina 21455 + BCAA Grape 21547 = OK; Choco Coco (V18193) rechazado por outofstock; página renderiza selector `combo_variation_id[21545]`
+
+### Redirect 301 /contacto/ → /sucursales/
+- Regla en `.htaccess` antes de `# BEGIN WordPress`:
+  - `RewriteCond %{REQUEST_URI} ^/contacto/?$ [NC]` + `RewriteRule ^ /sucursales/ [L,R=301]`
+- Backup `backup_htaccess_20260804-160223.bak`
+- Verificado: `/contacto/` y `/contacto` → 301 → `https://suplementospanama.net/sucursales/` (200); página Sucursales = ID 21793 publish
+
+### Favicon completo
+- `site_icon` = 21801 (`sp-favicon-01.png` 512×512); links `rel=icon` 32/192 + apple-touch en head; Googlebot 200; robots.txt no bloquea; `favicon.ico` → 302 → PNG 200
+- Pendiente: solicitar indexación de la home en Search Console (suplementospanamacrm@gmail.com)
+
+### WhatsApp
+- Enlace generado: `https://wa.me/50760153257?text=Hola%20quiero%20informaci%C3%B3n%20sobre%3A`
+
+## 2026-08-05 — Auditoría de 22 combos + fix SKU duplicado BCAA + redirect legacy
+
+### Auditoría global de combos (grouped publicados = 22)
+- Script `audit_combos.php` (query por tax_query product_type=grouped) verifica por combo: hijos inexistentes, meta `_combo_variations_{hijo}` faltantes, variaciones inexistentes, `_sucursales_disponibles` vacíos
+- **Resultado**: NINGÚN combo tiene hijos inexistentes (el error del 21647 no se repite)
+- 10 combos con proteínas variables sin meta `_combo_variaciones_` (muestran todas las variaciones, no es bug): 21639, 21633, 21523, 21522, 21520, 21517, 21516, 21514, 21513, 21512
+- 3 combos usaban BCAA Fruit Punch (21546) sin stock de sucursal: 21518, 21520, 21524
+
+### Fix SKU duplicado BCAA
+- **Problema**: dos productos con el mismo SKU `650076635196` (Fruit Punch): 21458 (simple legacy, creado 08-07) y 21546 (variación del padre variable 21545, creado 09-07). El script `daily_stock_update.py` construye `wc_by_sku[sku]=p`, la colisión hacía que las sucursales se escribieran en el simple 21458 y la variación 21546 nunca recibía sus metas (quedaba sin `_sucursales_disponibles`)
+- **Confirmado via API PSK**: el Fruit Punch (id_articulo 1790) SÍ tiene stock en sucursales (El Cangrejo 21, Megapolis 2, Atrio 4, San Francisco 7, Altos 3, Metromall 22 = 59)
+- **Corrección** (backup `backup_bcaa_fix_20260805-001440`):
+  - Variación 21546: stock corregido a 78 y sucursales `1,5,6,7,8,10` desde PSK
+  - Combo 21655 (ISO Total Pack) migrado al patrón variable: `_children = 21625,21545,21456` + `_combo_variaciones_21545=21546`
+  - Simple 21458 movido a draft (papelera, recuperable) y sin `_sku`
+- **Verificación**: sin SKUs duplicados restantes; 0 combos referenciando 21458; combo 21655 renderiza hijos correctos
+
+### Redirect 301 producto legacy → variable
+- `/product/bcaa/` → 301 → `/product/bcaa-1211-vms-30-servings/` (para no perder indexación del legacy)
+- Backup `backup_htaccess_20260805-002220.bak`
+- Verificado: `/product/bcaa/` y `/product/bcaa` → 301 → variable (200)

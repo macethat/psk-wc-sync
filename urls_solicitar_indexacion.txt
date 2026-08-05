@@ -1,0 +1,53 @@
+# URLs para solicitar indexacion en Google Search Console
+# Inspeccionar cada URL y hacer clic en "Request Indexing"
+# Generado: 2026-07-15
+
+# --- ARTICULO NUEVO ---
+https://suplementospanama.net/creatina-para-mujeres-lo-que-la-ciencia-revela-en-2026-sobre-fuerza-y-cerebro/
+
+# --- COMBOS (23) ---
+https://suplementospanama.net/product/elite-performance-stack/
+https://suplementospanama.net/product/iso-total-pack/,
+https://suplementospanama.net/product/prolive-full-stack/
+https://suplementospanama.net/product/vms-triple-stack/
+https://suplementospanama.net/product/iso-100-fruity-pebbles-raw-pre-workout-orange/
+https://suplementospanama.net/product/combo-iso-100-fruity-pebbles-creatina-angry-supplements/
+https://suplementospanama.net/product/isoject-vanilla-raw-pre-orange-creatina-vms/
+https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms-bcaa-vms-fruit-punch/
+https://suplementospanama.net/product/prolive-bio5-glutamina-vms/**
+https://suplementospanama.net/product/vms-bios-active-glutamina-vms/ *error
+https://suplementospanama.net/product/isoject-vanilla-glutamina-vms/
+https://suplementospanama.net/product/prolive-bio6-bcaa-vms-30-servings/
+https://suplementospanama.net/product/isoject-vanilla-bcaa-vms-30-servings/ *error
+https://suplementospanama.net/product/evofusion-choc-pb-bcaa-vms-fruit-punch/
+https://suplementospanama.net/product/vms-bios-active-raw-pre-orange/
+https://suplementospanama.net/product/prolive-bio5-bum-pre-blue-raspberry/
+https://suplementospanama.net/product/evofusion-choc-pb-bum-pre-blue-raspberry/*error
+https://suplementospanama.net/product/prolive-bio6-creatina-nutrex/
+https://suplementospanama.net/product/prolive-bio5-creatina-vms/
+https://suplementospanama.net/product/vms-bios-active-creatina-vms/
+https://suplementospanama.net/product/isoject-vanilla-creatina-vms/ *indexada error
+https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms/  *error
+https://suplementospanama.net/product/creatina-evogen-60-serv-beta-alanina-raw/ *error
+
+# --- CATEGORIAS PRINCIPALES ---
+https://suplementospanama.net/proteinas/ *error
+https://suplementospanama.net/creatina/  *error
+https://suplementospanama.net/aminoacidos/
+https://suplementospanama.net/pre-entrenos/ indexada
+https://suplementospanama.net/quemadores-de-grasa/ *error
+https://suplementospanama.net/promociones/combos/ *error
+
+
+ttps://suplementospanama.net/product/vms-bios-active-glutamina-vms/#product
+
+
+https://suplementospanama.net
+user: mirelys61
+mail: mirelysmarchansp@gmail.com
+pass: qXMirnilqkHLSdq7GOHNmR2k
+
+https://anabolicgroup.com
+user: Suplementos
+mail: nutriproyectpanama2023@gmail.com
+pass: E7zGDC0mgnuElmO

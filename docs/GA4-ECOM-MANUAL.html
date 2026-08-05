@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>GA4 Ecommerce Manual - Fix</title></head>
+<body style="font-family:sans-serif;max-width:900px;margin:auto;line-height:1.6">
+<h1>GA4 Ecommerce Manual - DataLayer Pushes</h1>
+<p><strong>Fecha:</strong> 24 Jul 2026</p>
+<p><strong>Archivo:</strong> <code>wp-content/themes/nutritix-child/functions.php</code> (líneas 1434-1548)</p>
+<hr>
+
+<h2>Problema</h2>
+<p>GTM Kit (gratuito) no genera los eventos estándar de WooCommerce en el dataLayer. La integración WooCommerce de GTM Kit requiere el addon <strong>premium</strong>. Como resultado, GA4 no recibía <code>view_item</code>, <code>add_to_cart</code>, <code>begin_checkout</code> ni <code>purchase</code>.</p>
+
+<h2>Solución</h2>
+<p>Se agregaron dataLayer pushes manuales para los 4 eventos faltantes. Cada evento sigue el schema GA4 con <code>ecommerce: { currency, value, items[] }</code>.</p>
+
+<h2>Eventos agregados</h2>
+
+<h3>1. view_item</h3>
+<p><strong>Hook:</strong> <code>wp_footer</code> con <code>is_product()</code></p>
+<p><strong>Razón:</strong> El hook estándar <code>woocommerce_after_single_product</code> no se ejecuta con Elementor. Se usa <code>wp_footer</code> con el conditional tag de WooCommerce.</p>
+<pre>
+{
+  event: 'view_item',
+  ecommerce: {
+    currency: 'USD',
+    value: 29.99,
+    items: [{
+      item_id: 'SKU-O-ID',
+      item_name: 'Nombre Producto',
+      price: 29.99,
+      quantity: 1
+    }]
+  }
+}
+</pre>
+
+<h3>2. add_to_cart</h3>
+<p><strong>Hook:</strong> <code>woocommerce_add_to_cart</code> (priority 5, accepts 6 args)</p>
+<p><strong>Nota:</strong> Soporta productos variables — usa <code>variation_id</code> si existe.</p>
+<pre>
+{
+  event: 'add_to_cart',
+  ecommerce: {
+    currency: 'USD',
+    value: 59.98,
+    items: [{
+      item_id: 'SKU-O-ID',
+      item_name: 'Nombre Producto',
+      price: 29.99,
+      quantity: 2
+    }]
+  }
+}
+</pre>
+
+<h3>3. begin_checkout</h3>
+<p><strong>Hook:</strong> <code>woocommerce_before_checkout_form</code></p>
+<p><strong>Nota:</strong> Toma todos los items del carrito activo (<code>WC()-&gt;cart</code>).</p>
+<pre>
+{
+  event: 'begin_checkout',
+  ecommerce: {
+    currency: 'USD',
+    value: 89.97,
+    items: [
+      { item_id: 'SKU-1', item_name: 'Prod 1', price: 29.99, quantity: 2 },
+      { item_id: 'SKU-2', item_name: 'Prod 2', price: 29.99, quantity: 1 }
+    ]
+  }
+}
+</pre>
+
+<h3>4. purchase</h3>
+<p><strong>Hook:</strong> <code>woocommerce_thankyou</code></p>
+<p><strong>Nota:</strong> Incluye <code>transaction_id</code> con el número de orden.</p>
+<pre>
+{
+  event: 'purchase',
+  ecommerce: {
+    transaction_id: '1234',
+    value: 89.97,
+    currency: 'USD',
+    items: [
+      { item_id: 'SKU-1', item_name: 'Prod 1', price: 29.99, quantity: 2 },
+      { item_id: 'SKU-2', item_name: 'Prod 2', price: 29.99, quantity: 1 }
+    ]
+  }
+}
+</pre>
+
+<h2>Verificación</h2>
+<p>Para verificar que los eventos se están inyectando correctamente en el HTML:</p>
+<pre>
+ssh -i C:\suplementos\psk-create-product\ssh-key-nopass -p 18765 u1910-kbd9lgn9dh44@ssh.suplementospanama.net
+bash /tmp/check_datalayer_full.sh
+</pre>
+<p>El script busca pushes de <code>dataLayer.push</code> con contenido <code>ecommerce</code> en la página de producto.</p>
+
+<h2>Notas</h2>
+<ul>
+  <li>Cada push va precedido de <code>dataLayer.push({ ecommerce: null })</code> para limpiar el estado anterior (requisito GA4).</li>
+  <li>El SKU se usa como <code>item_id</code> si existe; si no, se usa el ID numérico del producto.</li>
+  <li>Los eventos existentes de GTM Kit (<code>remove_from_cart</code>, <code>add_shipping_info</code>, <code>add_payment_info</code>) se mantienen.</li>
+</ul>
+</body>
+</html>

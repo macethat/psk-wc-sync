@@ -79,6 +79,7 @@ def fetch_from_psk_api():
     if not isinstance(data, list):
         print(f"ERROR: Respuesta inesperada de API: {data}")
         sys.exit(1)
+    articulo_to_codigo = {}
     rows = []
     for a in data:
         cod = a.get('codigo', '')
@@ -88,7 +89,10 @@ def fetch_from_psk_api():
             ext = int(float(ext))
         except:
             ext = 0
-        # Extract retail price (tipo 3 = DETAL)
+        # Build id_articulo -> codigo mapping for sucursal stock
+        id_art = a.get('id_articulo')
+        if id_art and cod:
+            articulo_to_codigo[id_art] = cod
         precio = None
         for p in a.get('precios', []):
             if p['id_tipo_precio'] == '3':
@@ -101,7 +105,67 @@ def fetch_from_psk_api():
     df = pd.DataFrame(rows)
     df["Codigo"] = df["Codigo"].str.strip()
     print(f"  Extraidos {len(df)} articulos desde PSK Cloud API")
-    return df
+    return df, articulo_to_codigo
+
+# === SUCURSALES CONFIG ===
+SUCURSALES = {
+    "1":  {"display": "SP El Cangrejo",      "meta_key": "_sucursal_1_stock"},
+    "5":  {"display": "SP Megapolis",        "meta_key": "_sucursal_5_stock"},
+    "6":  {"display": "SP Atrio Mall",       "meta_key": "_sucursal_6_stock"},
+    "7":  {"display": "SP San Francisco",    "meta_key": "_sucursal_7_stock"},
+    "8":  {"display": "SP Altos de Panamá",  "meta_key": "_sucursal_8_stock"},
+    "10": {"display": "SP Metromall",        "meta_key": "_sucursal_10_stock"},
+}
+
+def fetch_sucursal_stock(articulo_to_codigo):
+    """Fetch stock per warehouse from PSK API and map to SKUs.
+    
+    Args:
+        articulo_to_codigo: dict mapping id_articulo -> codigo (SKU)
+    
+    Returns:
+        dict: {codigo: {id_almacen: stock_qty}} 
+    """
+    import http.client
+    print("Extrayendo stock por sucursal desde PSK Cloud API...")
+    conn = http.client.HTTPSConnection(PSK_API_HOST)
+    
+    sucursal_ids = set(SUCURSALES.keys())
+    
+    conn.request('GET', f'/Api/Existencias?pin={PSK_PIN}',
+                 headers={'clave-api-business': PSK_API_KEY})
+    r = conn.getresponse()
+    data = json.loads(r.read().decode())
+    if not isinstance(data, list):
+        print(f"  ERROR: respuesta inesperada de Existencias: {type(data)}")
+        return {}
+    
+    print(f"  Registros de existencia: {len(data)}")
+    
+    result = {}
+    for ex in data:
+        id_art = ex.get('id_articulo')
+        id_alm = ex.get('id_almacen')
+        if id_alm not in sucursal_ids:
+            continue
+        codigo = articulo_to_codigo.get(id_art)
+        if not codigo:
+            continue
+        try:
+            qty = int(float(ex.get('existencia', 0)))
+        except:
+            qty = 0
+        if codigo not in result:
+            result[codigo] = {}
+        result[codigo][id_alm] = qty
+    
+    # Print summary for each sucursal
+    for aid in sucursal_ids:
+        count = sum(1 for v in result.values() if aid in v and v[aid] > 0)
+        print(f"  {SUCURSALES[aid]['display']}: {count} productos con stock")
+    
+    return result
+
 
 def git_commit_and_push(carpeta, ok, fail, disc):
     git_key = os.path.join(CARPETA_BASE, "github-key-nopass")
@@ -139,7 +203,22 @@ def main():
     carpeta = os.path.join(CARPETA_BASE, f"update_{fec.strftime('%d-%m-%Y')}")
     os.makedirs(carpeta, exist_ok=True)
 
-    df_inv = fetch_from_psk_api()
+    df_inv, art_to_cod = fetch_from_psk_api()
+    
+    # Fetch stock per sucursal
+    sucursal_stock = fetch_sucursal_stock(art_to_cod)
+    
+    # Save sucursal stock report
+    rows_ss = []
+    for codigo, almacenes in sorted(sucursal_stock.items()):
+        row = {"SKU": codigo}
+        for aid in sorted(SUCURSALES.keys()):
+            row[SUCURSALES[aid]["display"]] = almacenes.get(aid, 0)
+        rows_ss.append(row)
+    if rows_ss:
+        pd.DataFrame(rows_ss).to_csv(os.path.join(carpeta, "stock_por_sucursal.csv"), index=False)
+        print(f"  Stock por sucursal: {len(rows_ss)} productos con datos")
+    
     df_inv.to_csv(os.path.join(carpeta, "ListaInvFisic.csv"), index=False)
 
     wc_json = get_wc_export(suffix="_1")
@@ -293,26 +372,41 @@ def main():
               f"{u['old_stock']:>4}->{u['new_stock']:>4} ({signo}{diff}) "
               f"{u['new_status']:<10}{price_tag}", end="")
 
-        if not needs_update:
+        pid = u["id"]
+
+        # Update stock per sucursal for this product (always, regardless of total stock change)
+        sku = u["sku"]
+        has_sucursal_data = False
+        if sku in sucursal_stock:
+            for aid, sqty in sorted(sucursal_stock[sku].items()):
+                mkey = SUCURSALES[aid]["meta_key"]
+                needs_wp.append(f"post meta update {pid} {mkey} {sqty}")
+            avail = [str(aid) for aid in sorted(SUCURSALES.keys())
+                     if sucursal_stock[sku].get(aid, 0) > 0]
+            needs_wp.append(f"post meta update {pid} _sucursales_disponibles " + (",".join(avail) if avail else ""))
+            has_sucursal_data = True
+
+        if not needs_update and not has_sucursal_data:
             print(" -> SIN CAMBIOS")
             continue
 
-        pid = u["id"]
-        needs_wp.append(f"post meta update {pid} _stock {u['new_stock']}")
-        needs_wp.append(f"post meta update {pid} _stock_status {u['new_status']}")
-        if not u["manage"] or u["manage"] == "parent":
-            needs_wp.append(f"post meta update {pid} _manage_stock yes")
-
-        if price_changed:
-            needs_wp.append(f"post meta update {pid} _regular_price {u['new_price']}")
+        if needs_update:
+            needs_wp.append(f"post meta update {pid} _stock {u['new_stock']}")
+            needs_wp.append(f"post meta update {pid} _stock_status {u['new_status']}")
+            if not u["manage"] or u["manage"] == "parent":
+                needs_wp.append(f"post meta update {pid} _manage_stock yes")
+            if price_changed:
+                needs_wp.append(f"post meta update {pid} _regular_price {u['new_price']}")
 
         if dry_run:
-            status_str = ""
+            status_parts = []
             if stock_changed:
-                status_str = 'outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock'
+                status_parts.append('outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock')
+            if has_sucursal_data:
+                status_parts.append('sucursales')
             if price_changed:
-                status_str += f" +precio"
-            print(f" -> {status_str} (dry)")
+                status_parts.append('precio')
+            print(f" -> {' + '.join(status_parts) if status_parts else 'solo sucursal'} (dry)")
         else:
             print(" -> pendiente")
 
@@ -336,20 +430,44 @@ def main():
         print(f"\n  Con cambio stock: {cambios}  Solo status: {len(updates)-cambios}")
         print(f"  Comandos WP-CLI generados: {len(needs_wp)}")
     else:
-        print(f"\n  Ejecutando {len(needs_wp)} comandos WP-CLI...")
-        ok = fail = 0
-        for i, cmd in enumerate(needs_wp, 1):
-            out = run_wp(cmd, timeout=60)
-            sys.stdout.write(f"\r  [{i}/{len(needs_wp)}] ")
-            sys.stdout.flush()
-            if out and "Success:" in out:
-                ok += 1
-            else:
-                fail += 1
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+        # Generate bulk PHP script for all updates (single wp eval-file call)
+        php = "<?php\n"
+        for u in updates:
+            if u['new_stock'] != u['old_stock'] or u['new_status'] != u['old_status'] or u['sku'] in sucursal_stock:
+                pid = int(u['id'])
+                sku = u['sku']
+                php += f"update_post_meta({pid},'_stock',{int(u['new_stock'])});\n"
+                php += f"update_post_meta({pid},'_stock_status','{u['new_status']}');\n"
+                if not u.get('manage') or u['manage'] == 'parent':
+                    php += f"update_post_meta({pid},'_manage_stock','yes');\n"
+                if u['new_price'] is not None and u['old_price'] is not None and sku not in PRICE_EXCLUDE_SKUS:
+                    try:
+                        if abs(float(u['old_price']) - float(u['new_price'])) > 0.01:
+                            php += f"update_post_meta({pid},'_regular_price','{u['new_price']}');\n"
+                    except:
+                        pass
+                # Sucursal stock
+                if sku in sucursal_stock:
+                    for aid, sqty in sorted(sucursal_stock[sku].items()):
+                        mkey = SUCURSALES[aid]['meta_key']
+                        php += f"update_post_meta({pid},'{mkey}',{sqty});\n"
+                    avail = ','.join(str(aid) for aid in sorted(SUCURSALES.keys())
+                                     if sucursal_stock[sku].get(aid, 0) > 0)
+                    php += f"update_post_meta({pid},'_sucursales_disponibles','{avail}');\n"
+                php += "echo 'OK';\n"
+        php += "echo 'DONE';\n"
 
-        print(f"\n  OK: {ok}  Fallidos: {fail}")
+        php_path = os.path.join(carpeta, "bulk_update.php")
+        with open(php_path, 'w', encoding='utf-8') as f:
+            f.write(php)
+
+        print(f"\n  Ejecutando bulk update via wp eval-file...")
+        out = run_wp(f'eval-file {php_path}', timeout=300)
+        ok = out.count("OK")
+        fail = len([u for u in updates if u['new_stock'] != u['old_stock'] or u['new_status'] != u['old_status'] or u['sku'] in sucursal_stock]) - ok
+        print(f"  OK: {ok}  Fallidos: {max(0, fail)}")
+        if out.strip():
+            print(f"  Ultima linea: {out.strip().split(chr(10))[-1]}")
 
         print("\n--- VERIFICACION ---", flush=True)
         wc_json2 = get_wc_export(suffix="_2")

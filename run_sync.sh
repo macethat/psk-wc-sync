@@ -6,4 +6,4 @@ export MKL_NUM_THREADS=1
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 
-/usr/bin/python3 daily_stock_update.py --live --api >> cron.log 2>&1
+/usr/bin/python3 daily_stock_update.py --live --update-prices >> cron.log 2>&1

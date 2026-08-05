@@ -3,6 +3,75 @@
  * Theme functions and definitions.
  */
 
+// dataLayer pushes for GA4 events
+add_action('wp_footer', function() {
+    if (!function_exists('is_checkout')) return;
+    ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // remove_from_cart
+    document.body.addEventListener('removed_from_cart', function(e) {
+        if (typeof e.detail === 'object' && e.detail) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({ ecommerce: null });
+            window.dataLayer.push({
+                event: 'remove_from_cart',
+                ecommerce: {
+                    items: [{
+                        item_id: e.detail.product_id,
+                        quantity: e.detail.quantity
+                    }]
+                }
+            });
+        }
+    });
+
+    // add_shipping_info + add_payment_info for checkout
+    if (document.body.classList.contains('woocommerce-checkout')) {
+        // add_shipping_info when checkout page loads (shipping fields present)
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ ecommerce: null });
+        window.dataLayer.push({
+            event: 'add_shipping_info',
+            ecommerce: {
+                shipping_tier: 'local_pickup'
+            }
+        });
+        // add_payment_info when payment method changes
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'payment_method') {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({ ecommerce: null });
+                window.dataLayer.push({
+                    event: 'add_payment_info',
+                    ecommerce: {
+                        payment_type: e.target.value
+                    }
+                });
+            }
+        });
+    }
+});
+</script>
+    <?php
+}, 999);
+
+// Internal traffic detection for GA4 (filter out office/sucursal IPs)
+add_action('wp_head', function() {
+    $internal_ips = array(
+        '200.46.16.73',    // Oficina
+        '190.34.132.114',  // SP El Cangrejo
+        '200.124.21.55',   // Sucursal
+        '181.197.127.90',  // Sucursal
+        '181.197.52.165',  // Sucursal
+        '200.124.21.60',   // Sucursal
+        '200.108.54.209',  // Sucursal
+    );
+    if (in_array($_SERVER['REMOTE_ADDR'], $internal_ips, true)) {
+        echo '<script>window.dataLayer = window.dataLayer || []; window.dataLayer.push({"traffic_type":"internal"});</script>' . "\n";
+    }
+}, 0);
+
 if (!function_exists('nutritix_form_login')) {
     function nutritix_form_login() {
         if (nutritix_is_woocommerce_activated() && 'yes' === get_option('woocommerce_enable_myaccount_registration')) {
@@ -60,6 +129,13 @@ add_action('template_redirect', function() {
         '/product/prolive-bio5-bum-pre-blue-razz/' => '/product/prolive-bio5-bum-pre-blue-raspberry/',
         '/product/creatina-evogen-60-serv-beta-alanina-raw/' => '/product/creatina-micronizada-monohidratada/',
         '/product/evp-xtreme-n-o-polar-cherry-frost/' => '/product/suplemento-pre-entreno/',
+        '/producto/creatina-micronizada-mohidratada/' => '/product/creatina-micronizada-monohidratada/',
+        '/product/creatina-micronizada-monohidratada-nutricost/' => '/product/iso-100-fruity-pebbles-20-serv-1-6-lbs-24-serving-dymatize/',
+        '/product/creatina-micronizada-mohidratada/' => '/product/creatina-micronizada-monohidratada/',
+        '/product/proteina-iso100-dymatize-1-34-lbs/' => '/product/iso-100-fruity-pebbles-20-serv-1-6-lbs-24-serving-dymatize/',
+        '/product-brand/marcas/' => '/shop/',
+        '/wp-content/uploads/2025/06/6.jpg' => '/wp-content/uploads/2025/09/6.webp',
+        '/wp-content/uploads/2025/06/banner-1920x400-copia-scaled.jpg' => '/wp-content/uploads/2025/09/banner-1920x400-copia-scaled-1.webp',
     );
     if (isset($redirects[$request])) {
         wp_redirect($redirects[$request], 301);
@@ -1350,6 +1426,121 @@ fbq('track', 'Purchase', {
     value: <?php echo (float) $combo_total; ?>,
     currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
     num_items: <?php echo (int) $order->get_item_count(); ?>
+});
+</script>
+    <?php
+});
+
+// GA4 ecommerce events (manual)
+add_action('wp_footer', function () {
+    if (!is_product()) { return; }
+    $p = wc_get_product(get_the_ID());
+    if (!$p) { return; }
+    $pid = $p->get_id();
+    ?>
+<script>
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({ ecommerce: null });
+window.dataLayer.push({
+    event: 'view_item',
+    ecommerce: {
+        currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
+        value: <?php echo (float) $p->get_price(); ?>,
+        items: [{
+            item_id: '<?php echo esc_js($p->get_sku() ?: $pid); ?>',
+            item_name: '<?php echo esc_js($p->get_name()); ?>',
+            price: <?php echo (float) $p->get_price(); ?>,
+            quantity: 1
+        }]
+    }
+});
+</script>
+    <?php
+});
+
+add_action('woocommerce_add_to_cart', function ($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+    $pid = $variation_id ?: $product_id;
+    $p = wc_get_product($pid);
+    if (!$p) { return; }
+    ?>
+<script>
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({ ecommerce: null });
+window.dataLayer.push({
+    event: 'add_to_cart',
+    ecommerce: {
+        currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
+        value: <?php echo (float) ($p->get_price() * $quantity); ?>,
+        items: [{
+            item_id: '<?php echo esc_js($p->get_sku() ?: $pid); ?>',
+            item_name: '<?php echo esc_js($p->get_name()); ?>',
+            price: <?php echo (float) $p->get_price(); ?>,
+            quantity: <?php echo (int) $quantity; ?>
+        }]
+    }
+});
+</script>
+    <?php
+}, 5, 6);
+
+add_action('woocommerce_before_checkout_form', function () {
+    $cart = WC()->cart;
+    if (!$cart) { return; }
+    $items = array();
+    foreach ($cart->get_cart() as $cart_item) {
+        $p = $cart_item['data'];
+        if (!$p) { continue; }
+        $items[] = array(
+            'item_id' => $p->get_sku() ?: $cart_item['product_id'],
+            'item_name' => $p->get_name(),
+            'price' => (float) $p->get_price(),
+            'quantity' => $cart_item['quantity'],
+        );
+    }
+    if (empty($items)) { return; }
+    ?>
+<script>
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({ ecommerce: null });
+window.dataLayer.push({
+    event: 'begin_checkout',
+    ecommerce: {
+        currency: '<?php echo esc_js(get_woocommerce_currency()); ?>',
+        value: <?php echo (float) $cart->get_total('numeric'); ?>,
+        items: <?php echo json_encode($items, JSON_UNESCAPED_UNICODE); ?>
+    }
+});
+</script>
+    <?php
+});
+
+add_action('woocommerce_thankyou', function ($order_id) {
+    $order = wc_get_order($order_id);
+    if (!$order) { return; }
+    $items = array();
+    foreach ($order->get_items() as $item) {
+        $p = $item->get_product();
+        if (!$p) { continue; }
+        $items[] = array(
+            'item_id' => $p->get_sku() ?: $item->get_product_id(),
+            'item_name' => $p->get_name(),
+            'price' => (float) $item->get_total(),
+            'quantity' => $item->get_quantity(),
+        );
+    }
+    if (empty($items)) { return; }
+    ?>
+<script>
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({ ecommerce: null });
+window.dataLayer.push({
+    event: 'purchase',
+    ecommerce: {
+        transaction_id: '<?php echo esc_js($order->get_order_number()); ?>',
+        value: <?php echo (float) $order->get_total(); ?>,
+        currency: '<?php echo esc_js($order->get_currency()); ?>',
+        items: <?php echo json_encode($items, JSON_UNESCAPED_UNICODE); ?>
+    }
 });
 </script>
     <?php

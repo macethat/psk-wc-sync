@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /wp-content/uploads/wc-logs/
+Disallow: /wp-content/uploads/woocommerce_transient_files/
+Disallow: /wp-content/uploads/woocommerce_uploads/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /my-account/
+Disallow: /wishlist/
+Disallow: /*?add-to-cart=
+Disallow: /*?add_to_wishlist=
+Disallow: /*?remove_item=
+Allow: /wp-admin/admin-ajax.php
+
+Sitemap: https://suplementospanama.net/sitemap_index.xml

@@ -9,6 +9,15 @@ from datetime import datetime
 CARPETA_BASE = os.path.dirname(os.path.abspath(__file__))
 STOCK_LIMIT = 6
 
+SUCURSALES = {
+    "1":  {"display": "SP El Cangrejo",      "meta_key": "_sucursal_1_stock"},
+    "5":  {"display": "SP Megapolis",        "meta_key": "_sucursal_5_stock"},
+    "6":  {"display": "SP Atrio Mall",       "meta_key": "_sucursal_6_stock"},
+    "7":  {"display": "SP San Francisco",    "meta_key": "_sucursal_7_stock"},
+    "8":  {"display": "SP Altos de Panamá",  "meta_key": "_sucursal_8_stock"},
+    "10": {"display": "SP Metromall",        "meta_key": "_sucursal_10_stock"},
+}
+
 SSH_KEY = os.path.join(CARPETA_BASE, "ssh-key-nopass")
 SSH_USER = "u1910-kbd9lgn9dh44"
 SSH_HOST = "ssh.suplementospanama.net"
@@ -58,6 +67,7 @@ def fetch_from_psk_api(suffix=""):
     if not isinstance(data, list):
         print(f"ERROR: Respuesta inesperada de API: {data}")
         sys.exit(1)
+    articulo_to_codigo = {}
     rows = []
     for a in data:
         cod = a.get('codigo', '')
@@ -67,11 +77,45 @@ def fetch_from_psk_api(suffix=""):
             ext = int(float(ext))
         except:
             ext = 0
+        id_art = a.get('id_articulo')
+        if id_art and cod:
+            articulo_to_codigo[str(id_art)] = cod
         rows.append({"Codigo": cod, "Nombre": nom, "Cant.Total": ext})
     df = pd.DataFrame(rows)
     df["Codigo"] = df["Codigo"].str.strip()
     print(f"  Extraidos {len(df)} articulos desde PSK Cloud API")
-    return df
+    return df, articulo_to_codigo
+
+def fetch_sucursal_stock(articulo_to_codigo):
+    import http.client
+    print("Extrayendo stock por sucursal desde PSK Cloud API...")
+    conn = http.client.HTTPSConnection(PSK_API_HOST)
+    sucursal_ids = set(SUCURSALES.keys())
+    conn.request('GET', f'/Api/Existencias?pin={PSK_PIN}',
+                 headers={'clave-api-business': PSK_API_KEY})
+    r = conn.getresponse()
+    data = json.loads(r.read().decode())
+    if not isinstance(data, list):
+        print(f"  ERROR: respuesta inesperada de Existencias: {type(data)}")
+        return {}
+    print(f"  Registros de existencia: {len(data)}")
+    result = {}
+    for ex in data:
+        id_art = str(ex.get('id_articulo'))
+        id_alm = str(ex.get('id_almacen'))
+        if id_alm not in sucursal_ids:
+            continue
+        codigo = articulo_to_codigo.get(id_art)
+        if not codigo:
+            continue
+        qty = int(float(ex.get('existencia', 0)))
+        if codigo not in result:
+            result[codigo] = {}
+        result[codigo][id_alm] = qty
+    for aid in sorted(sucursal_ids):
+        count = sum(1 for v in result.values() if aid in v and v[aid] > 0)
+        print(f"  {SUCURSALES[aid]['display']}: {count} productos con stock")
+    return result
 
 def main():
     dry_run = "--live" not in sys.argv
@@ -92,11 +136,26 @@ def main():
 
     inv_csv = os.path.join(CARPETA_BASE, "ListaInvFisic.csv")
 
+    sucursal_stock = {}
+
     if use_api:
         fec = datetime.strptime(fecha_arg, "%d-%m-%Y") if fecha_arg else datetime.now()
         carpeta = os.path.join(CARPETA_BASE, f"update_{fec.strftime('%d-%m-%Y')}")
         os.makedirs(carpeta, exist_ok=True)
-        df_inv = fetch_from_psk_api()
+        df_inv, art_to_cod = fetch_from_psk_api()
+
+        # Fetch stock per sucursal
+        sucursal_stock = fetch_sucursal_stock(art_to_cod)
+        rows_ss = []
+        for codigo, almacenes in sorted(sucursal_stock.items()):
+            row = {"SKU": codigo}
+            for aid in sorted(SUCURSALES.keys()):
+                row[SUCURSALES[aid]["display"]] = almacenes.get(aid, 0)
+            rows_ss.append(row)
+        if rows_ss:
+            pd.DataFrame(rows_ss).to_csv(os.path.join(carpeta, "stock_por_sucursal.csv"), index=False)
+            print(f"  Stock por sucursal: {len(rows_ss)} productos con datos")
+
         df_inv.to_csv(os.path.join(carpeta, "ListaInvFisic.csv"), index=False)
     else:
         if not os.path.exists(inv_csv):
@@ -216,22 +275,42 @@ def main():
               f"{u['old_stock']:>4}->{u['new_stock']:>4} ({signo}{diff}) "
               f"{u['new_status']:<10}", end="")
 
-        if not needs_update:
+        pid = u["id"]
+        sku = u["sku"]
+
+        # Sucursal stock commands (always if data exists)
+        has_sucursal = False
+        if sku in sucursal_stock:
+            has_sucursal = True
+            for aid, sqty in sorted(sucursal_stock[sku].items()):
+                mkey = SUCURSALES[aid]["meta_key"]
+                commands.append(f"cd {WP_PATH} && wp post meta update {pid} {mkey} {sqty}")
+            avail = [str(aid) for aid in sorted(SUCURSALES.keys())
+                     if sucursal_stock[sku].get(aid, 0) > 0]
+            commands.append(f"cd {WP_PATH} && wp post meta update {pid} _sucursales_disponibles " + (",".join(avail) if avail else ""))
+
+        if not needs_update and not has_sucursal:
             print(" -> SIN CAMBIOS")
             continue
 
-        in_stock = "true" if u["new_status"] == "instock" else "false"
-        if u["tipo"] == "variation":
-            wp_cmd = f"wp --user=Suplementos wc product_variation update {u['parent']} {u['id']}"
-        else:
-            wp_cmd = f"wp --user=Suplementos wc product update {u['id']}"
-        wp_cmd += f" --stock_quantity={u['new_stock']} --in_stock={in_stock}"
-        if not u["manage"] or u["manage"] == "parent":
-            wp_cmd += " --manage_stock=true"
-        commands.append(f"cd {WP_PATH} && {wp_cmd}")
+        if needs_update:
+            in_stock = "true" if u["new_status"] == "instock" else "false"
+            if u["tipo"] == "variation":
+                wp_cmd = f"wp --user=Suplementos wc product_variation update {u['parent']} {u['id']}"
+            else:
+                wp_cmd = f"wp --user=Suplementos wc product update {u['id']}"
+            wp_cmd += f" --stock_quantity={u['new_stock']} --in_stock={in_stock}"
+            if not u["manage"] or u["manage"] == "parent":
+                wp_cmd += " --manage_stock=true"
+            commands.append(f"cd {WP_PATH} && {wp_cmd}")
 
         if dry_run:
-            print(f" -> {'outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock'} (dry)")
+            parts = []
+            if needs_update:
+                parts.append('outofstock' if u['new_stock'] <= STOCK_LIMIT else 'instock')
+            if has_sucursal:
+                parts.append('sucursales')
+            print(f" -> {' + '.join(parts) if parts else 'solo sucursal'} (dry)")
         else:
             print(" -> pendiente")
 

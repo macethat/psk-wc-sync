@@ -2,6 +2,8 @@
 
 Este archivo refina las habilidades del agente **habi** aplicándolas al nicho de **suplementación para entrenamiento**: proteínas (whey, caseína, vegetal), creatinas, aminoácidos (BCAA, EAA, glutamina), pre-entrenos, quemagrasas (termogénicos), boosters de testosterona, vitaminas para deportistas, electrolitos y nootrópicos deportivos.
 
+**REQUISITO DE ACENTUACIÓN**: todo texto generado DEBE usar vocales acentuadas correctas del español. Prohibido escribir sin acentos: `proteína` (no `proteina`), `absorción` (no `absorcion`), `recuperación` (no `recuperacion`), `suplementación` (no `suplementacion`), `información` (no `informacion`), `nutrición` (no `nutricion`), `después` (no `despues`), `también` (no `tambien`), `según` (no `segun`), `rápido/rápida` (no `rapido/rapida`), `más` (no `mas`), `músculo/músculos` (no `musculo/musculos`), `Panamá` (no `Panama`), `años` (no `anos`), `científico` (no `cientifico`), `dietético` (no `dietetico`), `farmacológico` (no `farmacologico`), `técnica` (no `tecnica`), `práctica` (no `practica`), `médico` (no `medico`), `línea` (no `linea`), `específico` (no `especifico`), `cafeína` (no `cafeina`), `combinación` (no `combinacion`), `definición` (no `definicion`), `condición` (no `condicion`), `opción` (no `opcion`), `porción` (no `porcion`), `sesión` (no `sesion`), `síntesis` (no `sintesis`).
+
 Este segmento tiene particularidades únicas: **alta regulación sanitaria, audiencia experta y novata mezclada, competencia feroz, y la necesidad crítica de generar confianza** (porque el usuario se está ingiriendo el producto).
 
 ---
