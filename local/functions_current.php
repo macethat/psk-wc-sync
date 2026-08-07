@@ -300,6 +300,18 @@ function sp_get_meta_id($item) {
     return !empty($item['variation_id']) ? $item['variation_id'] : $item['product_id'];
 }
 
+// Para combos el cart item es el grouped (combo) con combo_children[]; extrae los ids reales (variación o producto hijo)
+function sp_get_cart_item_ids($item) {
+    if (!empty($item['combo_children']) && is_array($item['combo_children'])) {
+        $ids = array();
+        foreach ($item['combo_children'] as $child) {
+            $ids[] = !empty($child['variation_id']) ? $child['variation_id'] : $child['product_id'];
+        }
+        return $ids;
+    }
+    return array(sp_get_meta_id($item));
+}
+
 function sp_get_valid_sucursales_for_cart() {
     $sucursales = sp_get_sucursales();
     $cart_items = WC()->cart->get_cart();
@@ -308,12 +320,15 @@ function sp_get_valid_sucursales_for_cart() {
     foreach ($sucursales as $aid => $s) {
         $all_available = true;
         foreach ($cart_items as $item) {
-            $meta_id = sp_get_meta_id($item);
-            $prod_sucs = get_post_meta($meta_id, '_sucursales_disponibles', true);
-            if (empty($prod_sucs) || !in_array((string)$aid, explode(',', $prod_sucs))) {
-                $all_available = false;
-                break;
+            $item_ok = true;
+            foreach (sp_get_cart_item_ids($item) as $meta_id) {
+                $prod_sucs = get_post_meta($meta_id, '_sucursales_disponibles', true);
+                if (empty($prod_sucs) || !in_array((string)$aid, explode(',', $prod_sucs))) {
+                    $item_ok = false;
+                    break;
+                }
             }
+            if (!$item_ok) { $all_available = false; break; }
         }
         if ($all_available) $valid[$aid] = $s;
     }
@@ -326,9 +341,10 @@ function sp_filter_shipping_methods($rates, $package) {
     if (!function_exists('WC') || !WC()->cart) return $rates;
     $any_sucursal = false;
     foreach (WC()->cart->get_cart() as $item) {
-        $meta_id = sp_get_meta_id($item);
-        $prod_sucs = get_post_meta($meta_id, '_sucursales_disponibles', true);
-        if (!empty($prod_sucs)) { $any_sucursal = true; break; }
+        foreach (sp_get_cart_item_ids($item) as $meta_id) {
+            $prod_sucs = get_post_meta($meta_id, '_sucursales_disponibles', true);
+            if (!empty($prod_sucs)) { $any_sucursal = true; break 2; }
+        }
     }
     if (!$any_sucursal) {
         foreach ($rates as $rate_id => $rate) {
@@ -625,12 +641,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (m.checked && m.value.indexOf('local_pickup') !== -1) isPickup = true;
         });
         spFields.forEach(function(f) { f.style.display = isPickup ? '' : 'none'; });
-        if (!isPickup) {
-            spFields.forEach(function(f) {
-                var sel = f.querySelector('select');
-                if (sel) sel.value = '';
-            });
-        }
     }
 
     spBindSucursalToggle();
@@ -661,6 +671,11 @@ document.addEventListener('DOMContentLoaded', function() {
     spBindSucursalChange('sp_sucursal_retiro');
     spBindSucursalChange('sp_sucursal_retiro_cart');
     function spUpdateSucursalInfo() {
+        var methods = document.querySelectorAll('input[name^="shipping_method"]');
+        var isPickup = false;
+        methods.forEach(function(m) {
+            if (m.checked && m.value.indexOf('local_pickup') !== -1) isPickup = true;
+        });
         var sel = document.getElementById('sp_sucursal_retiro');
         var field = document.querySelector('.sp-sucursal-wrap');
         if (!sel || !sel.value || !field) {
@@ -670,6 +685,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (info) info.remove();
             return;
         }
+        if (!isPickup) return;
         var selOpt = sel.options[sel.selectedIndex];
         if (!selOpt || !selOpt.text || selOpt.text === 'Selecciona una sucursal') {
             var stale = document.querySelector('tr.sp-sucursal-review');
@@ -715,6 +731,43 @@ document.addEventListener('DOMContentLoaded', function() {
     <?php
 }
 
+// Detect if local_pickup is the effective shipping method (from POST, session, or package rates fallback)
+function sp_get_cart_shipping_rate_ids() {
+    $ids = array();
+    if (!function_exists('WC') || !WC()->cart) return $ids;
+    if (!WC()->shipping) { WC()->shipping = new WC_Shipping(); WC()->shipping->init(); }
+    foreach (WC()->cart->get_shipping_packages() as $pkg) {
+        $rates = WC()->shipping->calculate_shipping_for_package($pkg);
+        if (is_array($rates)) {
+            $pkg_rates = !empty($rates['rates']) && is_array($rates['rates']) ? $rates['rates'] : $rates;
+            foreach (array_keys($pkg_rates) as $rid) $ids[] = (string) $rid;
+        }
+    }
+    return $ids;
+}
+
+function sp_is_local_pickup_selected() {
+    if (!empty($_POST['shipping_method'])) {
+        $m = is_array($_POST['shipping_method']) ? $_POST['shipping_method'][0] : $_POST['shipping_method'];
+        if (strpos($m, 'local_pickup') !== false) return true;
+        return false;
+    }
+    if (function_exists('WC') && WC()->session) {
+        $chosen = WC()->session->get('chosen_shipping_methods');
+        if (is_array($chosen) && !empty($chosen) && strpos($chosen[0], 'local_pickup') !== false) return true;
+        // Si el usuario ya eligió sucursal en el carrito, su intención es retiro
+        if (!empty(WC()->session->get('sp_sucursal_retiro')) && sp_get_valid_sucursales_for_cart()) {
+            foreach (sp_get_cart_shipping_rate_ids() as $rid) {
+                if (strpos($rid, 'local_pickup') !== false) return true;
+            }
+        }
+    }
+    // Fallback: if no method chosen yet, check first available package rate
+    $ids = sp_get_cart_shipping_rate_ids();
+    if (!empty($ids) && strpos($ids[0], 'local_pickup') !== false) return true;
+    return false;
+}
+
 // Checkout: add sucursal selection field
 add_action('woocommerce_after_checkout_shipping_form', 'sp_checkout_sucursal_field');
 function sp_checkout_sucursal_field($checkout) {
@@ -728,11 +781,10 @@ function sp_checkout_sucursal_field($checkout) {
     if (empty($default)) {
         $default = WC()->session->get('sp_sucursal_retiro', '');
     }
-    $chosen = WC()->session->get('chosen_shipping_methods')[0] ?? '';
-    $is_pickup = strpos($chosen, 'local_pickup') !== false;
+    $is_pickup = sp_is_local_pickup_selected();
     $field_style = $is_pickup ? '' : 'display:none';
     $debug_sel = !empty($_POST['sp_sucursal_retiro']) ? $_POST['sp_sucursal_retiro'] : (WC()->session->get('sp_sucursal_retiro', ''));
-    echo '<!-- SP_DEBUG selected=' . esc_attr($debug_sel) . ' method=' . esc_attr($chosen) . ' -->';
+    echo '<!-- SP_DEBUG selected=' . esc_attr($debug_sel) . ' method=' . esc_attr($is_pickup ? 'local_pickup' : '') . ' -->';
     echo '<div class="sp-sucursal-wrap" style="' . $field_style . '" data-sp-valid=\'' . wp_json_encode($valid, JSON_HEX_APOS) . '\'>';
     woocommerce_form_field('sp_sucursal_retiro', array(
         'type'     => 'select',
@@ -771,29 +823,19 @@ function sp_get_sucursal_review_html() {
     }
     if (empty($selected)) return '';
     $sucursales = sp_get_sucursales();
-    $chosen_method = '';
-    if (!empty($_POST['shipping_method'])) {
-        $chosen_method = is_array($_POST['shipping_method']) ? $_POST['shipping_method'][0] : $_POST['shipping_method'];
-    } elseif (function_exists('WC') && WC()->session) {
-        $chosen_method = WC()->session->get('chosen_shipping_methods')[0] ?? '';
-    }
-    if (strpos($chosen_method, 'local_pickup') === false) return '';
+    if (!sp_is_local_pickup_selected()) return '';
     if (!isset($sucursales[$selected])) return '';
     return '<tr class="sp-sucursal-review"><th>Sucursal</th><td style="word-break:keep-all;overflow-wrap:break-word">' . esc_html($sucursales[$selected]['name']) . '<br><small>' . esc_html($sucursales[$selected]['address']) . '</small></td></tr>';
 }
 function sp_sucursal_fragment($fragments) {
-    $html = sp_get_sucursal_review_html();
-    if ($html) {
-        $fragments['tr.sp-sucursal-review'] = $html;
-    }
+    $fragments['tr.sp-sucursal-review'] = sp_get_sucursal_review_html();
     return $fragments;
 }
 
 // Validate
 add_action('woocommerce_checkout_process', 'sp_validate_sucursal_field');
 function sp_validate_sucursal_field() {
-    $chosen = WC()->session->get('chosen_shipping_methods')[0] ?? '';
-    if (strpos($chosen, 'local_pickup') === false) return;
+    if (!sp_is_local_pickup_selected()) return;
     if (empty($_POST['sp_sucursal_retiro'])) {
         wc_add_notice('Por favor selecciona la sucursal donde retirarás tu pedido.', 'error');
     }

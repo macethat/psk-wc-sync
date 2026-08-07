@@ -491,3 +491,106 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 - Schema en home: Marcas → `https://suplementospanama.net/marcas/`, Blog → `Power Rack`
 - Página /marcas/ también emite `sp-schema-navegacion` y 1 BreadcrumbList (Rank Math) sin duplicados
 - Menú en vivo: `MARCAS` href = `/marcas/`, dropdown con sub-marcas intacto
+
+## 2026-08-07 — Revisión API de reseñas (GBP vs Places) — My Business APIs ya estaban habilitadas
+
+### Estado diagnosticado
+- Constantes definidas en `wp-config.php`: `GOOGLE_PLACES_API_KEY`, `GBP_CLIENT_ID`, `GBP_CLIENT_SECRET`, `GBP_REFRESH_TOKEN`
+- **OAuth autorizado** ✅: refresh token renueva bien, scope `https://www.googleapis.com/auth/business.manage` en la respuesta
+- **My Business API: HTTP 429 "Quota exceeded" con `quota_limit_value: 0`** ⚠️ → sin embargo, el usuario confirmó que TODAS las APIs del proyecto YA están habilitadas "de antes" → el 429 con cuota 0 es otra cosa (posible restricción de cuota diaria/per-minute del proyecto, o la cuenta GBP no está vinculada como propietaria, o el proyecto usa otra credencial que la de la cuenta correcta)
+- **Places API funciona** ✅ → el sitio sirve reseñas reales (5 por sucursal) vía fallback de `sp_fetch_google_reviews()`
+- Verificado en vivo en `/sucursales/el-cangrejo/`: reseña real "Yummy Yummy" visible (servida por Places API)
+
+### Datos del proyecto (referencia para Google Cloud Console)
+- Project number: `531692178989`
+- Nombre del proyecto: **suplementos-panama-gbp**
+- OAuth client ID: `531692178989-si942blvg5n57t6emd69m5f0jna0voj8.apps.googleusercontent.com`
+- Cuenta Business Profile que agrupa las 6 sucursales: **suplementospanamashop@gmail.com**
+- **APIs habilitadas en el proyecto (confirmadas por el usuario el 2026-08-07, todas "de antes")**:
+  1. My Business API (`mybusiness.googleapis.com`) → la usa `sp_gbp_get_reviews()` (v4 .../reviews)
+  2. My Business Account Management API (`mybusinessaccountmanagement.googleapis.com`) → la usa `sp_gbp_get_accounts()`
+  3. My Business Business Information API (`mybusinessbusinessinformation.googleapis.com`) → la usa `sp_gbp_get_locations()`
+  4. My Business Notifications API
+  5. My Business Lodging API
+  6. My Business Q&A API
+  7. My Business Place Actions API
+  8. My Business Verifications API
+  9. Business Profile Performance API
+
+### Próximo paso (aun pendiente)
+- **CAUSA RAÍZ CONFIRMADA**: error 429 con `quota_limit_value=0` y `DefaultRequestsPerMinutePerProject` es un problema conocido de Google: las My Business APIs (accountmanagement, businessinformation, mybusiness v4) tienen cuota **0 RPM por defecto** para el proyecto, aunque estén habilitadas. No es una falta de habilitación ni un error del código.
+- **DATO CLAVE de la consola**: en "Quotas and system limits" la métrica **"Requests per minute" → Value 0 → Adjustable: No** → la cuota está bloqueada en 0 y **NO se puede aumentar desde la consola** (ni siquiera aparece opción de editar). Es un límite inicial que Google impone a estas APIs.
+- **Solución** (confirmado por múltiples reportes públicos y la documentación oficial):
+  1. **Contactar Google Cloud Support** pidiendo habilitar el acceso a las Business Profile APIs para el proyecto `suplementos-panama-gbp` (project number `531692178989`) → URL oficial: https://cloud.google.com/docs/quotas/help/request_increase — los reportes de la comunidad indican que soporte lo habilita directamente sin más trámite
+  2. La cuota NO se puede solicitar por la UI (Adjustable: No), por lo que el formulario de soporte/request increase es la única vía
+- **2026-08-07 (mismo día)**: el usuario **activó Quota adjuster** (Configurations) en el proyecto. Re-test inmediato: sigue 429 con `quota_limit_value: 0` → el adjuster **no es instantáneo** (ajusta según uso acumulado; puede tardar horas/días). Pendiente re-testear en 24-48h.
+- Tras la aprobación: purgar transients (`sp_gbp_access_token`, `sp_gbp_accounts`, `sp_gbp_locs_*`, `sp_gbp_locmap_*`) y re-testear `GET accounts` — si da 200, las reseñas pasarán a servirse por GBP (más campos: respuesta del negocio, historial completo)
+
+### Nota operativa
+- No hay urgencia: el sitio ya muestra reseñas reales de Google por Places API
+
+## 2026-08-07 � Fix: retiro en sucursal no visible para combos en el carrito
+
+### Problema
+- Para productos normales las opciones "Envio" / "Recoger en local" (y el selector de sucursal) se mostraban en el carrito/checkout, pero para combos NO aparec�an (solo "Envio").
+- Los combos son productos grouped; el mu-plugin combo-price.php los agrega al carrito como un solo item con product_id = COMBO_ID (sin variaci�n) y los componentes en cart_item_data['combo_children'].
+- La meta _sucursales_disponibles vive en los productos hijos, NO en el COMBO_ID.
+
+### Causa ra�z
+- sp_filter_shipping_methods() y sp_get_valid_sucursales_for_cart() (functions.php del child) usaban sp_get_meta_id() -> COMBO_ID -> sin meta -> $any_sucursal=false -> se eliminaba local_pickup y el select de sucursal no se renderizaba.
+
+### Fix (functions.php del child, copia local en local/functions_current.php)
+- Nuevo helper sp_get_cart_item_ids(): si el cart item tiene combo_children[], devuelve los ids reales de los hijos (variation_id o product_id); si no, el id normal.
+- sp_filter_shipping_methods(): itera todos los ids por item (hijos incluidos); conserva local_pickup si cualquier hijo tiene meta.
+- sp_get_valid_sucursales_for_cart(): una sucursal es v�lida solo si TODOS los items del carrito (y todos los hijos de cada combo) tienen esa sucursal en _sucursales_disponibles.
+
+### Verificaci�n (WP-CLI en vivo)
+- php -l OK sobre el functions.php nuevo.
+- Audit de los 22 combos grouped: 5 tienen TODOS sus hijos con _sucursales_disponibles (21525, 21521, 21515, 21511, 21510), 16 parciales y 1 sin ninguno (esos siguen siendo solo Delivery, correcto).
+- Simulaci�n de carrito con combo 21525 (IsoJect + Raw Pre + Creatina VMS): sp_get_valid_sucursales_for_cart devuelve 4 sucursales (SP El Cangrejo, Atrio Mall, San Francisco, Altos de Panam�) y sp_filter_shipping_methods conserva local_pickup.
+
+### Despliegue
+- Backup en servidor: unctions.php.bak-20260807.
+- wp cache flush ejecutado.
+
+## 2026-08-07 (2) � Fix: sucursal elegida en carrito no quedaba indicada en checkout
+
+### Problema
+- Con el fix de combos activo, el selector de sucursal aparecia en el carrito y el usuario podia elegir, pero al pasar al checkout la sucursal NO quedaba indicada (solo "Recoger en local").
+- El dato es critico: quien recibe el pedido necesita saber donde lo retirara el cliente.
+
+### Causa raiz (doble)
+1. **JS spBindSucursalToggle()** (functions.php del child, corre cada 800ms): si el metodo de envio marcado no era local_pickup (default = flat_rate), hacia sel.value='' BORRANDO la sucursal preseleccionada del checkout que venia de la session del carrito.
+2. **PHP**: al cargar el checkout, chosen_shipping_methods en session suele estar vacio (WooCommerce no lo persiste hasta que el usuario toca un metodo), por lo que sp_get_sucursal_review_html() y sp_checkout_sucursal_field() no detectaban local_pickup y no renderizaban la fila "Sucursal".
+
+### Fix (functions.php del child, copia local en local/functions_current.php)
+- spBindSucursalToggle(): solo muestra/oculta el campo; ya NO borra el valor del select.
+- spUpdateSucursalInfo(): construye la fila del review solo cuando local_pickup esta activo.
+- Nuevo helper sp_is_local_pickup_selected(): detecta pickup desde POST (shipping_method), session (chosen_shipping_methods), o fallback � si hay sucursal elegida en session y local_pickup esta entre los rates del paquete, asume retiro (intencion del usuario).
+- Nuevo helper sp_get_cart_shipping_rate_ids(): extrae los rate ids del paquete (corrige que calculate_shipping_for_package devuelve el paquete con ates['rates'] anidados, no el array directo).
+- sp_get_sucursal_review_html() y sp_validate_sucursal_field() usan el helper.
+
+### Verificacion (WP-CLI + curl end-to-end)
+- 4 casos de backend OK (POST pickup, session chosen, fallback primer-load desde carrito, flat_rate default).
+- Flujo real con curl (combo 21525 + session sucursal=1 + update_cart local_pickup:4 -> /checkout/): SP_DEBUG selected=1 method=local_pickup, fila "Sucursal: SP El Cangrejo" en review, select preseleccionado, campo visible.
+- php -l OK, wp cache flush.
+
+## 2026-08-07 (3) - Fix: fila "Sucursal" del review se borraba en el navegador (regresion JS)
+
+### Problema
+- El usuario reporto que en el checkout real seguia sin verse la sucursal elegida en la seccion Envio, aunque la opcion "Recoger en local" estaba marcada y el backend (verificado en sesion 2) renderizaba la fila correctamente.
+- Busqueda en GitHub/repos confirmo que la implementacion documentada del commit `cdf7bc9` (Jul 18 2026, "feat: sucursal info appears in checkout review") es la fuente de verdad.
+
+### Causa raiz
+- **Regresion JS introducida en la sesion 2**: `spUpdateSucursalInfo()` (corre cada 800ms via setInterval) se le anadio `!isPickup` al early-return. Como al llegar al checkout WooCommerce marca por defecto `flat_rate` (chosen_shipping_methods no se persiste hasta que el usuario toca un radio), `isPickup` era `false` y el JS ejecutaba `stale.remove()` **borrando la fila `tr.sp-sucursal-review` que el servidor ya habia renderizado** por el fallback de intencion (sucursal en session + rate local_pickup disponible).
+- El commit `cdf7bc9` NO tenia ese check; solo validaba `!sel || !sel.value || !field`.
+
+### Fix (functions.php del child, copia local en local/functions_current.php)
+- `spUpdateSucursalInfo()`: el early-return ya no incluye `!isPickup`. Ahora solo limpia la fila si no hay select con valor o no existe el campo. Si no es pickup pero hay sucursal elegida, hace `return` sin tocar la fila server-side (respeta la decision del fallback).
+- `sp_sucursal_fragment()`: ahora SIEMPRE emite la clave `tr.sp-sucursal-review` (aunque sea vacia) para que WooCommerce AJAX `update_order_review` la elimine cuando el usuario cambia explicitamente a flat_rate.
+
+### Verificacion
+- php -l OK. Deploy con backup `functions.php.bak-20260807-fixcheckout`.
+- SG Optimizer regenero el combined-js (hash nuevo 4e229aad): confirmado que el JS servido ya NO contiene `!isPickup ||` y SI contiene `if (!isPickup) return`.
+- Flujo end-to-end con cookie con combo 21525 + POST cart (shipping_method local_pickup:4 + sp_sucursal_retiro=1) -> /checkout/: SP_DEBUG selected=1 method=local_pickup, fila "Sucursal: SP El Cangrejo" presente, radio local_pickup checked, select preseleccionado.
+- wp cache flush. El fix es puramente JS/fragment; el HTML server-side ya era correcto en la sesion 2.
