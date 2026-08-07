@@ -612,3 +612,21 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 - SG Optimizer regenero el combined-js (hash 89c082cd): confirmado que contiene la delegacion, no contiene `spBindSucursalChange`, sintaxis JS valida con node.
 - Flujo end-to-end: AJAX sp_save_sucursal (success:true) + POST cart con shipping_method local_pickup -> /checkout/: SP_DEBUG selected=1 method=local_pickup, fila review presente, radio pickup checked, select preseleccionado, div info sucursal visible.
 - wp cache flush.
+
+## 2026-08-07 (5) - Documentacion de la funcionalidad protegida "Retiro en sucursal" + aviso para agentes
+
+### Qué se hizo
+- Se creo **`docs/RETIRO-SUCURSAL.md`**: guia de recuperacion completa y unica fuente de verdad para la funcionalidad de retiro en sucursal (carrito/checkout/combos).
+  - Arquitectura: donde vive el codigo, tabla de funciones PHP clave y bloques JS con su rol.
+  - Historial de los 4 bugs corregidos (A combos, B preseleccion checkout, C regresion JS `!isPickup`, D delegacion de eventos) con sintoma de re-ocurrencia para diagnostico rapido.
+  - Checklist de diagnostico (debug `SP_DEBUG`, fila review en HTML, validacion combined-js con node, flujo curl end-to-end).
+  - Procedimiento de reparacion rapida (backup, editar local, php -l, deploy, purgar cachés SG Optimizer, verificar, commit).
+  - REGLA DE ORO: que no tocar y errores clasicos que la rompen.
+- Se creo **`AGENTS.md`** en la raiz del repo: aviso permanente para que cualquier agente futuro sepa que NO debe tocar `sp_*`, `combo-price.php`, `sp_sucursal_js()` ni `_sucursales_disponibles` en arreglos no relacionados, y que si un cambio de otra indole toca `functions.php` del child debe AVISAR primero y verificar con el checklist.
+- `historial-chat.md` actualizado con esta entrada.
+
+### Motivo
+- La funcionalidad se ha roto 4 veces y es fragil. Si vuelve a dañarse, cualquier agente/desarrollador debe poder diagnosticar y reparar en minutos leyendo `docs/RETIRO-SUCURSAL.md`, sin depender de la memoria de las sesiones previas.
+
+### Verificacion
+- Docs en repo local (pendiente commit/push).
