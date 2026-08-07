@@ -649,27 +649,25 @@ document.addEventListener('DOMContentLoaded', function() {
             spBindSucursalToggle();
         }
     });
-    // Direct change listener on the sucursal select (checkout + cart) + save + trigger WooCommerce refresh
-    function spBindSucursalChange(selId) {
-        var spSel = document.getElementById(selId);
-        if (!spSel) return;
-        spSel.addEventListener('change', function() {
-            spUpdateSucursalInfo();
-            var val = this.value;
-            if (!val) return;
-            // Save to session via AJAX (independent of WooCommerce)
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', sp_ajax.ajax_url, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send('action=sp_save_sucursal&sucursal=' + encodeURIComponent(val));
-            // Then trigger WooCommerce refresh
-            if (typeof jQuery !== 'undefined') {
-                jQuery(document.body).trigger('update_checkout');
-            }
-        });
-    }
-    spBindSucursalChange('sp_sucursal_retiro');
-    spBindSucursalChange('sp_sucursal_retiro_cart');
+    // Delegated change listener on the sucursal selects (cart + checkout).
+    // Delegation survives AJAX re-renders by WooCommerce (which replace the DOM nodes).
+    document.addEventListener('change', function(e) {
+        var t = e.target;
+        if (!t || !t.id) return;
+        if (t.id !== 'sp_sucursal_retiro' && t.id !== 'sp_sucursal_retiro_cart') return;
+        spUpdateSucursalInfo();
+        var val = t.value;
+        if (!val) return;
+        // Save to session via AJAX (independent of WooCommerce)
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', sp_ajax.ajax_url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('action=sp_save_sucursal&sucursal=' + encodeURIComponent(val));
+        // Then trigger WooCommerce refresh
+        if (typeof jQuery !== 'undefined') {
+            jQuery(document.body).trigger('update_checkout');
+        }
+    });
     function spUpdateSucursalInfo() {
         var methods = document.querySelectorAll('input[name^="shipping_method"]');
         var isPickup = false;

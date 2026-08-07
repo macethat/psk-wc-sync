@@ -594,3 +594,21 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 - SG Optimizer regenero el combined-js (hash nuevo 4e229aad): confirmado que el JS servido ya NO contiene `!isPickup ||` y SI contiene `if (!isPickup) return`.
 - Flujo end-to-end con cookie con combo 21525 + POST cart (shipping_method local_pickup:4 + sp_sucursal_retiro=1) -> /checkout/: SP_DEBUG selected=1 method=local_pickup, fila "Sucursal: SP El Cangrejo" presente, radio local_pickup checked, select preseleccionado.
 - wp cache flush. El fix es puramente JS/fragment; el HTML server-side ya era correcto en la sesion 2.
+
+## 2026-08-07 (4) - Fix: el guardado de la sucursal desde el carrito se perdia (listener no sobrevivia re-render AJAX)
+
+### Problema
+- El usuario confirmo con navegador limpio e incognito que la sucursal elegida seguia sin aparecer en el bloque envio del checkout (backing del session 3 no bastaba).
+
+### Causa raiz
+- El select de sucursal del CARRITO (`#sp_sucursal_retiro_cart`) esta FUERA del form del carrito (en el hook `woocommerce_cart_totals_after_shipping`). El unico mecanismo que persiste la sucursal a la session es el AJAX `sp_save_sucursal`.
+- `spBindSucursalChange()` enlazaba un **listener directo** al select al cargar la pagina. Cuando el usuario marcaba "Recoger en local" en el carrito, WooCommerce re-renderiza el carrito vía AJAX (`update_shipping_method` / `update_cart`) y reemplaza el DOM del select, perdiendo el listener -> el AJAX `sp_save_sucursal` nunca se disparaba -> la session llegaba vacía al checkout -> el servidor no preseleccionaba la sucursal.
+
+### Fix (functions.php del child)
+- Reemplazado el listener directo por **delegacion de eventos** en `document` para los ids `sp_sucursal_retiro` (checkout) y `sp_sucursal_retiro_cart` (carrito). La delegacion sobrevive a los re-renders de WooCommerce.
+
+### Verificacion
+- php -l OK. Deploy con backup `functions.php.bak-20260807-delegacion`.
+- SG Optimizer regenero el combined-js (hash 89c082cd): confirmado que contiene la delegacion, no contiene `spBindSucursalChange`, sintaxis JS valida con node.
+- Flujo end-to-end: AJAX sp_save_sucursal (success:true) + POST cart con shipping_method local_pickup -> /checkout/: SP_DEBUG selected=1 method=local_pickup, fila review presente, radio pickup checked, select preseleccionado, div info sucursal visible.
+- wp cache flush.
