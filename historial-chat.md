@@ -285,3 +285,209 @@
 ### Pendiente
 - Verificar dominio remitente `suplementospanama.net` en Mailchimp para evitar spam (requiere acceso DNS)
 - Documentar (este mismo registro) cubre todos los cambios de hoy
+
+## 2026-08-05 — Dominio `suplementospanama.net` verificado y autenticado en Mailchimp (fin del spam)
+
+### Problema
+- El correo de confirmación del doble opt-in caía en **spam** porque el remitente era un Gmail público (`suplementospanamashop@gmail.com`) y el dominio de envío no estaba verificado ni autenticado en Mailchimp
+- La API de Mailchimp **no permite** registrar/verificar dominios (`/verified_domains` → 404); solo la interfaz web (`mailchimp.com`), por lo que estos pasos fueron manuales del lado del usuario con guía
+
+### Preparación del buzón del dominio
+- No existía buzón en el servidor para el dominio (el correo de SiteGround se gestiona por panel, no por SSH)
+- Se creó un **forwarder** en SiteGround (Site Tools → Email → Forwarders): `newsletter@suplementospanama.net` → `suplementospanamacrm@gmail.com` (el forwarder crea la dirección automáticamente, no necesita buzón previo)
+- Verificado: los MX del dominio apuntan a `antispam.mailspamprotection.com` (SiteGround), así que el forwarder recibe el correo
+
+### Verificación del dominio (manual, Mailchimp web)
+- **avatar → Account & billing → Domains → Email Domains → Add & Verify Domain** con `newsletter@suplementospanama.net`
+- Mailchimp envió el correo de verificación (que llegó al Gmail vía forwarder) → clic **Verify Domain Access** → dominio verificado
+
+### Autenticación del dominio (SPF + DKIM + DMARC)
+- **Importante**: la opción "conectar dominio" del website builder NO es la correcta; el flujo real está en **Account & billing → Domains**
+- Mailchimp generó los registros (usuario probó primero el flujo automático "Connected" que no propagó, luego el **manual** "Other → manually authenticate"):
+  - **CNAME `k2._domainkey`** → `dkim2.mcsv.net`
+  - **CNAME `k3._domainkey`** → `dkim3.mcsv.net`
+  - **TXT `_dmarc`** → `v=DMARC1; p=none;`
+- Se agregaron/editaron en **SiteGround → Site Tools → Domain → DNS Zone Editor**:
+  - 2 CNAME nuevos (`k2._domainkey`, `k3._domainkey`)
+  - TXT `_dmarc` **editado** (no duplicado — solo puede existir uno): de `v=DMARC1; p=none; aspf=r; adkim=r;` → `v=DMARC1; p=none;`
+  - TXT SPF de la raíz **editado** (no duplicado): `v=spf1 +a +mx include:suplementospanama.net.spf.auto.dnssmarthost.net ~all` → **+ `include:servers.mcsv.net`** → `v=spf1 +a +mx include:suplementospanama.net.spf.auto.dnssmarthost.net include:servers.mcsv.net ~all`
+- Verificación desde local (nslookup): los CNAME, `_dmarc` y SPF propagaron correctamente en los nameservers autoritativos (`ns1/ns2.siteground.net`); el SPF visto "viejo" en 8.8.8.8 era caché temporal de Google DNS
+- Mailchimp marcó el dominio como **Authenticated**
+
+### Remitente de la audiencia (API, desde el servidor SSH — local daba timeout)
+- PATCH `lists/27b4cb9f8c` (`~/set_sender.sh`):
+  - `campaign_defaults.from_email` → `newsletter@suplementospanama.net`
+  - `campaign_defaults.from_name` → `Suplementos Panama`
+  - `campaign_defaults.subject` → `Noticias y ofertas de Suplementos Panama`
+  - `campaign_defaults.language` → `es`
+  - `notify_on_subscribe` / `notify_on_unsubscribe` → `suplementospanamacrm@gmail.com`
+- Se detectó que el PATCH dejó `double_optin=false` → corregido a `true` (`~/set_doi.sh`) para mantener la confirmación por correo
+
+### Prueba real anti-spam
+- Contacto `andrescastillob@gmail.com` borrado (DELETE 204) y resuscrito como `pending` → llegó la confirmación desde el dominio; pero la prueba **no es concluyente** porque el usuario ya lo había sacado de spam manualmente (Google ya lo tenía "aprendido")
+- Prueba limpia: suscripción de `suplementospanamacrm@gmail.com` (correo que nunca había recibido correo del remitente) como `pending` → **confirmado que llega bien en bandeja de entrada desde `newsletter@suplementospanama.net`, sin spam**
+
+### Resultado
+- El dominio `suplementospanama.net` queda verificado y autenticado (SPF + DKIM `k2/k3` + DMARC) en la cuenta corporativa Mailchimp (`suplementospanamashop@gmail.com`, lista `27b4cb9f8c`)
+- Todos los correos de confirmación y futuras campañas saldrán de `newsletter@suplementospanama.net` con autenticación válida → ya no deberían caer en spam
+- Doble opt-in confirmado activo
+
+### Notas
+- Los scripts (`set_sender.sh`, `set_doi.sh`, `test_subscribe_new.sh`, `test_crm.sh`, `check_doi.sh`) fueron temporales en el servidor y se eliminaron tras ejecutar
+- API key `<redactada>-us1` (nunca escribirla real en este documento para no romper el push a GitHub)
+
+## 2026-08-05 — Agentes ecommerce movidos a config global de opencode (multi-proyecto)
+
+### Decisión
+- Los agentes vivían en `.opencode/agents/` del proyecto (`C:\suplementos\stock-suplementos\.opencode\agents\`), por lo que **solo eran operativos en este repo**
+- Para usarlos en **cualquier proyecto** (patrón multi-proyecto ya diseñado: recursos genéricos + carpeta `sp/` por proyecto), se movieron a la config global de opencode
+- **Motivo de "mover" y no "copiar"**: el proyecto tiene precedencia sobre el global; dos copias implicaban divergencias (versiones viejas del repo pisarían las globales). Una sola fuente de verdad en global
+
+### Cambios realizados
+- Copiado `C:\suplementos\stock-suplementos\.opencode\agents\` → `C:\Users\Usuario\.config\opencode\agents\` (51 archivos)
+- Verificado: árbol completo (5 agentes + subcarpetas `sp/`, `skills/`, `competitors/`, `output/` + `summary.md` + `marketing-descriptions.md`) migrado; referencias relativas internas (`../contenidos-ecommerce/skills/`, `../contenidos-ecommerce/competitors/`) se movieron juntas y siguen válidas
+- Eliminado `.opencode/agents/` local del proyecto
+- Config global `~/.config/opencode/opencode.json` no requirió cambios (solo modelo deepseek-v4-flash)
+
+### Resultado
+- Los 5 agentes ecommerce (analytics, contenidos, geo, seo, structured-data-schema) + sus subagentes quedan **operativos en cualquier proyecto** de esta máquina
+- Para un nuevo proyecto: crear su carpeta específica dentro de cada agente global (ej. `sp/` para Suplementos Panamá, `clientex/` para otro cliente) y referenciarla desde el `.md` principal
+- El proyecto conserva `.opencode/skills/stock-update/` (skill específico de inventario Suplementos Panamá, no es un agente global)
+
+## 2026-08-05 — Chat WhatsApp activado en las 6 sucursales (Google Business Profile)
+
+### Funcionalidad
+- Google Business Profile permite añadir una opción de chat directo (WhatsApp o texto) al perfil de negocio: **Edit profile → Contact → Chat** (documentación oficial: support.google.com/business/answer/15013580)
+- El número usado es el del CRM Kommo: **+507 6015-3257** (`https://wa.me/50760153257`)
+- La opción "Chat" está **disponible en los 6 perfiles** de las sucursales
+- **Regla importante**: si se configuran WhatsApp + Text message a la vez, Google solo muestra la opción de texto → elegir **solo WhatsApp**
+
+### Enlaces click-to-chat por sucursal (configurados en cada perfil GBP)
+| Sucursal | URL configurada |
+|---|---|
+| El Cangrejo | `https://wa.me/50760153257?text=Hola%20estoy%20revisando%20su%20perfil%20de%20google%20en%20El%20Cangrejo%20y%20necesito%20informaci%C3%B3n` |
+| Megapolis | `https://wa.me/50760153257?text=Hola%20estoy%20revisando%20su%20perfil%20de%20google%20en%20Megapolis%20y%20necesito%20informaci%C3%B3n` |
+| Atrio Mall | `https://wa.me/50760153257?text=Hola%20estoy%20revisando%20su%20perfil%20de%20google%20en%20Atrio%20Mall%20y%20necesito%20informaci%C3%B3n` |
+| San Francisco | `https://wa.me/50760153257?text=Hola%20estoy%20revisando%20su%20perfil%20de%20google%20en%20San%20Francisco%20y%20necesito%20informaci%C3%B3n` |
+| Altos de Panamá | `https://wa.me/50760153257?text=Hola%20estoy%20revisando%20su%20perfil%20de%20google%20en%20Altos%20de%20Panam%C3%A1%20y%20necesito%20informaci%C3%B3n` |
+| Metromall | `https://wa.me/50760153257?text=Hola%20estoy%20revisando%20su%20perfil%20de%20google%20en%20Metromall%20y%20necesito%20informaci%C3%B3n` |
+
+### Beneficios
+- El cliente llega directo a WhatsApp (CRM Kommo) con mensaje precargado indicando la sucursal → conversación calificada y trazable en Kommo
+- El mismo número se puede usar en varios perfiles (permitido por Google)
+- Métricas de rendimiento del chat disponibles en el panel de GBP
+
+## 2026-08-07 — Unificación NAP: número del footer a `+507 6015-3257` (CRM Kommo)
+
+### Problema (detectado por agente geo-ecommerce)
+- Inconsistencia NAP: el footer mostraba `+(507) 6811-1649` mientras WhatsApp/GBP/schema usan `+507 6015-3257`
+- Para las IAs generativas (GEO) la inconsistencia de número rompe la confiabilidad de la entidad "Suplementos Panamá"
+
+### Decisión del usuario
+- Unificar todo al número del CRM: **+507 6015-3257**
+
+### Auditoría previa (WP-CLI)
+- Solo 3 posts publicados tenían el número viejo:
+  - **Footer HFE (414)** — usado por shop, producto, sucursales, combos y todas las páginas con HFE
+  - **Inicio (18625)** — página canvas con footer inline (widget text-editor `b2a393` → `+(507) 6811-1649`)
+  - **Términos y Condiciones (9)** — contenido Gutenberg (`Teléfono/WhatsApp: +507 6811-1649`, 2 ocurrencias)
+- Otras canvas (8485 "Próximamente", 20668 "Nuevo Inicio de Celular") NO contienen el número
+- Sin coincidencias en metas `rank_math_*`
+
+### Cambios realizados
+- `fix_nap.php` vía `wp eval-file`: reemplazo de `6811-1649` → `6015-3257`
+  - 414 y 18625: `update_metadata('post', $id, '_elementor_data', wp_slash($nuevo))` (método correcto para JSON de Elementor)
+  - 9: `wp_update_post` con `post_content` corregido
+- Backups en `~/backups_nap_20260807-150518/` (`414_pre.json`, `18625_pre.json`, `9_pre_content.html`)
+- Cachés purgadas: `wp cache flush`, `wp sg purge`, `wp elementor flush_css --force`
+
+### Verificación en vivo (con ?napcheck=1)
+- Home, shop, términos, ficha de producto, sucursales y combos: `6811-1649` = **0 ocurrencias**, `6015-3257` = **1** → NAP unificado
+
+## 2026-08-07 — Metamensajes optimizados (SEO + GEO) aplicados en HOME y COMBOS
+
+### Contexto
+- Se usaron 3 agentes (`seo-ecommerce`, `contenidos-ecommerce`, `geo-ecommerce`) para generar meta títulos y meta descripciones optimizados para Google y buscadores IA (ChatGPT, Gemini, Perplexity, AI Overviews). El 4º solicitado (`marketing-descriptions`) está obsoleto y su rol lo cubrió `contenidos-ecommerce`
+- **Hallazgo transversal de geo-ecommerce**: inconsistencia NAP (footer `+(507) 6811-1649` vs WhatsApp `+507 6015-3257`) → resuelto en la entrada anterior (unificación al número del CRM)
+
+### Metas aplicados (Rank Math)
+**HOME (post 18625)** — recomendación seo-ecommerce/geo-ecommerce:
+- **Title**: `Suplementos Deportivos en Panamá | Proteínas y Creatina`
+- **Meta description**: `Suplementos deportivos en Panamá: proteínas, creatina, pre-entrenos y más. Envío gratis desde $150, retiro en 6 sucursales y asesoría experta.`
+
+**COMBOS (product_cat term id 284, slug `combos`)** — recomendación seo-ecommerce:
+- **Title**: `Combos de Suplementos | Ahorra Hasta $84.98 | Panamá`
+- **Meta description**: `Compra combos de proteína, creatina y pre-entreno en Panamá. 22 paquetes con ahorro real de hasta $84.98. Envío gratis en pedidos mayores a $150.`
+
+Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucursales, envío gratis >$150, 22 paquetes, ahorro hasta $84.98 = combo Elite Performance Stack), entidad geográfica "Panamá" en el title (que el de combos perdía), formato conversacional para extractabilidad de IA.
+
+### Implementación
+- `apply_metas.php` vía `wp eval-file`: `update_post_meta(18625, rank_math_title/description, ...)` + `update_term_meta(284, rank_math_title/description, ...)`
+- Backups en `~/backups_metas_20260807-150750/` (`home_18625_pre.txt`, `combos_284_pre.txt`)
+- Cachés purgadas (`wp cache flush`, `wp sg purge`)
+
+### Verificación en vivo
+- Home: title `Suplementos Deportivos En Panamá | Proteínas Y Creatina` (Rank Math capitaliza iniciales automáticamente) + desc nueva
+- Combos: title `Combos De Suplementos | Ahorra Hasta $84.98 | Panamá` + desc nueva
+- Nota: la capitalización automática de Rank Math se ajusta en **Rank Math → Titles & Meta → General → Capitalización** si se quiere el literal en minúsculas
+
+## 2026-08-07 — Schema `SiteNavigationElement` inyectado (refuerzo para sitelinks y GEO)
+
+### Contexto
+- El objetivo: que al buscar "Suplementos Panamá" en Google aparezcan sitelinks hacia Sucursales, Combos, Creatina y Proteínas
+- **Aclaración importante**: los sitelinks los genera Google automáticamente según la estructura de enlaces internos; NO hay configurarlos directamente. `SiteNavigationElement` es una señal semántica de refuerzo (SEO + GEO), no un rich result que garantice sitelinks
+- La estructura ya existía: menú/footer con enlaces a Sucursales (hub + 6), Combos, Creatina, Proteínas — verificado en el HTML
+
+### Generación (agente structured-data-schema)
+- El agente auditó la navegación real (header `menu-1-7c0b47`, menú vertical de categorías `menu-1-bb00b2`) y generó:
+  - JSON-LD `SiteNavigationElement` con 54 nodos: navegación principal + 6 sucursales + promociones (combos/descuentos) + creatina + proteínas (7 sub) + aminoácidos + pre-entrenos + quemadores + vitaminas + salud + snacks + diuréticos, con jerarquía `hasPart` y URLs absolutas
+  - JSON-LD `BreadcrumbList` de ejemplo (combos)
+- Recomendó inyección vía child theme `wp_head` (más seguro que Custom Schema de Rank Math, que es page-scoped y se fusionaría con su @graph)
+
+### Implementación
+- Backup: `~/backups_schema_nav_20260807.php` (functions-additions.php completo)
+- Sección 13 anexada a `functions-additions.php` del child:
+  - `sp_emitir_schema_navegacion()` → emite `<script id="sp-schema-navegacion">` con el @graph de `SiteNavigationElement` en `wp_head` (priority 1)
+  - `sp_schema_breadcrumbs()` → emite `BreadcrumbList` para home y categoría combos SOLO si Rank Math no lo hace (evita duplicados; se auto-desactiva porque Rank Math ya emite el suyo)
+- `php -l` sin errores; cachés purgadas
+
+### Verificación en vivo
+- Home y combos: `sp-schema-navegacion` presente, **54 nodos** `SiteNavigationElement` cada una
+- Combos: `BreadcrumbList` = 1 (el de Rank Math; el mío no se duplica) → sin doble breadcrumb
+- Confirmado que no se duplican tipos existentes (WebSite/Organization/Place siguen siendo solo de Rank Math)
+
+### Notas del agente (recomendaciones aparte, no bloqueantes)
+- El ítem "POWER RACK" del menú apunta a `/blog/` (label confuso) → corregir etiqueta en Apariencia → Menús
+- El ítem "Marcas" usa `href="#"` (sin URL) → mapeado a `/shop/` en el schema
+- Slug real de snacks es `snacks-y-bedidas` (con typo) → candidato a 301 al slug correcto
+- Validar en Rich Results Test + GSC URL Inspection a los 2-3 días
+
+## 2026-08-07 — Página directorio /marcas/ + schema actualizado (Marcas → /marcas/, Blog → "Power Rack")
+
+### Contexto
+- El ítem de menú "MARCAS" (db_id 13059) usaba `href="#"` y el schema apuntaba a `/shop/` como fallback
+- El usuario aclaró que el blog se llama comercialmente **"Power Rack"** (la etiqueta del menú ya era correcta; lo que estaba mal era mi schema que decía "Blog")
+- Se pidió crear una página tipo directorio con los enlaces de todas las marcas
+
+### Auditoría de marcas (taxonomía `product_brand`)
+- 31 términos de marca en la taxonomía, pero el campo `count` estaba desactualizado (0 en todas)
+- Con `WP_Query` real: **25 marcas con productos publicados**, 6 vacías (ABE, ANS, REFRI BUM, REFRI LABRADA, REFRI QHUSH, USN)
+- Los archives `/product-brand/{slug}/` devuelven 200
+- El dropdown de MARCAS del menú tenía 21 items (algunos a marcas vacías)
+
+### Implementación
+- **Sección 14** anexada a `functions-additions.php` del child: shortcode `[sp_directorio_marcas]` que:
+  - Lista `product_brand` ordenado por nombre (solo las que tienen productos, contados con SQL directo sobre `term_relationships` + `posts` publicados)
+  - Renderiza grid responsive de tarjetas con nombre + número de productos, enlazando a `/product-brand/{slug}/`
+- **Sección 13 actualizada**: nodo `marcas` → `url: /marcas/`; nodo `blog` → `name: "Power Rack"` (antes "Blog")
+- Página creada: **ID 21919** `/marcas/`, template default, contenido = shortcode
+- SEO Rank Math: title `Marcas de Suplementos Deportivos | Suplementos Panamá`, description con directorio + marcas destacadas
+- Menú: item 13059 actualizado de `#` → `/marcas/` (vía `wp post meta update _menu_item_url`, porque `wp menu item update --url` no toca items custom). El dropdown de sub-marcas se mantuvo intacto
+- `php -l` OK; permalinks flusheados; cachés purgadas
+
+### Verificación en vivo
+- `GET /marcas/` → 200, **25 marcas** en el grid (excluye las 6 vacías)
+- Title visible: `Marcas De Suplementos Deportivos | Suplementos Panamá` (Rank Math capitaliza iniciales)
+- Schema en home: Marcas → `https://suplementospanama.net/marcas/`, Blog → `Power Rack`
+- Página /marcas/ también emite `sp-schema-navegacion` y 1 BreadcrumbList (Rank Math) sin duplicados
+- Menú en vivo: `MARCAS` href = `/marcas/`, dropdown con sub-marcas intacto
