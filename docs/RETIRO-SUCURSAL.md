@@ -47,6 +47,7 @@ Permite que el cliente elija **retiro en sucursal** en lugar de envío:
 | `spBindSucursalToggle()` | Muestra/oculta el campo de sucursal según el radio de shipping marcado. NO borra valores. Corre cada 800ms (setInterval) para sobrevivir re-renders AJAX. |
 | `spUpdateSucursalInfo()` | Actualiza la fila `tr.sp-sucursal-review` y el div de info con la sucursal elegida. **NO debe contener `!isPickup` en el early-return** (borraría la fila que el servidor ya renderizó). Corre cada 800ms. |
 | Delegación de eventos (change) | Listener en `document` para `#sp_sucursal_retiro` y `#sp_sucursal_retiro_cart` → sobrevive re-renders AJAX de WooCommerce. Dispara AJAX `sp_save_sucursal` + `update_checkout`. |
+| `spUpdateStock()` (ficha producto variable) | Actualiza el cuadro de stock por sucursal según la variación elegida. **Regla stock mínimo**: si la variación tiene `_stock_status=outofstock` pero stock físico > 0 en sucursales, reemplaza el cuadro por el aviso "Disponible solo para compra por sucursal en: X, Y, Z" (usa `data-sp-status` y `data-sp-names` del contenedor). |
 
 ## 4. Historial de bugs corregidos (2026-08-07)
 
@@ -74,6 +75,15 @@ Permite que el cliente elija **retiro en sucursal** en lugar de envío:
 - **Causa raíz**: el select del carrito (`#sp_sucursal_retiro_cart`) está FUERA del form; la persistencia depende 100% del AJAX `sp_save_sucursal`. El listener directo `spBindSucursalChange()` se perdía cuando WooCommerce re-renderizaba el carrito por AJAX (al marcar "Recoger en local") → `sp_save_sucursal` nunca se disparaba → sesión vacía.
 - **Fix**: delegación de eventos en `document` (sobrevive re-renders). Commit `463200d`.
 - **Síntoma de re-ocurrencia**: elegir sucursal en el carrito y verificar que al ir al checkout `<!-- SP_DEBUG -->` muestra `selected=` vacío. Si pasa eso, el listener del select murió de nuevo.
+
+### BUG E — Cuadro de ficha mostraba "Disponible para retiro" en producto agotado online (regla stock mínimo)
+- **Síntoma**: la ficha de un producto/variación con `_stock_status=outofstock` (por la regla "≤6 → outofstock") pero con stock físico en sucursales, seguía mostrando el cuadro "Disponible para retiro en: X (n unid.)" como si se pudiera retirar online.
+- **Causa raíz**: el cuadro de sucursal usaba el stock físico por sucursal (`_sucursal_X_stock`), independiente del `_stock_status`. Al estar outofstock online, el cliente no puede retirar/pedir online, solo comprar presencialmente en la sucursal.
+- **Fix** (session 2026-08-07): 
+  - PHP: se captura `_stock_status` por variación (`$variation_status`) y se expone al JS en `data-sp-status`; los nombres de sucursal se exponen en `data-sp-names`. Para productos simples, si `$product->get_stock_status()==='outofstock'` y hay stock en sucursal, se renderiza server-side el aviso de compra presencial.
+  - JS `spUpdateStock()`: si la variación elegida está outofstock pero tiene stock>0 en alguna sucursal, reemplaza el cuadro por "Disponible solo para compra por sucursal en: <nombres>."
+- **Regla de negocio**: la regla "≤6 → outofstock" se CONSERVA (reserva mínima para ventas por sucursal). El aviso solo informa al cliente que puede comprarlo presencial.
+- **Cómo verificar**: en la ficha del producto agotado por regla debe verse el aviso naranja (`.sp-store-msg`); en un producto instock con stock de sucursal debe seguir el cuadro verde normal. El combined-js debe contener `sp-store-msg`.
 
 ## 5. Cómo diagnosticar rápido (checklist)
 

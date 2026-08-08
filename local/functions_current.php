@@ -409,6 +409,7 @@ function sp_show_sucursal_stock() {
     $product_ids = $is_variable ? $product->get_visible_children() : ($is_grouped ? $product->get_children() : array($product->get_id()));
     $sucursal_stock = array();
     $variation_data = array();
+    $variation_status = array();
     $has_variable_child_grp = false;
     $grouped_var_data = array();
 
@@ -452,6 +453,7 @@ function sp_show_sucursal_stock() {
             }
         }
         if ($is_variable) $variation_data[$pid] = $var_sucs;
+        if ($is_variable) $variation_status[$pid] = get_post_meta($pid, '_stock_status', true);
     }
 
     if ($has_variable_child_grp) {
@@ -489,6 +491,20 @@ function sp_show_sucursal_stock() {
     $container_extra = '';
     if ($is_variable && !empty($variation_data)) {
         $container_extra = ' data-sp-agg="' . esc_attr(json_encode($sucursal_stock)) . '" data-sp-var="' . esc_attr(json_encode($variation_data)) . '"';
+        $container_extra .= ' data-sp-status="' . esc_attr(json_encode($variation_status)) . '"';
+        $container_extra .= ' data-sp-names="' . esc_attr(json_encode($sucursales)) . '"';
+    }
+    // Simple/grouped: si el producto está outofstock (regla stock min) pero tiene stock en sucursal, mostrar aviso de compra presencial
+    if (!$is_variable && !$is_grouped) {
+        $prod_status = $product->get_stock_status();
+        $store_avail = array();
+        foreach ($sucursal_stock as $aid => $stock) {
+            if ($stock > 0 && isset($sucursales[$aid])) $store_avail[] = $sucursales[$aid]['name'];
+        }
+        if ($prod_status === 'outofstock' && !empty($store_avail)) {
+            echo '<div class="sp-sucursal-stock sp-store-msg" style="margin-top:15px;padding:12px;background:#fff3e0;border-radius:6px;color:#e65100;font-size:13px">Disponible solo para compra por sucursal en: ' . esc_html(implode(', ', $store_avail)) . '.</div>';
+            return;
+        }
     }
     echo '<div class="sp-sucursal-stock" style="margin-top:15px;padding:12px;background:#f8f8f8;border-radius:6px"' . $container_extra . '>';
     echo '<h4 style="margin:0 0 8px;font-size:14px">Disponible para retiro en:</h4>';
@@ -516,32 +532,55 @@ document.addEventListener('DOMContentLoaded', function() {
     if (spContainer) {
         var spAgg = JSON.parse(spContainer.getAttribute('data-sp-agg'));
         var spVar = JSON.parse(spContainer.getAttribute('data-sp-var'));
+        var spStatus = {};
+        var spNames = {};
+        try { spStatus = JSON.parse(spContainer.getAttribute('data-sp-status')); } catch(e) {}
+        try { spNames = JSON.parse(spContainer.getAttribute('data-sp-names')); } catch(e) {}
         function spUpdateStock(variationId) {
             var data = spVar[variationId] || {};
             var allZero = true;
+            var storeOnly = (spStatus[variationId] === 'outofstock');
+            var storeList = [];
             spContainer.querySelectorAll('li').forEach(function(li) {
                 var a = li.getAttribute('data-sucursal');
                 var q = data[a] !== void 0 ? data[a] : (spAgg[a] || 0);
                 li.style.color = q > 0 ? '#2e7d32' : '#999';
                 li.querySelector('.sp-stock-qty').textContent = '(' + q + ' unid.)';
                 if (q > 0) allZero = false;
+                if (q > 0 && spNames[a]) storeList.push(spNames[a].name);
             });
             var spMsg = spContainer.querySelector('.sp-delivery-msg');
-            if (allZero) {
-                if (!spMsg) {
-                    spMsg = document.createElement('div');
-                    spMsg.className = 'sp-delivery-msg';
-                    spMsg.style.cssText = 'margin-top:8px;padding:8px;background:#fff3e0;border-radius:4px;color:#e65100;font-size:12px';
-                    spMsg.textContent = 'Solo disponible para Delivery (sin stock en sucursales)';
-                    spContainer.querySelector('h4').after(spMsg);
+            var spStoreMsg = spContainer.querySelector('.sp-store-msg');
+            if (storeOnly && storeList.length) {
+                if (!spStoreMsg) {
+                    spStoreMsg = document.createElement('div');
+                    spStoreMsg.className = 'sp-store-msg';
+                    spStoreMsg.style.cssText = 'margin-top:8px;padding:8px;background:#fff3e0;border-radius:4px;color:#e65100;font-size:12px';
+                    spContainer.querySelector('h4').after(spStoreMsg);
                 }
+                spStoreMsg.textContent = 'Disponible solo para compra por sucursal en: ' + storeList.join(', ') + '.';
                 spContainer.querySelector('h4').style.display = 'none';
                 spContainer.querySelector('ul').style.display = 'none';
-                spMsg.style.display = '';
-            } else {
                 if (spMsg) spMsg.style.display = 'none';
-                spContainer.querySelector('h4').style.display = '';
-                spContainer.querySelector('ul').style.display = '';
+                spStoreMsg.style.display = '';
+            } else {
+                if (spStoreMsg) spStoreMsg.style.display = 'none';
+                if (allZero) {
+                    if (!spMsg) {
+                        spMsg = document.createElement('div');
+                        spMsg.className = 'sp-delivery-msg';
+                        spMsg.style.cssText = 'margin-top:8px;padding:8px;background:#fff3e0;border-radius:4px;color:#e65100;font-size:12px';
+                        spMsg.textContent = 'Solo disponible para Delivery (sin stock en sucursales)';
+                        spContainer.querySelector('h4').after(spMsg);
+                    }
+                    spContainer.querySelector('h4').style.display = 'none';
+                    spContainer.querySelector('ul').style.display = 'none';
+                    spMsg.style.display = '';
+                } else {
+                    if (spMsg) spMsg.style.display = 'none';
+                    spContainer.querySelector('h4').style.display = '';
+                    spContainer.querySelector('ul').style.display = '';
+                }
             }
         }
         var spLastVarId = '';

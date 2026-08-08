@@ -630,3 +630,29 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 
 ### Verificacion
 - Docs en repo local (pendiente commit/push).
+
+## 2026-08-07 (6) - Aviso en ficha para productos agotados online (regla stock minimo) con stock en sucursal
+
+### Contexto
+- Producto Proteina Whey Forzagen 2 lbs (18933, variable, variacion 18939 Dutch Chocolate): tiene 6 unidades fisicas en sucursales (1,6,7,8) pero `_stock_status=outofstock` por la regla de reserva minima ("stock <=6 -> outofstock").
+- El usuario pregunto por que la ficha mostraba "Disponible para retiro en" (cuadro verde con unidades) si el producto no tiene existencia para venta online.
+- Explicacion: el cuadro de sucursal usa el stock FISICO por sucursal (`_sucursal_X_stock`), que es independiente del `_stock_status`. Al estar outofstock online, el cliente NO puede retirar/pedir online; solo puede ir a comprarlo presencial en la sucursal.
+
+### Regla de negocio (confirmada por el usuario)
+- La regla "<=6 -> outofstock" SE CONSERVA: es el minimo de reserva para ventas por sucursal. El fix NO cambia la regla; solo informa mejor al cliente.
+
+### Cambio (functions.php del child, copia local en local/functions_current.php)
+- PHP `sp_show_sucursal_stock()`:
+  - Captura `_stock_status` por variacion (`$variation_status`) y lo expone al JS en el atributo `data-sp-status` del contenedor; los nombres de sucursal se exponen en `data-sp-names`.
+  - Para productos SIMPLES: si `$product->get_stock_status()==='outofstock'` pero hay stock>0 en sucursal, renderiza server-side el aviso `sp-store-msg`: "Disponible solo para compra por sucursal en: <nombres>."
+- JS `spUpdateStock()` (ficha variable): si la variacion elegida esta outofstock (`spStatus[vid]==='outofstock'`) pero tiene stock>0 en alguna sucursal (`storeList`), reemplaza el cuadro por el aviso naranja `.sp-store-msg`. Si no, comportamiento normal (lista verde o "Solo disponible para Delivery").
+
+### Despliegue
+- Backup: `functions.php.bak-20260807-aviso-sucursal`.
+- php -l OK; wp cache flush; SG Optimizer regenero combined-js (hash `a8a7fabb97ab7bdd5557e0535e3e538a`) con `sp-store-msg` presente; sintaxis JS validada con node.
+
+### Verificacion en vivo
+- 18933 (2 lbs, outofstock por regla): data-sp-status contiene `18939:outofstock`; el JS reemplaza el cuadro por el aviso de compra presencial (verificado en combined-js; el render server-side es variable -> el aviso lo aplica JS al seleccionar la variacion).
+- 18932 (5 lbs, instock): data-sp-status `18934:instock,18935:instock`; cuadro "Disponible para retiro en" normal = 1, aviso compra presencial = 0 (no se rompe el flujo).
+- Checklist seccion 5 de docs/RETIRO-SUCURSAL.md OK (producto/carrito/checkout intactos).
+- Docs actualizados: `docs/RETIRO-SUCURSAL.md` (BUG E + tabla JS), `historial-chat.md` (esta entrada).
