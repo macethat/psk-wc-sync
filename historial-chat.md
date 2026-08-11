@@ -784,3 +784,7 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 
 ### Pendiente
 - Combo 3 (Primeval Labs + Pre-Work Raw BUM) queda en pausa hasta que el usuario defina el producto de pre-work correcto y su precio.
+
+### Corrección posterior: CTA de WhatsApp
+- El CTA inferior de los 3 combos nuevos se generó como **botón verde sólido con texto "Escríbenos por WhatsApp"** (`display:inline-block; background:#25D366; color:#fff; padding:15px 30px; border-radius:50px`), pero los combos existentes usan un **enlace verde con solo el icono de WhatsApp** (`display:inline-flex; align-items:center; gap:8px; color:#25D366; font-size:15px` + SVG 26x26 `fill:#25D366`, sin texto).
+- Corregido el `post_content` de 21960/21961/21962 (mismo URL wa.me con el nombre del combo). Verificado en vivo: 3/3 con `inline-flex` verde, 0 botones sólidos, 0 texto "Escríbenos".
