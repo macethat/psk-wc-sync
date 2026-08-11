@@ -231,3 +231,21 @@ C:\suplementos\psk-create-product\
 ### Archivos modificados
 - `local/functions_current.php:290` — línea `$product_ids` extendida para incluir grouped
 
+## 2026-08-11 — Creación de 3 combos nuevos (productos grouped)
+
+Del PDF `combos-precio-y-nuevos.pdf` (combos 1, 2 y 4; el 3 queda en pausa: Primeval Labs + Pre-Work Raw BUM hasta definir producto/precio):
+
+| ID | Combo | Precio | Hijos |
+|----|-------|--------|-------|
+| 21960 | Creatina VMS 80 Serv + Glutamina VMS 80 Serv | $24.99 | 21455 + 21460 (simples) |
+| 21961 | Mutant Mass Gainer Extreme 2500 + Creatina Angry 60 Serv | $44.99 | 21391 (variable 3 sabores) + 21456 |
+| 21962 | Proteína Primeval Labs 4.8 lb + Creatina Angry 60 Serv | $69.99 | 18977 (variable CC/Vanilla) + 21456 |
+
+- Estructura replicada del combo 21633: `_combo_price`, `_children`, `_combo_variations_<hijo>` vacío (todas las variaciones), `_manage_stock=no`, `_stock_status=instock`.
+- Contenido HTML (template combo del agente) + excerpt + categorías (Combos/Promociones + categorías de los hijos).
+- Imágenes desde `fotos/combos/` importadas a `uploads/2026/08/` (adjuntos 21963/21964/21965). Ojo: no usar `wp media import --skip-copy` (deja URLs apuntando a /tmp).
+- Verificado: URLs 200, precio+ahorro visibles, og:image correcta, add-to-cart a precio de combo, retiro en sucursal OK (SP_DEBUG selected=1 method=local_pickup + fila review).
+
+### Archivos
+- Temporales: `Temp\opencode\combo_contents\NEW-*.content.html` (contenidos de los 3 combos), `create_new_combos.php`.
+

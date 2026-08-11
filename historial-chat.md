@@ -755,3 +755,32 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 ### Archivos
 - `update_prices.php`, `check_prices.php`, `check_price_meta.php`, `fix_21518_price.php`: temporales locales (`Temp\opencode`) y borrados del servidor (/tmp).
 - Backups de contenido/excerpt originales en `Temp\opencode\combo_contents\` y `/home/u1910-kbd9lgn9dh44/combo_contents/` (servidor).
+
+## 2026-08-11 — Creación de 3 combos nuevos (PDF: combos 1, 2 y 4)
+
+### Origen
+- PDF `combos-precio-y-nuevos.pdf` proponía 4 combos nuevos. El **combo 3 (Primeval Labs + Pre-Work Raw BUM)** quedó **en pausa** por decisión del usuario (precios distintos entre 9602 RAW-ESSENTIAL $39.99 y 21457 BUM Blue Raspberry $49.99, no son el mismo producto; usuario investiga).
+
+### Productos creados (tipo `grouped`, vía WP-CLI `eval-file`)
+| ID | Título | Slug | Combo | Hijos | Categorías | Imagen |
+|----|--------|------|-------|-------|------------|--------|
+| 21960 | Creatina VMS 80 Serv + Glutamina VMS 80 Serv | `creatina-vms-80-serv-glutamina-vms-80-serv` | $24.99 (suma $59.98, ahorro ~$35) | 21455 simple + 21460 simple | Combos(284), Creatina(258), Glutamina(289), Promociones(219) | adj 21963 |
+| 21961 | Mutant Mass Gainer Extreme 2500 + Creatina Angry 60 Serv | `mutant-mass-gainer-extreme-2500-creatina-angry-60-serv` | $44.99 (suma $74.98, ahorro ~$30) | 21391 variable (3 sabores) + 21456 simple | Combos(284), MUTANT(299), Ganadores de Masa/Mass Gainer(249), Creatina(258), Promociones(219) | adj 21964 |
+| 21962 | Proteína Primeval Labs 4.8 lb + Creatina Angry 60 Serv | `proteina-primeval-labs-4-8-lb-creatina-angry-60-serv` | $69.99 (suma $84.98, ahorro ~$15) | 18977 variable (CC/Vanilla) + 21456 simple | Combos(284), Proteína de Suero/Whey(246), Proteínas(18), Creatina(258), Promociones(219) | adj 21965 |
+
+- Estructura replicada del combo 21633: `_combo_price`, `_children` (serializado), `_combo_variations_<hijo>` vacío = todas las variaciones disponibles, `_manage_stock=no`, `_stock_status=instock`, `post_content` HTML completo (template combo: sinergia → características → modo de uso → para quién → FAQ → autoridad → advertencia legal → CTA WhatsApp) y `post_excerpt`.
+- Contenidos generados por el agente `contenidos-ecommerce` (template `template-descripcion-combo.md`).
+
+### Imágenes (adjuntos nuevos)
+- Origen: `C:\suplementos\psk-create-product\fotos\combos\` (PNG con nombre exacto del producto).
+- Importadas con `wp media import --porcelain`. **Cuidado**: el primer intento usó `--skip-copy` y dejó las URLs apuntando a `/tmp/...`; se corrigió copiando los archivos a `wp-content/uploads/2026/08/`, re-importando sin `--skip-copy`, actualizando `_wp_attached_file` y regenerando thumbnails. Adjuntos: 21963, 21964, 21965; SEO con title=slug y alt descriptivo.
+
+### Verificación
+- BD: los 3 son `grouped`, `publish`, `instock`, `_combo_price` correcto, children correctos.
+- URLs: 3/3 HTTP 200.
+- HTML renderizado: precio del combo + "Ahorras ~$X" visible en las 3; imagen y og:image apuntan a `uploads/2026/08/`; botones `single_add_to_cart_button`/`combo_qty` y tabla grouped presentes; selectores de variación presentes en 21961 y 21962 (sabores).
+- Carrito: add-to-cart vía AJAX de 21960 → carrito muestra "Creatina VMS 80" a $24.99.
+- Retiro en sucursal (checklist sección 5): AJAX `sp_save_sucursal` → `{"success":true}`; checkout → `SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review` presente. No se tocó `functions.php` ni `combo-price.php`.
+
+### Pendiente
+- Combo 3 (Primeval Labs + Pre-Work Raw BUM) queda en pausa hasta que el usuario defina el producto de pre-work correcto y su precio.
