@@ -819,3 +819,13 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 
 ### Pendiente
 - Segundo combo con el producto `https://suplementospanama.net/product/raw-essential-orange/` (RAW Essential Orange) — lo hará el usuario en una próxima tanda.
+
+### Corrección posterior: cálculo del ahorro (combo-price.php)
+- **Problema reportado por el usuario**: la suma de los productos del combo 21982 da **$109.98** (no $124.98). El plugin `combo-price.php` calculaba `combo_get_children_total()` con **precios regulares** (`get_regular_price()`), por lo que sumaba la proteína a $74.99 en vez de su precio actual de oferta ($59.99) y mostraba "Ahorra $49.99" en vez de $34.99.
+- **Fix**: en `combo_get_children_total()` se usa ahora el **precio actual** de los hijos (`get_price()` / `min($prices['price'])`) en lugar del regular. Resultado:
+  - 21982: retail 109.98 → "Ahorra $34.99" ✓ (coincide con el datalayer "Ahorras $34.99")
+  - 21962: retail 84.98 → "Ahorra $14.99" ✓ (coincide con el historial "ahorro ~$15")
+  - 21960 y 21516: sin cambio (sus hijos no tienen descuento).
+- Backup en servidor: `wp-content/mu-plugins/combo-price.php.bak-20260811-ahorro`. Copia local `combo-price.php` actualizada y sincronizada.
+- **Se tocó el mu-plugin `combo-price.php`** (funcionalidad protegida por AGENTS.md): fue un cambio mínimo y directamente relacionado con el precio/ahorro del combo, no con sucursal/carrito. Se hizo backup y se verificó el checklist de retiro en sucursal (SP_DEBUG selected=1 method=local_pickup + fila review) después del cambio.
+- Contenido del combo 21982 corregido en producción y en `NEW-primeval-bum.content.html` (intro "~$35", características "Ahorro Inteligente de ~$35 / $109.98", FAQ "pagarías $109.98").

@@ -280,3 +280,16 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Estructura replicada de los combos previos (`_combo_price`, `_children`, `_manage_stock=no`, `_stock_status=instock`, contenido HTML con CTA WhatsApp oficial).
 - Verificado: HTTP 200, precio $74.99 + "Ahorra $49.99", add-to-cart AJAX OK, retiro en sucursal OK (`SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review`). No se tocó `functions.php` ni `combo-price.php`.
 
+## 2026-08-11 — Fix ahorro de combos: `combo_get_children_total()` ahora usa precio actual
+
+- **Síntoma**: en el combo 21982 la suma de los productos es $109.98 (proteína $59.99 en oferta + BUM $49.99), pero el badge decía "Ahorra $49.99" porque `combo_get_children_total()` sumaba precios regulares ($74.99 + $49.99 = $124.98).
+- **Cambio** (`combo-price.php`): usar `get_price()` en hijos simples y `min($prices['price'])` en variables, en vez de `regular_price`.
+- **Efecto**:
+  | Combo | retail antes | retail después | Badge antes | Badge después |
+  |-------|-------------|---------------|-------------|---------------|
+  | 21982 | 124.98 | 109.98 | Ahorra $49.99 | Ahorra $34.99 |
+  | 21962 | 99.98 | 84.98 | Ahorra $29.99 | Ahorra $14.99 |
+  | 21960 | 59.98 | 59.98 | Ahorra $34.99 | Ahorra $34.99 |
+  | 21516 | 145.98 | 145.98 | Ahorra $50.99 | Ahorra $50.99 |
+- Backup: `wp-content/mu-plugins/combo-price.php.bak-20260811-ahorro`. Verificado checklist retiro en sucursal OK tras el cambio.
+
