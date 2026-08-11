@@ -704,3 +704,45 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 - Yappy: "Pago telefónico con la app de Banco General".
 - Nota: métodos online solo TDC/TDD y Yappy, otros requieren consulta.
 - Sección 11: advertencia de responsabilidad del cliente por consumo sin supervisión médica.
+
+## 2026-08-11 — Actualización masiva de precios: 18 combos según PDF
+
+### Origen
+- PDF `C:\suplementos\combos\combos-precio-y-nuevos.pdf` con la lista de precios de los combos activos (duos/trios numerados 1-18) y combos nuevos propuestos.
+- Extraído con PyMuPDF (`fitz`); los 4 tríos (VMS Triple Stack, ProLive Full Stack, ISO Total Pack, Elite Performance Stack) ya estaban a precio nuevo, por lo que solo faltaban los 18 duos/trios.
+
+### Cambios realizados (vía WP-CLI `eval-file` en producción)
+- Script `update_prices.php` (dry-run previo: 18/18 con cambios detectados; luego `$DRY=false`).
+- Cada combo: `_combo_price` actualizado + `post_content` con nuevo precio/ahorro/porcentaje + `post_excerpt` donde aplicaba.
+- Mapa ID → precio nuevo:
+  - 21510 Evofusion+Creatina VMS: 79.99→84.99 (ahorro ~$35)
+  - 21511 IsoJect+Creatina VMS: 49.99→54.99 (contenido corregido: estaba $78/$65/$13, quedó total real $88.98 / combo $54.99 / ahorro $34)
+  - 21633 ISO100 FP+Creatina Angry: 48.99→58.99 (ahorro $20.99, 26%)
+  - 21512 VMS Bios Active+Creatina: 84.99→89.99 (ahorro ~$36, excerpt)
+  - 21513 ProLive Bio5+Creatina: 84.99→89.99
+  - 21514 ProLive Bio6+Creatina Nutrex: 101.99→98.99 (ahorro $32.99)
+  - 21515 Evofusion+BUM Pre Blue: 80.99→85.99 (ahorro ~$54)
+  - 21639 ISO100 FP+Raw Pre Orange: 54.99→59.99 (ahorro $34.99, 36%; entidades HTML `m&aacute;s`)
+  - 21516 ProLive Bio5+BUM Pre Blue: 84.99→94.99 (ahorro ~$51)
+  - 21517 VMS Bios Active+Raw Pre Orange: 89.99→94.99 (ahorro ~$41)
+  - 21518 Evofusion+BCAA VMS: 84.99→89.99 (ahorro ~$30, excerpt)
+  - 21519 IsoJect+BCAA: 54.99→59.99 (ahorro ~$29)
+  - 21520 ProLive Bio6+BCAA: 96.99→98.99 (ahorro ~$38)
+  - 21521 IsoJect+Glutamina: 54.99→59.99 (ahorro ~$29)
+  - 21522 VMS Bios Active+Glutamina: 84.99→89.99 (ahorro ~$36)
+  - 21523 ProLive Bio5+Glutamina: 84.99→89.99 (ahorro ~$36)
+  - 21524 Evofusion+Creatina+BCAA: 95.99→98.99 (ahorro ~$51, excerpt)
+  - 21525 IsoJect+Raw Pre+Creatina: 64.99→69.99 (ahorro ~$59, excerpt)
+
+### Ajuste extra
+- 21518 tenía `_price`/`_regular_price` residuales = 84.99 (precio viejo) que alimentaban tracking (og:price, dataLayer, PixelYourSite). Sincronizados a 89.99 para consistencia (no afecta precio visible ni carrito, ambos usan `_combo_price`).
+
+### Verificación
+- BD: los 18 `_combo_price` nuevos confirmados vía `eval-file`.
+- URLs: 18/18 HTTP 200.
+- HTML renderizado: precio nuevo presente en las 18; sin restos del precio viejo (los "old=True" iniciales eran caché vieja, precios de hijos en tabla grouped/schema/dataLayer, o navegación prev/next entre combos).
+- 21518: 0 ocurrencias de 84.99 tras el fix; og:price ya muestra 89.99.
+
+### Archivos
+- `update_prices.php`, `check_prices.php`, `check_price_meta.php`, `fix_21518_price.php`: temporales locales (`Temp\opencode`) y borrados del servidor (/tmp).
+- Backups de contenido/excerpt originales en `Temp\opencode\combo_contents\` y `/home/u1910-kbd9lgn9dh44/combo_contents/` (servidor).
