@@ -250,7 +250,6 @@ Del PDF `combos-precio-y-nuevos.pdf` (combos 1, 2 y 4; el 3 queda en pausa: Prim
 - Temporales: `Temp\opencode\combo_contents\NEW-*.content.html` (contenidos de los 3 combos), `create_new_combos.php`.
 
 ## 2026-08-11 — CTA WhatsApp de fichas de producto: estructura oficial + registro para reuso
-
 La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 1. Botón verde sólido → enlace verde con icono (inline-flex, sin texto).
 2. Añadido contenedor gris + flex interno (estructura de los combos existentes 21521/21516).
@@ -265,4 +264,19 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 ### Archivos
 - Guía de referencia: `docs/cta-whatsapp-productos.md` (snippet HTML completo + reglas + ejemplo real 21960).
 - Template del agente actualizado: `~/.config/opencode/agents/contenidos-ecommerce/sp/template-descripcion-combo.md` → sección "CTA WhatsApp".
+
+## 2026-08-11 — Combo 3 del PDF: Proteína Primeval Labs 4.8 lb + BUM Esencial No-Stim Blue Raspberry (ID 21982)
+
+| # | Campo | Valor |
+|---|-------|-------|
+| 1 | ID | 21982 |
+| 2 | Título | Proteína Primeval Labs 4.8 lb + BUM Esencial No-Stim Blue Raspberry |
+| 3 | Slug | `proteina-primeval-labs-4-8-lb-bum-esencial-no-stim-blue-raspberry` |
+| 4 | Precio | $74.99 (suma regular $124.98, ahorro ~$50) |
+| 5 | Hijos | 18977 variable (CC/Vanilla) + 21457 simple (BUM Esencial No-Stim Blue Raspberry) |
+| 6 | Categorías | Combos(284), Promociones(219), Proteína de Suero(246), Proteínas(18), Pre-Entrenamientos Sin Estimulantes(263) |
+| 7 | Imagen | adj 21981 `uploads/2026/08/primeval-bum-combo.png` (origen: `C:\suplementos\psk-create-product\fotos\combos\Primeval Labs 5lb + Pre-Work Raw Bum - Blueberry u.png`) |
+
+- Estructura replicada de los combos previos (`_combo_price`, `_children`, `_manage_stock=no`, `_stock_status=instock`, contenido HTML con CTA WhatsApp oficial).
+- Verificado: HTTP 200, precio $74.99 + "Ahorra $49.99", add-to-cart AJAX OK, retiro en sucursal OK (`SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review`). No se tocó `functions.php` ni `combo-price.php`.
 

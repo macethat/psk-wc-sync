@@ -794,3 +794,28 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 ### Registro del CTA para uso futuro
 - **Template del agente actualizado**: `~/.config/opencode/agents/contenidos-ecommerce/sp/template-descripcion-combo.md` → sección "CTA WhatsApp" ahora documenta la estructura exacta verificada (contenedor gris + flex + span con `inline-flex` centrado + enlace verde con icono 26x26) y las reglas de NO romper (no botón sólido, no texto "Escríbenos", texto en misma línea que el span para evitar `<br />` de wpautop, encoding de la URL).
 - **Guía de referencia creada**: `docs/cta-whatsapp-productos.md` con el snippet HTML completo, las reglas y un ejemplo real (21960).
+
+## 2026-08-11 (segunda tanda) — Combo 3 del PDF: Proteína Primeval Labs 4.8 lb + BUM Esencial No-Stim Blue Raspberry (ID 21982)
+
+### Contexto
+- El combo 3 del PDF quedó en pausa en la tanda anterior. El usuario lo retoma con precio **$74.99** y usando como hijo el producto **BUM Esencial Performance No-Stim Blue Raspberry** (ID 21457, URL confirmada por el usuario; no existe un "BUM Esencial Pre Workout" en la tienda).
+- Confirmado por el usuario que la proteína es **"Proteína Primeval Labs - 4.8 lb"** (ID 18977), no "5 lb".
+
+### Producto creado
+| ID | Título | Slug | Combo | Hijos | Categorías | Imagen |
+|----|--------|------|-------|-------|------------|--------|
+| 21982 | Proteína Primeval Labs 4.8 lb + BUM Esencial No-Stim Blue Raspberry | `proteina-primeval-labs-4-8-lb-bum-esencial-no-stim-blue-raspberry` | $74.99 (suma $124.98, ahorro ~$50) | 18977 variable (CC/Vanilla) + 21457 simple | Combos(284), Promociones(219), Proteína de Suero(246), Proteínas(18), Pre-Entrenamientos Sin Estimulantes(263) | adj 21981 (`primeval-bum-combo.png`) |
+
+### Notas
+- Imagen origen: `C:\suplementos\psk-create-product\fotos\combos\Primeval Labs 5lb + Pre-Work Raw Bum - Blueberry u.png` (importada vía `wp media import` sin `--skip-copy` → adj 21981, URL en `uploads/2026/08/primeval-bum-combo.png`).
+- Estructura idéntica a los combos previos: `_combo_price=74.99`, `_children` serializado, `_manage_stock=no`, `_stock_status=instock`, contenido HTML del template del agente (sinergia → características → modo de uso → para quién → FAQ → autoridad → advertencia legal → CTA WhatsApp oficial).
+- Precio renderizado: `$74.99` + "Ahorra $49.99" (plugin combo-price.php usa regular prices de hijos: 74.99 + 49.99 = 124.98).
+
+### Verificación
+- HTTP 200, og:image correcta (`uploads/2026/08/primeval-bum-combo.png`), title correcto.
+- `price_html` = $74.99 + `Ahorra $49.99`.
+- Add-to-cart AJAX: success, carrito muestra "Proteína Primeval Labs 4.8 lb + BUM Esencial..." y "BUM ESENCIAL PERFORMANCE NO-STIM BLUE RASPBERRY".
+- Retiro en sucursal (checklist sección 5): checkout con `shipping_method local_pickup` → `SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review` con "Sucursal: SP El Cangrejo". No se tocó `functions.php` ni `combo-price.php`.
+
+### Pendiente
+- Segundo combo con el producto `https://suplementospanama.net/product/raw-essential-orange/` (RAW Essential Orange) — lo hará el usuario en una próxima tanda.
