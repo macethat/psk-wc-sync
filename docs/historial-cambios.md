@@ -249,3 +249,20 @@ Del PDF `combos-precio-y-nuevos.pdf` (combos 1, 2 y 4; el 3 queda en pausa: Prim
 ### Archivos
 - Temporales: `Temp\opencode\combo_contents\NEW-*.content.html` (contenidos de los 3 combos), `create_new_combos.php`.
 
+## 2026-08-11 — CTA WhatsApp de fichas de producto: estructura oficial + registro para reuso
+
+La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
+1. Botón verde sólido → enlace verde con icono (inline-flex, sin texto).
+2. Añadido contenedor gris + flex interno (estructura de los combos existentes 21521/21516).
+3. Alineación vertical en desktop: `<span>` con `display:inline-flex; align-items:center; justify-content:center;` y el texto en la **misma línea** que la apertura del span (evita el `<br />` que inserta wpautop por saltos de línea y que empujaba el texto).
+
+### Reglas (NO romper)
+- No usar botón sólido verde (`background:#25D366; color:#fff; padding...; border-radius:50px`).
+- No escribir texto "Escríbenos por WhatsApp" dentro del enlace (solo icono).
+- Texto siempre en la misma línea que el `<span>` para evitar `<br />` de wpautop.
+- URL: `Hola%2C` (coma) + `%20` espacios + `%2B` para el "+".
+
+### Archivos
+- Guía de referencia: `docs/cta-whatsapp-productos.md` (snippet HTML completo + reglas + ejemplo real 21960).
+- Template del agente actualizado: `~/.config/opencode/agents/contenidos-ecommerce/sp/template-descripcion-combo.md` → sección "CTA WhatsApp".
+
