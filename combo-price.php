@@ -301,6 +301,7 @@ function combo_add_to_cart_handler($product_id, $qty) {
                         'variation_id' => $vid,
                         'name' => $v->get_name(),
                         'sku' => $v->get_sku(),
+                        'attributes' => $v->get_attributes(),
                     );
                 }
             }
@@ -321,6 +322,7 @@ function combo_add_to_cart_handler($product_id, $qty) {
 
     if ($cart_item_key) {
         WC()->cart->cart_contents[$cart_item_key]['quantity'] += $combo_qty;
+        WC()->cart->cart_contents[$cart_item_key]['combo_children'] = $combo_items;
     } else {
         $p = wc_get_product($product_id);
         WC()->cart->cart_contents[$cart_id] = apply_filters('woocommerce_add_cart_item', array(
@@ -393,8 +395,35 @@ add_action('woocommerce_checkout_create_order_line_item', function($item, $cart_
     if (!empty($values['combo_children'])) {
         $item->add_meta_data('_combo_children', $values['combo_children']);
         $item->add_meta_data('_combo_parent', $values['product_id']);
+        $child_lines = array();
+        foreach ($values['combo_children'] as $child) {
+            $line = $child['name'];
+            if ($child['sku']) $line .= ' (' . $child['sku'] . ')';
+            $child_lines[] = $line;
+        }
+        $item->add_meta_data('Incluye', implode(', ', $child_lines));
     }
 }, 10, 3);
+
+// Mostrar sabores seleccionados en carrito y checkout
+add_filter('woocommerce_get_item_data', function($item_data, $cart_item) {
+    if (!empty($cart_item['combo_children'])) {
+        foreach ($cart_item['combo_children'] as $child) {
+            $item_data[] = array(
+                'name' => $child['name'],
+                'value' => $child['sku'],
+                'display' => '',
+            );
+        }
+    }
+    return $item_data;
+}, 10, 2);
+
+// CSS para que metadatos del combo no corten palabras
+add_action('wp_head', function () {
+    if (!is_cart() && !is_checkout() && !is_order_received_page() && !is_account_page()) return;
+    echo '<style>.cart_item .variation dt, .cart_item .variation dd, .order_item .wc-item-meta dt, .order_item .wc-item-meta dd { word-break: keep-all; overflow-wrap: anywhere; }</style>' . "\n";
+}, 99);
 
 // Descontar stock de los componentes al confirmar el pedido
 add_action('woocommerce_checkout_order_processed', function($order_id, $posted_data, $order) {

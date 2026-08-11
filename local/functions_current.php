@@ -1626,3 +1626,7 @@ window.dataLayer.push({
 });
 
 
+
+
+// === SUCURSALES LANDING PAGES, SCHEMA NAVEGACION y directorio de marcas ===
+require_once get_stylesheet_directory() . '/functions-additions.php';
