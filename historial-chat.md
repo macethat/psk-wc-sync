@@ -656,3 +656,51 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 - 18932 (5 lbs, instock): data-sp-status `18934:instock,18935:instock`; cuadro "Disponible para retiro en" normal = 1, aviso compra presencial = 0 (no se rompe el flujo).
 - Checklist seccion 5 de docs/RETIRO-SUCURSAL.md OK (producto/carrito/checkout intactos).
 - Docs actualizados: `docs/RETIRO-SUCURSAL.md` (BUG E + tabla JS), `historial-chat.md` (esta entrada).
+
+## 2026-08-08 — Fix directorio /marcas/ + Términos y Condiciones
+
+### Fix /marcas/
+- **Causa raíz**: el deploy `f29c55d` (aviso presencial, 8-ago 00:14) sobrescribió `functions.php` desde la copia local `local/functions_current.php`, la cual no incluía la línea `require_once get_stylesheet_directory() . '/functions-additions.php';` que cargaba el shortcode `[sp_directorio_marcas]` (sección 14) y el schema de navegación (sección 13). El backup `functions.php.bak-20260807` sí contenía el require en su línea 1553.
+- **Fix**: backup del functions.php actual (`functions.php.bak-20260808-marcas`), append quirúrgico del `require_once` al final del archivo vía SSH (evitando manipulación local que pudiera alterar CRLF o indentación). `php -l` OK.
+- **Verificación**: `/marcas/` HTTP 200, 27 marcas, shortcode REGISTRADO. Schema navegación 54 nodos en home y combos. JS sucursal (`spUpdateStock`) presente en combined-js. Flujos protegidos OK.
+- **Copia local sincronizada**: `local/functions_current.php` descargado del servidor post-fix (MD5 idéntico).
+
+### Términos y Condiciones
+- Generado `suplementos/terminos_y_condiciones_SP.html` con: índice con enlaces, proceso de compra paso a paso, tabla de métodos de pago, nota ACH vía WhatsApp, cláusula de problemas de plataforma (sección 4), estructura reorganizada.
+
+## 2026-08-10 — Varios: retiro de productos, cambios de precio, fix sabor en combos, T&C
+
+### Retiro de productos obsoletos
+- **Brownie con Colágeno (ID 19043)**: variaciones ya stock=0, trashed. 301 redirect `/product/brownie-con-colageno/` → `/snacks-y-bedidas/brownies-y-galletas/` vía mu-plugin `redirect-brownie.php`.
+- **Galleta Proteica (ID 19055)**: variación 19057 stock=9→0 y outofstock, trashed. 301 redirect `/product/galleta-proteica/` → `/snacks-y-bedidas/brownies-y-galletas/` vía mu-plugin `redirect-galleta.php`.
+- Ambos ya solicitados para desindexación en GSC.
+
+### Cambios de precio en combos
+- **Elite Performance Stack (ID 21660)**: `_combo_price` 101.99→106.99. Contenido: ahorro $84.98→$79.98, $101.99→$106.99, 45%→42%.
+- **ISO Total Pack (ID 21655)**: `_combo_price` 68.50→69.99. Contenido: ahorro $41.47→$39.98, $68.50→$69.99, 38%→36%.
+- **ProLive Full Stack (ID 21647)**: `_combo_price` 94.99→99.99. Contenido: ahorro $60.98→$55.98, $94.99→$99.99, 39%→35%.
+- **VMS Triple Stack (ID 21643)**: `_combo_price` 94.99→99.99. Contenido: ahorro $60.98→$55.98, $94.99→$99.99, 39%→35%. Descripción corta: "Ahorra $60.98"→"Ahorra $55.98". Verificado en vivo: HTTP 200, muestra 99.99, sin restos de 94.99.
+- Imagen ISO Total Pack reemplazada: nueva `iso total pack.jpg` subida como attachment 21931, SEO data transferido, old attach 21654 eliminado.
+
+### Fix: sabor de proteína no se guardaba en combos
+- **Causa raíz**: `combo_add_to_cart_handler()` en `combo-price.php` no capturaba los atributos de variación (`$v->get_attributes()`), solo guardaba `variation_id`. En el carrito se usaba `'variation' => array()`, por lo que el sabor seleccionado no se persistía en carrito/checkout/pedido.
+- **Fix en `combo-price.php`**:
+  - Al construir `$combo_items[]` se añadió `'attributes' => $v->get_attributes()`.
+  - Al actualizar cantidad en carrito existente, se refresca `combo_children` con los datos actualizados.
+  - Nuevo hook `woocommerce_get_item_data` que muestra cada hijo del combo con su nombre+SKU en carrito/checkout.
+  - En `woocommerce_checkout_create_order_line_item` se guarda meta visible "Incluye" con lista de componentes.
+  - CSS `word-break: keep-all` para evitar cortes de palabra en metadatos.
+- **Archivos**: `combo-price.php` (mu-plugin). Backup: `combo-price.php.bak-20260810`.
+
+### Términos y Condiciones (ediciones posteriores)
+- Sección "Provincias del interior" renombrada a "Para compras desde las provincias" con reglas actualizadas (Yappy espera confirmación, logística post-pedido, costo delivery, asistente virtual).
+- Eliminada sección 5.3 "Envíos internacionales".
+- Requisitos de entrega: identificación obligatoria para retiro, autorización para terceros.
+- Sección 6 reescrita: revisión delante del despachador, foto+WhatsApp si anomalía, 24h plazo.
+- Motivos de devolución: solo producto defectuoso o equivocado.
+- Texto más empático sobre proceso de verificación de devoluciones.
+- Regla de cambios post-envío con excepción a criterios de devolución.
+- Condiciones de cambio por diferencia de precio (pagar diferencia o crédito restante).
+- Yappy: "Pago telefónico con la app de Banco General".
+- Nota: métodos online solo TDC/TDD y Yappy, otros requieren consulta.
+- Sección 11: advertencia de responsabilidad del cliente por consumo sin supervisión médica.
