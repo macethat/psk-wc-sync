@@ -740,6 +740,12 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 ### Reversión posterior
 - **21514 ProLive Bio6 + Creatina Nutrex** se devolvió a su precio anterior **$101.99** por decisión del usuario. Restaurados `_combo_price` (98.99→101.99), `post_content` (ahorro $32.99→$29.99) y `post_excerpt` desde backup original. Verificado en vivo: 101.99 presente, 0 restos de 98.99/32.99.
 
+### Imágenes nuevas de 2 combos ISO 100
+- Origen: `C:\suplementos\psk-create-product\fotos\combos\` (archivos con el nombre exacto del producto).
+- **21633 ISO 100 FP + Creatina Angry**: adjunto 21955 (nueva `ISO-100-Fruity-Pebbles-Creatina-Angry-Supplements.jpg`), reemplazó 21632.
+- **21639 ISO 100 FP + Raw Pre Orange**: adjunto 21956 (nueva `ISO-100-Fruity-Pebbles-Raw-Pre-Workout-Orange.jpg`), reemplazó 21638.
+- Datos SEO transferidos de la imagen vieja a la nueva (title `combo-iso100-creatine`/`combo-iso100-rawpre`, alt/caption/desc vacíos), slug restaurado a `combo-iso100-creatine`/`combo-iso100-rawpre`, featured image asignada y adjuntos viejos eliminados. Verificado en vivo: og:image y main img sirven la imagen nueva.
+
 ### Verificación
 - BD: los 18 `_combo_price` nuevos confirmados vía `eval-file`.
 - URLs: 18/18 HTTP 200.
