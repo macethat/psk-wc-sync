@@ -737,6 +737,9 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 ### Ajuste extra
 - 21518 tenía `_price`/`_regular_price` residuales = 84.99 (precio viejo) que alimentaban tracking (og:price, dataLayer, PixelYourSite). Sincronizados a 89.99 para consistencia (no afecta precio visible ni carrito, ambos usan `_combo_price`).
 
+### Reversión posterior
+- **21514 ProLive Bio6 + Creatina Nutrex** se devolvió a su precio anterior **$101.99** por decisión del usuario. Restaurados `_combo_price` (98.99→101.99), `post_content` (ahorro $32.99→$29.99) y `post_excerpt` desde backup original. Verificado en vivo: 101.99 presente, 0 restos de 98.99/32.99.
+
 ### Verificación
 - BD: los 18 `_combo_price` nuevos confirmados vía `eval-file`.
 - URLs: 18/18 HTTP 200.
