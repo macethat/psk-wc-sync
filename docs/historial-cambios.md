@@ -293,3 +293,13 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
   | 21516 | 145.98 | 145.98 | Ahorra $50.99 | Ahorra $50.99 |
 - Backup: `wp-content/mu-plugins/combo-price.php.bak-20260811-ahorro`. Verificado checklist retiro en sucursal OK tras el cambio.
 
+## 2026-08-11 — Sustitución de imágenes en 2 productos
+
+| SKU | Producto | Adj viejo | Adj nuevo |
+|-----|----------|-----------|-----------|
+| 810121050286 | 21454 EVOFUSION CHOC. PEANUT BUTTER 4.78 LBS EVOGEN (simple) | 21565 `2026/07/810121050286.jpg` | 21986 `2026/08/evofusion-chocolate-peanut-butter-4-78-lbs-evogen.jpeg` |
+| 650076635257 | 19064 VMS Bios Active 5 lb - Strawberry (variación) | 21464 `2026/07/650076635257.jpg` | 21987 `2026/08/vms-bios-active-5-lb-strawberry.jpg` |
+
+- SEO creado (title=slug + alt descriptivo), adjuntos viejos eliminados con `wp_delete_attachment(..., true)`.
+- Verificado: og:image + main + variación apuntan a la nueva; viejas 404.
+

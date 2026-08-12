@@ -829,3 +829,16 @@ Criterios: keyword principal al inicio, datos verificables del catálogo (6 sucu
 - Backup en servidor: `wp-content/mu-plugins/combo-price.php.bak-20260811-ahorro`. Copia local `combo-price.php` actualizada y sincronizada.
 - **Se tocó el mu-plugin `combo-price.php`** (funcionalidad protegida por AGENTS.md): fue un cambio mínimo y directamente relacionado con el precio/ahorro del combo, no con sucursal/carrito. Se hizo backup y se verificó el checklist de retiro en sucursal (SP_DEBUG selected=1 method=local_pickup + fila review) después del cambio.
 - Contenido del combo 21982 corregido en producción y en `NEW-primeval-bum.content.html` (intro "~$35", características "Ahorro Inteligente de ~$35 / $109.98", FAQ "pagarías $109.98").
+
+## 2026-08-11 — Sustitución de imágenes en 2 productos (fotos nuevas por SKU)
+
+Fotos nuevas en `C:\suplementos\psk-create-product\fotos\` con el SKU en el nombre (una simple y una variación):
+
+| SKU | Producto | Antes (adj) | Después (adj) | SEO nuevo |
+|-----|----------|-------------|---------------|-----------|
+| 810121050286 | 21454 EVOFUSION CHOC. PEANUT BUTTER 4.78 LBS EVOGEN (simple) | 21565 `2026/07/810121050286.jpg` | 21986 `2026/08/evofusion-chocolate-peanut-butter-4-78-lbs-evogen.jpeg` | title `evofusion-chocolate-peanut-butter-4-78-lbs-evogen`, alt "Proteína EVOFUSION Chocolate Peanut Butter 4.78 lbs - EVOGEN Nutrition" |
+| 650076635257 | 19064 VMS Bios Active 5 lb - Strawberry (variación de 19061) | 21464 `2026/07/650076635257.jpg` | 21987 `2026/08/vms-bios-active-5-lb-strawberry.jpg` | title `vms-bios-active-5-lb-strawberry`, alt "Proteína VMS Bios Active 5 lb - Strawberry" |
+
+- **SEO**: las imágenes viejas solo tenían title=SKU sin alt; se **creó** SEO descriptivo (title con slug + alt del producto), transferiendo caption/desc (estaban vacíos). Método igual al de los combos ISO 100 (commit 4763f8f): importar sin `--skip-copy`, SEO, asignar featured, eliminar adjunto viejo `wp_delete_attachment(…, true)`.
+- **Aviso**: `wp media import` usa el basename del archivo en `/tmp`; se renombró a nombre de producto y se regeneró metadata. Cuidado con `glob('new_*')` al limpiar thumbnails: borra también otros archivos `new_*` del dir (se tuvo que reponer el original de la 2ª imagen desde `/tmp`).
+- **Verificado en vivo**: og:image + main img + variación (woosq/woosb, thumbnail selector sabores) apuntan a la nueva; imágenes viejas 404; HTTP 200 en las nuevas.
