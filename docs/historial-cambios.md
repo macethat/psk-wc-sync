@@ -303,3 +303,18 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - SEO creado (title=slug + alt descriptivo), adjuntos viejos eliminados con `wp_delete_attachment(..., true)`.
 - Verificado: og:image + main + variación apuntan a la nueva; viejas 404.
 
+## 2026-08-11 — Combo 4: Proteína Primeval Labs 4.8 lb + Raw Pre Workout Orange (ID 21989)
+
+| # | Campo | Valor |
+|---|-------|-------|
+| 1 | ID | 21989 |
+| 2 | Título | Proteína Primeval Labs 4.8 lb + Raw Pre Workout Orange |
+| 3 | Slug | `proteina-primeval-labs-4-8-lb-raw-pre-workout-orange` |
+| 4 | Precio | $74.99 (suma actual $99.98, ahorro $24.99) |
+| 5 | Hijos | 18977 variable (CC/Vanilla) + 9602 simple (RAW-ESSENTIAL - ORANGE, SKU 850039445668) |
+| 6 | Categorías | Combos(284), Promociones(219), Proteína de Suero(246), Proteínas(18), Sin Categoría(15) |
+| 7 | Imagen | adj 21988 `uploads/2026/08/proteina-primeval-labs-4-8-lb-raw-pre-workout-orange.jpg` (SEO title + alt aplicados) |
+
+- Estructura replicada de los combos previos (`_combo_price=74.99`, `_children`, `_manage_stock=no`, `_stock_status=instock`, contenido HTML con CTA WhatsApp oficial).
+- Verificado: HTTP 200, precio $74.99 + "Ahorra $24.99" (datalayer "Ahorras $24.99"), selector sabores `combo_variation_id[18977]` (CC/Vanilla), add-to-cart AJAX OK, retiro en sucursal OK (`SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review`). Aparece en `/promociones/combos/`. No se tocó `functions.php` ni `combo-price.php`.
+

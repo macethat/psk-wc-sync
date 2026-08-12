@@ -842,3 +842,28 @@ Fotos nuevas en `C:\suplementos\psk-create-product\fotos\` con el SKU en el nomb
 - **SEO**: las imágenes viejas solo tenían title=SKU sin alt; se **creó** SEO descriptivo (title con slug + alt del producto), transferiendo caption/desc (estaban vacíos). Método igual al de los combos ISO 100 (commit 4763f8f): importar sin `--skip-copy`, SEO, asignar featured, eliminar adjunto viejo `wp_delete_attachment(…, true)`.
 - **Aviso**: `wp media import` usa el basename del archivo en `/tmp`; se renombró a nombre de producto y se regeneró metadata. Cuidado con `glob('new_*')` al limpiar thumbnails: borra también otros archivos `new_*` del dir (se tuvo que reponer el original de la 2ª imagen desde `/tmp`).
 - **Verificado en vivo**: og:image + main img + variación (woosq/woosb, thumbnail selector sabores) apuntan a la nueva; imágenes viejas 404; HTTP 200 en las nuevas.
+
+## 2026-08-11 — Combo 4: Proteína Primeval Labs 4.8 lb + Raw Pre Workout Orange (ID 21989)
+
+### Contexto
+- El "pendiente" de la tanda del combo 21982 era el segundo combo con el producto `raw-essential-orange` (RAW Essential Orange, ID 9602). El usuario lo retoma con precio **$74.99**.
+- Hijos: **18977** (Proteína Primeval Labs - 4.8 lb, variable CC/Vanilla, min price $59.99) + **9602** (RAW-ESSENTIAL - ORANGE, simple, $39.99, slug `raw-essential-orange`, SKU 850039445668).
+
+### Producto creado
+| ID | Título | Slug | Combo | Hijos | Categorías | Imagen |
+|----|--------|------|-------|-------|------------|--------|
+| 21989 | Proteína Primeval Labs 4.8 lb + Raw Pre Workout Orange | `proteina-primeval-labs-4-8-lb-raw-pre-workout-orange` | $74.99 (suma $99.98, ahorro $24.99) | 18977 variable (CC/Vanilla) + 9602 simple | Combos(284), Promociones(219), Proteína de Suero(246), Proteínas(18), Sin Categoría(15) | adj 21988 (`uploads/2026/08/proteina-primeval-labs-4-8-lb-raw-pre-workout-orange.jpg`) |
+
+### Notas
+- Imagen origen: `C:\suplementos\psk-create-product\fotos\combos\Proteina Primeval Labs 4.8 lb +Raw Pre Workout Orange.jpg` (importada vía `wp media import` → adj 21988; renombrada a nombre de producto y metadata regenerada).
+- **SEO de imagen**: title `proteina-primeval-labs-4-8-lb-raw-pre-workout-orange` + alt "Combo Proteína Primeval Labs 4.8 lb + Raw Pre Workout Orange" (se aplicó en la misma tanda, no en commit aparte).
+- Estructura idéntica a los combos previos (`_combo_price=74.99`, `_children`, `_manage_stock=no`, `_stock_status=instock`, contenido HTML del template del agente con CTA WhatsApp oficial).
+- Precio renderizado: `$74.99` + "Ahorra $24.99" (con el fix de `combo-price.php`, retail = precio actual 59.99 + 39.99 = 99.98). El datalayer muestra "Ahorras $24.99".
+- Se evitó el patrón de subir el archivo a `/tmp` con prefijo `new_` (lección de la tanda anterior) subiendo la imagen con nombre limpio `primeval-raworange-combo.jpg`.
+
+### Verificación
+- HTTP 200, title correcto, og:image apunta a la nueva (`uploads/2026/08/proteina-primeval-labs-4-8-lb-raw-pre-workout-orange.jpg`), main img correcta.
+- Selector de sabores de la proteína presente: `select name="combo_variation_id[18977]"` con opciones `18978 Cookies & Cream` / `18979 Vanilla`.
+- Add-to-cart AJAX: success, carrito muestra RAW-ESSENTIAL - ORANGE y el combo.
+- Retiro en sucursal (checklist sección 5): checkout con `shipping_method local_pickup` → `SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review`. No se tocó `functions.php` ni `combo-price.php`.
+- El combo aparece en la categoría Combos (`/promociones/combos/`, HTTP 200, slug presente).
