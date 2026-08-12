@@ -318,3 +318,9 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Estructura replicada de los combos previos (`_combo_price=74.99`, `_children`, `_manage_stock=no`, `_stock_status=instock`, contenido HTML con CTA WhatsApp oficial).
 - Verificado: HTTP 200, precio $74.99 + "Ahorra $24.99" (datalayer "Ahorras $24.99"), selector sabores `combo_variation_id[18977]` (CC/Vanilla), add-to-cart AJAX OK, retiro en sucursal OK (`SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review`). Aparece en `/promociones/combos/`. No se tocó `functions.php` ni `combo-price.php`.
 
+## 2026-08-11 — Sitemap: URLs de los combos nuevos añadidas a `product-sitemap.xml` (Rank Math)
+
+- **Situación**: los 5 combos (21960/21961/21962/21982/21989) no aparecían en `product-sitemap.xml` (163 URLs vs 164 productos publicados). Sin noindex ni exclude (Rank Math), el cache del sitemap estaba stale.
+- **Fix**: `wp_cache_flush()`, borrado de transients/options `rank_math_sitemap_*` y `\RankMath\Sitemap\Cache::invalidate_storage()` (archivos cacheados → 0).
+- **Resultado**: `product-sitemap.xml` regenerado con **165 URLs** incluyendo los 5 combos; `sitemap_index.xml` con lastmod actualizado (`2026-08-12T01:46:27+00:00`). Verificado por loopback PHP y curl externo (HTTP 200, headers no-store).
+

@@ -867,3 +867,19 @@ Fotos nuevas en `C:\suplementos\psk-create-product\fotos\` con el SKU en el nomb
 - Add-to-cart AJAX: success, carrito muestra RAW-ESSENTIAL - ORANGE y el combo.
 - Retiro en sucursal (checklist sección 5): checkout con `shipping_method local_pickup` → `SP_DEBUG selected=1 method=local_pickup` + fila `sp-sucursal-review`. No se tocó `functions.php` ni `combo-price.php`.
 - El combo aparece en la categoría Combos (`/promociones/combos/`, HTTP 200, slug presente).
+
+## 2026-08-11 — Combo 21989: URLs añadidas al sitemap de productos (Rank Math)
+
+### Contexto
+- El usuario pidió que las URLs de los combos recién creados estén en el sitemap que lee GSC.
+- El sitemap es de **Rank Math SEO** (`/sitemap_index.xml` → `product-sitemap.xml`). Todos los endpoints de sitemap redirigen ahí (wp-sitemap.xml y sitemap.xml → 301).
+- Diagnóstico: `product-sitemap.xml` tenía 163 URLs y había 164 productos publicados; los 5 combos nuevos (21960/21961/21962/21982/21989) estaban **AUSENTES** del sitemap, mientras los combos viejos (21516, 21633…) sí aparecían. Los combos no tenían noindex ni exclude (`rank_math_robots` vacío).
+
+### Cambios realizados
+- Inutilizó el **objet cache de SGO** para el sitemap: `wp_cache_flush()`, borró transients/options (`rank_math_sitemap_*`) y llamó `\RankMath\Sitemap\Cache::invalidate_storage()` → archivos cacheados del sitemap eliminados (0 restantes).
+- El sitemap se regeneró al solicitarlo: `sitemap_index.xml` con lastmod actualizado (`product-sitemap.xml` y `product_cat-sitemap.xml` → `2026-08-12T01:46:27+00:00`) y `product-sitemap.xml` con **165 URLs** (ahora sí incluye los 5 combos).
+
+### Verificación
+- Loopback PHP (evita page cache) y curl externo: los 5 slugs de combos presentes en `product-sitemap.xml`, HTTP 200.
+- Headers del sitemap: `cache-control: no-cache, no-store` (dinámico, no cacheado por SG).
+- Ping a Google/Bing deprecados (404/410) — Google re-crawleará el sitemap en su próximo rastreo; el sitemap ya está en GSC.
