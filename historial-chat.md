@@ -883,3 +883,22 @@ Fotos nuevas en `C:\suplementos\psk-create-product\fotos\` con el SKU en el nomb
 - Loopback PHP (evita page cache) y curl externo: los 5 slugs de combos presentes en `product-sitemap.xml`, HTTP 200.
 - Headers del sitemap: `cache-control: no-cache, no-store` (dinámico, no cacheado por SG).
 - Ping a Google/Bing deprecados (404/410) — Google re-crawleará el sitemap en su próximo rastreo; el sitemap ya está en GSC.
+
+## 2026-08-11 � Fix schema.org combos: hasVariant -> hasPart (error critico GSC)
+
+### Problema
+- GSC reportaba error CRITICO en el combo 21960 (creatina-vms-80-serv-glutamina-vms-80-serv), hijo "CREATINA 80 SERVING UNFLAVORED": El tipo de objeto del campo <parent_node> no es valido.
+- Causa: sp_output_combo_structured_data() (functions.php del child, ~linea 926) generaba el JSON-LD del combo con hasVariant conteniendo los productos hijos como Product completos. Google solo acepta hasVariant para variaciones del mismo producto (ProductGroup), no para combos de productos distintos.
+
+### Cambio (autorizado por el usuario para tocar functions.php del child)
+- Solo se modifico sp_output_combo_structured_data(): docblock + clave 'hasVariant' => 'hasPart' (+ renombrado variable interna  -> ). Los hijos se mantienen como @type: Product completos (name, description, url, image, @id, category, offers, sku); hasPart es la propiedad correcta de schema.org para bundles de productos distintos y acepta offers por componente.
+- Backup en servidor: functions.php.bak-20260811-schema-hasPart (md5 viejo 58417452...). php -l OK. Caches purgadas (wp sg purge, wp cache flush).
+- Copia local sincronizada: local/functions_current.php (md5 local = md5 servidor 57fe2cb4d1...).
+- NO se toco nada de sucursal/carrito/checkout, ni combo-price.php, ni el filtro rank_math/json_ld contiguo.
+
+### Verificacion en vivo (combo 21960 + spot-check 21989)
+- hasVariant eliminado (0), hasPart con 2 hijos Product, JSON valido, nodo principal offers intacto (price 24.99 USD, InStock, shippingDetails, hasMerchantReturnPolicy). Aplica a los 5 combos (21960/21961/21962/21982/21989).
+- Checklist retiro en sucursal OK: AJAX sp_save_sucursal -> success; POST /cart/ con shipping_method local_pickup:4 + sp_sucursal_retiro=1 -> HTTP 200; checkout con SP_DEBUG selected=1 method=local_pickup + fila sp-sucursal-review "SP El Cangrejo" + select preseleccionado; ficha producto combo muestra cuadro .sp-sucursal-stock; combined-js correcto (sin '!isPickup ||').
+
+### Recomendacion
+- Revalidar las 5 URLs con Rich Results Test cuando Google recrawlee; si GSC aun muestra el error, usar URL Inspection -> Solicitar indexacion en las 5 URLs de combos.

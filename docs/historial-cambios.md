@@ -324,3 +324,9 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - **Fix**: `wp_cache_flush()`, borrado de transients/options `rank_math_sitemap_*` y `\RankMath\Sitemap\Cache::invalidate_storage()` (archivos cacheados → 0).
 - **Resultado**: `product-sitemap.xml` regenerado con **165 URLs** incluyendo los 5 combos; `sitemap_index.xml` con lastmod actualizado (`2026-08-12T01:46:27+00:00`). Verificado por loopback PHP y curl externo (HTTP 200, headers no-store).
 
+
+## 2026-08-11 � Fix schema.org combos: hasVariant -> hasPart (error critico GSC)
+
+- **Problema**: GSC reportaba error critico "El tipo de objeto del campo <parent_node> no es valido" en el combo 21960 (hijos CREATINA/GLUTAMINA). El schema del combo usaba hasVariant (solo valido para variaciones del mismo producto), no para combos de productos distintos.
+- **Cambio**: sp_output_combo_structured_data() en functions.php del child ahora emite 'hasPart' en vez de 'hasVariant' (mantiene hijos como @type: Product completos con offers). Backup: functions.php.bak-20260811-schema-hasPart.
+- **Verificado**: combo 21960 y 21989 sirven hasPart (2 hijos), sin hasVariant, JSON valido, offers del combo intactos. Checklist retiro en sucursal OK (SP_DEBUG selected=1 method=local_pickup + fila sp-sucursal-review). local/functions_current.php sincronizado.

@@ -919,7 +919,10 @@ function sp_email_sucursal($order, $sent_to_admin, $plain_text, $email) {
 
 /**
  * Enhanced Structured Data for Grouped Products (Combos)
- * Adds hasVariant data linking child products to the combo
+ * Adds hasPart data linking child products to the combo. hasPart is the
+ * schema.org-correct property for bundles of DISTINCT products; hasVariant
+ * is only valid for variations of the same product (ProductGroup semantics),
+ * which Google rejected as "Invalid object type for field hasVariant".
  */
 add_action('wp_head', 'sp_output_combo_structured_data', 99);
 
@@ -941,7 +944,7 @@ function sp_output_combo_structured_data() {
     $currency = get_woocommerce_currency();
     $combo_price_val = wc_format_decimal((float) $combo_price, 2);
     
-    $has_variants = [];
+    $has_parts = [];
     $total_retail = 0;
     
     foreach ($children as $child_id) {
@@ -985,7 +988,7 @@ function sp_output_combo_structured_data() {
             $variant['sku'] = $child_sku;
         }
         
-        $has_variants[] = $variant;
+        $has_parts[] = $variant;
     }
     
     $product_image_id = $product->get_image_id();
@@ -1074,7 +1077,7 @@ function sp_output_combo_structured_data() {
                 'url' => $site_url,
             ),
         ),
-        'hasVariant' => $has_variants,
+        'hasPart' => $has_parts,
     );
     
     $schema['sku'] = !empty($product_sku) 
