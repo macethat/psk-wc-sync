@@ -902,3 +902,20 @@ Fotos nuevas en `C:\suplementos\psk-create-product\fotos\` con el SKU en el nomb
 
 ### Recomendacion
 - Revalidar las 5 URLs con Rich Results Test cuando Google recrawlee; si GSC aun muestra el error, usar URL Inspection -> Solicitar indexacion en las 5 URLs de combos.
+
+## 2026-08-11 — Mailchimp: revisión de suscriptores nuevos + desactivación del doble opt-in
+
+### Contexto
+- El usuario pidió revisar si llegan suscriptores nuevos por el formulario del sitio (MC4WP form 417 -> lista 27b4cb9f8c) y si les llegan los mails.
+
+### Revisión (vía API Mailchimp desde el servidor)
+- Lista tiene 13 suscriptores. Solo 2 son nuevos desde la migración (05-ago): henrybatista24@icloud.com (signup 2026-08-11, pending) y xeniayazmin27@gmail.com (signup 2026-08-06, pending).
+- Ambos con timestamp_opt vacío y activity vacía -> nunca confirmaron el doble opt-in (el correo de confirmacion puede ir a spam; la entrega del opt-in no se expone en la API de membresia, solo se ve que no hubo clic).
+- Config form 417: double_optin=1, lists=[27b4cb9f8c], sin automatizaciones ni campañas en la lista.
+
+### Cambio
+- Desactivado el doble opt-in del form 417: _mc4wp_settings -> double_optin = 0. Ahora los nuevos suscriptores quedan subscribed de inmediato (sin correo de confirmacion).
+- Verificado: form 417 presente en /shop/ (HTTP 200), plugin lee double_optin=0 y lista 27b4cb9f8c.
+
+### Pendiente (opcional, usuario)
+- Reenviar confirmacion a los 2 pending desde Mailchimp web, o pasarlos a subscribed retroactivamente via API (a peticion del usuario).

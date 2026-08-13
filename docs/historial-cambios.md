@@ -330,3 +330,8 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 - **Problema**: GSC reportaba error critico "El tipo de objeto del campo <parent_node> no es valido" en el combo 21960 (hijos CREATINA/GLUTAMINA). El schema del combo usaba hasVariant (solo valido para variaciones del mismo producto), no para combos de productos distintos.
 - **Cambio**: sp_output_combo_structured_data() en functions.php del child ahora emite 'hasPart' en vez de 'hasVariant' (mantiene hijos como @type: Product completos con offers). Backup: functions.php.bak-20260811-schema-hasPart.
 - **Verificado**: combo 21960 y 21989 sirven hasPart (2 hijos), sin hasVariant, JSON valido, offers del combo intactos. Checklist retiro en sucursal OK (SP_DEBUG selected=1 method=local_pickup + fila sp-sucursal-review). local/functions_current.php sincronizado.
+
+## 2026-08-11 ó Mailchimp: desactivacion doble opt-in (form 417)
+
+- Form 417 -> _mc4wp_settings: double_optin 1->0. Nuevos suscriptores quedan subscribed de inmediato.
+- Contexto: 2 nuevos (henrybatista24@icloud.com 11-ago, xeniayazmin27@gmail.com 06-ago) permanecian pending sin confirmar el opt-in.
