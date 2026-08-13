@@ -919,3 +919,13 @@ Fotos nuevas en `C:\suplementos\psk-create-product\fotos\` con el SKU en el nomb
 
 ### Pendiente (opcional, usuario)
 - Reenviar confirmacion a los 2 pending desde Mailchimp web, o pasarlos a subscribed retroactivamente via API (a peticion del usuario).
+
+## 2026-08-11 — Combo 21961: cambio de precio a 54.99
+
+### Cambio
+- Combo Mutant Mass Gainer Extreme 2500 + Creatina Angry 60 Serv: _combo_price 44.99 -> 54.99.
+- Ahorro resultante: retail 74.98 - 54.99 = 19.99 (badge "Ahorra \.99", datalayer "Ahorras \.99").
+- Descripcion actualizada (4 reemplazos): intro ~\ -> ~\, caracteristica "Ahorro Inteligente de ~\", FAQ "ahorras ~\... pagarias \.98; con este combo pagas solo \.99". Sin \.99 restantes.
+- Schema: price 54.99 + hasPart hijos (49.99 + 24.99). Lookup tables precio actualizadas.
+- El 29.99 restante en el HTML es del carrusel de relacionados (GLUTAMINE real \.99), correcto.
+- Verificado: HTTP 200, precio y badge correctos en vivo.

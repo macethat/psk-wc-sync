@@ -335,3 +335,7 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 
 - Form 417 -> _mc4wp_settings: double_optin 1->0. Nuevos suscriptores quedan subscribed de inmediato.
 - Contexto: 2 nuevos (henrybatista24@icloud.com 11-ago, xeniayazmin27@gmail.com 06-ago) permanecian pending sin confirmar el opt-in.
+
+## 2026-08-11 — Combo 21961 precio 44.99 -> 54.99
+
+- _combo_price 54.99, ahorro 19.99 (retail 74.98). Descripcion actualizada (~\ -> ~\, precios \.99). Verificado en vivo.
