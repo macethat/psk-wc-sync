@@ -951,3 +951,4 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 ## 2026-08-13 — Mini-guia para completar GMC + sync de productos (docs/GUIA-COMPLETAR-GMC-SYNC.md)
 
 - Creada docs/GUIA-COMPLETAR-GMC-SYNC.md: pasos para aceptar el invite de Google Ads (wp option get gla_ads_billing_url), completar onboarding GLA, disparar sync y verificar (meta _wc_gla_, jobs gla/jobs, account_access). Incluye notas: 404 del feed es normal (GLA no expone feed publico), GMB API es falso positivo del scanner.
+- Guia actualizada: el usuario no quiere metodo de pago. Aclarado que el feed de Merchant Center (free listings) no requiere Ads ni tarjeta; reescrita con Opcion A (skip Ads, solo MC) como recomendada y Opcion B (aceptar invite sin cobro).

@@ -12,7 +12,25 @@
 | Cuenta Google Ads | ❌ Invite **sin aceptar** (`account_access=-1`) | GLA opciones |
 | Link Ads ↔ Merchant | ❌ `PERMISSION_DENIED` | GLA opciones |
 
-## Paso 1 — Aceptar el invite de Google Ads (necesario para desbloquear el onboarding)
+## Opción A (RECOMENDADA) — Solo Merchant Center, sin Ads ni método de pago
+
+**El feed de Merchant Center (compras gratuitas / free listings) funciona sin cuenta de Google Ads y sin tarjeta.** El método de pago solo es necesario si quieres campañas pagadas.
+
+1. Ve a `wp-admin → Marketing → Google Listings & Ads`.
+2. Completa el wizard de configuración hasta el final:
+   - Merchant Center: seleccionar la cuenta `5825178723` existente.
+   - País de venta: `PA` (ya configurado).
+   - Envíos: mantener `automatic` (ya configurado).
+   - En el paso de **Google Ads**: elegir **"Omitir por ahora" / "Skip"** (o desvincular la subcuenta creada `8418809792`). GLA permite continuar solo con Merchant Center.
+3. En la pestaña **Product feed** (o "Productos"), verifica que el interruptor de sincronización esté **ON** y pulsa **"Sync now" / "Sincronizar"** si existe.
+4. GLA dispara los jobs `gla/jobs/sync_products` vía ActionScheduler. La primera sincronización de 164 productos puede tardar minutos.
+5. El estado `account_access=-1` deja de importar: ese paso es de Ads y no bloquea el feed de Merchant Center.
+
+> Nota: si el wizard no te deja saltar el paso de Ads, ver "Paso 1" de la Opción B (aceptar el invite sin cobro) para desbloquear y luego continuar solo con MC.
+
+## Opción B — Aceptar el invite de Google Ads (sin pagar nada aún)
+
+El **aceptar la invitación no cobra nada ni requiere registrar una tarjeta de inmediato**; el billing solo se pide cuando lanzas una campaña. Esto desbloquea el onboarding si la opción "Skip" no aparece.
 
 1. Entra al servidor y obtén el enlace del invite (única opción que tiene el token):
    ```bash
@@ -20,23 +38,23 @@
    ```
    Devuelve una URL del tipo `https://ads.google.com/nav/startacceptinvite?ivid=...&ocid=8453601065&eivid=...`
 2. Abre esa URL con el **mismo correo Google** que administra el Merchant Center.
-3. Acepta la invitación de la cuenta de Ads (sub-account `8418809792`) y **completa el método de pago** (tarjeta). Aunque no vayas a invertir aún, el billing debe quedar registrado.
+3. Acepta la invitación de la cuenta de Ads (sub-account `8418809792`). **No se cobra nada**; si te piden datos de pago, puedes dejarlo en pausa (se configura solo cuando se crea una campaña).
 4. Si el correo del invite no es el correcto, reenviarlo desde el dashboard de GLA.
 
 Verificación: tras aceptar, en GLA la opción `gla_ads_account_state` debe mostrar `account_access.status = 1`.
 
-## Paso 2 — Completar el onboarding de GLA y disparar el sync
+## Paso 3 — Completar el onboarding de GLA y disparar el sync (si elegiste la Opción B)
 
 1. Ve a `wp-admin → Marketing → Google Listings & Ads`.
 2. Si el wizard de configuración reaparece, complétalo hasta el final:
    - Merchant Center: seleccionar la cuenta `5825178723` existente.
    - País de venta: `PA` (ya configurado).
    - Envíos: mantener `automatic` (ya configurado).
-   - **Google Ads**: aquí estaba el bloqueo — debe salir ya aceptado tras el paso 1.
+   - **Google Ads**: ya aceptado tras el paso 1 — puedes dejar la subcuenta vinculada o volver a elegir "Omitir" si no quieres Ads.
 3. En la pestaña **Product feed** (o "Productos"), verifica que el interruptor de sincronización esté **ON** y pulsa **"Sync now" / "Sincronizar"** si existe.
 4. GLA dispara los jobs `gla/jobs/sync_products` vía ActionScheduler. La primera sincronización de 164 productos puede tardar minutos.
 
-## Paso 3 — Verificar que el sync funcionó
+## Verificación — Verificar que el sync funcionó
 
 Re-chequear 24–48 h después (o cuando el client lo reporte). Comandos vía SSH:
 

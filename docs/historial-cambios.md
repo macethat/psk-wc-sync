@@ -345,3 +345,7 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 - functions.php filtro rank_math/json_ld: en front page se añade sameAs con URL Maps de El Cangrejo al Store (conservando Facebook). Backup functions.php.bak-20260813-sameas.
 - Verificado: home sameAs doble (FB + Maps), checklist retiro OK.
 - Diagnostico Firecrawl: Merchant Center conectado (GLA 3.9.0) pero SIN sync de productos (no hay _wc_gla_* meta, no hay jobs sync_products). Google Ads invite sin aceptar (account_access=-1). GMB API = falso positivo (no existe en codigo; sucursales ya tienen HealthAndBeautyBusiness + sameAs Maps).
+
+## 2026-08-13 — GUIA-COMPLETAR-GMC-SYNC.md: vía sin método de pago
+
+- Reescrita: Opcion A (recomendada) solo Merchant Center sin Ads ni tarjeta (free listings), Opcion B aceptar invite sin cobro. El feed de MC no requiere billing; metodo de pago solo para campañas pagadas.
