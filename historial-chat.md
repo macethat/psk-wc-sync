@@ -947,3 +947,7 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 
 ### Pendiente (requiere el cliente)
 - Aceptar el invite de la cuenta de Google Ads (URL en option gla_ads_billing_url) para completar el link Ads<->Merchant. Eso NO desbloquea el feed: para que los productos se sincronicen a GMC hay que completar el onboarding del MC en el dashboard de GLA (o verificar por que nunca corrio sync_products; el merchant esta connected/verified pero sin productos enviados).
+
+## 2026-08-13 — Mini-guia para completar GMC + sync de productos (docs/GUIA-COMPLETAR-GMC-SYNC.md)
+
+- Creada docs/GUIA-COMPLETAR-GMC-SYNC.md: pasos para aceptar el invite de Google Ads (wp option get gla_ads_billing_url), completar onboarding GLA, disparar sync y verificar (meta _wc_gla_, jobs gla/jobs, account_access). Incluye notas: 404 del feed es normal (GLA no expone feed publico), GMB API es falso positivo del scanner.
