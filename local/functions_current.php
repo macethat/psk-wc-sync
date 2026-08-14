@@ -1151,6 +1151,14 @@ add_filter('rank_math/json_ld', function($data, $jsonld) {
         if (isset($data[$key]['address'])) {
             $data[$key]['address']['addressCountry'] = 'PA';
         }
+        if (is_front_page() && isset($data[$key]['name'])) {
+            $maps_url = 'https://www.google.com/maps/place/Suplementos+Panam%C3%A1+El+Cangrejo/@8.9844695,-79.5299816,17z/data=!3m1!4b1!4m6!3m5!1s0x8faca91dc4c6f185:0xb5c21ed71cc88bd3!8m2!3d8.9844695!4d-79.5299816!16s%2Fg%2F11vkcjm1z8';
+            $same_as = isset($data[$key]['sameAs']) && is_array($data[$key]['sameAs']) ? $data[$key]['sameAs'] : [];
+            if (!in_array($maps_url, $same_as, true)) {
+                $same_as[] = $maps_url;
+            }
+            $data[$key]['sameAs'] = $same_as;
+        }
     }
     if (is_product_category() || is_shop() || is_product_tag()) {
         $walk = function(&$item) use (&$walk) {

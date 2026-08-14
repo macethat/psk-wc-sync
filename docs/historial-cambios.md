@@ -339,3 +339,9 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 ## 2026-08-11 — Combo 21961 precio 44.99 -> 54.99
 
 - _combo_price 54.99, ahorro 19.99 (retail 74.98). Descripcion actualizada (~\ -> ~\, precios \.99). Verificado en vivo.
+
+## 2026-08-13 — Schema home: sameAs a Google Maps en Store/Organization + diagnostico GLA
+
+- functions.php filtro rank_math/json_ld: en front page se añade sameAs con URL Maps de El Cangrejo al Store (conservando Facebook). Backup functions.php.bak-20260813-sameas.
+- Verificado: home sameAs doble (FB + Maps), checklist retiro OK.
+- Diagnostico Firecrawl: Merchant Center conectado (GLA 3.9.0) pero SIN sync de productos (no hay _wc_gla_* meta, no hay jobs sync_products). Google Ads invite sin aceptar (account_access=-1). GMB API = falso positivo (no existe en codigo; sucursales ya tienen HealthAndBeautyBusiness + sameAs Maps).

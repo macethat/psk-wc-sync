@@ -929,3 +929,21 @@ Fotos nuevas en `C:\suplementos\psk-create-product\fotos\` con el SKU en el nomb
 - Schema: price 54.99 + hasPart hijos (49.99 + 24.99). Lookup tables precio actualizadas.
 - El 29.99 restante en el HTML es del carrusel de relacionados (GLUTAMINE real \.99), correcto.
 - Verificado: HTTP 200, precio y badge correctos en vivo.
+
+## 2026-08-13 — Diagnostico Firecrawl Google tools + sameAs Maps en schema del home
+
+### Contexto
+Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Google My Business API.
+
+### Diagnostico
+- **Merchant Center**: SÍ conectado (GLA activo, merchant_id 5825178723, verify/link/claim/sdi_update OK, site verified meta INv26I0qwEqDUhHG74QuIeiH1zBX1mv_ZYaWGnQx9QE en HTML, target PA). El "no visible en codigo" es normal: GLA sincroniza vía Content API (servidor a servidor), no hay feed XML publico (endpoint REST da 404 intencional).
+- **Sync de productos a GMC**: NO hay meta _wc_gla_* en NINGUN producto (164 productos). Los jobs de ActionScheduler solo son daily_notes y youtube (32 completados), NO hay jobs de sync_products/update_products. => Los productos NO estan sincronizados al feed de Google.
+- **Google Ads**: gla_ads_account_state.account_access=-1 "La cuenta debe ser aceptada antes de completar la configuración" + link_ads=PERMISSION_DENIED. El sub-account de Ads fue creado (sub_account=1) pero el invite esta SIN ACEPTAR (billing pendiente). Accion manual en dashboard de Google Ads (gla_ads_billing_url).
+- **GMB API**: falso positivo del scanner. No existe "GMB API en codigo". El site ya expone HealthAndBeautyBusiness por sucursal (page-sucursal-single.php) con geo/telefono/openingHours/sameAs a Maps (bueno para GEO). El Store del home solo tenia sameAs a Facebook.
+
+### Cambio aplicado
+- functions.php (filtro rank_math/json_ld): en el Store/Organization del home se añade sameAs con la URL de Google Maps de la sucursal El Cangrejo (0x8faca91dc4c6f185...), conservando Facebook. Backup: functions.php.bak-20260813-sameas.
+- Verificado en vivo: Store del home ahora sameAs=["facebook","https://www.google.com/maps/place/Suplementos+Panam%C3%A1+El+Cangrejo/..."]. Checklist retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review + wrap preseleccionado).
+
+### Pendiente (requiere el cliente)
+- Aceptar el invite de la cuenta de Google Ads (URL en option gla_ads_billing_url) para completar el link Ads<->Merchant. Eso NO desbloquea el feed: para que los productos se sincronicen a GMC hay que completar el onboarding del MC en el dashboard de GLA (o verificar por que nunca corrio sync_products; el merchant esta connected/verified pero sin productos enviados).
