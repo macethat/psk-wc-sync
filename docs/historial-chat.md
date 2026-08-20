@@ -381,3 +381,4 @@ Verificación del script de sync diario (stock + precios) desde el cron del servi
 - Restaurado ~/wc_export_ssh.php en el servidor.
 - Actualizado docs/proceso_actualizacion_diaria.md con sección Troubleshooting del cron.
 - Documentado en historial-chat.md raíz y docs/historial-cambios.md.
+- 2026-08-20: aplicado sync live manual (326 comandos OK, 0 fail, 0 disc). WC al dia de hoy. Commit 5fe2de4 en GitHub (master).

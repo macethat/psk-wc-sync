@@ -967,3 +967,4 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Nota: cron de hoy 02:00 ya corrio antes del fix; el proximo corre manana. Opcional: ejecutar --live manualmente para aplicar la corrida de hoy.
 - Existe un cron residual en SiteGround apuntando a /home/customer/daily_stock_update.py (ruta inexistente, falla silenciosa en /home/customer/cron.log). Conviene eliminarlo del panel de SiteGround.
 - Documentacion actualizada en docs/proceso_actualizacion_diaria.md (nueva seccion Troubleshooting del cron).
+- 2026-08-20 14:40: ejecutado --live --update-prices manualmente en el servidor. OK: 326, Fallidos: 0. Verificacion post-update: todas correctas (0 discrepancias). 159 con cambio de stock, 143 status, 4 precios. Commit GitHub 5fe2de4 "update 20-08-2026: 326 OK, 0 fail, 0 disc" (rama master de macethat/psk-wc-sync). WooCommerce ya esta al dia de hoy.
