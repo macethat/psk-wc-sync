@@ -1,0 +1,5 @@
+id,parent,tipo,sku,nombre,old_stock,new_stock,new_status,old_status,manage,old_price,new_price
+21121,21118,variation,703556204907,BCCA+ GLUTAMINA 30 SERV 330G PINA COLADA IMPULSE (AMINO BCAA),1,94,instock,outofstock,True,32.99,29.99
+19229,19225,variation,705016353422,ISO 100 COCOA PEBBLES 3 LBS DYMATIZE,10,10,instock,instock,True,95.99,99.99
+19228,19225,variation,705016353415,ISO 100 FRUTY PEBBLES 3 LBS DYMATIZE,11,11,instock,instock,True,95.99,99.99
+19227,19225,variation,705016353231,ISO 100 FUDGE BROWNIE 3 LIBRAS DYMATIZE,2,1,outofstock,outofstock,True,95.99,99.99
