@@ -952,3 +952,18 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 
 - Creada docs/GUIA-COMPLETAR-GMC-SYNC.md: pasos para aceptar el invite de Google Ads (wp option get gla_ads_billing_url), completar onboarding GLA, disparar sync y verificar (meta _wc_gla_, jobs gla/jobs, account_access). Incluye notas: 404 del feed es normal (GLA no expone feed publico), GMB API es falso positivo del scanner.
 - Guia actualizada: el usuario no quiere metodo de pago. Aclarado que el feed de Merchant Center (free listings) no requiere Ads ni tarjeta; reescrita con Opcion A (skip Ads, solo MC) como recomendada y Opcion B (aceptar invite sin cobro).
+
+## 2026-08-20 — Verificacion script sync diario (cron servidor)
+
+### Hallazgo
+- El proceso diario NO corre desde la maquina local: corre en el servidor via cron de SiteGround a las 02:00 (~/www/suplementospanama.net/psk-sync/run_sync.sh -> python3 daily_stock_update.py --live --update-prices, log en psk-sync/cron.log).
+- El cron SÍ se dispara todos los dias, pero estaba FALLANDO desde el 17-08-2026: faltaba ~/wc_export_ssh.php (necesario para el export via wp eval-file). Los ultimos 4 runs (17,18,19,20 ago) terminaron con ERROR WP-CLI + salida vacia.
+
+### Correccion
+- Repuesto /home/u1910-kbd9lgn9dh44/wc_export_ssh.php (copia local local/wc_export_ssh.php).
+- Verificado con dry-run del flujo completo: extrae 704 articulos PSK API, exporta 387 productos WC, comparativa 302 SKU, 163 cambiarian. OK.
+
+### Pendientes / notas
+- Nota: cron de hoy 02:00 ya corrio antes del fix; el proximo corre manana. Opcional: ejecutar --live manualmente para aplicar la corrida de hoy.
+- Existe un cron residual en SiteGround apuntando a /home/customer/daily_stock_update.py (ruta inexistente, falla silenciosa en /home/customer/cron.log). Conviene eliminarlo del panel de SiteGround.
+- Documentacion actualizada en docs/proceso_actualizacion_diaria.md (nueva seccion Troubleshooting del cron).

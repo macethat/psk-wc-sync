@@ -2,7 +2,9 @@
 
 ## Visión General
 
-Proceso automatizado que sincroniza el inventario físico (CSV del sistema de inventario de la empresa) con los productos de WooCommerce, actualizando cantidades y estados de stock diariamente.
+Proceso automatizado que sincroniza el inventario físico (API de PSK Cloud / CSV del sistema de inventario de la empresa) con los productos de WooCommerce, actualizando cantidades y estados de stock diariamente.
+
+> **Cron real (2026-08-20):** el proceso corre en el SERVIDOR (`~/www/.../psk-sync/run_sync.sh` → `python3 daily_stock_update.py --live --update-prices`) disparado por una tarea cron de SiteGround a las **02:00** (hora del servidor). NO se ejecuta desde la máquina local; la copia local (`local/daily_stock_update.py`) es la fuente de versiones/backup. El cron escribe su salida en `psk-sync/cron.log`.
 
 ---
 
@@ -52,13 +54,29 @@ Para cada producto coincidente se calcula:
 ## Scripts del Proyecto
 
 ### `daily_stock_update.py` (PRINCIPAL)
-Script unificado que ejecuta todo el proceso automaticamente.
+Script unificado que ejecuta todo el proceso automaticamente. La versión que corre en el cron está en el servidor en `~/www/suplementospanama.net/psk-sync/daily_stock_update.py` (requiere Pandas, `wp-cli`, y el export `~/wc_export_ssh.php`). La copia local `local/daily_stock_update.py` se mantiene sincronizada como respaldo.
 
 **Uso:**
 ```powershell
 python daily_stock_update.py              # Simulacion (dry-run)
 python daily_stock_update.py --live        # Actualizacion en vivo
 ```
+
+> En el servidor el cron ejecuta: `/usr/bin/python3 daily_stock_update.py --live --update-prices` (precios sincronizados desde PSK Cloud API, con exclusiones de SKUs pack en `PRICE_EXCLUDE_SKUS`).
+
+## Troubleshooting del cron (servidor)
+
+El cron de SiteGround corre las 02:00 y escribe en `psk-sync/cron.log`. Síntoma más común visto:
+
+```
+Extrayendo inventario desde PSK Cloud API...
+  Extraidos 7xx articulos desde PSK Cloud API
+Exportando productos localmente...
+  ERROR WP-CLI (1): Error: '/home/u1910-kbd9lgn9dh44/wc_export_ssh.php' does not exist.
+  ERROR: salida vacia de WP-CLI
+```
+
+**Causa**: el export auxiliar `~/wc_export_ssh.php` (necesario para que `wp eval-file` genere el JSON de productos) se borró/perdió en el servidor. **Solución**: subir desde local `local/wc_export_ssh.php` a `/home/u1910-kbd9lgn9dh44/` (ruta = `EXPORT_PHP` en el script). Verificado: tras reponerlo, el dry-run del flujo completo exporta ~387 productos y compara ~302 SKU.
 
 **Funciones:**
 - `descargar_export_wc()` — descarga todos los productos y variaciones via API REST

@@ -349,3 +349,8 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 ## 2026-08-13 — GUIA-COMPLETAR-GMC-SYNC.md: vía sin método de pago
 
 - Reescrita: Opcion A (recomendada) solo Merchant Center sin Ads ni tarjeta (free listings), Opcion B aceptar invite sin cobro. El feed de MC no requiere billing; metodo de pago solo para campañas pagadas.
+
+## 2026-08-20 — Fix cron sync diario (faltaba wc_export_ssh.php en servidor)
+
+- El cron diario (02:00, psk-sync) fallaba desde 17-08 porque faltaba ~/wc_export_ssh.php (export auxiliar). Repuesto desde local/wc_export_ssh.php. Dry-run OK (704 articulos PSK -> 387 productos WC, 163 cambios).
+- Documentado Troubleshooting en docs/proceso_actualizacion_diaria.md.

@@ -366,3 +366,18 @@ Ajustes responsive mobile en hub de sucursales
 ### Commits
 - **psk-sucursales master:** `1eebbe5` â€” mobile: faq question 13px
 - **stock-suplementos feature/retiro-sucursal:** `ee7b35a` â€” psk-sucursales: faq 13px mobile
+
+## 2026-08-20
+
+### Tema
+Verificación del script de sync diario (stock + precios) desde el cron del servidor.
+
+### Hallazgos
+- El proceso corre en el servidor via cron de SiteGround (02:00), NO desde la máquina local.
+- El cron se dispara a diario pero fallaba desde el 17-08: faltaba ~/wc_export_ssh.php (export auxiliar para wp eval-file).
+- Repuesto el archivo desde local/wc_export_ssh.php; dry-run del flujo completo OK (704 artículos PSK ? 387 productos WC ? 163 a cambiar).
+
+### Acciones
+- Restaurado ~/wc_export_ssh.php en el servidor.
+- Actualizado docs/proceso_actualizacion_diaria.md con sección Troubleshooting del cron.
+- Documentado en historial-chat.md raíz y docs/historial-cambios.md.
