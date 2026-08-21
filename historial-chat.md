@@ -968,3 +968,22 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Existe un cron residual en SiteGround apuntando a /home/customer/daily_stock_update.py (ruta inexistente, falla silenciosa en /home/customer/cron.log). Conviene eliminarlo del panel de SiteGround.
 - Documentacion actualizada en docs/proceso_actualizacion_diaria.md (nueva seccion Troubleshooting del cron).
 - 2026-08-20 14:40: ejecutado --live --update-prices manualmente en el servidor. OK: 326, Fallidos: 0. Verificacion post-update: todas correctas (0 discrepancias). 159 con cambio de stock, 143 status, 4 precios. Commit GitHub 5fe2de4 "update 20-08-2026: 326 OK, 0 fail, 0 disc" (rama master de macethat/psk-wc-sync). WooCommerce ya esta al dia de hoy.
+
+## 2026-08-21 — CRITICO: sitio caido por Elementor corrupto (HTTP 500)
+
+### Sintoma
+- El sitio mostraba "Ha habido un error critico en esta web" (HTTP 500) y wp-cli daba: Fatal error: Uncaught Error: Class \"Elementor\\Data\\V2\\Manager\" not found en elementor/includes/plugin.php:821.
+
+### Causa raiz
+- Elementor se actualizo solo a 4.2.3 (la actualizacion automatica de WP corrio de madrugada) y la actualizacion dejo el directorio wp-content/plugins/elementor/core/data/ VACIO (faltaba data/v2/manager.php con la clase Elementor\Data\V2\Manager). El directorio del plugin se modifico el 21-08 04:52.
+- Ademas quedo un .maintenance (503) por la actualizacion interrumpida.
+
+### Correccion
+- Backup del directorio corrupto (elementor.bak-20260821-corrupto) y reinstalado el plugin Elementor desde el ZIP oficial de wordpress.org. La clase quedo restaurada en elementor/data/v2/manager.php (Elementor 4.2.3 + Pro 4.1.2, el mismo par que corria esta manana).
+- Eliminado .maintenance (causaba 503) y el backup corrupto.
+- NO se tocaron funciones del child ni el flujo retiro.
+
+### Verificacion (todo OK)
+- home/cart/producto/sucursales: HTTP 200; checkout 302 (normal). wp eval = wp-ok.
+- Checklist retiro: SP_DEBUG selected=1 method=local_pickup + fila review + wrap preseleccionado OK.
+- Recomendacion: desactivar auto-actualizaciones de plugins core (Elementor) para evitar recurrencia, o verificar la integridad post-update.

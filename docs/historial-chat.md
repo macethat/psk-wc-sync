@@ -382,3 +382,8 @@ Verificación del script de sync diario (stock + precios) desde el cron del servi
 - Actualizado docs/proceso_actualizacion_diaria.md con sección Troubleshooting del cron.
 - Documentado en historial-chat.md raíz y docs/historial-cambios.md.
 - 2026-08-20: aplicado sync live manual (326 comandos OK, 0 fail, 0 disc). WC al dia de hoy. Commit 5fe2de4 en GitHub (master).
+
+## 2026-08-21 — Sitio caido (Elementor corrupto) restaurado
+
+- Elementor auto-actualizo a 4.2.3 y quedo corrupto (core/data vacio, faltaba clase Data\\V2\\Manager) -> HTTP 500 + .maintenance (503).
+- Reinstalado Elementor desde ZIP oficial; restaurada la clase en data/v2/manager.php. Eliminado .maintenance. Home y flujos OK (200), checkout retiro OK.

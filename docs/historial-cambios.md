@@ -354,3 +354,10 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 
 - El cron diario (02:00, psk-sync) fallaba desde 17-08 porque faltaba ~/wc_export_ssh.php (export auxiliar). Repuesto desde local/wc_export_ssh.php. Dry-run OK (704 articulos PSK -> 387 productos WC, 163 cambios).
 - Documentado Troubleshooting en docs/proceso_actualizacion_diaria.md.
+
+## 2026-08-21 — Fix critico: Elementor 4.2.3 corrupto (HTTP 500) -> reinstalado
+
+- La auto-actualizacion de Elementor a 4.2.3 dejo el directorio core/data/ vacio (clase Elementor\Data\V2\Manager ausente) -> fatal + HTTP 500 y .maintenance (503).
+- Reinstalado Elementor 4.2.3 desde ZIP oficial de wordpress.org (backup del directorio corrupto y luego eliminado). Clase restaurada en data/v2/manager.php. Eliminado .maintenance.
+- Verificado: home/cart/producto/sucursales 200, checkout 302 normal, wp-cli OK, flujo retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review). NO se toco child theme ni funciones sp_*.
+- Recomendacion: limitar auto-updates de Elementor o validar integridad post-update.
