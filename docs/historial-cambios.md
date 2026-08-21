@@ -361,3 +361,4 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Reinstalado Elementor 4.2.3 desde ZIP oficial de wordpress.org (backup del directorio corrupto y luego eliminado). Clase restaurada en data/v2/manager.php. Eliminado .maintenance.
 - Verificado: home/cart/producto/sucursales 200, checkout 302 normal, wp-cli OK, flujo retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review). NO se toco child theme ni funciones sp_*.
 - Recomendacion: limitar auto-updates de Elementor o validar integridad post-update.
+- 2026-08-21: diseno roto post-reinstalacion Elementor por combined-css viejo del SG Optimizer. Purgado cache SG (wp sg purge + wp cache flush); combined-css regenerado con estilos Elementor. Verificado home y paginas internas HTTP 200.

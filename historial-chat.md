@@ -987,3 +987,4 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - home/cart/producto/sucursales: HTTP 200; checkout 302 (normal). wp eval = wp-ok.
 - Checklist retiro: SP_DEBUG selected=1 method=local_pickup + fila review + wrap preseleccionado OK.
 - Recomendacion: desactivar auto-actualizaciones de plugins core (Elementor) para evitar recurrencia, o verificar la integridad post-update.
+- 2026-08-21 15:49: tras reinstalar Elementor, el diseno se veia roto (desktop y movil). Causa: SG Optimizer combinaba un combined-css VIEJO (generado con Elementor roto, solo ~9 bytes) sin los estilos de la home. Solucion: wp sg purge + wp cache flush -> combined-css regenerado (nuevo hash c0e3e05a..., 1.2MB, incluye elementor + nutritix + widgets nav-menu). Verificado: home/checkout/sucursal/producto HTTP 200, elementos elementor presentes, combined-js 200.
