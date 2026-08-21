@@ -362,3 +362,8 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 - Verificado: home/cart/producto/sucursales 200, checkout 302 normal, wp-cli OK, flujo retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review). NO se toco child theme ni funciones sp_*.
 - Recomendacion: limitar auto-updates de Elementor o validar integridad post-update.
 - 2026-08-21: diseno roto post-reinstalacion Elementor por combined-css viejo del SG Optimizer. Purgado cache SG (wp sg purge + wp cache flush); combined-css regenerado con estilos Elementor. Verificado home y paginas internas HTTP 200.
+## 2026-08-21 ó Bloqueadas auto-actualizaciones de WordPress
+
+- Creado mu-plugin sp-bloquear-auto-updates.php (wp-content/mu-plugins) que fuerza false en auto_update_plugin/core/major/minor/translation/theme. Verificado en vivo: BLOQUEADO para plugins, themes, core y traducciones.
+- Vaciada la opcion auto_update_plugins (backup en /tmp/backup_auto_update_plugins_20260821.json). Copia local en local/sp-bloquear-auto-updates.php.
+- Motivo: Elementor 4.2.3 se auto-actualizo y quedo corrupto (HTTP 500) el 2026-08-21.
