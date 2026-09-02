@@ -1,0 +1,2 @@
+id,parent,tipo,sku,nombre,old_stock,new_stock,new_status,old_status,manage,old_price,new_price
+19366,19364,variation,810121055328,EVP-AQ TROPIC THUNDER- EVOGEN,0,120,instock,outofstock,True,44.99,49.99
