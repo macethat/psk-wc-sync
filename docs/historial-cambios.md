@@ -367,3 +367,9 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 - Creado mu-plugin sp-bloquear-auto-updates.php (wp-content/mu-plugins) que fuerza false en auto_update_plugin/core/major/minor/translation/theme. Verificado en vivo: BLOQUEADO para plugins, themes, core y traducciones.
 - Vaciada la opcion auto_update_plugins (backup en /tmp/backup_auto_update_plugins_20260821.json). Copia local en local/sp-bloquear-auto-updates.php.
 - Motivo: Elementor 4.2.3 se auto-actualizo y quedo corrupto (HTTP 500) el 2026-08-21.
+
+## 2026-08-31 ó Combos: _combo_price fijo, ahorro actualizado por subida de hijos IMPULSE/VMS
+
+- Fix cache _price: 69 variaciones + 4 padres (VMS/Bio5/Bio6/Vegana) desfasados por post meta update directo del script (no recalcula _price). Ahora front y badge usan precios nuevos.
+- Contenidos de 7 combos (21512,21514,21517,21520,21522,21643,21647): retail y ahorro actualizados (ej. VMS+Creatina .99, Bio6+Nutrex .99, Triple Stack .98). Backup en /tmp.
+- Verificado: badge y textos .99, sin cifras viejas, retiro OK.

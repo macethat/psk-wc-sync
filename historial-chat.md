@@ -990,3 +990,31 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - 2026-08-21 15:49: tras reinstalar Elementor, el diseno se veia roto (desktop y movil). Causa: SG Optimizer combinaba un combined-css VIEJO (generado con Elementor roto, solo ~9 bytes) sin los estilos de la home. Solucion: wp sg purge + wp cache flush -> combined-css regenerado (nuevo hash c0e3e05a..., 1.2MB, incluye elementor + nutritix + widgets nav-menu). Verificado: home/checkout/sucursal/producto HTTP 200, elementos elementor presentes, combined-js 200.
 - 2026-08-21: bloqueadas las auto-actualizaciones de WordPress (plugins/core/traducciones/themes). Mu-plugin wp-content/mu-plugins/sp-bloquear-auto-updates.php (backup de auto_update_plugins en /tmp/backup_auto_update_plugins_20260821.json; opcion vaciada). Verificado: filtros auto_update_plugin/core/theme/translation devuelven BLOQUEADO. Copia local en local/sp-bloquear-auto-updates.php.
 - 2026-08-31: supervision cron inventario+precios. Ultima corrida 31-08 02:03 OK: 119 comandos, 0 fallidos, 0 discrepancias, 39 cambios stock, 15 precios (PROLIVE BIO6 106.99->115.99, BIO5 95.99->99.99, Vegana 78.99->85.99). Dependencias OK (py3.14, pandas 3.0.3, wc_export_ssh.php presente, wp-cli OK, sin .maintenance). Push GitHub 601fdb0. El script sigue funcionando tras cambios del 20-21/08 (fix export + bloqueo auto-updates + Elementor).
+
+## 2026-08-31 — Precios hijos subieron (IMPULSE/VMS); combos mantienen _combo_price y se actualiza el ahorro en fichas
+
+### Contexto
+- El cron subio precios de hijos IMPULSE (ProLive Bio5 95.99->99.99, Bio6 106.99->115.99, Vegana Pancake 74.99->80.99, Vegana 78.99->85.99) y VMS 5lb (95.99->99.99).
+- Regla del negocio: los _combo_price de los combos SE MANTIENEN fijos; el ahorro (retail actual - combo_price) sube y debe reflejarse en las fichas.
+
+### Bug encontrado y corregido
+- El script del servidor actualiza _regular_price con post meta update directo, lo que NO recalcula el cache _price de WooCommerce (el que usa get_price()). Por eso el front seguia mostrando precios viejos (95.99/106.99) y el badge de los combos usaba retail viejo.
+- Corregido: 69 variaciones sin sale (_price = _regular_price) + 4 padres variables IMPULSE/VMS (18186=99.99, 18854=115.99, 18861=85.99, 19061=99.99). Backup: /tmp/backup_price_cache_20260831.txt y /tmp/backup_parent_price_20260831.txt.
+- Nota: hay 12 padres mas con desfase (ISO100, ISOJECT, Amino Energy, C4 packs) que NO se tocaron por tener dinamicas propias (packs/ofertas); reportar antes de tocar.
+
+### Ahorro nuevo por combo (retail nuevo - _combo_price, badge ya automatico)
+- 21512 VMS+Creatina: 35.99->39.99 | 21513 Bio5+Creatina: 35.99->39.99 | 21514 Bio6+Nutrex: 19.99->28.99 | 21516 Bio5+BUM: 50.99->54.99 | 21517 VMS+RawPre: 48.99->52.99 | 21520 Bio6+BCAA: 37.99->46.99 | 21522 VMS+Gluta: 35.99->39.99 | 21523 Bio5+Gluta: 35.99->39.99 | 21643 VMS Triple: 55.98->59.98 | 21647 ProLive Full: 55.98->59.98
+
+### Contenidos actualizados (25 reemplazos + 3 excerpts)
+- 21512: ->.99, .98->.98, .99->.99 (4 reemplazos + excerpt)
+- 21514: ahorro .99->.99, retail .98->.98, precios hijos .99->.99 / .99->.99 (3)
+- 21517: retail .98->.98, ahorro ~->~.99 (2)
+- 21520: ahorro ->.99, retail .98->.98 (4)
+- 21522: retail .98->.98, ahorro ->.99, .99->.99 (3)
+- 21643: ahorro .98->.98, retail .97->.97, .99->.99 (5 + excerpt)
+- 21647: ahorro .98->.98, retail .97->.97 (4 + excerpt)
+- Backup contenido: /tmp/backup_combos_contenido_20260831.json
+
+### Verificado en vivo
+- 7 combos editados HTTP 200, sin cifras viejas (LIMPIO). Badge del 21512 = Ahorra .99. Datalayer/textos .99.
+- Checklist retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review + wrap preseleccionado).
