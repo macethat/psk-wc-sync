@@ -1018,3 +1018,6 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 ### Verificado en vivo
 - 7 combos editados HTTP 200, sin cifras viejas (LIMPIO). Badge del 21512 = Ahorra .99. Datalayer/textos .99.
 - Checklist retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review + wrap preseleccionado).
+- 2026-08-31 (cont.): auditoria completa de los 27 combos -> se detectaron 4 combos adicionales con desfase: 21525 (ahorro \->\.98, retail \.97->\.97 por RAW Pre Orange 39.99->47.99), 21660 Elite (ahorro \.98->\.98, retail \.97->\.97 por Bio6 115.99), 21524 (ahorro \->\.98), 21515 (ahorro \->\.99). Corregidos (backup /tmp/backup_combos_contenido_20260831b.json). Verificacion: 27 combos OK, 0 desfases.
+- 2026-08-31: creado skill combo-sync-ahorro (.opencode/skills/combo-sync-ahorro/SKILL.md) que documenta el proceso completo (regla: _combo_price fijo, fix cache _price, actualizar textos de fichas, verificar).
+- 2026-08-31: automatizado en el cron diario. run_sync.sh ahora ejecuta sp_auditar_combos.php -- fix al final (corrige cache _price y reporta combos con textos desactualizados en cron.log). Scripts: psk-sync/sp_auditar_combos.php + local/sp_auditar_combos.php y local/run_sync.sh. Backup run_sync.sh.bak-20260831.

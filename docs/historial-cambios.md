@@ -373,3 +373,7 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 - Fix cache _price: 69 variaciones + 4 padres (VMS/Bio5/Bio6/Vegana) desfasados por post meta update directo del script (no recalcula _price). Ahora front y badge usan precios nuevos.
 - Contenidos de 7 combos (21512,21514,21517,21520,21522,21643,21647): retail y ahorro actualizados (ej. VMS+Creatina .99, Bio6+Nutrex .99, Triple Stack .98). Backup en /tmp.
 - Verificado: badge y textos .99, sin cifras viejas, retiro OK.
+## 2026-08-31 ó Auditoria completa combos + automatizacion
+
+- Auditados los 27 combos: corregidos 4 adicionales (21525 IsoJect+RawPre+Creatina ahorro \.98/retail \.97; 21660 Elite ahorro \.98/retail \.97; 21524 ahorro \.98; 21515 ahorro \.99). Todos _combo_price intactos.
+- Creado skill combo-sync-ahorro y script sp_auditar_combos.php (audita cache _price + cifras de fichas). Integrado al cron: run_sync.sh ejecuta el fix de cache _price y reporta pendientes en cron.log.
