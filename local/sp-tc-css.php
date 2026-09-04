@@ -21,9 +21,10 @@ function sp_tc_css_inject() {
 .sp-tc-wrap .fecha{color:#888;font-size:14px;margin:0 0 20px}
 .sp-tc-wrap h2{font-size:20px;color:#151515;margin-top:34px;border-bottom:1px solid #eee;padding-bottom:6px}
 .sp-tc-wrap h3{font-size:16px;color:#333;margin-top:22px}
-.sp-tc-wrap table{width:100%;border-collapse:collapse;margin:16px 0}
-.sp-tc-wrap table th,.sp-tc-wrap table td{border:1px solid #ddd;padding:10px 12px;text-align:left;font-size:14px}
+.sp-tc-wrap table{width:100%;border-collapse:collapse;margin:16px 0;table-layout:auto}
+.sp-tc-wrap table th,.sp-tc-wrap table td{border:1px solid #ddd;padding:10px 12px;text-align:left;font-size:14px;word-break:normal!important;overflow-wrap:normal!important;-webkit-hyphens:none;-moz-hyphens:none;hyphens:none;white-space:normal}
 .sp-tc-wrap table th{background:#f5f5f5;font-weight:700}
+.sp-tc-wrap table th{word-break:normal!important;overflow-wrap:normal!important;white-space:normal}
 .sp-tc-wrap ul,.sp-tc-wrap ol{margin:10px 0 10px 20px;padding-left:0}
 .sp-tc-wrap li{margin-bottom:6px;font-size:15px}
 .sp-tc-wrap blockquote{border-left:4px solid #C0392B;padding:10px 16px;margin:12px 0;background:#fafafa;color:#555;font-style:italic}

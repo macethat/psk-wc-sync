@@ -386,3 +386,6 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 ## 2026-09-04 ó Fix T&C: CSS crudo visible
 
 - El sanitizer de Elementor (text-editor) elimina etiquetas <style> del contenido -> el CSS se mostraba como texto. Limpiado el editor y movido el CSS a un mu-plugin (sp-tc-css.php) que lo inyecta en <head> solo en /terminosycondiciones/. Verificado desktop/movil.
+## 2026-09-04 ó Fix corte de palabras en tabla T&C (metodos de pago)
+
+- En sp-tc-css.php: word-break:normal!important + overflow-wrap:normal!important + hyphens:none en th/td + table-layout:auto. Ya no se cortan palabras en ninguna columna.
