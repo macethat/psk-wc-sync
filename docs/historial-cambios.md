@@ -383,3 +383,6 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 - Sustituido el contenido viejo (pagina 9, 22/03/2025) por el nuevo (08/08/2026, indice 13 secciones) creando pagina nueva ID 22030 con mismo slug. La 9 quedo draft. Backup en /tmp/backup_tc_pagina9_20260904.json.
 - Leccion: reemplazar el _elementor_data de una pagina publicada no se refleja en el front por cache (elementor_element_cache + SG/CDN); recrear la pagina con meta Elementor completo (_elementor_edit_mode=builder, _elementor_template_type=wp-page, versiones) + purgar caches resuelve.
 - Verificado desktop/movil HTTP 200.
+## 2026-09-04 ó Fix T&C: CSS crudo visible
+
+- El sanitizer de Elementor (text-editor) elimina etiquetas <style> del contenido -> el CSS se mostraba como texto. Limpiado el editor y movido el CSS a un mu-plugin (sp-tc-css.php) que lo inyecta en <head> solo en /terminosycondiciones/. Verificado desktop/movil.
