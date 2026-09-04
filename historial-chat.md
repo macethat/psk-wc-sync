@@ -1042,3 +1042,23 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - 1 solo h1. Contenido viejo ausente. Checklist retiro en sucursal no afectado (pagina estatica).
 - 2026-09-04 (fix visual): el contenido publicado mostraba el CSS crudo como texto al inicio. Causa: el sanitizer de Elementor text-editor ELIMINA las etiquetas <style> (por seguridad) dejando el CSS como texto visible. Solucion: (1) limpiado el CSS suelto del editor del widget text-editor (pagina 22030, editor ahora solo HTML); (2) creado mu-plugin sp-tc-css.php que inyecta el CSS en <head> via wp_head solo en la pagina terminosycondiciones (no depende del sanitizer de Elementor). Verificado desktop y movil: sin CSS visible, style sp-tc-css en head, 1 h1, 13/13 secciones, tabla OK, sin contenido viejo. Copia local local/sp-tc-css.php.
 - 2026-09-04 (fix tabla T&C): en la tabla de metodos de pago las palabras se cortaban de forma erronea (word-break del contenedor). Añadido al mu-plugin sp-tc-css: word-break:normal!important + overflow-wrap:normal!important + hyphens:none en th/td, y table-layout:auto. Aplica en desktop y ambas columnas. Sin reglas globales conflictivas. Copia local actualizada.
+
+## 2026-09-04 — Restriccion T&C en fichas de producto (checkbox obligatorio)
+
+### Funcionalidad
+- Todas las fichas de producto (simple, variable y combos grouped) ahora muestran un recuadro de verificacion debajo del boton 'Añadir al carrito': 'He leído y acepto los Terminos y Condiciones' con enlace a /terminosycondiciones/ (abre en nueva pestana).
+- El boton queda bloqueado hasta marcar el checkbox (JS con alert) + validacion server-side.
+
+### Implementacion
+- Nuevo mu-plugin sp-tc-agree.php (no toca functions.php del child ni combo-price.php).
+- Render: hook woocommerce_after_add_to_cart_button (prioridad 5) -> aplica a simple/variable/grouped (incluye el grouped.php custom del child que tiene el hook en linea 178).
+- JS (wp_footer): intercepta submit/click del form cart/grouped_form; NO toca el disabled del theme en combos (para no romper la logica de variaciones).
+- Server-side:
+  - woocommerce_add_to_cart_validation (prioridad 1) -> bloquea simple/variable/grouped estandar.
+  - CASO COMBOS: los combos con _combo_price usan handler custom 'combo' (combo-price.php) que BYPASSA la validacion. Solucion: filtro woocommerce_add_to_cart_handler prioridad 20 (DESPUES de combo-price 10): si no hay checkbox devuelve 'grouped' (no 'combo') para que WooCommerce use el flujo grouped estandar que pasa por validacion y muestra el error. Con checkbox -> handler 'combo' normal.
+
+### Verificado en vivo
+- Simple (glutamine 21460) sin checkbox: error visible 'Debes aceptar los Terminos y Condiciones', carrito vacio.
+- Variable (amino 9171) sin checkbox: error visible, carrito vacio.
+- Combo (vms 21512) sin checkbox: error visible, carrito vacio. Con checkbox: se agrega OK.
+- Checklist retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review + wrap preseleccionado).

@@ -389,3 +389,8 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 ## 2026-09-04 — Fix corte de palabras en tabla T&C (metodos de pago)
 
 - En sp-tc-css.php: word-break:normal!important + overflow-wrap:normal!important + hyphens:none en th/td + table-layout:auto. Ya no se cortan palabras en ninguna columna.
+## 2026-09-04 — Checkbox obligatorio Terminos y Condiciones en fichas de producto
+
+- Nuevo mu-plugin sp-tc-agree.php: checkbox 'He leído y acepto los Terminos y Condiciones' (enlace a /terminosycondiciones/) debajo del boton Añadir al carrito en simple/variable/combo. Bloqueo JS + server-side.
+- Clave tecnica: los combos con _combo_price usan handler custom 'combo' que bypasea woocommerce_add_to_cart_validation. Se intercepta woocommerce_add_to_cart_handler con prioridad 20 (despues de combo-price) para forzar handler 'grouped' sin checkbox (asi pasa por validacion y muestra el error). No se modifico combo-price.php ni functions.php del child.
+- Verificado simple/variable/combo: sin checkbox -> error + carrito vacio; con checkbox -> OK. Checklist retiro OK.
