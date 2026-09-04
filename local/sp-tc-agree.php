@@ -32,6 +32,7 @@ function sp_tc_agree_render() {
 			<input type="checkbox" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( SP_TC_AGREE_FIELD ); ?>" value="1" style="margin-top:2px;min-width:15px;min-height:15px;cursor:pointer;" aria-required="true" />
 			<span>He leído y acepto los <a href="<?php echo $tc_url; ?>" target="_blank" rel="noopener" style="color:#C0392B;text-decoration:underline;">Términos y Condiciones</a> de Suplementos Panamá.</span>
 		</label>
+		<div class="sp-tc-agree-msg" role="alert" aria-live="polite" style="display:none;margin-top:8px;padding:8px 10px;background:#fdecea;border:1px solid #f5c6cb;border-radius:4px;color:#c0392b;font-size:13px;line-height:1.4;"></div>
 	</div>
 	<?php
 }
@@ -51,36 +52,53 @@ function sp_tc_agree_js() {
 	jQuery(function($){
 		$('form.cart, form.grouped_form').each(function(){
 			var $form = $(this);
-			if (!$form.find('input[name="<?php echo esc_js( SP_TC_AGREE_FIELD ); ?>"]').length) return;
+			var $check = $form.find('input[name="<?php echo esc_js( SP_TC_AGREE_FIELD ); ?>"]');
+			if (!$check.length) return;
+			var $box = $check.closest('.sp-tc-agree');
+			var $msg = $box.find('.sp-tc-agree-msg');
 
 			var msg = 'Debes marcar la casilla de Términos y Condiciones para continuar.';
 
-			// Bloques el submit (cubre Enter y envíos programáticos)
-			$form.on('submit', function(e){
-				var ok = false;
-				$form.find('input[name="<?php echo esc_js( SP_TC_AGREE_FIELD ); ?>"]').each(function(){
-					if ($(this).prop('checked')) ok = true;
-				});
-				if (!ok) {
-					e.preventDefault();
-					alert(msg);
-					$form.find('input[name="<?php echo esc_js( SP_TC_AGREE_FIELD ); ?>"]').first().trigger('focus');
-					return false;
+			function hideMsg(){
+				if ($msg.length) { $msg.hide().html(''); }
+			}
+			function showMsg(){
+				if (!$msg.length) return;
+				$msg.html(msg).show();
+				try {
+					$msg[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+				} catch(e) {
+					$('html, body').animate({ scrollTop: $box.offset().top - 120 }, 400);
 				}
+				$check.first().trigger('focus');
+			}
+			function isChecked(){
+				var ok = false;
+				$check.each(function(){ if ($(this).prop('checked')) ok = true; });
+				return ok;
+			}
+
+			// Al marcar/desmarcar se oculta o muestra el aviso en tiempo real
+			$check.on('change', function(){
+				if (isChecked()) hideMsg();
 			});
 
-			// Refuerzo visual: si el checkbox no está marcado y se hace click en el botón
+			// Bloquea el submit (cubre Enter y envíos programáticos)
+			$form.on('submit', function(e){
+				if (!isChecked()) {
+					e.preventDefault();
+					showMsg();
+					return false;
+				}
+				hideMsg();
+			});
+
+			// Refuerzo: click en el botón sin haber marcado
 			var $btn = $form.find('button.single_add_to_cart_button');
 			$btn.on('click', function(e){
-				var ok = false;
-				$form.find('input[name="<?php echo esc_js( SP_TC_AGREE_FIELD ); ?>"]').each(function(){
-					if ($(this).prop('checked')) ok = true;
-				});
-				if (!ok) {
-					// dejar que el handler de submit haga el bloqueo; solo prevenimos el default aquí
+				if (!isChecked()) {
 					e.preventDefault();
-					alert(msg);
-					$form.find('input[name="<?php echo esc_js( SP_TC_AGREE_FIELD ); ?>"]').first().trigger('focus');
+					showMsg();
 					return false;
 				}
 			});

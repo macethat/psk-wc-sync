@@ -1062,3 +1062,4 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Variable (amino 9171) sin checkbox: error visible, carrito vacio.
 - Combo (vms 21512) sin checkbox: error visible, carrito vacio. Con checkbox: se agrega OK.
 - Checklist retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review + wrap preseleccionado).
+- 2026-09-04 (mejora UX checkbox T&C): reemplazado el alert() por un mensaje inline (.sp-tc-agree-msg) que aparece DEBAJO del recuadro de aceptacion, con scroll suave al bloque, y desaparece automaticamente al marcar la casilla (evento change). Evita el problema de popups bloqueados. Verificado que el JS nuevo esta en el combined-js de SG (alert removido, scrollIntoView presente).
