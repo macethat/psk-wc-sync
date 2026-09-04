@@ -377,3 +377,9 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 
 - Auditados los 27 combos: corregidos 4 adicionales (21525 IsoJect+RawPre+Creatina ahorro \.98/retail \.97; 21660 Elite ahorro \.98/retail \.97; 21524 ahorro \.98; 21515 ahorro \.99). Todos _combo_price intactos.
 - Creado skill combo-sync-ahorro y script sp_auditar_combos.php (audita cache _price + cifras de fichas). Integrado al cron: run_sync.sh ejecuta el fix de cache _price y reporta pendientes en cron.log.
+
+## 2026-09-04 ó T&C nuevo publicado en /terminosycondiciones/
+
+- Sustituido el contenido viejo (pagina 9, 22/03/2025) por el nuevo (08/08/2026, indice 13 secciones) creando pagina nueva ID 22030 con mismo slug. La 9 quedo draft. Backup en /tmp/backup_tc_pagina9_20260904.json.
+- Leccion: reemplazar el _elementor_data de una pagina publicada no se refleja en el front por cache (elementor_element_cache + SG/CDN); recrear la pagina con meta Elementor completo (_elementor_edit_mode=builder, _elementor_template_type=wp-page, versiones) + purgar caches resuelve.
+- Verificado desktop/movil HTTP 200.

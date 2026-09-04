@@ -1021,3 +1021,22 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - 2026-08-31 (cont.): auditoria completa de los 27 combos -> se detectaron 4 combos adicionales con desfase: 21525 (ahorro \->\.98, retail \.97->\.97 por RAW Pre Orange 39.99->47.99), 21660 Elite (ahorro \.98->\.98, retail \.97->\.97 por Bio6 115.99), 21524 (ahorro \->\.98), 21515 (ahorro \->\.99). Corregidos (backup /tmp/backup_combos_contenido_20260831b.json). Verificacion: 27 combos OK, 0 desfases.
 - 2026-08-31: creado skill combo-sync-ahorro (.opencode/skills/combo-sync-ahorro/SKILL.md) que documenta el proceso completo (regla: _combo_price fijo, fix cache _price, actualizar textos de fichas, verificar).
 - 2026-08-31: automatizado en el cron diario. run_sync.sh ahora ejecuta sp_auditar_combos.php -- fix al final (corrige cache _price y reporta combos con textos desactualizados en cron.log). Scripts: psk-sync/sp_auditar_combos.php + local/sp_auditar_combos.php y local/run_sync.sh. Backup run_sync.sh.bak-20260831.
+
+## 2026-09-04 — Terminos y Condiciones: publicado contenido NUEVO en /terminosycondiciones/
+
+### Contexto
+- El contenido publicado (pagina ID 9) era el VIEJO (fecha 22/03/2025). El NUEVO estaba local en suplementos/terminos_y_condiciones_SP.html (fecha 08/08/2026, indice 13 secciones).
+
+### Problema al intentar reemplazar el _elementor_data de la pagina 9
+- El contenido de la pagina 9 vivia en el widget text-editor de su _elementor_data (no en post_content). Al reemplazar el editor con update_metadata + wp_slash, la BD quedo bien (JSON valido) pero el FRONT seguia sirviendo el viejo (cache SG/CDN + elementor_element_cache de la pagina vieja).
+
+### Solucion aplicada (despublicar + recrear con mismo slug, como pidio el cliente)
+- Backup completo de la pagina 9 en /tmp/backup_tc_pagina9_20260904.json y del _elementor_data en /tmp/backup_tc_elementor_20260902.json.
+- Pagina 9 despublicada (draft) y slug movido a 'terminosycondiciones-vieja-20260904'.
+- Creada pagina NUEVA ID 22030: titulo 'TÉRMINOS Y CONDICIONES - SUPLEMENTOS PANAMÁ', slug terminosycondiciones, template default, _elementor_data = container 76adf909 + widget text-editor 3d569a67 con el contenido nuevo (CSS sp-tc-wrap + HTML + media query 767px).
+- Para que Elementor la trate como documento: agregados _elementor_edit_mode=builder, _elementor_template_type=wp-page, _elementor_version=4.2.3, _elementor_pro_version=4.1.2 (replicando la pagina 9 funcional); normalizado _elementor_data sin isInner; limpiados _elementor_css y _elementor_element_cache.
+
+### Verificado (desktop y movil)
+- URL https://suplementospanama.net/terminosycondiciones/ HTTP 200.
+- Desktop y movil (user-agent iPhone): sp-tc-wrap x30, fecha 08/08/2026 presente, sin rastro de 22/03/2025, anclas s1-s13 OK, un solo H1, CSS inline + media query 767px + viewport OK.
+- 1 solo h1. Contenido viejo ausente. Checklist retiro en sucursal no afectado (pagina estatica).
