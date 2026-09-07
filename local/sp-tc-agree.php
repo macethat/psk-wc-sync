@@ -50,10 +50,14 @@ function sp_tc_agree_css() {
 	}
 	?>
 	<style id="sp-tc-agree-css">
-	.woocommerce-grouped-add-to-cart .sp-tc-agree{flex:0 0 100%;order:99;max-width:100%;width:100%;box-sizing:border-box}
-	.woocommerce-grouped-add-to-cart .sp-tc-agree + .woosw-btn,
-	.woocommerce-grouped-add-to-cart .sp-tc-agree + .woosc-btn{order:98}
-	.single-product .woocommerce-grouped-add-to-cart .sp-tc-agree{margin:4px 0 0}
+	/* En combos grouped el contenedor es display:flex (fila, nowrap) en desktop;
+	   sin flex-wrap el checkbox (flex-basis:100%) no salta a su propia línea y
+	   queda al lado del botón. Lo corregimos forzando wrap + linea completa. */
+	.woocommerce-grouped-add-to-cart{flex-wrap:wrap}
+	.woocommerce-grouped-add-to-cart .sp-tc-agree{flex:0 0 100%;order:99;max-width:100%;width:100%;box-sizing:border-box;margin-left:0;margin-right:0}
+	.woocommerce-grouped-add-to-cart .single_add_to_cart_button{margin-right:0}
+	.woocommerce-grouped-add-to-cart .woosw-btn,
+	.woocommerce-grouped-add-to-cart .woosc-btn{order:98}
 	form.cart .sp-tc-agree{display:block}
 	</style>
 	<?php
