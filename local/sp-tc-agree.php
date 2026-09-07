@@ -38,6 +38,28 @@ function sp_tc_agree_render() {
 }
 
 /**
+ * 1b) CSS correctivo: en las fichas de combos el contenedor
+ * .woocommerce-grouped-add-to-cart es display:flex (fila en desktop), por lo
+ * que el checkbox quedaba al lado del botón. Lo forzamos a ocupar su propia
+ * línea (debajo del botón), tanto en desktop como en móvil.
+ */
+add_action( 'wp_head', 'sp_tc_agree_css', 99 );
+function sp_tc_agree_css() {
+	if ( ! is_product() ) {
+		return;
+	}
+	?>
+	<style id="sp-tc-agree-css">
+	.woocommerce-grouped-add-to-cart .sp-tc-agree{flex:0 0 100%;order:99;max-width:100%;width:100%;box-sizing:border-box}
+	.woocommerce-grouped-add-to-cart .sp-tc-agree + .woosw-btn,
+	.woocommerce-grouped-add-to-cart .sp-tc-agree + .woosc-btn{order:98}
+	.single-product .woocommerce-grouped-add-to-cart .sp-tc-agree{margin:4px 0 0}
+	form.cart .sp-tc-agree{display:block}
+	</style>
+	<?php
+}
+
+/**
  * 2) JS: bloquear el envío del form si el checkbox no está marcado.
  * NO manipula .disabled del botón (para no interferir con la lógica del theme
  * en combos que deshabilita por variaciones sin elegir). Intercepta submit/click.
