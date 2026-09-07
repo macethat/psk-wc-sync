@@ -394,3 +394,6 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 - Nuevo mu-plugin sp-tc-agree.php: checkbox 'He leído y acepto los Terminos y Condiciones' (enlace a /terminosycondiciones/) debajo del boton Añadir al carrito en simple/variable/combo. Bloqueo JS + server-side.
 - Clave tecnica: los combos con _combo_price usan handler custom 'combo' que bypasea woocommerce_add_to_cart_validation. Se intercepta woocommerce_add_to_cart_handler con prioridad 20 (despues de combo-price) para forzar handler 'grouped' sin checkbox (asi pasa por validacion y muestra el error). No se modifico combo-price.php ni functions.php del child.
 - Verificado simple/variable/combo: sin checkbox -> error + carrito vacio; con checkbox -> OK. Checklist retiro OK.
+## 2026-09-07 — Fix imagenes de combos (tamaños faltantes en srcset)
+
+- Combos 21960, 21962, 21961 (subidos 11-08): sus PNG tenian metadata con tamaños pero faltaban 4 archivos fisicos (-1024x1024, -150x150, -1070x510, -100x100) -> srcset con 404, imagen podia no verse segun viewport. Regenerados attachments 21963/21965/21964 con wp media regenerate. Auditados los 27 combos: todos OK.
