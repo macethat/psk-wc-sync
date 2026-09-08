@@ -397,3 +397,6 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 ## 2026-09-07 — Fix imagenes de combos (tamaños faltantes en srcset)
 
 - Combos 21960, 21962, 21961 (subidos 11-08): sus PNG tenian metadata con tamaños pero faltaban 4 archivos fisicos (-1024x1024, -150x150, -1070x510, -100x100) -> srcset con 404, imagen podia no verse segun viewport. Regenerados attachments 21963/21965/21964 con wp media regenerate. Auditados los 27 combos: todos OK.
+## 2026-09-07 — Fix CTA WhatsApp en fichas de combos (movil)
+
+- En 27 combos grouped: reescrito el bloque CTA del post_content. Icono WhatsApp (viewBox ok) arriba centrado + texto en <p> fluido debajo (antes un <span> con inline-flex partia el texto en 3 bloques en movil y el logo no se veia). Backup /tmp/backup_cta_todos_20260907.json.
