@@ -1070,3 +1070,30 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - 2026-09-07 (2do fix checkbox T&C en combos desktop): el fix anterior (flex:0 0 100%) NO saltaba de linea porque el contenedor .woocommerce-grouped-add-to-cart es display:flex con flex-wrap NOWRAP en desktop. Corregido: añadido .woocommerce-grouped-add-to-cart{flex-wrap:wrap} para que el .sp-tc-agree (flex:0 0 100%;order:99) ocupe linea propia debajo del boton. Verificado estructura: qty -> boton -> agree -> woosw.
 - 2026-09-07: corregida seccion de productos relacionados en movil. Antes el CSS del child (functions.php, @media max-width:767px) ponia cada li.product al 50% (2 columnas) y en pantallas 501-767px los items quedaban apilados a la izquierda dejando columna vacia a la derecha (o layout de 2 columnas). Pedido: 1 sola columna al 100%. Creado mu-plugin sp-related-movil.php que inyecta CSS (@media max-width:767px) sobrescribiendo: .related.products/.upsells li.product width/flex/max-width 100% !important, product-block en columna, miniatura al 100% (order 1), caption despues (order 2), precio abajo (order 3). Inyectado en wp_head prioridad 99 (despues del child -> prevalece). Sin tocar functions.php. Verificado: CSS presente en movil y orden de cascada correcto.
 - 2026-09-07 (fix CTA WhatsApp en fichas de combos, movil): el CTA 'Solicita más información sobre X con uno de nuestros asesores expertos' se veía partido en '3 columnas' (frase/nombre/frase) y sin el logo WhatsApp visible. Causa: el <span> del texto llevaba display:inline-flex que separaba los fragmentos de texto (frase + <strong> + frase) como items flex -> en movil se repartian en bloques. Solucion aplicada a los 27 combos grouped: reescrito el bloque CTA en post_content con estructura simple -> <a> con icono WhatsApp (30x30, viewBox correcto) centrado en la 1ra linea + <p> debajo con el texto completo fluyendo normal (sin inline-flex), nombre conservado del <strong> previo, URL wa.me conservada/regenerada. Backup /tmp/backup_cta_todos_20260907.json. Verificado en vivo (VMS Triple Stack + VMS Bios+Creatina): icono antes del texto, texto en <p>, viewBox ok. Checklist retiro OK.
+
+## 2026-09-09 — Creacion de 4 productos nuevos + auditoria SKU del lote fotos08092026
+
+### Contexto
+- Lote de productos nuevos (fotos08092026 + xlsx): 26 SKU de 4 marcas (EVOGEN, LANDERFIT, MUTANT, RAW). Sin categorias en el xlsx -> se investigo cada producto.
+- Regla confirmada por el usuario: los productos NO llevan categoria con nombre de marca, solo categoria funcional; la marca va en product_brand. (Los anteriores con categoria-marca no se corrigen por ahora.)
+
+### Auditoria previa
+- De los 26 SKU del lote, 13 YA existian en WooCommerce (varios draft o variaciones de productos existentes). Lista de chequeo en C:\suplementos\productos-nuevos\fotos08092026\checklist_sku_existentes.csv.
+- Los SKU 'nuevos' que pertenecian a padres existentes (EVOGEN EVP AQ P19364, RAW proteina P19029) se dejaron pendientes de decision (precio difiere). NO se tocaron.
+
+### Creados (4 productos nuevos limpios, IDs en el 221xx)
+1. EVOGEN Xtreme (P22131, variable 3 sabores Sour Gummy/Tangerine/Tropical Splash, .99). Categorias: Bebidas Energeticas + Pre-Entrenos. Brand EVOGEN. Imgs 22122-22124.
+2. LANDERFIT Fiber Orange (P22135, simple, sku 612590416682, .99). Cat: Salud y Bienestar. Brand LANDERFIT. Img 22125.
+3. MUTANT ISO Surge 2lb (P22136, variable 2 sabores Vainilla/Triple Chocolate, .99). Cat: Proteina Aislada/Isolate. Brand MUTANT. Imgs 22126-22127.
+4. RAW Glycerol (P22139, variable 3 sabores Cherry Lime/Strawberry Slush/Unflavored, .99). Cat corregida: Pre-Entrenamientos SIN Estimulantes (non-stim pump). Brand RAW. Imgs 22128-22130.
+- Patron seguido: padre variable sin SKU + variaciones con SKU (codigo de barras) e imagen propia; manage_stock false (el stock lo importa PSKloud luego).
+
+### Contenido (generado por agente contenidos-ecommerce con template-descripcion-producto)
+- Se aplico post_content completo (estructura template: CARACTERISTICAS, PERFIL NUTRICIONAL, MODO DE USO, PARA QUIEN ES, FAQ, STACK, AUTORIDAD, ADVERTENCIA LEGAL, CTA) + excerpt a los 4. Archivos fuente guardados en local/content_*.html y local/seo_*.txt.
+- CTA WhatsApp normalizado a formato nuevo (icono arriba + texto en p debajo) en los 3 que venian con formato viejo (Xtreme, ISO Surge, Glycerol). Fiber ya se creo con formato nuevo.
+- Nota: el agente no puede procesar imagenes (modelo sin vision); los datos nutricionales se investigaron por web. Verificar mg/porcion con etiqueta fisica antes de publicar definitivo (notas del agente).
+
+### Pendiente
+- Revisar los 13 SKU existentes (lista CSV) y decidir: activar drafts, completar categorias/marcas, o ajustar precios (EVP AQ en 44.99-49.99 vs lote 39.99).
+- Aplicar SEO de imagenes (title/alt) refinado a las 9 nuevas si se requiere.
+- Importacion de inventario desde PSKloud (cuando el cron corra cruzara por SKU).
