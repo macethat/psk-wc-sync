@@ -1102,3 +1102,21 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - 2026-09-09 (RAW Glycerol stock en bodega): verificacion PSKloud -> los 3 sabores de RAW Glycerol SI tienen 28 unidades c/u, pero concentradas en el almacen 9 'SP BODEGA VIA BRASIL' (bodega central), no en sucursales de venta (1,5,6,7,8,10). En WooCommerce quedan en 0/outofstock y sin sucursales disponibles (decision del usuario: dejarlo en 0 por ahora). Cuando el equipo reparta el stock de Via Brasil a sucursales en PSKloud, el producto se activara (el sync/cron lo reflejara).
 - 2026-09-10 (reemplazo de 2 imagenes): actualizadas las imagenes de EVOGEN Xtreme Tangerine (var 22133) y MUTANT ISO Surge Vainilla (var 22137) desde productos-nuevos/fotos08092026. Metodo: borrar attachment viejo (22123/22126), importar nueva con el MISMO nombre/URL (uploads/2026/09/evogen-xtreme-tangerine.jpg y mutant-iso-surge-vainilla.jpg), transferir SEO (title/slug/alt) y reasignar a la variacion. Nuevos IDs: 22150 (Tangerine) y 22151 (Vainilla). Padre ISO Surge 22136 thumb -> 22151 (quedo en 0 al borrar la vieja; corregido). URLs responden 200. Padres Xtreme 22131 mantiene thumb 22124 (Tropical Splash).
 - 2026-09-10 (cont.): reemplazada tambien la imagen MUTANT ISO Surge Triple Chocolate (var 22138) desde productos-nuevos/fotos08092026. Mismo metodo: borrar viejo 22127, importar nueva con misma URL (mutant-iso-surge-triple-chocolate.jpg), transferir SEO (title/slug/alt) y asignar a var 22138. Nuevo ID: 22152. URL 200. Padre ISO Surge 22136 thumb sigue en 22151 (Vainilla).
+
+## 2026-09-10 — Consolidacion EVP AQ (Evogen) en un producto variable de 6 sabores
+
+### Contexto
+- El lote traia 6 sabores de EVOGEN Glycerol EVP AQ. En WC solo existia el padre variable P19364 con 1 sabor visible (Tropic Thunder) y 2 en draft (Victory Punch, Unflavored), y faltaban 3 (Watermelon, Grape, Raspberry Limonade). No habia paginas separadas que consolidar: todo cuelga del mismo padre.
+- Dato corregido por el agente: EVP AQ es pre-entreno SIN estimulantes (glicerol liquido, 0 cafeina) -> categorias correctas: Pre-Entrenamientos Sin Estimulantes + Pre-Entrenos.
+
+### Acciones
+- Actualizadas las 6 imagenes con las fotos nuevas de productos-nuevos/fotos08092026 (importadas con SEO title/slug/alt). Nuevos attachments 22153-22158. Eliminadas las viejas webp (18781/18782/18784).
+- Variaciones: activadas Victory Punch (19365) y Unflavored (19367) y Tropic (19366) -> publish, todas a 39.99. Creadas Watermelon (22159), Grape (22160), Raspberry Limonade (22161). Atributo del padre con 6 opciones. Thumb del padre -> Tropic nuevo (22155).
+- Corregido el atributo de 19367 de 'Sin Sabor' a 'Unflavored' para que matchee con el padre y aparezca en el selector.
+- Stock por sucursal desde PSKloud aplicado a las 6 variaciones (_sucursal_* + _sucursales_disponibles + _stock + _stock_status).
+- Contenido del padre regenerado con el agente (template-descripcion-producto): content 19282 chars + excerpt; CTA WhatsApp normalizado a formato nuevo (icono arriba + texto). Archivos: local/content_evp_aq.html, local/seo_evp_aq.txt.
+
+### Verificado
+- Ficha /product/pre-entreno-evp-aq-evogen/ HTTP 200: selector con los 6 sabores, contenido CARACTER OK, CTA nuevo, bloque sp-sucursal-stock presente, precio 39.99. URLs de imagenes nuevas OK.
+### Pendiente (notas del agente)
+- Validar mg/porcion (glicerol 20g, betaina 2.5g, S7 50mg) contra etiqueta fisica antes de publicar definitivo.
