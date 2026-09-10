@@ -1166,3 +1166,4 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 
 ### Verificado
 - /product/proteina-isolatada-raw-2-lb/ HTTP 200: select con 6 sabores, CARACTER OK, CTA nuevo, bloque sp-sucursal-stock, 5 imagenes nuevas (200) visibles.
+- 2026-09-10 (fix galeria RAW): en la ficha de la proteina RAW (P19029) aparecian 4 miniaturas, 2 rotas. Causa: la galeria del padre (_product_image_gallery = 16391,16409,15600) referenciaba 16391 y 15600, imagenes elimininadas al reemplazar por las fotos nuevas. Fix: actualizada la galeria a 22171 (Strawberry nuevo), 16409 (Birthday Cake, existente), 22170 (Cinnamon nuevo). Verificado: las 3 imagenes responden 200, sin rotos. Otros padres tocados (Xtreme, ISO Surge, Glycerol RAW, EVP AQ) no tienen galeria.
