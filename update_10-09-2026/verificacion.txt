@@ -1,0 +1,2 @@
+Discrepancias: 0
+OK: 114  Fallidos: 0
