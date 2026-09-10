@@ -1120,3 +1120,27 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Ficha /product/pre-entreno-evp-aq-evogen/ HTTP 200: selector con los 6 sabores, contenido CARACTER OK, CTA nuevo, bloque sp-sucursal-stock presente, precio 39.99. URLs de imagenes nuevas OK.
 ### Pendiente (notas del agente)
 - Validar mg/porcion (glicerol 20g, betaina 2.5g, S7 50mg) contra etiqueta fisica antes de publicar definitivo.
+
+## 2026-09-10 — Omega 3, CLA 2000 y Vitamina C (LanderFit): imagenes, contenido, SEO y stock
+
+### Productos (simples, ya publicados)
+- P9200 Omega 3 (sku 612590416019, 25.99)
+- P9190 CLA 2000 (sku 612590416057, 21.99)
+- P9214 Vitamina C 1000mg (sku 612590416446, 21.99)
+
+### Imagenes
+- Reemplazadas por las fotos nuevas de productos-nuevos/fotos08092026 (preservando SEO: title/slug/alt de la vieja). Eliminadas las webp viejas (15680/9297/15670). Nuevos attachments: 22163 (omega-3-landerfit.jpg), 22164 (cla-2000-landerfit.jpg), 22165 (vitamina-c-landerfit.jpg).
+
+### Stock PSKloud (por sucursal)
+- Omega3: total 54 | 1=7,5=12,6=7,7=5,8=3,10=20 (todas las sucursales)
+- CLA: total 63 | 1=12,5=12,6=13,7=6,8=8,10=12 (todas)
+- VitC: total 30 | 1=15,5=13,6=2 (solo 1,5,6)
+- Aplicado _sucursal_* + _sucursales_disponibles + _stock + _stock_status.
+
+### Contenido + SEO (agentes contenidos-ecommerce, template-descripcion-producto)
+- Regenerado post_content (template completo) + excerpt + CTA WhatsApp normalizado a formato nuevo (icono arriba + texto). Archivos: local/content_landerfit_{omega3,cla,vitc}.html y local/seo_landerfit_{omega3,cla,vitc}.txt.
+- SEO marketing: rank_math_title + rank_math_description aplicados. Verificado en front (title/desc OK).
+- Notas del agente (validar contra etiqueta fisica): Omega3 EPA 540/DHA 360 mg vienen de reseller, no web oficial; CLA 2000 mg/porcion derivado; VitC 120 tabletas vs 120 caps segun fuente.
+
+### Verificado
+- Los 3 HTTP 200 con CARACTER, CTA nuevo, bloque sp-sucursal-stock e imagen nueva (/2026/09/).
