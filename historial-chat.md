@@ -1144,3 +1144,25 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 
 ### Verificado
 - Los 3 HTTP 200 con CARACTER, CTA nuevo, bloque sp-sucursal-stock e imagen nueva (/2026/09/).
+
+## 2026-09-10 — Proteina RAW (CBUM Itholate 2 lb): consolidar 6 sabores + imagenes + contenido + SEO + stock
+
+### Padre P19029 "Proteina Isolatada - Raw - 2 lb" (variable, pub, 64.99)
+- 4 sabores existentes: Vanilla Oatmeal Cookies (19031), Birthday Cake (19032), Cinnamon Crunch Cereal (19033), Strawberry Bun Cake (19034).
+- 2 sabores nuevos agregados como variaciones: Milk and Cookies (P22174, sku 850057175615) y Mocha Latte (P22175, sku 810193920852).
+- Nota: Mocha Latte en PSKloud es 'ITHOLATE PROTEIN + CAFFEINE' a 65.99 (distinto); el usuario pidio ponerle 64.99 (precio de los demas) mientras corrobora.
+- Draft P11807 (CBUM-ITHOLATE Milk and Cookies, simple, sku 850057175615) ELIMINADO para no duplicar; su SKU coincide con la lista y se reuso en la variacion.
+
+### Imagenes
+- 5 imagenes reemplazadas/importadas desde productos-nuevos/fotos08092026 (SEO title/slug/alt): attachments 22169-22173 (/2026/09/). Viejas 16414/15600/16391 eliminadas. Birthday Cake (19032) queda con su imagen actual (16409) hasta que llegue la nueva foto (el usuario la pidio).
+- Thumb del padre reasignado a 22169 (Vanilla) porque su thumb anterior (16414) se elimino.
+
+### Stock PSKloud (por sucursal) aplicado a las 6 variaciones
+- Vanilla 13, Birthday Cake 1 (outofstock), Cinnamon 12, Strawberry 16, Milk and Cookies 11, Mocha Latte 13.
+
+### Contenido + SEO
+- Contenido del padre regenerado con agente (template-descripcion-producto): content 18285 + excerpt + CTA normalizado (icono arriba + texto). Archivos: local/content_raw_proteina.html, local/seo_raw_proteina.txt. rank_math_title + description aplicados.
+- Notas del agente: sucralosa en la formula (no afirmo 'sin edulcorantes'); 25 g proteina/scoop, ~25 servicios; pide validar scoop por sabor con etiqueta fisica.
+
+### Verificado
+- /product/proteina-isolatada-raw-2-lb/ HTTP 200: select con 6 sabores, CARACTER OK, CTA nuevo, bloque sp-sucursal-stock, 5 imagenes nuevas (200) visibles.
