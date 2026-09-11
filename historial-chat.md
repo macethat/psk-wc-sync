@@ -1185,3 +1185,4 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Validar dosis mg con etiqueta fisica (los agentes marcaron que varias cifras vienen de resellers).
 - RAW Glycerol sigue outofstock (stock en bodega Via Brasil sin distribuir).
 - Mocha Latte RAW a 64.99 (PSKloud ya lo corrigio a 64.99; coincide).
+- 2026-09-11 (EVP AQ perfil nutricional validado): el usuario aporto el Supplement Facts real de EVP AQ. Corregido el perfil de la ficha P19364: sodio 15 mg -> 55 mg; agregados Calorias 90 kcal y Carbohidratos totales 20 g; vitamina C marcada 250 mg (139% VD). Glicerol 20 g, betaina 2.5 g y S7 50 mg ya coincidian. Confirmado 0 mg cafeina (sin estimulantes). Verificado en front.
