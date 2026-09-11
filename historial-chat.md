@@ -1169,3 +1169,19 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - 2026-09-10 (fix galeria RAW): en la ficha de la proteina RAW (P19029) aparecian 4 miniaturas, 2 rotas. Causa: la galeria del padre (_product_image_gallery = 16391,16409,15600) referenciaba 16391 y 15600, imagenes elimininadas al reemplazar por las fotos nuevas. Fix: actualizada la galeria a 22171 (Strawberry nuevo), 16409 (Birthday Cake, existente), 22170 (Cinnamon nuevo). Verificado: las 3 imagenes responden 200, sin rotos. Otros padres tocados (Xtreme, ISO Surge, Glycerol RAW, EVP AQ) no tienen galeria.
 - 2026-09-10 (galeria RAW completa): las miniaturas de la ficha RAW no mostraban Mocha Latte ni Milk and Cookies (ni Vanilla). Se actualizo _product_image_gallery del padre P19029 a: 16409 (Birthday Cake), 22170 (Cinnamon), 22171 (Strawberry), 22172 (Milk and Cookies), 22173 (Mocha Latte); el thumb del padre es 22169 (Vanilla). Total 6 miniaturas (todos los sabores). Verificado en front. Nota: la imagen principal de una variacion outofstock (Birthday Cake, 1u<=6) no cambia al seleccionarla por comportamiento del theme; el usuario indico que la imagen debe mostrarse igual y solo informar que no hay existencias (pendiente definir si ajustar el theme o reponer stock).
 - 2026-09-11 (imagen Birthday Cake RAW): reemplazada la imagen del sabor Birthday Cake (var 19032) con la foto nueva de productos-nuevos/fotos08092026 (misma estructura SEO: title 'Proteina Isolatada - Raw - Birthday Cake - 2 lb', slug 'proteina-isolatada-raw-birthday-cake-2-lb'). Vieja 16409 (webp 2024/07) eliminada; nueva 22178 (/2026/09/proteina-isolatada-raw-birthday-cake-2-lb.jpg). Galeria del padre actualizada (22178,22170,22171,22172,22173) + thumb 22169 (Vanilla) = 6 miniaturas todas nuevas. Verificado URL 200 y front.
+
+## 2026-09-11 — Completar los 3 LANDERFIT en draft -> 26/26 publicados
+
+### Los 3 drafts completados
+- P9175 Lipo Revolution Stim Free (sku 612590416064, .50): marca LANDERFIT, cat Quemadores->Termogenicos y CLA, imagen nueva 22179, contenido template + SEO, stock PSKloud 60 (todas las sucursales), publicado.
+- P11875 Testolander Booster (sku 612590416088, .00): marca LANDERFIT, cat Salud y Bienestar->Salud Hormonal y Testosterona, imagen nueva 22180, contenido template + SEO, stock PSKloud 58 (todas), publicado.
+- P9186 Lipo Revolution Thermogenic (sku 612590416439, precio corregido 22.05->.99): marca LANDERFIT, cat Termogenicos y CLA, imagen nueva 22181, contenido template + SEO, stock PSKloud 60 (todas), publicado.
+- Imagenes: reemplazadas por las fotos nuevas de productos-nuevos/fotos08092026 (SEO transferido), viejas 9309/12060/9308 eliminadas.
+- Contenido con agentes (template-descripcion-producto) + CTA normalizado + rank_math_title/description. Archivos locales: local/content_landerfit_{lipo_stimfree,testolander,lipo_thermogenic}.html y local/seo_landerfit_*.txt.
+
+### Resultado
+- CONTE0 FINAL del lote (26 items): 26 publicados, 0 draft. EVOGEN 9, LANDERFIT 7, MUTANT 2, RAW 8.
+### Pendientes menores (no bloquean)
+- Validar dosis mg con etiqueta fisica (los agentes marcaron que varias cifras vienen de resellers).
+- RAW Glycerol sigue outofstock (stock en bodega Via Brasil sin distribuir).
+- Mocha Latte RAW a 64.99 (PSKloud ya lo corrigio a 64.99; coincide).
