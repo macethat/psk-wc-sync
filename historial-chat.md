@@ -1189,3 +1189,26 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - 2026-09-11 (Omega 3 perfil validado): el usuario aporto el Supplement Facts real del Omega 3 LanderFit (P9200). Reemplazado el perfil nutricional con los datos de etiqueta: porcion 2 softgels, 100 porciones (200 softgels); Calorias 25; Grasa total 2 g (3% VD); Carbohidratos 2 g (1% VD); aceite de pescado 1.065 mg; EPA 540 mg; DHA 360 mg; Otros Omega-3s 165 mg; Vitamina E. Verificado.
 - 2026-09-11 (CLA perfil validado): el usuario aporto el Supplement Facts real del CLA 2000 LanderFit (P9190). Reemplazado perfil: porcion 2 softgels (60 porciones / 120 softgels); Calorias 20; Grasa total 2 g (3% VD); Mezcla de CLA 2000 mg (80% de acido linoleico conjugado de aceite de cartamo). Corregida dosis en MODO DE USO: '2 capsulas dos veces al dia con las comidas' (antes decia 2/dia). Verificado.
 - 2026-09-11 (Vitamina C validada): el usuario aporto el Supplement Facts real de la Vitamina C LanderFit (P9214). Perfil: 1 tableta (1000 mg, 1111% VD), 120 tabletas. Actualizado LO QUE NO CONTIENE con los reales (sin colorantes/sabores/edulcorantes artificiales, sin conservantes, sin azucar/almidon/leche/lactosa, sin soja/gluten/trigo, libre de sodio). Dosis corregida a 1 tableta (1 g) al dia (antes decia 1 a 2). Verificado.
+
+## 2026-09-11 — CIERRE: lote de 26 productos nuevos PUBLICADO
+
+### Estado final
+- 26/26 items del lote (fotos08092026) publicados. EVOGEN 9, LANDERFIT 7, MUTANT 2, RAW 8.
+- Productos nuevos creados/consolidados: EVOGEN Xtreme (P22131), LANDERFIT Fiber Orange (P22135), MUTANT ISO Surge (P22136), RAW Glycerol (P22139), EVP AQ consolidado 6 sabores (P19364), proteina RAW consolidada 6 sabores (P19029); LANDERFIT 3 drafts completados (Lipo Stim Free P9175, Testolander P11875, Lipo Thermogenic P9186).
+- Imagenes, contenido (template-descripcion-producto con agentes), SEO marketing (rank_math_title/description), stock por sucursal (PSKloud) aplicados a todos.
+
+### Validaciones con etiqueta fisica realizadas (perfiles nutricionales)
+- EVP AQ: sodio 55 mg, +calorias 90/+carbs 20 g, vit C 250 mg (139% VD).
+- Omega 3: 25 kcal, grasa 2 g, carbs 2 g, EPA 540/DHA 360/otros 165 mg, 200 softgels.
+- CLA 2000: 20 kcal, grasa 2 g, CLA 2000 mg (80%), dosis 2 softgels 2x/dia.
+- Vitamina C: 1 tableta 1000 mg (1111% VD), 120 tabletas, 'sin' reales, dosis 1 tableta/dia.
+
+### Pendientes (esperando info/accion del cliente)
+- Validar dosis con etiqueta fisica: Fiber Orange, EVOGEN Xtreme, ISO Surge, Proteina RAW, RAW Glycerol, Lipo Stim Free, Testolander, Lipo Thermogenic.
+- RAW Glycerol outofstock (stock en bodega Via Brasil sin distribuir).
+- Mocha Latte RAW a 64.99 (PSKloud ya lo corrigio a 64.99).
+
+### Notas de proceso
+- Se uso el agente contenidos-ecommerce (template del proyecto) para las fichas; el agente no procesa imagenes (notas de dosis provienen de resellers hasta validar con etiqueta).
+- Archivos de contenido locales en local/content_*.html y local/seo_*.txt.
+- El CSV de audiencia de Mailchimp (datos personales) se agrego a .gitignore.

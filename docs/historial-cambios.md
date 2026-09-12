@@ -400,3 +400,9 @@ La estructura del CTA pas√≥ por 2 correcciones en los combos 21960/21961/21962:
 ## 2026-09-07 ó Fix CTA WhatsApp en fichas de combos (movil)
 
 - En 27 combos grouped: reescrito el bloque CTA del post_content. Icono WhatsApp (viewBox ok) arriba centrado + texto en <p> fluido debajo (antes un <span> con inline-flex partia el texto en 3 bloques en movil y el logo no se veia). Backup /tmp/backup_cta_todos_20260907.json.
+
+## 2026-09-11 ó Cierre lote 26 productos nuevos
+
+- 26/26 publicados (EVOGEN 9, LANDERFIT 7, MUTANT 2, RAW 8): imagenes, contenido template, SEO, stock por sucursal.
+- Perfiles validados con etiqueta real: EVP AQ, Omega 3, CLA 2000, Vitamina C. Pendientes de validar: Fiber, Xtreme, ISO Surge, Proteina RAW, RAW Glycerol, Lipo Stim Free, Testolander, Lipo Thermogenic.
+- RAW Glycerol outofstock (bodega Via Brasil sin distribuir).
