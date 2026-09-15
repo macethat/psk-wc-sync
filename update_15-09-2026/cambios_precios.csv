@@ -1,0 +1,2 @@
+id,parent,tipo,sku,nombre,old_stock,new_stock,new_status,old_status,manage,old_price,new_price
+8554,0,simple,891597002542,PROTEINA 4.19 LBS CHOCOLATE CARNIVOR (MUSCLE MEDS),0,44,instock,outofstock,True,69.99,95.99
