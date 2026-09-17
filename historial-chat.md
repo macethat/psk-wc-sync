@@ -1223,3 +1223,10 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Verificacion independiente (contra HTML servido): 2 hrefs a /promociones/combos/ en el carrusel desktop; URLs viejas = 0 ocurrencias; /promociones/combos/ = HTTP 200; carrusel movil (a58a0a) sin cambios; boton VMS (c51113) intacto.
 - Pendiente de decision: el contenedor 4a92d4 tiene hide_mobile pero no hide_tablet -> el carrusel tambien se ve en tablet.
 - Ejecutado con el harness de agentes: supervisor (orquesto/verifico) + executor (edito). Estado en docs/harness-estado.md.
+
+## 2026-09-17 - Playbook Meta Pixel/Dataset + CAPI + Whaticket (para Claude)
+
+- Creado docs/playbook-meta-pixel-capi-whaticket.md: instruccion maestra (16 secciones) para que Claude (con acceso a la cuenta Meta de SP) guie/ejecute la implementacion del Pixel/Dataset, Conversions API, eventos/KPIs y la integracion con el CRM Whaticket.
+- Cubre: inventario/accesos (Fase 0), Dataset+CAPI, modelo de eventos y KPIs (Contact/Lead/LeadCalificado/Purchase), captura de click ID (fbclid/fbc/fbp y ctwa_clid de Click-to-WhatsApp), integracion Whaticket->CAPI, AEM, conversiones personalizadas, audiencias, payloads JSON de ejemplo, checklist de aceptacion y guardrails de privacidad (PII hasheada).
+- KPIs: CPL, CPQL, CPA, ROAS, tasa de calificacion, tasa de cierre.
+- Punto critico: el tipo de conexion de Whaticket (WABA Cloud API vs Baileys) determina la disponibilidad de ctwa_clid y la precision de atribucion; debe resolverse en Fase 0.
