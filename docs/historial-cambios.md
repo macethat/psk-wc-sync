@@ -406,3 +406,14 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - 26/26 publicados (EVOGEN 9, LANDERFIT 7, MUTANT 2, RAW 8): imagenes, contenido template, SEO, stock por sucursal.
 - Perfiles validados con etiqueta real: EVP AQ, Omega 3, CLA 2000, Vitamina C. Pendientes de validar: Fiber, Xtreme, ISO Surge, Proteina RAW, RAW Glycerol, Lipo Stim Free, Testolander, Lipo Thermogenic.
 - RAW Glycerol outofstock (bodega Via Brasil sin distribuir).
+
+## 2026-09-17 — Fix carrusel home (desktop): botones 404 -> /promociones/combos/
+
+- Home ID 18625 (Elementor `_elementor_data`). El carrusel superior de escritorio (widget `nested-carousel`, contenedor `4a92d4` con `hide_mobile`) tenia 2 botones "Comprar Ahora" que daban 404:
+  - widget `17c3ee` (Proteina + Creatina Primeval Labs) -> /product/primeval-labs-proteinas-primeval-labs-creatinas/
+  - widget `171e63` (Proteina + Creatina Nutrex) -> /product/proteinas-iso-nutrex-2lbs-creatina-nutrex-60-serv/
+- Cambio: ambos `link.url` -> https://suplementospanama.net/promociones/combos/
+- Metodo: backup del meta (/tmp/home_el_backup_20260917-0000.json, 174378 bytes, md5 99788c41b25fb142b0ddafa94ba73e2d + copia en ~/); edicion con update_metadata('post',18625,'_elementor_data', wp_slash($json)) (NUNCA update_post_meta); purga SG + object cache + Elementor CSS.
+- Verificacion independiente (contra HTML servido): 2 hrefs a /promociones/combos/ en el carrusel desktop; URLs viejas = 0 ocurrencias; /promociones/combos/ = HTTP 200; carrusel movil (a58a0a) sin cambios; boton VMS (c51113) intacto.
+- Pendiente de decision: el contenedor 4a92d4 tiene hide_mobile pero no hide_tablet -> el carrusel tambien se ve en tablet.
+- Ejecutado con el harness de agentes: supervisor (orquesto/verifico) + executor (edito). Estado en docs/harness-estado.md.
