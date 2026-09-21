@@ -424,3 +424,12 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Cubre: inventario/accesos (Fase 0), Dataset+CAPI, modelo de eventos y KPIs (Contact/Lead/LeadCalificado/Purchase), captura de click ID (fbclid/fbc/fbp y ctwa_clid de Click-to-WhatsApp), integracion Whaticket->CAPI, AEM, conversiones personalizadas, audiencias, payloads JSON de ejemplo, checklist de aceptacion y guardrails de privacidad (PII hasheada).
 - KPIs: CPL, CPQL, CPA, ROAS, tasa de calificacion, tasa de cierre.
 - Punto critico: el tipo de conexion de Whaticket (WABA Cloud API vs Baileys) determina la disponibilidad de ctwa_clid y la precision de atribucion; debe resolverse en Fase 0.
+
+## 2026-09-17 - WooCommerce: metodo de pago manual "Transferencias" (TEMPORAL)
+
+- Gateway BACS (id `bacs`) renombrado de "Deposito Bancario" a "Transferencias" y habilitado (`enabled=yes`).
+- Opcion modificada: `woocommerce_bacs_settings`. Backup: /tmp/bacs_backup_20260917.json = {"enabled":"no","title":"Deposito Bancario","description":"","instructions":"","account_details":[]}.
+- Verificado: `wp wc payment_gateway list --user=3` -> `bacs | Transferencias | 1`.
+- Otros metodos activos: paguelofacil_gateway, yappy_payment.
+- Cache purgada (SG + object cache).
+- ES TEMPORAL (para pruebas). Para revertir: `wp option patch update woocommerce_bacs_settings enabled no` (o restaurar el JSON del backup).
