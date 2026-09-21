@@ -433,3 +433,10 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Otros metodos activos: paguelofacil_gateway, yappy_payment.
 - Cache purgada (SG + object cache).
 - ES TEMPORAL (para pruebas). Para revertir: `wp option patch update woocommerce_bacs_settings enabled no` (o restaurar el JSON del backup).
+
+## 2026-09-17 - WooCommerce: deshabilitado metodo "Transferencias" (fin de pruebas)
+
+- Gateway BACS deshabilitado (`enabled=no`). El gateway sigue existiendo (id `bacs`, titulo "Transferencias") pero ya no aparece en checkout.
+- Verificado: `wp wc payment_gateway list --user=3` -> `bacs | Transferencias |` (sin enabled).
+- Metodos activos: paguelofacil_gateway, yappy_payment. Cache purgada.
+- Backup original disponible en /tmp/bacs_backup_20260917.json.
