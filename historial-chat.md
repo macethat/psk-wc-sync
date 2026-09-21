@@ -1267,3 +1267,9 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Fix: mu-plugin nuevo wp-content/mu-plugins/sp-checkout-hide-ship-different.php -> inyecta CSS en checkout ocultando #ship-to-different-address y .woocommerce-shipping-fields__field-wrapper (display:none !important).
 - Verificado: php -l OK, checkout HTTP 200, style presente. El pedido usara la direccion de facturacion como envio (comportamiento por defecto al no marcar).
 - Copia local en el repo: sp-checkout-hide-ship-different.php.
+
+## 2026-09-21 - WooCommerce: deshabilitado "Transferencias" (nuevamente)
+
+- Gateway BACS deshabilitado (`enabled=no`) mientras se prueba el checkout. Titulo sigue "Transferencias" (oculto en checkout).
+- Verificado: `wp wc payment_gateway list --user=3` -> `bacs | Transferencias |` (sin enabled). Cache purgada.
+- Activos: paguelofacil_gateway, yappy_payment.
