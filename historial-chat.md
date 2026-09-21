@@ -1254,3 +1254,9 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Fix 2: mu-plugin nuevo wp-content/mu-plugins/sp-cedula-validation.php, hook woocommerce_after_checkout_validation (prioridad 20): admite letras/numeros/guiones (sin espacios ni simbolos, sin guiones dobles ni en extremos), minimo 4 digitos, longitud 5-25.
 - Casos probados: E-8-201079, 8-123-456, PE-8-1234, N-20-1234, 8-123-4567 -> VALIDO; 123*, 8-123-456*, 8--123, -8-123, hola, 123, 8-12, "PE 8 1234" -> INVALIDO.
 - Verificado: php -l sin errores, home HTTP 200, validate=[] en el campo. Copia local en el repo: sp-cedula-validation.php.
+
+## 2026-09-21 - WooCommerce: reactivado metodo "Transferencias" (nueva prueba)
+
+- Gateway BACS habilitado de nuevo (`enabled=yes`, titulo "Transferencias") para una prueba.
+- Verificado: `wp wc payment_gateway list --user=3` -> `bacs | Transferencias | 1`. Cache purgada.
+- Recordatorio: es temporal; se desactiva con `wp option patch update woocommerce_bacs_settings enabled no`.
