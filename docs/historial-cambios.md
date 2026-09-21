@@ -440,3 +440,11 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Verificado: `wp wc payment_gateway list --user=3` -> `bacs | Transferencias |` (sin enabled).
 - Metodos activos: paguelofacil_gateway, yappy_payment. Cache purgada.
 - Backup original disponible en /tmp/bacs_backup_20260917.json.
+
+## 2026-09-21 - Checkout: validacion Cedula/Pasaporte/RUC acepta formatos panamenos (ej. E-8-201079)
+
+- Problema: el campo billing_doc_identificacion (Checkout Form Designer / THWCFD) tenia validate=["number"] -> is_numeric() rechazaba cedulas con letras/guiones (E-8-201079, 8-123-456, PE-8-1234).
+- Fix 1: se quito la validacion "number" del campo (opcion wc_fields_billing -> validate: []). Backup: /tmp/wc_fields_billing_backup_20260921-174420.json.
+- Fix 2: mu-plugin nuevo wp-content/mu-plugins/sp-cedula-validation.php, hook woocommerce_after_checkout_validation (prioridad 20): admite letras/numeros/guiones (sin espacios ni simbolos, sin guiones dobles ni en extremos), minimo 4 digitos, longitud 5-25.
+- Casos probados: E-8-201079, 8-123-456, PE-8-1234, N-20-1234, 8-123-4567 -> VALIDO; 123*, 8-123-456*, 8--123, -8-123, hola, 123, 8-12, "PE 8 1234" -> INVALIDO.
+- Verificado: php -l sin errores, home HTTP 200, validate=[] en el campo. Copia local en el repo: sp-cedula-validation.php.
