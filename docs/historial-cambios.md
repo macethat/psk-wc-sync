@@ -467,3 +467,10 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Gateway BACS deshabilitado (`enabled=no`) mientras se prueba el checkout. Titulo sigue "Transferencias" (oculto en checkout).
 - Verificado: `wp wc payment_gateway list --user=3` -> `bacs | Transferencias |` (sin enabled). Cache purgada.
 - Activos: paguelofacil_gateway, yappy_payment.
+
+## 2026-09-21 - Eliminados 2 pedidos de prueba (Transferencias) y restaurado stock
+
+- Pedidos eliminados (force): #22204 (Andres Castillo; Amino K.E.M. Citrus Candy; variacion 19255; retiro SP El Cangrejo) y #22203 (Andres Castillo; BCAA 12:1:1 VMS Grape; variacion 21547; retiro SP Atrio Mall).
+- Ambos tenian _order_stock_reduced=yes -> WooCommerce habia descontado stock GLOBAL. Restaurado con wc_increase_stock_levels: 19255 6->7; 21547 59->60.
+- El stock por sucursal (_sucursal_N_stock) NO se descuenta al crear pedidos (no existe codigo que lo haga), por lo que no se modifico.
+- Verificado: los pedidos no existen; stock 19255=7 y 21547=60; status instock. Cache purgada.
