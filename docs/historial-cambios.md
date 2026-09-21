@@ -454,3 +454,10 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Gateway BACS habilitado de nuevo (`enabled=yes`, titulo "Transferencias") para una prueba.
 - Verificado: `wp wc payment_gateway list --user=3` -> `bacs | Transferencias | 1`. Cache purgada.
 - Recordatorio: es temporal; se desactiva con `wp option patch update woocommerce_bacs_settings enabled no`.
+
+## 2026-09-21 - Checkout: ocultado checkbox "Enviar a una direccion diferente" (segundo formulario)
+
+- El checkout mostraba, justo debajo del email, el checkbox #ship-to-different-address ("Enviar a una direccion diferente?") que desplegaba el formulario de envio (woocommerce-shipping-fields__field-wrapper); los clientes se confundian.
+- Fix: mu-plugin nuevo wp-content/mu-plugins/sp-checkout-hide-ship-different.php -> inyecta CSS en checkout ocultando #ship-to-different-address y .woocommerce-shipping-fields__field-wrapper (display:none !important).
+- Verificado: php -l OK, checkout HTTP 200, style presente. El pedido usara la direccion de facturacion como envio (comportamiento por defecto al no marcar).
+- Copia local en el repo: sp-checkout-hide-ship-different.php.
