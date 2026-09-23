@@ -474,3 +474,12 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Ambos tenian _order_stock_reduced=yes -> WooCommerce habia descontado stock GLOBAL. Restaurado con wc_increase_stock_levels: 19255 6->7; 21547 59->60.
 - El stock por sucursal (_sucursal_N_stock) NO se descuenta al crear pedidos (no existe codigo que lo haga), por lo que no se modifico.
 - Verificado: los pedidos no existen; stock 19255=7 y 21547=60; status instock. Cache purgada.
+
+## 2026-09-23 - Combo Elite Performance Stack (21660): precio 106.99 -> 115.99 + contenido
+
+- _combo_price: 106.99 -> 115.99. Hijos suman 195.97 (ProLive Bio6 6lb 115.99 + BUM Essential No-Stim 49.99 + Glutamina VMS 29.99).
+- Nuevo ahorro: $79.98 (195.97 - 115.99), ~40.8%.
+- Contenido (excerpt + descripcion) actualizado: $88.98->$79.98, $106.99->$115.99, 42%->40%.
+- Schema de combos (sp-combo-schema) dinamico: muestra "Ahorras $79.98 al comprar este combo vs. comprar los productos por separado".
+- Backup del estado previo: /tmp/combo_21660_backup_20260923-211016.json.
+- Verificado en front: precio 115.99 (8 refs), 106.99=0, 88.98=0, ahorro $79.98 (12 refs). Cache purgada.
