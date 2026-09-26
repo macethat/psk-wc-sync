@@ -1289,3 +1289,14 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Schema de combos (sp-combo-schema) dinamico: muestra "Ahorras $79.98 al comprar este combo vs. comprar los productos por separado".
 - Backup del estado previo: /tmp/combo_21660_backup_20260923-211016.json.
 - Verificado en front: precio 115.99 (8 refs), 106.99=0, 88.98=0, ahorro $79.98 (12 refs). Cache purgada.
+
+## 2026-09-26 - Rendimiento: arreglado el cache de SiteGround (causa raiz)
+
+- Diagnostico: home tardaba ~8s TTFB porque el frontend enviaba Set-Cookie: PHPSESSID -> SG Optimizer saltaba el cache (x-proxy-cache SKIP_CACHE_SET_COOKIE) -> cada visita regeneraba PHP.
+- Causa: PixelYourSite (pixelyoursite/includes/class-pys.php) llamaba session_start() en cada visita normal del frontend (solo se salta en AJAX/REST/robots).
+- Fix aplicado:
+  1. mu-plugin nuevo wp-content/mu-plugins/sp-pys-no-session.php -> add_filter('pys_skip_session','__return_true') -> PYS ya no inicia sesion PHP.
+  2. Desactivada Order Attribution de WooCommerce (woocommerce_feature_order_attribution_enabled yes->no; backup /tmp/oa_backup.txt).
+- Resultado (desde el servidor): TTFB con cache ~0.03-0.05s (antes ~8s); request 1 (cache miss tras purgar) ~10.7s (regenera). Ya no hay Set-Cookie PHPSESSID. Home OK (HTTP 200).
+- Copia local del mu-plugin en el repo: sp-pys-no-session.php.
+- Pendientes recomendados (siguiente paso): limpiar Action Scheduler (16.7k acciones + 50k logs), revisar 8 acciones failed diarias, reducir 35 plugins activos, aligerar home (3.1MB HTML / 365 bloques producto), limpiar tabla sgs_log_events (11MB).
