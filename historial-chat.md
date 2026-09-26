@@ -1316,3 +1316,11 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - Resultado: DB 98 -> 85.8 MB. Con fase 2 (Action Scheduler) el total bajo de 140 MB -> 85.8 MB (-54 MB en la sesion).
 - Verificado: events reales 1, visitors 1, home con cache TTFB ~0.028s.
 - Pendiente recomendado: evaluar desactivar el activity log de visitas (sg_security_disable_activity_log=1) si el trafico de bots sigue generando muchos eventos.
+
+## 2026-09-26 - Optimizacion fase 4: desactivacion de plugins de bajo uso
+
+- Desactivados (8): google-listings-and-ads, automatic-translator-addon-for-loco-translate, loco-translate, make-column-clickable-elementor, wordpress-starter, siteground-migrator, woo-update-manager, woocommerce-legacy-rest-api.
+- jetpack NO se pudo desactivar (sigue activo). woo-smart-quick-view y woo-smart-wishlist se reactivaron tras auto-desactivarse.
+- Incidente controlado: un error de proceso desactivo TODOS los plugins (flag --all). Se restauro activando WooCommerce primero con --skip-themes (el tema usa WC_Shipping_Zones en functions.php:379, que falla sin WooCommerce). Quedaron 28 plugins activos.
+- Bootstrap: 245.7MB / ~1.6s -> 228.4MB / ~1.4s. TTFB cache ~0.05s. Render fresco (cache miss) sigue ~10s -> el cuello de botella es el home (365 tarjetas producto, carruseles, HTML 3.1MB), no el bootstrap.
+- Proximo paso recomendado: aligerar el home (menos productos/secciones), no seguir desactivando plugins.
