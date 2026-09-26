@@ -1308,3 +1308,11 @@ Firecrawl reportaba "faltan" Google Merchant Center (no visible en codigo) y Goo
 - DB optimizada (wp db optimize) + ANALYZE de las tablas AS. Tamano DB: 140.1 MB -> 98 MB (-42 MB).
 - Verificado: carrito OK (add_to_cart 200 con campo T&C), checkout HTTP 200 con campos (billing_email, ship-to-different-address, woocommerce-checkout), home con cache TTFB ~0.03s.
 - Siguiente candidato de limpieza: tabla sgs_log_events (11.1 MB, 26k filas) de SG Security.
+
+## 2026-09-26 - Optimizacion fase 3: logs de SG Security
+
+- sgs_log_events registraba cada visita/bot (27.677 filas, 11 MB) con retencion de 12 meses (sgs_activity_log_lifetime default 12) -> bloat + escrituras continuas en DB.
+- Accion: truncadas sgs_log_events y sgs_log_visitors (audit logs, no criticos); retencion reducida a 1 mes (update_option sgs_activity_log_lifetime=1).
+- Resultado: DB 98 -> 85.8 MB. Con fase 2 (Action Scheduler) el total bajo de 140 MB -> 85.8 MB (-54 MB en la sesion).
+- Verificado: events reales 1, visitors 1, home con cache TTFB ~0.028s.
+- Pendiente recomendado: evaluar desactivar el activity log de visitas (sg_security_disable_activity_log=1) si el trafico de bots sigue generando muchos eventos.
