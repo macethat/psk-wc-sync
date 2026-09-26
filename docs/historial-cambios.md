@@ -494,3 +494,11 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Resultado (desde el servidor): TTFB con cache ~0.03-0.05s (antes ~8s); request 1 (cache miss tras purgar) ~10.7s (regenera). Ya no hay Set-Cookie PHPSESSID. Home OK (HTTP 200).
 - Copia local del mu-plugin en el repo: sp-pys-no-session.php.
 - Pendientes recomendados (siguiente paso): limpiar Action Scheduler (16.7k acciones + 50k logs), revisar 8 acciones failed diarias, reducir 35 plugins activos, aligerar home (3.1MB HTML / 365 bloques producto), limpiar tabla sgs_log_events (11MB).
+
+## 2026-09-26 - Rendimiento fase 2: limpieza Action Scheduler + logs + verificacion
+
+- Acciones failed eran hook fetch_patterns (Rank Math) que fallaba a diario (8 fallidas) -> desprogramado con as_unschedule_all_actions('fetch_patterns').
+- Purgadas acciones complete/failed/cancelled + sus logs: actions 16760 -> 30, logs 50226 -> 37. Se conservaron pending (27) y running (0).
+- DB optimizada (wp db optimize) + ANALYZE de las tablas AS. Tamano DB: 140.1 MB -> 98 MB (-42 MB).
+- Verificado: carrito OK (add_to_cart 200 con campo T&C), checkout HTTP 200 con campos (billing_email, ship-to-different-address, woocommerce-checkout), home con cache TTFB ~0.03s.
+- Siguiente candidato de limpieza: tabla sgs_log_events (11.1 MB, 26k filas) de SG Security.
