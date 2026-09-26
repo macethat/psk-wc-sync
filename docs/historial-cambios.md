@@ -518,3 +518,10 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Incidente controlado: un error de proceso desactivo TODOS los plugins (flag --all). Se restauro activando WooCommerce primero con --skip-themes (el tema usa WC_Shipping_Zones en functions.php:379, que falla sin WooCommerce). Quedaron 28 plugins activos.
 - Bootstrap: 245.7MB / ~1.6s -> 228.4MB / ~1.4s. TTFB cache ~0.05s. Render fresco (cache miss) sigue ~10s -> el cuello de botella es el home (365 tarjetas producto, carruseles, HTML 3.1MB), no el bootstrap.
 - Proximo paso recomendado: aligerar el home (menos productos/secciones), no seguir desactivando plugins.
+
+## 2026-09-26 - Optimizacion home: limit de carruseles de productos 200 -> 12
+
+- Los 2 widgets nutritix-products del home (f77ad6, 42bbbd) tenian limit=200 cada uno -> consultaban 400 productos en el render (causa del ~1 minuto de las listas en movil).
+- Cambio en _elementor_data del home (18625): limit 200 -> 12 en ambos (update_metadata + wp_slash; backup /tmp/home_el_backup_before_limit_20260926-172456.json).
+- Resultado: render fresco ~10s -> ~4s; HTML 3.1MB -> 616KB; tarjetas 365 -> 47; TTFB cache ~0.03s. Home HTTP 200.
+- El widget woocommerce-products (89c21b) consulta por 6 categorias (limit por defecto) - pendiente de revisar si tambien conviene acotar.
