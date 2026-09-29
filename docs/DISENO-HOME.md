@@ -69,10 +69,10 @@ Convertir el **body del home** en una **vitrina de ventas** que:
 
 ### 9.2 Nueva sección: videos verticales 9:16 de marcas
 - Fila con **3-4 videos verticales (proporción 9:16)**, **sin sonido**, para reforzar presencia de marcas e identificación con Suplementos Panamá.
-- **Selección de marcas (confirmada):**
-  - **Top (consolidar):** EVOGEN, MUTANT
-  - **Refuerzo:** RAW Nutrition, LANDERFIT
-- Alternativas de refuerzo si cambia la prioridad: Optimum Nutrition (referente global), Dymatize (ISO 100).
+- **Criterio:** el video debe **nombrar/mostrar la marca o un producto que SP venda** (no contenido genérico de atleta/motivación).
+- **Marcas elegidas (final): EVOGEN, LANDERFIT, Optimum Nutrition, Dymatize** (todas con producto que SP vende). Se descartaron RAW y MUTANT (su material no nombraba producto de SP).
+- Cada video enlaza a la **lista de marca** dentro del sitio.
+- **Alojamiento:** CDN externo (Cloudinary free) para no cargar el hosting del sitio — ver sección 10.
 
 ### 9.3 Dimensiones de imágenes (nota técnica)
 - Las imágenes generadas por Stitch (`lh3.googleusercontent.com/aida-public/...`) admiten **parámetros de tamaño** en la URL:
@@ -82,3 +82,24 @@ Convertir el **body del home** en una **vitrina de ventas** que:
   - `=w1600` → **1408×768 px (máximo disponible, para el hero)**.
 - **No se pixela en pantallas grandes** usando `=w1600` en el hero y `=w800` en las cards.
 - Nota: al codificar, reemplazar estas imágenes AI por las **imágenes reales de los productos/combos** (subidas en WordPress) con `srcset` para retina.
+
+---
+
+## 10. Videos de marca elegidos (sección 9.2)
+
+### 10.1 Archivos (locales)
+Carpeta: `local/videos-candidatos/election/` (los 4 elegidos). Los descartados (RAW, MUTANT) están en `election/descartados/`.
+
+| # | Archivo | Marca | Producto/marca que muestra | Resolución | Peso |
+|---|---|---|---|---|---|
+| 1 | `evogen-flavor.mp4` | EVOGEN | Sabores de producto (cuenta oficial) | 720×1280 | 3.9 MB |
+| 2 | `landerfit-whey.mp4` | LANDERFIT | Premium Whey 25 g | 720×1280 | 873 KB |
+| 3 | `optimumnutrition-goldstandard.mp4` | Optimum Nutrition | Gold Standard Whey | 720×1280 | 3.5 MB |
+| 4 | `dymatize-iso100.mp4` | Dymatize | ISO100 Hydrolyzed (regular) | 1080×1920 | ~1 MB |
+
+- Todas de **cuentas oficiales de marca**; verticales 9:16; **sin alteración**; se mostrará la marca siempre y se enlazará a la **lista de marca** del sitio.
+
+### 10.2 CDN de video: Cloudinary (free)
+- Decisión: **Cloudinary** (plan free, **sin tarjeta**), cuenta con correo `suplementospanamashop@gmail.com`.
+- Uso: alojar los 4 MP4 y servirlos por URL directa (`https://res.cloudinary.com/<cloud>/video/upload/<id>.mp4`) para no cargar el hosting del sitio.
+- Implementación en el home: `<video muted loop playsinline preload="none">` + poster lazy + 1 sola reproducción a la vez (ver 9.2/§3 del análisis de marketing).
