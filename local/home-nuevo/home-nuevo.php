@@ -210,8 +210,11 @@ get_header();
         <div class="sp-slider" id="sp-hero-slider">
           <?php if ($sp_combos):
             $i = 0; foreach ($sp_combos as $c):
-              $img = isset($sp_hero_img[$c->ID]) ? home_url($sp_hero_img[$c->ID]) : (get_the_post_thumbnail_url($c->ID, 'large') ?: wc_placeholder_img_src());
+              $prod = wc_get_product($c->ID);
+              $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
+              $sum = 0; if ($prod) { foreach ($prod->get_children() as $cid) { $ch = wc_get_product($cid); if ($ch) $sum += (float) $ch->get_price(); } }
               $ahorro = sp_combo_ahorro($c->ID);
+              $img = isset($sp_hero_img[$c->ID]) ? home_url($sp_hero_img[$c->ID]) : (get_the_post_thumbnail_url($c->ID, 'large') ?: wc_placeholder_img_src());
           ?>
             <a class="sp-slide <?php echo $i===0?'is-active':''; ?>" href="<?php echo esc_url(get_permalink($c->ID)); ?>" data-ahorro="<?php echo $ahorro>0 ? esc_attr('AHORRA $'.number_format($ahorro,2)) : ''; ?>" data-reg="<?php echo $sum>0 ? esc_attr('$'.number_format($sum,2)) : ''; ?>" data-now="<?php echo esc_attr('$'.number_format($combo_price,2)); ?>" data-name="<?php echo esc_attr($prod->get_name()); ?>">
               <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($prod->get_name()); ?>" loading="<?php echo $i===0?'eager':'lazy'; ?>">
