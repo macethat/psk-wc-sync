@@ -101,5 +101,18 @@ Carpeta: `local/videos-candidatos/election/` (los 4 elegidos). Los descartados (
 
 ### 10.2 CDN de video: Cloudinary (free)
 - Decisión: **Cloudinary** (plan free, **sin tarjeta**), cuenta con correo `suplementospanamashop@gmail.com`.
-- Uso: alojar los 4 MP4 y servirlos por URL directa (`https://res.cloudinary.com/<cloud>/video/upload/<id>.mp4`) para no cargar el hosting del sitio.
+- **Cloud name:** `jrm5xhxt`
+- Uso: alojar los 4 MP4 y servirlos por URL directa para no cargar el hosting del sitio.
 - Implementación en el home: `<video muted loop playsinline preload="none">` + poster lazy + 1 sola reproducción a la vez (ver 9.2/§3 del análisis de marketing).
+
+### 10.3 URLs de entrega (Cloudinary)
+| Marca | Archivo | URL (mp4) |
+|---|---|---|
+| EVOGEN | evogen-flavor.mp4 | `https://res.cloudinary.com/jrm5xhxt/video/upload/v1790785479/u0wc07yncqaiun9uqmat.mp4` |
+| LANDERFIT | landerfit-whey.mp4 | `https://res.cloudinary.com/jrm5xhxt/video/upload/v1790785485/tvobqmrpxt4jw29oodjt.mp4` |
+| Optimum Nutrition | optimumnutrition-goldstandard.mp4 | `https://res.cloudinary.com/jrm5xhxt/video/upload/v1790785501/dh4t7edowegpotkphu9k.mp4` |
+| Dymatize | dymatize-iso100.mp4 | `https://res.cloudinary.com/jrm5xhxt/video/upload/v1790785504/devtid9okueywt8eqlls.mp4` |
+
+- Verificado: HTTP 200, `Content-Type: video/mp4`.
+- Optimización de entrega (opcional, sin alterar contenido): insertar `q_auto,f_auto/` antes del public_id (ej. `.../video/upload/q_auto,f_auto/v.../devtid9okueywt8eqlls.mp4`) para servir el formato/calidad óptimos.
+- **Seguridad:** el API Secret se guardó solo en scripts temporales (fuera del repo); no debe commitearse.
