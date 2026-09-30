@@ -84,6 +84,8 @@ body .site-content .col-full{max-width:none !important;padding-left:0 !important
 body .site-content .col-full .woocommerce{max-width:none !important}
 body .site-content{padding-left:0 !important;padding-right:0 !important}
 body .content-area,body .site-content .content-area{max-width:none !important;width:100% !important;float:none !important}
+body .site-content{margin-top:0 !important;margin-bottom:0 !important}
+body .breadcrumb-wrap{display:none !important}
 .sp-sec{padding:56px 0}
 .sp-sec--tight{padding:40px 0}
 .sp-eyebrow{font-family:var(--sp-heading);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:var(--sp-primary)}
