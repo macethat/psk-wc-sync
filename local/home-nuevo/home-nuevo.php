@@ -74,7 +74,8 @@ get_header();
   --sp-heading: var(--e-global-typography-accent-font-family, "Nutritix Heading", "Plus Jakarta Sans", Helvetica, Arial, sans-serif);
 }
 .sp-home{width:100%;overflow-x:hidden;color:var(--sp-text)}
-.sp-home *{box-sizing:border-box}
+.sp-home *{box-sizing:border-box;border-radius:0 !important}
+.sp-home{border-radius:0 !important}
 .sp-home h1,.sp-home h2,.sp-home h3,.sp-home h4{font-family:var(--sp-heading);color:var(--sp-accent);margin:0 0 .5em}
 .sp-wrap{max-width:none;margin:0 auto;padding:0 32px}
 @media(max-width:600px){.sp-wrap{padding:0 16px}}
@@ -114,7 +115,7 @@ body .content-area,body .site-content .content-area{max-width:none !important;wi
 .sp-slide{position:absolute;inset:0;opacity:0;transition:opacity .7s ease, transform 1.4s ease;transform:scale(1.06);display:block}
 .sp-slide.is-active{opacity:1;transform:scale(1)}
 .sp-slide img{width:100%;height:100%;object-fit:contain;display:block}
-.sp-slider__sticker{position:absolute;top:-10px;right:-10px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;padding:8px 14px;border-radius:10px;transform:rotate(2deg);box-shadow:0 6px 16px rgba(0,0,0,.35);border:1px solid #ff6a6a;transition:.3s;z-index:3}
+.sp-slide-sticker{position:absolute;top:14px;left:14px;background:#E20613;color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:14px;letter-spacing:.02em;padding:8px 14px;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,.35)}
 .sp-slider__meta{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #262626}
 .sp-slider__meta .name{font-family:var(--sp-heading);font-weight:700;color:#fff;font-size:16px;line-height:1.2}
 .sp-slider__meta .reg{color:#9a9a9a;text-decoration:line-through;font-size:13px}
@@ -223,15 +224,14 @@ body .content-area,body .site-content .content-area{max-width:none !important;wi
               $ahorro = sp_combo_ahorro($c->ID);
               $img = isset($sp_hero_img[$c->ID]) ? home_url($sp_hero_img[$c->ID]) : (get_the_post_thumbnail_url($c->ID, 'large') ?: wc_placeholder_img_src());
           ?>
-            <a class="sp-slide <?php echo $i===0?'is-active':''; ?>" href="<?php echo esc_url(get_permalink($c->ID)); ?>" data-ahorro="<?php echo $ahorro>0 ? esc_attr('AHORRA $'.number_format($ahorro,2)) : ''; ?>" data-reg="<?php echo $sum>0 ? esc_attr('$'.number_format($sum,2)) : ''; ?>" data-now="<?php echo esc_attr('$'.number_format($combo_price,2)); ?>" data-name="<?php echo esc_attr($prod->get_name()); ?>">
+            <a class="sp-slide <?php echo $i===0?'is-active':''; ?>" href="<?php echo esc_url(get_permalink($c->ID)); ?>" data-reg="<?php echo $sum>0 ? esc_attr('$'.number_format($sum,2)) : ''; ?>" data-now="<?php echo esc_attr('$'.number_format($combo_price,2)); ?>" data-name="<?php echo esc_attr($prod->get_name()); ?>">
+              <?php if ($ahorro>0): ?><span class="sp-slide-sticker">AHORRA $<?php echo number_format($ahorro,2); ?></span><?php endif; ?>
               <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($prod->get_name()); ?>" loading="<?php echo $i===0?'eager':'lazy'; ?>">
             </a>
           <?php $i++; endforeach; else: ?>
             <div class="sp-slide is-active"><img src="<?php echo esc_url(wc_placeholder_img_src()); ?>" alt=""></div>
           <?php endif; ?>
           </div>
-
-          <div class="sp-slider__sticker" id="sp-hero-sticker"></div>
         </div>
       </div>
     </div>
@@ -443,7 +443,6 @@ body .content-area,body .site-content .content-area{max-width:none !important;wi
   if (root) {
     var slides = root.querySelectorAll('.sp-slide');
     var dotsWrap = document.createElement('div'); dotsWrap.className='sp-dots';
-    var sticker = document.getElementById('sp-hero-sticker');
     var elName = document.getElementById('sp-hero-name');
     var elReg = document.getElementById('sp-hero-reg');
     var elNow = document.getElementById('sp-hero-now');
@@ -453,8 +452,6 @@ body .content-area,body .site-content .content-area{max-width:none !important;wi
       slides.forEach(function(s,i){ s.classList.toggle('is-active', i===idx); });
       var s = slides[idx];
       if (!s) return;
-      if (sticker) sticker.textContent = s.dataset.ahorro || '';
-      if (sticker) sticker.style.display = s.dataset.ahorro ? '' : 'none';
       if (elName) elName.textContent = s.dataset.name || '';
       if (elReg) elReg.textContent = s.dataset.reg || '';
       if (elNow) elNow.textContent = s.dataset.now || '';

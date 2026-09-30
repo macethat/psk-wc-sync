@@ -26,7 +26,7 @@ get_header();
   --sp-heading: var(--e-global-typography-accent-font-family, "Nutritix Heading", "Plus Jakarta Sans", Helvetica, Arial, sans-serif);
 }
 .sp-home{width:100%;color:var(--sp-text)}
-.sp-home *{box-sizing:border-box}
+.sp-home *{box-sizing:border-box;border-radius:0 !important}
 .sp-home h1,.sp-home h2,.sp-home h3{font-family:var(--sp-heading);color:var(--sp-accent);margin:0 0 .5em}
 .sp-wrap{max-width:1280px;margin:0 auto;padding:0 16px}
 .sp-sec{padding:48px 0}
