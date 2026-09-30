@@ -232,21 +232,11 @@ body .content-area,body .site-content .content-area{max-width:none !important;wi
             <div class="sp-slide is-active"><img src="<?php echo esc_url(wc_placeholder_img_src()); ?>" alt=""></div>
           <?php endif; ?>
           </div>
+          <div class="sp-slider__meta">
+            <div class="name" id="sp-hero-name"></div>
+            <div><span class="reg" id="sp-hero-reg"></span> <span class="now" id="sp-hero-now"></span></div>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 1b. META del combo activo (debajo del slider, en móvil se ve bien) -->
-  <section class="sp-sec--tight" style="background:#0e0e0e;color:#fff">
-    <div class="sp-wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-      <div>
-        <div style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9a9a9a;font-family:var(--sp-heading);font-weight:700">Combo destacado</div>
-        <div id="sp-hero-name" style="font-family:var(--sp-heading);font-weight:700;font-size:18px;color:#fff"></div>
-      </div>
-      <div style="text-align:right">
-        <span id="sp-hero-reg" style="color:#9a9a9a;text-decoration:line-through;font-size:14px"></span>
-        <span id="sp-hero-now" style="color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:24px;margin-left:10px"></span>
       </div>
     </div>
   </section>
