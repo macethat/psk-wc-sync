@@ -36,8 +36,8 @@ function sp_combo_ahorro($pid) {
 // Categorías principales
 $sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'parent' => 0, 'number' => 6));
 
-// Productos en oferta (web-only placeholder hasta tener la lista)
-$sp_onsale = wc_get_products(array('limit' => 4, 'status' => 'publish', 'on_sale' => true));
+// Productos en oferta (categoría "Descuento Online")
+$sp_onsale = wc_get_products(array('limit' => 8, 'status' => 'publish', 'category' => array('descuento-online')));
 
 // Más vendidos
 $sp_best = wc_get_products(array('limit' => 4, 'status' => 'publish', 'orderby' => 'popularity', 'order' => 'DESC'));
@@ -327,9 +327,10 @@ get_header();
             $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src();
             $reg = (float) $p->get_regular_price();
             $sale = (float) $p->get_price();
+            $sp_pct = function_exists('sp_pct_ahorro') ? sp_pct_ahorro($p) : 0;
         ?>
           <div class="sp-card">
-            <div class="sp-card__sticker">Precio Web</div>
+            <div class="sp-card__sticker">Ahorras <?php echo $sp_pct; ?>%</div>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($p->get_name()); ?>" loading="lazy"></div>
             <div class="sp-card__body">
               <h3 style="font-size:14px"><?php echo esc_html($p->get_name()); ?></h3>
@@ -337,7 +338,8 @@ get_header();
                 <?php if ($reg>$sale): ?><span class="reg">$<?php echo number_format($reg,2); ?></span><?php endif; ?>
                 <span class="now">$<?php echo number_format($sale,2); ?></span>
               </div>
-              <a class="sp-btn sp-btn--dark" href="<?php echo esc_url($p->get_permalink()); ?>">Añadir</a>
+              <?php if ($sp_pct>0): ?><div style="font-size:12px;font-weight:700;color:#00832f;margin:2px 0 8px">Compra online y ahorras <?php echo $sp_pct; ?>%</div><?php endif; ?>
+              <a class="sp-btn sp-btn--dark" href="<?php echo esc_url($p->get_permalink()); ?>">Ver / Añadir</a>
             </div>
           </div>
         <?php endforeach; else: ?>
