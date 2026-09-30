@@ -6,19 +6,22 @@
 if (!defined('ABSPATH')) exit;
 
 /* ---- Datos ---- */
-// Combos (grouped con _combo_price)
-$sp_combos = get_posts(array(
-    'post_type'      => 'product',
-    'posts_per_page' => 5,
-    'meta_key'       => '_combo_price',
-    'post_status'    => 'publish',
-    'orderby'        => 'date',
-    'order'          => 'DESC',
-));
-$sp_combos = array_filter($sp_combos, function ($p) {
-    $prod = wc_get_product($p->ID);
-    return $prod && $prod->is_type('grouped');
-});
+// Combos del HERO (los que ya tienen imagen propia)
+$sp_hero_ids = array(21516, 21517, 21518, 21519, 21520, 21521, 21960);
+$sp_hero_img = array(
+    21516 => '/wp-content/uploads/2026/09/combo-21516.png',
+    21517 => '/wp-content/uploads/2026/09/combo-21517.png',
+    21518 => '/wp-content/uploads/2026/09/combo-21518.png',
+    21519 => '/wp-content/uploads/2026/09/combo-21519.png',
+    21520 => '/wp-content/uploads/2026/09/combo-21520.png',
+    21521 => '/wp-content/uploads/2026/09/combo-21521.png',
+    21960 => '/wp-content/uploads/2026/09/combo-21960.png',
+);
+$sp_combos = array();
+foreach ($sp_hero_ids as $spid) {
+    $pp = get_post($spid);
+    if ($pp && $pp->post_status === 'publish') $sp_combos[] = $pp;
+}
 
 function sp_combo_ahorro($pid) {
     $p = wc_get_product($pid);
@@ -36,11 +39,19 @@ function sp_combo_ahorro($pid) {
 // Categorías principales
 $sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'parent' => 0, 'number' => 6));
 
-// Productos en oferta (categoría "Descuento Online")
-$sp_onsale = wc_get_products(array('limit' => 8, 'status' => 'publish', 'category' => array('descuento-online')));
+// Productos en oferta (categoría "Descuento Online") — solo disponibles
+$sp_onsale = array_values(array_filter(
+    wc_get_products(array('limit' => 12, 'status' => 'publish', 'category' => array('descuento-online'))),
+    'sp_disponible'
+));
+$sp_onsale = array_slice($sp_onsale, 0, 8);
 
-// Más vendidos
-$sp_best = wc_get_products(array('limit' => 4, 'status' => 'publish', 'orderby' => 'popularity', 'order' => 'DESC'));
+// Más vendidos — solo disponibles
+$sp_best = array_values(array_filter(
+    wc_get_products(array('limit' => 12, 'status' => 'publish', 'orderby' => 'popularity', 'order' => 'DESC')),
+    'sp_disponible'
+));
+$sp_best = array_slice($sp_best, 0, 4);
 
 // Videos (Cloudinary) + enlace a la página de marca
 $sp_videos = array(
@@ -199,11 +210,8 @@ get_header();
         <div class="sp-slider" id="sp-hero-slider">
           <?php if ($sp_combos):
             $i = 0; foreach ($sp_combos as $c):
-              $prod = wc_get_product($c->ID);
+              $img = isset($sp_hero_img[$c->ID]) ? home_url($sp_hero_img[$c->ID]) : (get_the_post_thumbnail_url($c->ID, 'large') ?: wc_placeholder_img_src());
               $ahorro = sp_combo_ahorro($c->ID);
-              $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
-              $sum = 0; foreach ($prod->get_children() as $cid){ $ch=wc_get_product($cid); if($ch) $sum += (float)$ch->get_price(); }
-              $img = get_the_post_thumbnail_url($c->ID, 'large') ?: wc_placeholder_img_src();
           ?>
             <a class="sp-slide <?php echo $i===0?'is-active':''; ?>" href="<?php echo esc_url(get_permalink($c->ID)); ?>" data-ahorro="<?php echo $ahorro>0 ? esc_attr('AHORRA $'.number_format($ahorro,2)) : ''; ?>" data-reg="<?php echo $sum>0 ? esc_attr('$'.number_format($sum,2)) : ''; ?>" data-now="<?php echo esc_attr('$'.number_format($combo_price,2)); ?>" data-name="<?php echo esc_attr($prod->get_name()); ?>">
               <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($prod->get_name()); ?>" loading="<?php echo $i===0?'eager':'lazy'; ?>">
