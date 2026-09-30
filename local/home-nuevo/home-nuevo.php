@@ -214,6 +214,7 @@ body .content-area,body .site-content .content-area{max-width:none !important;wi
         </div>
 
         <div class="sp-slider" id="sp-hero-slider">
+          <div class="sp-slider__stage">
           <?php if ($sp_combos):
             $i = 0; foreach ($sp_combos as $c):
               $prod = wc_get_product($c->ID);
@@ -228,6 +229,7 @@ body .content-area,body .site-content .content-area{max-width:none !important;wi
           <?php $i++; endforeach; else: ?>
             <div class="sp-slide is-active"><img src="<?php echo esc_url(wc_placeholder_img_src()); ?>" alt=""></div>
           <?php endif; ?>
+          </div>
 
           <div class="sp-slider__sticker" id="sp-hero-sticker"></div>
         </div>
