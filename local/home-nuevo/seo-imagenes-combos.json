@@ -1,0 +1,256 @@
+{
+  "proyecto": "Suplementos Panamá - Hero de combos (home)",
+  "generado": "2026-10-01",
+  "patron_filename": "combo-<marca/producto-proteina>-<peso>-<producto2>-<presentacion>-<barcode>.jpg",
+  "reglas": [
+    "minúsculas, sin acentos, sin espacios, con guiones, terminación .jpg",
+    "sin la palabra 'copia'",
+    "1 código de barras por archivo (el del producto principal; si la proteína no lo tiene, el del primer complemento conocido)",
+    "sin precios ni claims médicos"
+  ],
+  "imagenes": [
+    {
+      "archivo_original": "10. VMS Bios Active 5 lb + Raw Pre Workout Orange 399 g 850039445668 copia.jpg",
+      "filename": "combo-vms-bios-active-5lb-raw-pre-orange-399g-850039445668.jpg",
+      "alt": "Combo VMS Bios Active 5 lb con RAW Pre Workout Orange 399 g",
+      "title": "Combo VMS Bios Active + RAW Pre Orange",
+      "caption": "Stack de proteína VMS Bios Active 5 lb con pre-entreno RAW naranja.",
+      "description": "Combo que combina la proteína VMS Bios Active 5 lb con el pre-entreno RAW sabor naranja de 399 g. Dos productos originales en una sola compra, con envío a todo Panamá.",
+      "barcode": "850039445668"
+    },
+    {
+      "archivo_original": "11. Evofusion INTL Choc. PB 4.76 lb 810121050286 + BCAA VMS Fruit Punch 30 serv 650076635196 copia.jpg",
+      "filename": "combo-evofusion-choc-pb-4-76lb-bcaa-fruit-punch-30serv-810121050286.jpg",
+      "alt": "Combo Evofusion Choc PB 4.76 lb con BCAA VMS Fruit Punch 30 serv",
+      "title": "Combo Evofusion PB + BCAA VMS Fruit Punch",
+      "caption": "Proteína Evofusion sabor Choc PB con BCAA VMS Fruit Punch 30 serv.",
+      "description": "Combo de la proteína Evofusion sabor Chocolate Peanut Butter 4.76 lb y el BCAA VMS Fruit Punch de 30 servicios. Ahorra comprando ambos juntos en Suplementos Panamá.",
+      "barcode": "810121050286"
+    },
+    {
+      "archivo_original": "12. IsoJect Naturals Vanilla Bean 1.85 lb 817189020510 + BCAA VMS Uva 30 serv 650076635202 copia.jpg",
+      "filename": "combo-isoject-vanilla-1-85lb-bcaa-uva-30serv-817189020510.jpg",
+      "alt": "Combo IsoJect Naturals Vanilla Bean 1.85 lb con BCAA VMS Uva 30 serv",
+      "title": "Combo IsoJect Vanilla + BCAA VMS Uva",
+      "caption": "IsoJect Vanilla Bean con BCAA VMS Uva de 30 servicios.",
+      "description": "Combo de la proteína IsoJect Naturals Vanilla Bean 1.85 lb junto al BCAA VMS sabor Uva de 30 servicios. Una dupla práctica para tu rutina diaria.",
+      "barcode": "817189020510"
+    },
+    {
+      "archivo_original": "13. ProLive Bio6 6 lb + BCAA VMS Fruit Punch 30 serv 650076635196 copia.jpg",
+      "filename": "combo-prolive-bio6-6lb-bcaa-fruit-punch-30serv-650076635196.jpg",
+      "alt": "Combo ProLive Bio6 6 lb con BCAA VMS Fruit Punch 30 servicios",
+      "title": "Combo ProLive Bio6 + BCAA VMS Fruit Punch",
+      "caption": "ProLive Bio6 6 lb con BCAA VMS Fruit Punch de 30 servicios.",
+      "description": "Combo de la proteína ProLive Bio6 de 6 lb con el BCAA VMS Fruit Punch de 30 servicios. Productos originales disponibles en Suplementos Panamá.",
+      "barcode": "650076635196"
+    },
+    {
+      "archivo_original": "14. IsoJect Naturals Vanilla Bean 1.85 lb 817189020510 + Glutamina VMS 80 serv 650076635226 copia.jpg",
+      "filename": "combo-isoject-vanilla-1-85lb-glutamina-vms-80serv-817189020510.jpg",
+      "alt": "Combo IsoJect Naturals Vanilla Bean 1.85 lb con Glutamina VMS 80 serv",
+      "title": "Combo IsoJect Vanilla + Glutamina VMS",
+      "caption": "IsoJect Vanilla Bean con glutamina VMS de 80 servicios.",
+      "description": "Combo de la proteína IsoJect Naturals Vanilla Bean 1.85 lb y la glutamina VMS de 80 servicios. Ideal para completar tu día de entrenamiento.",
+      "barcode": "817189020510"
+    },
+    {
+      "archivo_original": "15. VMS Bios Active 5 lb + Glutamina VMS 80 650076635226 serv copia.jpg",
+      "filename": "combo-vms-bios-active-5lb-glutamina-vms-80serv-650076635226.jpg",
+      "alt": "Combo VMS Bios Active 5 lb con Glutamina VMS 80 servicios",
+      "title": "Combo VMS Bios Active + Glutamina VMS",
+      "caption": "VMS Bios Active 5 lb con glutamina VMS de 80 servicios.",
+      "description": "Combo de la proteína VMS Bios Active 5 lb con la glutamina VMS de 80 servicios. Compra ambos productos juntos y ahorra.",
+      "barcode": "650076635226"
+    },
+    {
+      "archivo_original": "16. ProLive Bio5 5lb + Glutamina VMS 80 serv 650076635226 copia.jpg",
+      "filename": "combo-prolive-bio5-5lb-glutamina-vms-80serv-650076635226.jpg",
+      "alt": "Combo ProLive Bio5 5 lb con Glutamina VMS 80 servicios",
+      "title": "Combo ProLive Bio5 + Glutamina VMS",
+      "caption": "ProLive Bio5 5 lb con glutamina VMS de 80 servicios.",
+      "description": "Combo de la proteína ProLive Bio5 de 5 lb junto a la glutamina VMS de 80 servicios. Disponible online con envío a todo Panamá.",
+      "barcode": "650076635226"
+    },
+    {
+      "archivo_original": "17. Evofusion INTL Choc. PB 4.76 lb 810121050286 + Creatina VMS 80 serv 650076635219 + BCAA VMS copia.jpg",
+      "filename": "combo-evofusion-choc-pb-creatina-vms-80serv-bcaa-vms-810121050286.jpg",
+      "alt": "Combo Evofusion Choc PB con Creatina y BCAA VMS",
+      "title": "Combo Evofusion PB + Creatina y BCAA VMS",
+      "caption": "Evofusion Choc PB con creatina VMS y BCAA del mismo combo.",
+      "description": "Combo de la proteína Evofusion Choc PB 4.76 lb con creatina VMS de 80 servicios y BCAA VMS. Un stack completo en una sola compra.",
+      "barcode": "810121050286"
+    },
+    {
+      "archivo_original": "18. IsoJect Naturals Vanilla Bean 1.85 lb 817189020510 + Raw Pre Workout Orange 399 g copia.jpg",
+      "filename": "combo-isoject-vanilla-1-85lb-raw-pre-orange-399g-817189020510.jpg",
+      "alt": "Combo IsoJect Vanilla Bean 1.85 lb con RAW Pre Workout Orange",
+      "title": "Combo IsoJect Vanilla + RAW Pre Orange",
+      "caption": "IsoJect Vanilla Bean con pre-entreno RAW sabor naranja.",
+      "description": "Combo de la proteína IsoJect Naturals Vanilla Bean 1.85 lb con el pre-entreno RAW sabor naranja de 399 g. Dos favoritos en una sola compra.",
+      "barcode": "817189020510"
+    },
+    {
+      "archivo_original": "8. Dymatize ISO100 Fruity Pebbles 730 g 705016600540 + Raw Pre Workout Orange 399 g copia.jpg",
+      "filename": "combo-dymatize-iso100-fruity-pebbles-raw-pre-orange-705016600540.jpg",
+      "alt": "Combo Dymatize ISO100 Fruity Pebbles con RAW Pre Workout Orange",
+      "title": "Combo Dymatize ISO100 + RAW Pre Orange",
+      "caption": "Dymatize ISO100 Fruity Pebbles con pre-entreno RAW naranja.",
+      "description": "Combo de la proteína Dymatize ISO100 Fruity Pebbles de 730 g con el pre-entreno RAW sabor naranja de 399 g. Disponible en Suplementos Panamá.",
+      "barcode": "705016600540"
+    },
+    {
+      "archivo_original": "9. ProLive Bio5 5 lb + Raw Pre Workout Blue Raspberry 618 g 850057175646 copia.jpg",
+      "filename": "combo-prolive-bio5-5lb-raw-pre-blue-raspberry-850057175646.jpg",
+      "alt": "Combo ProLive Bio5 5 lb con RAW Pre Workout Blue Raspberry",
+      "title": "Combo ProLive Bio5 + RAW Pre Blue Raspberry",
+      "caption": "ProLive Bio5 5 lb con pre-entreno RAW Blue Raspberry.",
+      "description": "Combo de la proteína ProLive Bio5 de 5 lb con el pre-entreno RAW Blue Raspberry de 618 g. Una combinación pensada para tus entrenamientos.",
+      "barcode": "850057175646"
+    },
+    {
+      "archivo_original": "Creatina VMS 80 Serv + Glutamina VMS 80 Serv copia.jpg",
+      "filename": "combo-creatina-vms-80serv-glutamina-vms-80serv-650076635219.jpg",
+      "alt": "Combo Creatina VMS con Glutamina VMS, 80 servicios cada uno",
+      "title": "Combo Creatina + Glutamina VMS",
+      "caption": "Creatina y glutamina VMS, 80 servicios cada una.",
+      "description": "Combo de creatina VMS y glutamina VMS, ambas de 80 servicios. Ahorra al comprar los dos productos juntos.",
+      "barcode": "650076635219"
+    },
+    {
+      "archivo_original": "Dymatize ISO100 Fruity Pebbles 730 g + Angry Suppl. Creatine Mono copia.jpg",
+      "filename": "combo-dymatize-iso100-fruity-pebbles-creatina-angry-705016600540.jpg",
+      "alt": "Combo Dymatize ISO100 Fruity Pebbles con Creatina Angry Supplements",
+      "title": "Combo Dymatize ISO100 + Creatina Angry",
+      "caption": "Dymatize ISO100 con creatina monohidratada Angry Supplements.",
+      "description": "Combo de la proteína Dymatize ISO100 Fruity Pebbles de 730 g con la creatina monohidratada Angry Supplements de 60 servicios.",
+      "barcode": "705016600540"
+    },
+    {
+      "archivo_original": "Dymatize ISO100 Fruity Pebbles 730 g BCAA VMS Fruit Punch 30 serv Angry Suppl. Creatine Mono copia.jpg",
+      "filename": "combo-dymatize-iso100-fruity-pebbles-bcaa-creatina-705016600540.jpg",
+      "alt": "Combo Dymatize ISO100 Fruity Pebbles con BCAA y Creatina Angry",
+      "title": "Combo Dymatize ISO100 + BCAA y Creatina",
+      "caption": "Dymatize ISO100 con BCAA VMS y creatina Angry Supplements.",
+      "description": "Combo de la proteína Dymatize ISO100 Fruity Pebbles de 730 g, BCAA VMS Fruit Punch de 30 servicios y creatina Angry Supplements. Stack completo para tu rutina.",
+      "barcode": "705016600540"
+    },
+    {
+      "archivo_original": "evofusion INTL Choc. PB 4.76 lb + Creatina VMS 80 serv. copia.jpg",
+      "filename": "combo-evofusion-choc-pb-creatina-vms-80serv-810121050286.jpg",
+      "alt": "Combo Evofusion Choc PB 4.76 lb con Creatina VMS 80 serv",
+      "title": "Combo Evofusion PB + Creatina VMS",
+      "caption": "Evofusion Choc PB con creatina VMS de 80 servicios.",
+      "description": "Combo de la proteína Evofusion Choc PB 4.76 lb con la creatina VMS de 80 servicios. Dos productos originales en una sola compra.",
+      "barcode": "810121050286"
+    },
+    {
+      "archivo_original": "Evofusion INTL Choc. PB 4.76 lb 810121050286 + Raw Pre Workout Blue Raspberry 618 g copia.jpg",
+      "filename": "combo-evofusion-choc-pb-raw-pre-blue-raspberry-810121050286.jpg",
+      "alt": "Combo Evofusion Choc PB con RAW Pre Workout Blue Raspberry",
+      "title": "Combo Evofusion PB + RAW Pre Blue Raspberry",
+      "caption": "Evofusion Choc PB con pre-entreno RAW Blue Raspberry.",
+      "description": "Combo de la proteína Evofusion Choc PB 4.76 lb y el pre-entreno RAW Blue Raspberry de 618 g. Ideal antes y después de entrenar.",
+      "barcode": "810121050286"
+    },
+    {
+      "archivo_original": "IsoJect Naturals Vanilla Bean 1.85 lb + Creatina VMS 80 serv. copia.jpg",
+      "filename": "combo-isoject-vanilla-1-85lb-creatina-vms-80serv-817189020510.jpg",
+      "alt": "Combo IsoJect Naturals Vanilla Bean con Creatina VMS 80 serv",
+      "title": "Combo IsoJect Vanilla + Creatina VMS",
+      "caption": "IsoJect Vanilla Bean con creatina VMS de 80 servicios.",
+      "description": "Combo de la proteína IsoJect Naturals Vanilla Bean 1.85 lb con la creatina VMS de 80 servicios. Disponible con envío a todo Panamá.",
+      "barcode": "817189020510"
+    },
+    {
+      "archivo_original": "Mutant Mass + Creatina angrey 60 servidas copia.jpg",
+      "filename": "combo-mutant-mass-creatina-angry-60serv.jpg",
+      "alt": "Combo Mutant Mass con Creatina Angry Supplements 60 servicios",
+      "title": "Combo Mutant Mass + Creatina Angry",
+      "caption": "Ganador de peso Mutant Mass con creatina Angry 60 serv.",
+      "description": "Combo del ganador de peso Mutant Mass junto a la creatina monohidratada Angry Supplements de 60 servicios. Una sola compra, dos básicos.",
+      "barcode": null
+    },
+    {
+      "archivo_original": "Primeval labs 5lb + pre- work raw bum - Blue berry copia.jpg",
+      "filename": "combo-primeval-labs-4-8lb-raw-bum-pre-blue-850057175646.jpg",
+      "alt": "Combo Proteína Primeval Labs con RAW BUM Pre Blue Raspberry",
+      "title": "Combo Primeval Labs + RAW BUM Pre",
+      "caption": "Proteína Primeval Labs con pre-entreno RAW BUM Blue Raspberry.",
+      "description": "Combo de la proteína Primeval Labs 4.8 lb con el pre-entreno RAW BUM sabor Blue Raspberry. Dos productos originales en Suplementos Panamá.",
+      "barcode": "850057175646"
+    },
+    {
+      "archivo_original": "Primeval labs 5lb + pre- work raw bum - orange copia.jpg",
+      "filename": "combo-primeval-labs-4-8lb-raw-bum-pre-orange.jpg",
+      "alt": "Combo Proteína Primeval Labs con RAW BUM Pre sabor naranja",
+      "title": "Combo Primeval Labs + RAW BUM Naranja",
+      "caption": "Proteína Primeval Labs con pre-entreno RAW BUM sabor naranja.",
+      "description": "Combo de la proteína Primeval Labs 4.8 lb con el pre-entreno RAW BUM sabor naranja. Ideal para acompañar tus entrenamientos.",
+      "barcode": null
+    },
+    {
+      "archivo_original": "Primeval labs 5lb Vainilla o galleta + Creatina angrey 60 servidas copia.jpg",
+      "filename": "combo-primeval-labs-4-8lb-creatina-angry-60serv.jpg",
+      "alt": "Combo Primeval Labs 4.8 lb con Creatina Angry Supplements 60 serv",
+      "title": "Combo Primeval Labs + Creatina Angry",
+      "caption": "Primeval Labs 4.8 lb con creatina Angry de 60 servidas.",
+      "description": "Combo de la proteína Primeval Labs 4.8 lb, disponible en sabor vainilla o galleta, con la creatina Angry Supplements de 60 servicios.",
+      "barcode": null
+    },
+    {
+      "archivo_original": "ProLive Bio5 5 lb + Creatina VMS 80 serv. copia.jpg",
+      "filename": "combo-prolive-bio5-5lb-creatina-vms-80serv-650076635219.jpg",
+      "alt": "Combo ProLive Bio5 5 lb con Creatina VMS 80 servicios",
+      "title": "Combo ProLive Bio5 + Creatina VMS",
+      "caption": "ProLive Bio5 5 lb con creatina VMS de 80 servicios.",
+      "description": "Combo de la proteína ProLive Bio5 de 5 lb con la creatina VMS de 80 servicios. Ahorra comprando ambos juntos.",
+      "barcode": "650076635219"
+    },
+    {
+      "archivo_original": "ProLive Bio5 5 lb Creatina VMS 80 serv 650076635219 BCAA VMS Uva 30 serv 650076635202 copia.jpg",
+      "filename": "combo-prolive-bio5-5lb-creatina-vms-80serv-bcaa-uva-650076635219.jpg",
+      "alt": "Combo ProLive Bio5 con Creatina VMS y BCAA VMS Uva",
+      "title": "Combo ProLive Bio5 + Creatina y BCAA VMS",
+      "caption": "ProLive Bio5 con creatina VMS y BCAA VMS Uva.",
+      "description": "Combo de la proteína ProLive Bio5 de 5 lb, creatina VMS de 80 servicios y BCAA VMS sabor Uva de 30 servicios. Stack completo en una compra.",
+      "barcode": "650076635219"
+    },
+    {
+      "archivo_original": "ProLive Bio6 6 lb + Creatine Mono Nutrex 30 serv 853237000745 ($89.99) copia.jpg",
+      "filename": "combo-prolive-bio6-6lb-creatina-nutrex-300g-853237000745.jpg",
+      "alt": "Combo ProLive Bio6 6 lb con Creatina Monohidratada Nutrex",
+      "title": "Combo ProLive Bio6 + Creatina Nutrex",
+      "caption": "ProLive Bio6 6 lb con creatina monohidratada Nutrex.",
+      "description": "Combo de la proteína ProLive Bio6 de 6 lb con la creatina monohidratada Nutrex de 300 g. Dos clásicos de la suplementación juntos.",
+      "barcode": "853237000745"
+    },
+    {
+      "archivo_original": "ProLive Bio6 6 lb Raw Pre Workout Blue Raspberry 618 g 850057175646 Glutamina VMS 80 serv 650076635226 copia.jpg",
+      "filename": "combo-prolive-bio6-raw-pre-blue-raspberry-glutamina-850057175646.jpg",
+      "alt": "Combo ProLive Bio6 con RAW Pre Blue Raspberry y Glutamina VMS",
+      "title": "Combo ProLive Bio6 + RAW Pre y Glutamina",
+      "caption": "ProLive Bio6 con pre-entreno RAW Blue Raspberry y glutamina VMS.",
+      "description": "Combo de la proteína ProLive Bio6 de 6 lb, el pre-entreno RAW Blue Raspberry de 618 g y la glutamina VMS de 80 servicios. Disponible en Suplementos Panamá.",
+      "barcode": "850057175646"
+    },
+    {
+      "archivo_original": "VMS Bios Active 5 lb + Creatina VMS 80 serv. copia.jpg",
+      "filename": "combo-vms-bios-active-5lb-creatina-vms-80serv-650076635219.jpg",
+      "alt": "Combo VMS Bios Active 5 lb con Creatina VMS 80 servicios",
+      "title": "Combo VMS Bios Active + Creatina VMS",
+      "caption": "VMS Bios Active 5 lb con creatina VMS de 80 servicios.",
+      "description": "Combo de la proteína VMS Bios Active 5 lb con la creatina VMS de 80 servicios. Dos básicos en una sola compra.",
+      "barcode": "650076635219"
+    },
+    {
+      "archivo_original": "VMS Bios Active 5 lb Creatina VMS 80 serv 650076635219 Glutamina VMS 80 serv 650076635226 copia.jpg",
+      "filename": "combo-vms-bios-active-5lb-creatina-glutamina-80serv-650076635219.jpg",
+      "alt": "Combo VMS Bios Active 5 lb con Creatina y Glutamina VMS",
+      "title": "Combo VMS Bios Active + Creatina y Glutamina",
+      "caption": "VMS Bios Active 5 lb con creatina y glutamina VMS.",
+      "description": "Combo de la proteína VMS Bios Active 5 lb, creatina VMS de 80 servicios y glutamina VMS de 80 servicios. Stack completo para tu rutina.",
+      "barcode": "650076635219"
+    }
+  ]
+}

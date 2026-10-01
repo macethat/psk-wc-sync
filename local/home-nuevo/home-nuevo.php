@@ -6,16 +6,10 @@
 if (!defined('ABSPATH')) exit;
 
 /* ---- Datos ---- */
-// Combos del HERO (los que ya tienen imagen propia)
-$sp_hero_ids = array(21516, 21517, 21518, 21519, 21520, 21521, 21960);
-$sp_hero_img = array(
-    21516 => '/wp-content/uploads/2026/09/combo-21516.png',
-    21517 => '/wp-content/uploads/2026/09/combo-21517.png',
-    21518 => '/wp-content/uploads/2026/09/combo-21518.png',
-    21519 => '/wp-content/uploads/2026/09/combo-21519.png',
-    21520 => '/wp-content/uploads/2026/09/combo-21520.png',
-    21521 => '/wp-content/uploads/2026/09/combo-21521.png',
-    21960 => '/wp-content/uploads/2026/09/combo-21960.png',
+// Todos los combos con imagen de hero (JPG SEO subidas a Media, meta _combo_hero_image_id)
+$sp_hero_ids = array(
+    21510, 21511, 21512, 21513, 21514, 21515, 21516, 21517, 21518, 21519, 21520, 21521, 21522, 21523,
+    21524, 21525, 21633, 21639, 21643, 21647, 21655, 21660, 21960, 21961, 21962, 21982, 21989,
 );
 $sp_combos = array();
 foreach ($sp_hero_ids as $spid) {
@@ -225,11 +219,13 @@ body .breadcrumb-wrap{display:none !important}
               $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
               $sum = 0; if ($prod) { foreach ($prod->get_children() as $cid) { $ch = wc_get_product($cid); if ($ch) $sum += (float) $ch->get_price(); } }
               $ahorro = sp_combo_ahorro($c->ID);
-              $img = isset($sp_hero_img[$c->ID]) ? home_url($sp_hero_img[$c->ID]) : (get_the_post_thumbnail_url($c->ID, 'large') ?: wc_placeholder_img_src());
+              $hid = (int) get_post_meta($c->ID, '_combo_hero_image_id', true);
+              $img = $hid ? wp_get_attachment_image_url($hid, 'large') : (get_the_post_thumbnail_url($c->ID, 'large') ?: wc_placeholder_img_src());
+              $img_alt = $hid ? get_post_meta($hid, '_wp_attachment_image_alt', true) : $prod->get_name();
           ?>
             <a class="sp-slide <?php echo $i===0?'is-active':''; ?>" href="<?php echo esc_url(get_permalink($c->ID)); ?>" data-reg="<?php echo $sum>0 ? esc_attr('$'.number_format($sum,2)) : ''; ?>" data-now="<?php echo esc_attr('$'.number_format($combo_price,2)); ?>" data-name="<?php echo esc_attr($prod->get_name()); ?>">
               <?php if ($ahorro>0): ?><span class="sp-slide-sticker">AHORRA $<?php echo number_format($ahorro,2); ?></span><?php endif; ?>
-              <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($prod->get_name()); ?>" loading="<?php echo $i===0?'eager':'lazy'; ?>">
+              <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($img_alt); ?>" loading="<?php echo $i===0?'eager':'lazy'; ?>">
             </a>
           <?php $i++; endforeach; else: ?>
             <div class="sp-slide is-active"><img src="<?php echo esc_url(wc_placeholder_img_src()); ?>" alt=""></div>
@@ -292,11 +288,13 @@ body .breadcrumb-wrap{display:none !important}
             $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
             $sum = 0; foreach ($prod->get_children() as $cid){ $ch=wc_get_product($cid); if($ch) $sum += (float)$ch->get_price(); }
             $pct = $sum>0 ? round(($ahorro/$sum)*100) : 0;
-            $img = get_the_post_thumbnail_url($c->ID, 'medium') ?: wc_placeholder_img_src();
+            $hid = (int) get_post_meta($c->ID, '_combo_hero_image_id', true);
+            $img = $hid ? wp_get_attachment_image_url($hid, 'medium') : (get_the_post_thumbnail_url($c->ID, 'medium') ?: wc_placeholder_img_src());
+            $img_alt = $hid ? get_post_meta($hid, '_wp_attachment_image_alt', true) : $prod->get_name();
         ?>
           <div class="sp-card">
             <?php if ($ahorro>0): ?><div class="sp-card__sticker">Ahorra $<?php echo number_format($ahorro,2); ?></div><?php endif; ?>
-            <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($prod->get_name()); ?>" loading="lazy"></div>
+            <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($img_alt); ?>" loading="lazy"></div>
             <div class="sp-card__body">
               <span class="tag">Combo Web</span>
               <h3><?php echo esc_html($prod->get_name()); ?></h3>
