@@ -73,6 +73,7 @@ get_header();
 .sp-home h1,.sp-home h2,.sp-home h3,.sp-home h4{font-family:var(--sp-heading);color:var(--sp-accent);margin:0 0 .5em}
 .sp-wrap{max-width:none;margin:0 auto;padding:0 32px}
 @media(max-width:600px){.sp-wrap{padding:0 16px}}
+.sp-wrap--boxed{max-width:1280px}
 /* Liberar el contenedor del tema para que el home use el 100% del ancho */
 body .site-content .col-full{max-width:none !important;padding-left:0 !important;padding-right:0 !important}
 body .site-content .col-full .woocommerce{max-width:none !important}
@@ -276,7 +277,7 @@ body .breadcrumb-wrap{display:none !important}
 
   <!-- 4. COMBOS DESTACADOS -->
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border);border-bottom:1px solid var(--sp-border)">
-    <div class="sp-wrap">
+    <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow">🔒 Solo Ventas Online</span>
       <h2>Combos Online</h2>
       <p class="sp-sub">Máxima sinergia con descuento directo al carrito.</p>
