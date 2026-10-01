@@ -95,7 +95,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-btn--primary{background:var(--sp-primary);color:#fff}
 .sp-btn--dark{background:var(--sp-accent);color:#fff}
 .sp-btn--wa{background:#00832f;color:#fff}
-.sp-btn:hover{transform:translateY(-2px)}
+.sp-home .sp-btn:hover,.sp-home .sp-btn:focus{transform:translateY(-2px);color:#fff}
 
 /* HERO */
 .sp-hero{background:var(--sp-accent);color:#fff;position:relative;overflow:hidden;border-bottom:1px solid #2a2a2a}
