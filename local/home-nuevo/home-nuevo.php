@@ -84,6 +84,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-sec{padding:56px 0}
 .sp-sec--tight{padding:40px 0}
 .sp-eyebrow{font-family:var(--sp-heading);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:var(--sp-primary)}
+.sp-eyebrow--lg{font-size:16px}
 .sp-sec h2{font-size:32px;text-transform:uppercase;letter-spacing:-.01em}
 .sp-sec p.sp-sub{color:var(--sp-text);margin-top:4px}
 .sp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;padding:14px 26px;border-radius:0;text-decoration:none;transition:.2s;cursor:pointer}
@@ -289,7 +290,7 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 4. COMBOS DESTACADOS -->
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border);border-bottom:1px solid var(--sp-border)">
     <div class="sp-wrap sp-wrap--boxed">
-      <span class="sp-eyebrow">🔒 Solo Ventas Online</span>
+      <span class="sp-eyebrow sp-eyebrow--lg">Compra antes de que se agoten existencias</span>
       <h2>Combos Online</h2>
       <p class="sp-sub">Máxima sinergia con descuento directo al carrito.</p>
       <div class="sp-reel">
