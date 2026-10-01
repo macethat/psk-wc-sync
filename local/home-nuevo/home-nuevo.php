@@ -207,7 +207,7 @@ body .breadcrumb-wrap{display:none !important}
           <p class="lead">Ahorra comprando en combo. Stacks diseñados para volumen, definición y fuerza. Ofertas válidas solo para compras en línea.</p>
           <div class="sp-chips">
             <span class="sp-chip">Envíos a todo Panamá</span>
-            <span class="sp-chip">Retiro gratis en 6 sucursales</span>
+            <span class="sp-chip">Retiras en 6 sucursales</span>
             <span class="sp-chip">Pagos Yappy / Tarjeta</span>
           </div>
           <div class="sp-hero__cta">
