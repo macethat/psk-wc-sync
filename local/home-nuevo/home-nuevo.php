@@ -150,6 +150,14 @@ body .breadcrumb-wrap{display:none !important}
 .sp-combos--4{grid-template-columns:repeat(4,1fr)}
 @media(max-width:900px){.sp-combos--4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.sp-combos--4{grid-template-columns:1fr}}
+.sp-reel{overflow:hidden;margin-top:24px;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent)}
+.sp-reel__track{display:flex;width:max-content;animation:spReel 90s linear infinite}
+.sp-reel:hover .sp-reel__track{animation-play-state:paused}
+.sp-reel .sp-card{flex:0 0 300px;width:300px;margin-right:22px}
+@keyframes spReel{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:900px){.sp-reel .sp-card{flex-basis:260px;width:260px}}
+@media(max-width:600px){.sp-reel .sp-card{flex-basis:230px;width:230px}}
+@media(prefers-reduced-motion:reduce){.sp-reel__track{animation:none}}
 .sp-card{background:#fff;border:1px solid var(--sp-border);border-radius:0;overflow:hidden;display:flex;flex-direction:column;position:relative}
 .sp-card__img{aspect-ratio:1/1;background:var(--sp-light);display:flex;align-items:center;justify-content:center;padding:16px}
 .sp-card__img img{max-width:100%;max-height:100%;object-fit:contain}
@@ -284,20 +292,23 @@ body .breadcrumb-wrap{display:none !important}
       <span class="sp-eyebrow">🔒 Solo Ventas Online</span>
       <h2>Combos Online</h2>
       <p class="sp-sub">Máxima sinergia con descuento directo al carrito.</p>
-      <div class="sp-combos sp-combos--4">
+      <div class="sp-reel">
+        <div class="sp-reel__track">
         <?php if ($sp_combos):
-          foreach (array_slice($sp_combos, 0, 4) as $c):
-            $prod = wc_get_product($c->ID);
-            $ahorro = sp_combo_ahorro($c->ID);
-            $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
-            $sum = 0; foreach ($prod->get_children() as $cid){ $ch=wc_get_product($cid); if($ch) $sum += (float)$ch->get_price(); }
-            $pct = $sum>0 ? round(($ahorro/$sum)*100) : 0;
-            $thumb_id = get_post_thumbnail_id($c->ID);
-            $img = get_the_post_thumbnail_url($c->ID, 'woocommerce_thumbnail') ?: (get_the_post_thumbnail_url($c->ID, 'medium') ?: wc_placeholder_img_src());
-            $img_alt = $thumb_id ? get_post_meta($thumb_id, '_wp_attachment_image_alt', true) : '';
-            if (!$img_alt) { $img_alt = $prod->get_name(); }
+          foreach (array(0, 1) as $sp_pass):
+            foreach ($sp_combos as $c):
+              $prod = wc_get_product($c->ID);
+              $ahorro = sp_combo_ahorro($c->ID);
+              $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
+              $sum = 0; foreach ($prod->get_children() as $cid){ $ch=wc_get_product($cid); if($ch) $sum += (float)$ch->get_price(); }
+              $pct = $sum>0 ? round(($ahorro/$sum)*100) : 0;
+              $thumb_id = get_post_thumbnail_id($c->ID);
+              $img = get_the_post_thumbnail_url($c->ID, 'woocommerce_thumbnail') ?: (get_the_post_thumbnail_url($c->ID, 'medium') ?: wc_placeholder_img_src());
+              $img_alt = $thumb_id ? get_post_meta($thumb_id, '_wp_attachment_image_alt', true) : '';
+              if (!$img_alt) { $img_alt = $prod->get_name(); }
+              $sp_dup = ($sp_pass === 1);
         ?>
-          <div class="sp-card">
+          <div class="sp-card"<?php echo $sp_dup ? ' aria-hidden="true"' : ''; ?>>
             <?php if ($ahorro>0): ?><div class="sp-card__sticker">Ahorra $<?php echo number_format($ahorro,2); ?></div><?php endif; ?>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($img_alt); ?>" loading="lazy"></div>
             <div class="sp-card__body">
@@ -308,10 +319,11 @@ body .breadcrumb-wrap{display:none !important}
                 <span class="now">$<?php echo number_format($combo_price,2); ?></span>
                 <?php if ($pct>0): ?><span style="font-size:12px;font-weight:700;color:#00832f;background:#e6f6ea;border:1px solid #bfe6c8;padding:2px 6px;border-radius:0"><?php echo $pct; ?>% OFF</span><?php endif; ?>
               </div>
-              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url(get_permalink($c->ID)); ?>">Ver combo</a>
+              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url(get_permalink($c->ID)); ?>"<?php echo $sp_dup ? ' tabindex="-1"' : ''; ?>>Ver combo</a>
             </div>
           </div>
-        <?php endforeach; endif; ?>
+        <?php endforeach; endforeach; endif; ?>
+        </div>
       </div>
     </div>
   </section>
