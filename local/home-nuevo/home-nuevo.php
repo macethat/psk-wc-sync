@@ -159,8 +159,8 @@ body .breadcrumb-wrap{display:none !important}
 .sp-card__body .tag{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--sp-text-light);font-weight:700}
 .sp-card__body h3{font-size:16px;margin:4px 0 10px}
 .sp-card__price{display:flex;align-items:baseline;gap:10px;margin:10px 0}
-.sp-card__price .reg{color:var(--sp-text-light);text-decoration:line-through;font-size:13px}
-.sp-card__price .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:22px}
+.sp-card__price .reg{color:var(--sp-text-light);text-decoration:line-through;font-size:15px}
+.sp-card__price .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:24px}
 .sp-card .sp-btn{width:100%}
 
 /* BLACK WEEKEND BANNER */
