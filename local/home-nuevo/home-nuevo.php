@@ -99,7 +99,7 @@ body .breadcrumb-wrap{display:none !important}
 
 /* HERO */
 .sp-hero{background:var(--sp-accent);color:#fff;position:relative;overflow:hidden;border-bottom:1px solid #2a2a2a}
-.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.12}
+.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.12;filter:brightness(.6)}
 @media(max-width:900px){.sp-hero__bg{background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg');background-position:center top;opacity:.15}}
 .sp-hero__in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,620px) minmax(0,720px);gap:24px;justify-content:center;align-items:center;padding:64px 0}
 @media(max-width:900px){.sp-hero__in{grid-template-columns:1fr;justify-content:stretch;padding:44px 0}}
