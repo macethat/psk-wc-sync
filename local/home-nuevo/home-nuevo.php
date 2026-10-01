@@ -120,8 +120,8 @@ body .breadcrumb-wrap{display:none !important}
 .sp-slide-sticker{position:absolute;top:14px;left:14px;background:#E20613;color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:14px;letter-spacing:.02em;padding:8px 14px;z-index:3;box-shadow:0 4px 12px rgba(0,0,0,.35)}
 .sp-slider__meta{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #262626}
 .sp-slider__meta .name{font-family:inherit;font-weight:700;color:#fff;font-size:16px;line-height:1.2}
-.sp-slider__meta .reg{color:#9a9a9a;text-decoration:line-through;font-size:13px}
-.sp-slider__meta .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:22px}
+.sp-slider__meta .reg{color:#9a9a9a;text-decoration:line-through;font-size:15px}
+.sp-slider__meta .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:24px}
 .sp-dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
 .sp-dot{width:26px;height:4px;border-radius:3px;background:#3a3a3a;border:0;padding:0;cursor:pointer}
 .sp-dot.is-active{background:var(--sp-primary)}
