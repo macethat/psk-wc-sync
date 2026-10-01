@@ -202,7 +202,7 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-hero__in">
         <div>
-          <div class="sp-hero__badge">Exclusivo Online · Ahorro Garantizado</div>
+          <div class="sp-hero__badge">EXCLUSIVO BLACK WEEKEND</div>
           <h1>BEAST MODE ON. <span class="red">COMBOS ONLINE</span>, SIN PAGAR DE MÁS.</h1>
           <p class="lead">Ahorra comprando en combo. Stacks diseñados para volumen, definición y fuerza. Ofertas válidas solo para compras en línea.</p>
           <div class="sp-chips">
