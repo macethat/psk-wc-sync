@@ -160,11 +160,11 @@ body .breadcrumb-wrap{display:none !important}
 
 /* BLACK WEEKEND BANNER */
 .sp-bw{margin:0 auto}
-.sp-bw__box{position:relative;display:block;border-radius:16px;overflow:hidden;text-decoration:none;background:var(--sp-accent);min-height:340px}
-.sp-bw__box img{width:100%;height:100%;object-fit:cover;display:block;min-height:340px}
+.sp-bw__box{position:relative;display:block;border-radius:16px;overflow:hidden;text-decoration:none;background:var(--sp-accent)}
+.sp-bw__box img{width:100%;height:auto;display:block}
 .sp-bw__ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff;text-align:center;padding:30px}
 .sp-bw__ph span{font-size:13px;color:#bbb}
-@media(max-width:768px){.sp-bw__box,.sp-bw__box img{min-height:260px}}
+@media(max-width:768px){.sp-bw__box{border-radius:12px}}
 
 /* VIDEOS MARCAS */
 .sp-videos{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -315,12 +315,11 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec--tight">
     <div class="sp-wrap">
       <a class="sp-bw__box" href="/black-weekend/">
-        <!-- Reemplazar por imagen real: Desktop 1920x500 / Móvil 1080x720 -->
-        <div class="sp-bw__ph">
-          <div class="sp-hero__badge" style="margin:0">Solo 3 días</div>
-          <h2 style="color:#fff;font-size:34px;text-transform:uppercase;margin:6px 0">BLACK WEEKEND</h2>
-          <span>Descuentos exclusivos comprando online — banner pendiente de imagen</span>
-        </div>
+        <picture>
+          <source media="(max-width:700px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1080x720.jpg">
+          <source media="(max-width:1200px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1200x480.jpg">
+          <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.jpg" alt="Black Weekend: descuentos exclusivos en suplementos comprando online" loading="lazy">
+        </picture>
       </a>
     </div>
   </section>
