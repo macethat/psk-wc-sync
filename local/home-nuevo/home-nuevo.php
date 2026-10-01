@@ -203,7 +203,7 @@ body .breadcrumb-wrap{display:none !important}
       <div class="sp-hero__in">
         <div>
           <div class="sp-hero__badge">Exclusivo Online · Ahorro Garantizado</div>
-          <h1>COMBOS EXCLUSIVOS WEB: <span class="red">MÁXIMO RENDIMIENTO</span> AL MEJOR PRECIO</h1>
+          <h1>BEAST MODE ON. <span class="red">COMBOS SOLO ONLINE</span>, SIN PAGAR DE MÁS.</h1>
           <p class="lead">Ahorra comprando en combo. Stacks diseñados para volumen, definición y fuerza. Ofertas válidas solo para compras en línea.</p>
           <div class="sp-chips">
             <span class="sp-chip">Envíos a todo Panamá</span>

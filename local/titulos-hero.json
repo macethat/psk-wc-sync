@@ -1,0 +1,99 @@
+{
+  "proyecto": "Suplementos Panama",
+  "uso": "H1 hero home - combos exclusivos solo online",
+  "version": 2,
+  "direccion": "Jerga de gimnasio (espanol + ingles gym) fusionada con la promo (combos exclusivos web / ahorro)",
+  "titulo_actual": "COMBOS EXCLUSIVOS WEB: MAXIMO RENDIMIENTO AL MEJOR PRECIO",
+  "recomendado_final": "MAS REPS, MAS SERIES, MAS ENERGIA. TUS COMBOS, SOLO EN LA WEB.",
+  "top_3": [
+    "MAS REPS, MAS SERIES, MAS ENERGIA. TUS COMBOS, SOLO EN LA WEB.",
+    "NO PAIN, NO GAIN. COMBOS SOLO ONLINE, A PRECIO WEB.",
+    "TRAIN HARD, PAY LESS. COMBOS EXCLUSIVOS WEB."
+  ],
+  "opciones": [
+    {
+      "id": 1,
+      "titulo": "NO PAIN, NO GAIN. COMBOS SOLO ONLINE, A PRECIO WEB.",
+      "palabras": 10,
+      "disparador": "identidad (mantra universal del gym) + exclusividad + ahorro",
+      "por_que": "El mantra mas reconocible del entrenamiento genera pertenencia instantanea; el remate mete la promo sin romper el tono."
+    },
+    {
+      "id": 2,
+      "titulo": "MAS REPS, MAS SERIES, MAS ENERGIA. TUS COMBOS, SOLO EN LA WEB.",
+      "palabras": 13,
+      "disparador": "ritmo de tres golpes (cadencia de entreno) + pertenencia + exclusividad",
+      "por_que": "La cadencia imita el conteo del gimnasio y engancha como un ritmo; cierra con la promo exactamente en el formato que pidio el cliente."
+    },
+    {
+      "id": 3,
+      "titulo": "LIGHT WEIGHT, BABY. PESADO EN EL GYM, LIGERO EN PRECIO: COMBOS WEB.",
+      "palabras": 13,
+      "disparador": "frase iconica de culto + juego de palabras peso/precio + exclusividad",
+      "por_que": "El guino a Ronnie Coleman conecta con el publico hardcore; el contraste pesado/ligero vende ahorro con humor de tribu."
+    },
+    {
+      "id": 4,
+      "titulo": "ONE MORE REP, ONE MORE COMBO. EXCLUSIVO ONLINE.",
+      "palabras": 8,
+      "disparador": "disciplina/esfuerzo + paralelismo + exclusividad",
+      "por_que": "El paralelismo 'one more rep / one more combo' traslada la mentalidad de no rendirse a la compra; ritmo corto y pegajoso."
+    },
+    {
+      "id": 5,
+      "titulo": "BEAST MODE ON. COMBOS SOLO ONLINE, SIN PAGAR DE MAS.",
+      "palabras": 10,
+      "disparador": "alter ego (Beast Mode) + exclusividad + dolor/ahorro",
+      "por_que": "Activa la identidad 'modo bestia' y remata con el beneficio economico; suena agresivo y moderno."
+    },
+    {
+      "id": 6,
+      "titulo": "TRAIN HARD, PAY LESS. COMBOS EXCLUSIVOS WEB.",
+      "palabras": 7,
+      "disparador": "imperativo + beneficio (ritmo de slogan bilingue)",
+      "por_que": "Frase corta, internacional y facil de recordar; 'pay less' comunica el ahorro en dos palabras."
+    },
+    {
+      "id": 7,
+      "titulo": "LOCKED IN. ENTRENA FUERTE, AHORRA EN COMBOS SOLO ONLINE.",
+      "palabras": 10,
+      "disparador": "mentalidad/foco (muy usado por la generacion gym) + ahorro + exclusividad",
+      "por_que": "'Locked in' es el estado mental que busca el que entrena en serio; conecta antes de vender."
+    },
+    {
+      "id": 8,
+      "titulo": "GO HARD OR GO HOME: NUNCA PAGUES DE MAS EN TUS COMBOS.",
+      "palabras": 12,
+      "disparador": "reto/identidad + dolor economico",
+      "por_que": "El reto tribal 'go hard or go home' enfrenta al commitido; el 'nunca pagues de mas' convierte el ahorro en actitud."
+    },
+    {
+      "id": 9,
+      "titulo": "ULTIMA REP, ULTIMA SERIE... Y TODO EN COMBOS SOLO ONLINE.",
+      "palabras": 11,
+      "disparador": "anticipacion/remate de entreno + exclusividad",
+      "por_que": "Recrea el momento cumbre de terminar la serie y descarga ahi la promo; sensacion de cierre y recompensa."
+    },
+    {
+      "id": 10,
+      "titulo": "FULL SEND: ENTRENA COMO BEAST, COMPRA COMO PRO. COMBOS SOLO WEB.",
+      "palabras": 12,
+      "disparador": "actitud total (full send) + identidad dual (beast/pro) + exclusividad",
+      "por_que": "Fusiona dos registros: el esfuerzo bruto y la inteligencia de comprar bien; premia al que entrena con cabeza."
+    }
+  ],
+  "compliance": [
+    "Sin claims medicos: no 'quema grasa', 'cura', 'elimina', 'previene enfermedades'.",
+    "Sin promesas garantizadas de resultados ('gana musculo garantizado').",
+    "'Energia' y 'fuerza' se usan como ritmo/actitud del entreno, NO como efecto garantizado del producto; no asociarlas a resultados.",
+    "El ahorro debe reflejar precios web reales y vigentes; no inventar descuentos.",
+    "Evitar superlativos no comprobables ('el mejor del mundo', '#1').",
+    "Disclaimer sugerido: resultados dependen de entrenamiento y alimentacion; el suplemento no sustituye una dieta balanceada.",
+    "Combos sujetos a disponibilidad de stock."
+  ],
+  "notas_uso": [
+    "El H1 funciona en dos lineas: frase-gancho gym + remate de promo.",
+    "Si se prefiere un solo golpe: usar solo la frase gym y dejar la promo en subtitulo.",
+    "Se puede rotar la frase-icono (No pain no gain / Beast mode / Locked in / One more rep) segun campana."
+  ]
+}
