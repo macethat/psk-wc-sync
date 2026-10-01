@@ -278,7 +278,7 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border);border-bottom:1px solid var(--sp-border)">
     <div class="sp-wrap">
       <span class="sp-eyebrow">🔒 Solo Ventas Online</span>
-      <h2>Combos Especiales Web</h2>
+      <h2>Combos Online</h2>
       <p class="sp-sub">Máxima sinergia con descuento directo al carrito.</p>
       <div class="sp-combos">
         <?php if ($sp_combos):
@@ -288,9 +288,10 @@ body .breadcrumb-wrap{display:none !important}
             $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
             $sum = 0; foreach ($prod->get_children() as $cid){ $ch=wc_get_product($cid); if($ch) $sum += (float)$ch->get_price(); }
             $pct = $sum>0 ? round(($ahorro/$sum)*100) : 0;
-            $hid = (int) get_post_meta($c->ID, '_combo_hero_image_id', true);
-            $img = $hid ? wp_get_attachment_image_url($hid, 'medium') : (get_the_post_thumbnail_url($c->ID, 'medium') ?: wc_placeholder_img_src());
-            $img_alt = $hid ? get_post_meta($hid, '_wp_attachment_image_alt', true) : $prod->get_name();
+            $thumb_id = get_post_thumbnail_id($c->ID);
+            $img = get_the_post_thumbnail_url($c->ID, 'woocommerce_thumbnail') ?: (get_the_post_thumbnail_url($c->ID, 'medium') ?: wc_placeholder_img_src());
+            $img_alt = $thumb_id ? get_post_meta($thumb_id, '_wp_attachment_image_alt', true) : '';
+            if (!$img_alt) { $img_alt = $prod->get_name(); }
         ?>
           <div class="sp-card">
             <?php if ($ahorro>0): ?><div class="sp-card__sticker">Ahorra $<?php echo number_format($ahorro,2); ?></div><?php endif; ?>
