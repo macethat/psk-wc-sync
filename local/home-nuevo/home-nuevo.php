@@ -102,7 +102,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-hero__bg{position:absolute;inset:0;opacity:.08;background-image:radial-gradient(var(--sp-primary) 1px,transparent 1px);background-size:24px 24px}
 .sp-hero__in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,620px) minmax(0,720px);gap:24px;justify-content:center;align-items:center;padding:64px 0}
 @media(max-width:900px){.sp-hero__in{grid-template-columns:1fr;justify-content:stretch;padding:44px 0}}
-.sp-hero__badge{display:inline-flex;align-items:center;gap:8px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:4px;margin-bottom:16px}
+.sp-hero__badge{display:inline-flex;align-items:center;gap:8px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;padding:10px 20px;border-radius:4px;margin-bottom:16px}
 .sp-hero h1{color:#fff;font-size:44px;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em;max-width:620px}
 @media(max-width:900px){.sp-hero h1{font-size:32px}}
 .sp-hero h1 .red{color:var(--sp-primary)}
@@ -202,7 +202,7 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-hero__in">
         <div>
-          <div class="sp-hero__badge">EXCLUSIVO BLACK WEEKEND</div>
+          <div class="sp-hero__badge">BLACK WEEKEND MODE</div>
           <h1>BEAST MODE ON. <span class="red">COMBOS ONLINE</span>, SIN PAGAR DE MÁS.</h1>
           <p class="lead">Ahorra comprando en combo. Stacks diseñados para volumen, definición y fuerza. Ofertas válidas solo para compras en línea.</p>
           <div class="sp-chips">
