@@ -151,12 +151,12 @@ body .breadcrumb-wrap{display:none !important}
 @media(max-width:900px){.sp-combos--4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.sp-combos--4{grid-template-columns:1fr}}
 .sp-reel{overflow:hidden;margin-top:24px;position:relative}
-.sp-reel__track{display:flex;width:max-content;animation:spReel 68s linear infinite}
+.sp-reel__track{display:flex;width:max-content;animation:spReel 86s linear infinite}
 .sp-reel:hover .sp-reel__track{animation-play-state:paused}
-.sp-reel .sp-card{flex:0 0 225px;width:225px;margin-right:20px}
+.sp-reel .sp-card{flex:0 0 289px;width:289px;margin-right:20px}
 @keyframes spReel{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(max-width:900px){.sp-reel .sp-card{flex-basis:210px;width:210px}}
-@media(max-width:600px){.sp-reel .sp-card{flex-basis:185px;width:185px}}
+@media(max-width:900px){.sp-reel .sp-card{flex-basis:240px;width:240px}}
+@media(max-width:600px){.sp-reel .sp-card{flex-basis:210px;width:210px}}
 @media(prefers-reduced-motion:reduce){.sp-reel__track{animation:none}}
 .sp-card{background:#fff;border:1px solid var(--sp-border);border-radius:0;overflow:hidden;display:flex;flex-direction:column;position:relative}
 .sp-card__img{aspect-ratio:1/1;background:var(--sp-light);display:flex;align-items:center;justify-content:center;padding:16px}
