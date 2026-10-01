@@ -292,7 +292,6 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow sp-eyebrow--lg">Compra antes de que se agoten existencias</span>
       <h2>Combos Online</h2>
-      <p class="sp-sub">Máxima sinergia con descuento directo al carrito.</p>
       <div class="sp-reel">
         <div class="sp-reel__track">
         <?php if ($sp_combos):
