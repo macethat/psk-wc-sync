@@ -147,6 +147,9 @@ body .breadcrumb-wrap{display:none !important}
 .sp-combos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:24px}
 @media(max-width:900px){.sp-combos{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.sp-combos{grid-template-columns:1fr}}
+.sp-combos--4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.sp-combos--4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.sp-combos--4{grid-template-columns:1fr}}
 .sp-card{background:#fff;border:1px solid var(--sp-border);border-radius:0;overflow:hidden;display:flex;flex-direction:column;position:relative}
 .sp-card__img{aspect-ratio:1/1;background:var(--sp-light);display:flex;align-items:center;justify-content:center;padding:16px}
 .sp-card__img img{max-width:100%;max-height:100%;object-fit:contain}
@@ -281,9 +284,9 @@ body .breadcrumb-wrap{display:none !important}
       <span class="sp-eyebrow">🔒 Solo Ventas Online</span>
       <h2>Combos Online</h2>
       <p class="sp-sub">Máxima sinergia con descuento directo al carrito.</p>
-      <div class="sp-combos">
+      <div class="sp-combos sp-combos--4">
         <?php if ($sp_combos):
-          foreach (array_slice($sp_combos, 0, 3) as $c):
+          foreach (array_slice($sp_combos, 0, 4) as $c):
             $prod = wc_get_product($c->ID);
             $ahorro = sp_combo_ahorro($c->ID);
             $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
@@ -332,7 +335,7 @@ body .breadcrumb-wrap{display:none !important}
       <span class="sp-eyebrow">Precio Web</span>
       <h2>Ofertas Exclusivas Online</h2>
       <p class="sp-sub">Descuentos directos por comprar en la web.</p>
-      <div class="sp-combos" style="grid-template-columns:repeat(4,1fr)">
+      <div class="sp-combos sp-combos--4">
         <?php if ($sp_onsale):
           foreach ($sp_onsale as $p):
             $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src();
@@ -365,7 +368,7 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <span class="sp-eyebrow">Los Favoritos de Panamá</span>
       <h2>Más Vendidos</h2>
-      <div class="sp-combos" style="grid-template-columns:repeat(4,1fr)">
+      <div class="sp-combos sp-combos--4">
         <?php if ($sp_best): foreach ($sp_best as $p):
             $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src(); ?>
           <div class="sp-card">
