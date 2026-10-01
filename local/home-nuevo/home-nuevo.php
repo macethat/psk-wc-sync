@@ -87,7 +87,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-sec h2{font-size:32px;text-transform:uppercase;letter-spacing:-.01em}
 .sp-sec p.sp-sub{color:var(--sp-text);margin-top:4px}
 .sp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;padding:14px 26px;border-radius:0;text-decoration:none;transition:.2s;cursor:pointer}
-.sp-btn--primary{background:var(--sp-primary);color:#fff}
+.sp-btn--primary{background:var(--primary,#E20613);color:#fff}
 .sp-btn--dark{background:var(--sp-accent);color:#fff}
 .sp-btn--wa{background:#00832f;color:#fff}
 .sp-home .sp-btn:hover,.sp-home .sp-btn:focus{transform:translateY(-2px);color:#fff}
@@ -319,7 +319,7 @@ body .breadcrumb-wrap{display:none !important}
                 <span class="now">$<?php echo number_format($combo_price,2); ?></span>
                 <?php if ($pct>0): ?><span style="font-size:12px;font-weight:700;color:#00832f;background:#e6f6ea;border:1px solid #bfe6c8;padding:2px 6px;border-radius:0"><?php echo $pct; ?>% OFF</span><?php endif; ?>
               </div>
-              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url(get_permalink($c->ID)); ?>"<?php echo $sp_dup ? ' tabindex="-1"' : ''; ?>>Ver combo</a>
+              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url(get_permalink($c->ID)); ?>"<?php echo $sp_dup ? ' tabindex="-1"' : ''; ?>>COMPRAR</a>
             </div>
           </div>
         <?php endforeach; endforeach; endif; ?>
