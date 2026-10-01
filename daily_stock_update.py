@@ -167,6 +167,29 @@ def fetch_sucursal_stock(articulo_to_codigo):
     return result
 
 
+def get_descuento_online_skus():
+    """SKUs (padre + variaciones) de productos en la categoria 'Descuento Online'.
+    Sus precios NO se actualizan desde PSK (promo web) hasta nuevo aviso."""
+    php_path = os.path.join(CARPETA_BASE, "tmp_desc_skus.php")
+    with open(php_path, "w", encoding="utf-8") as f:
+        f.write("<?php\n"
+                "$ids = get_posts(array('post_type'=>'product','posts_per_page'=>-1,'fields'=>'ids','tax_query'=>array(array('taxonomy'=>'product_cat','field'=>'slug','terms'=>'descuento-online'))));\n"
+                "$out = array();\n"
+                "foreach($ids as $id){ $p = wc_get_product($id); if(!$p) continue; if($p->get_sku()) $out[] = $p->get_sku(); foreach($p->get_children() as $c){ $v = wc_get_product($c); if($v && $v->get_sku()) $out[] = $v->get_sku(); } }\n"
+                "echo implode(',', array_unique($out));\n")
+    out = run_wp(f"eval-file {php_path}", timeout=120)
+    try:
+        os.remove(php_path)
+    except OSError:
+        pass
+    skus = set()
+    for s in out.replace("\n", ",").split(","):
+        s = s.strip()
+        if s:
+            skus.add(s)
+    return skus
+
+
 def git_commit_and_push(carpeta, ok, fail, disc):
     git_key = os.path.join(CARPETA_BASE, "github-key-nopass")
     msg = f"update {os.path.basename(carpeta).replace('update_', '')}: {ok} OK, {fail} fail, {disc} disc"
@@ -198,6 +221,14 @@ def main():
         print("  [Modo: stock + precios]\n")
     else:
         print("  [Modo: solo stock]\n")
+
+    # Promocion "Descuento Online": NO actualizar precio (el stock si se actualiza).
+    # Se excluyen dinamicamente por categoria hasta nuevo aviso.
+    if update_prices:
+        desc_skus = get_descuento_online_skus()
+        if desc_skus:
+            PRICE_EXCLUDE_SKUS.update(desc_skus)
+            print(f"  Precios excluidos (promo 'Descuento Online'): {len(desc_skus)} SKUs\n")
 
     fec = datetime.strptime(fecha_arg, "%d-%m-%Y") if fecha_arg else datetime.now()
     carpeta = os.path.join(CARPETA_BASE, f"update_{fec.strftime('%d-%m-%Y')}")
