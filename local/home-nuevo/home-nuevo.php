@@ -212,7 +212,7 @@ body .breadcrumb-wrap{display:none !important}
           </div>
           <div class="sp-hero__cta">
             <a class="sp-btn sp-btn--primary" href="/promociones/combos/">Ver Combos</a>
-            <a class="sp-btn sp-btn--dark" href="#ofertas">Ofertas Web</a>
+            <a class="sp-btn sp-btn--dark" href="#ofertas">Online SALE</a>
           </div>
         </div>
 
