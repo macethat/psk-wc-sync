@@ -1,0 +1,4 @@
+id,parent,tipo,sku,nombre,old_stock,new_stock,new_status,old_status,manage,old_price,new_price
+19009,19008,variation,612590416668,PREMIUN WHEY VAINILLA 26 SERVING- LANDERFIT,0,72,instock,outofstock,True,38.99,59.99
+19010,19008,variation,612590415838,PREMIUN WHEY LANDERFIT CHOCOLATE 26 SERVING,1,73,instock,outofstock,True,38.99,59.99
+19011,19008,variation,612590415845,"PREMIUM WHEY STRAWBERRY 2,06 LBS-LANDERFIT",0,72,instock,outofstock,True,38.99,59.99
