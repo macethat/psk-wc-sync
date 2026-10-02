@@ -247,12 +247,12 @@ body .breadcrumb-wrap{display:none !important}
 .sp-test .who a:hover{color:var(--sp-primary);text-decoration:underline}
 
 /* CTA WHATSAPP */
-.sp-cta{position:relative;overflow:hidden;background:#070707;border-radius:0;padding:44px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
-.sp-cta__bg{position:absolute;inset:0;pointer-events:none;background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.12;filter:brightness(.7) contrast(1.7) saturate(1.15)}
-.sp-cta > div,.sp-cta > a{position:relative;z-index:2}
-@media(max-width:900px){.sp-cta__bg{background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg');opacity:.15}}
+.sp-cta{position:relative;overflow:hidden;background:#070707;border-radius:0;padding:48px 44px;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;text-align:center}
+.sp-cta__bg{position:absolute;inset:0;pointer-events:none;background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.14;filter:brightness(.75) contrast(1.7) saturate(1.15)}
+.sp-cta__in,.sp-cta > a{position:relative;z-index:2}
 .sp-cta h2{color:#fff;font-size:28px;text-transform:uppercase;margin:0}
 .sp-cta p{color:#c9c9c9;margin:6px 0 0}
+@media(max-width:900px){.sp-cta__bg{background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg');opacity:.16}}
 </style>
 
 <main class="sp-home">
@@ -512,7 +512,7 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-cta">
         <div class="sp-cta__bg"></div>
-        <div>
+        <div class="sp-cta__in">
           <h2>¿No sabes cuál suplemento elegir?</h2>
           <p>Chatea con nuestros asesores y recibe un plan personalizado de acuerdo a tus necesidades.</p>
         </div>
