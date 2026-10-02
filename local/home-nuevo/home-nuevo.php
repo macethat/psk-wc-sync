@@ -209,7 +209,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-vid{display:block;text-decoration:none}
 .sp-vid__box{position:relative;border-radius:0;overflow:hidden;background:#000;border:1px solid var(--sp-border)}
 .sp-vid video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block;background:#000}
-.sp-vid .lbl{display:block;text-align:center;margin-top:12px;font-family:var(--sp-heading);font-weight:800;font-size:24px;letter-spacing:.01em;color:var(--sp-accent);text-decoration:none}
+.sp-vid .lbl{display:block;text-align:center;margin-top:12px;font-family:var(--sp-heading);font-weight:800;font-size:26px;letter-spacing:.01em;color:var(--sp-accent);text-decoration:none}
 .sp-vid:hover .lbl{color:var(--sp-primary)}
 .sp-vid__btn{position:absolute;bottom:10px;right:10px;width:40px;height:40px;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;font-size:14px;line-height:1}
 .sp-vid__btn::before{content:'\25B6'}
