@@ -59,12 +59,13 @@ $sp_onsale = array_values(array_filter(
 ));
 $sp_onsale = array_slice($sp_onsale, 0, 8);
 
-// Más vendidos — solo disponibles
+// Más vendidos — solo disponibles; rotan (orden/subconjunto aleatorio en cada carga)
 $sp_best = array_values(array_filter(
-    wc_get_products(array('limit' => 12, 'status' => 'publish', 'orderby' => 'popularity', 'order' => 'DESC')),
+    wc_get_products(array('limit' => 24, 'status' => 'publish', 'orderby' => 'popularity', 'order' => 'DESC')),
     'sp_disponible'
 ));
-$sp_best = array_slice($sp_best, 0, 4);
+shuffle($sp_best);
+$sp_best = array_slice($sp_best, 0, 12);
 
 // Videos (Cloudinary) + enlace a la página de marca
 $sp_videos = array(
@@ -408,21 +409,24 @@ body .breadcrumb-wrap{display:none !important}
 
   <!-- 7. MÁS VENDIDOS -->
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border)">
-    <div class="sp-wrap">
+    <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow">Los Favoritos de Panamá</span>
       <h2>Más Vendidos</h2>
-      <div class="sp-combos sp-combos--4">
-        <?php if ($sp_best): foreach ($sp_best as $p):
-            $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src(); ?>
-          <div class="sp-card">
+      <div class="sp-reel">
+        <div class="sp-reel__track">
+        <?php if ($sp_best): foreach (array(0, 1) as $sp_pass): foreach ($sp_best as $p):
+            $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src();
+            $sp_dup = ($sp_pass === 1); ?>
+          <div class="sp-card"<?php echo $sp_dup ? ' aria-hidden="true"' : ''; ?>>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($p->get_name()); ?>" loading="lazy"></div>
             <div class="sp-card__body">
-              <h3 style="font-size:14px"><?php echo esc_html($p->get_name()); ?></h3>
+              <h3><?php echo esc_html($p->get_name()); ?></h3>
               <div class="sp-card__price"><span class="now">$<?php echo number_format((float)$p->get_price(),2); ?></span></div>
-              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url($p->get_permalink()); ?>">Añadir al carrito</a>
+              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url($p->get_permalink()); ?>"<?php echo $sp_dup ? ' tabindex="-1"' : ''; ?>>Añadir al carrito</a>
             </div>
           </div>
-        <?php endforeach; endif; ?>
+        <?php endforeach; endforeach; endif; ?>
+        </div>
       </div>
     </div>
   </section>
