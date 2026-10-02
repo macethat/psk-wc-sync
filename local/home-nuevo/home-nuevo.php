@@ -193,9 +193,9 @@ body .breadcrumb-wrap{display:none !important}
 .sp-cat__head{display:flex;align-items:center;justify-content:center;gap:12px}
 .sp-cat__ic{width:56px;height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .sp-cat__ic img{width:100%;height:100%;object-fit:contain;display:block}
-.sp-cat h3{font-size:26px;text-transform:uppercase;margin:0;color:#fff}
+.sp-cat h3{font-size:30px;text-transform:uppercase;margin:0;color:#fff}
 .sp-cat p{font-size:14px;color:#fff;margin:0}
-.sp-cat .go{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:700;font-size:14px;margin-top:2px}
+.sp-cat .go{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:700;font-size:17px;margin-top:2px}
 
 /* COMBOS GRID */
 .sp-combos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:24px}
@@ -342,7 +342,6 @@ body .breadcrumb-wrap{display:none !important}
             $count = $cat->count; ?>
           <a class="sp-cat" href="<?php echo esc_url($link); ?>">
             <h3><?php echo esc_html($cat->name); ?></h3>
-            <p><?php echo $count; ?> productos</p>
             <span class="go">Explorar →</span>
           </a>
         <?php endforeach; endif; ?>
