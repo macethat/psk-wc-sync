@@ -482,7 +482,7 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 9. TESTIMONIOS -->
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border)">
     <div class="sp-wrap sp-wrap--boxed">
-      <span class="sp-eyebrow">Comunidad & Confianza</span>
+      <span class="sp-eyebrow sp-eyebrow--lg">Creamos Comunidad & Confianza</span>
       <h2>Lo que dicen nuestros clientes</h2>
       <div class="sp-tests">
         <?php if ($sp_reviews): foreach ($sp_reviews as $rev):
