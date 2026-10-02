@@ -362,7 +362,7 @@ body .breadcrumb-wrap{display:none !important}
       <span class="sp-eyebrow sp-eyebrow--lg">RETIRA POR SUCURSAL/DELIVERY, COMO QUIERAS</span>
       <div class="sp-sec__head">
         <h2>Ofertas Exclusivas Online</h2>
-        <a class="sp-btn sp-btn--dark" href="/black-weekend/">VER TODO</a>
+        <a class="sp-btn sp-btn--primary" href="/black-weekend/" style="font-size:12px">VER TODO</a>
       </div>
       <div class="sp-combos sp-combos--4">
         <?php if ($sp_onsale):
