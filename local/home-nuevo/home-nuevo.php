@@ -325,8 +325,10 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 3. CATEGORÍAS -->
   <section class="sp-sec">
     <div class="sp-wrap">
-      <span class="sp-eyebrow sp-eyebrow--lg">Suplementos Deportivos en Panamá</span>
-      <h2>Encuentra el suplemento exacto para tus objetivos.</h2>
+      <div style="text-align:center">
+        <span class="sp-eyebrow sp-eyebrow--lg">Suplementos Deportivos en Panamá</span>
+        <h2>Encuentra el suplemento exacto para tus objetivos.</h2>
+      </div>
       <div class="sp-cats">
         <?php if ($sp_cats && !is_wp_error($sp_cats)):
           foreach ($sp_cats as $cat):
