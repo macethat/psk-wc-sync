@@ -113,7 +113,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-hero__in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,620px) minmax(0,720px);gap:24px;justify-content:center;align-items:center;padding:64px 0}
 @media(max-width:900px){.sp-hero__in{grid-template-columns:1fr;justify-content:stretch;padding:44px 0}}
 .sp-hero__badge{display:inline-flex;align-items:center;gap:8px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;padding:10px 20px;border-radius:0;margin-bottom:16px;text-decoration:none;transition:.2s}
-.sp-hero__badge:hover{filter:brightness(.9)}
+.sp-hero__badge:hover{transform:translateY(-2px)}
 .sp-hero h1{color:#fff;font-size:44px;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em;max-width:620px}
 @media(max-width:900px){.sp-hero h1{font-size:32px}}
 .sp-hero h1 .red{color:var(--sp-primary)}
