@@ -44,7 +44,7 @@ function sp_combo_ahorro($pid) {
 }
 
 // Categorías principales (con icono)
-$sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'include' => array(18, 258, 22, 253, 265), 'orderby' => 'include'));
+$sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'include' => array(18, 258, 22, 253, 265, 269), 'orderby' => 'include'));
 $sp_cat_icons = array('proteinas' => 'proteina', 'creatina' => 'creatina', 'pre-entrenos' => 'pre-entreno', 'aminoacidos' => 'aminoacidos', 'quemadores-de-grasa' => 'quemadores');
 
 // Productos en oferta (categoría "Descuento Online") — solo disponibles, on-sale y sin combos
