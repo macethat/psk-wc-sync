@@ -175,7 +175,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-trust__it{display:flex;align-items:center;gap:14px}
 .sp-trust__ic{width:64px;height:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .sp-trust__ic img{width:100%;height:100%;object-fit:contain;display:block}
-.sp-trust h3{font-size:14px;text-transform:uppercase;margin:0}
+.sp-trust h3{font-size:18px;text-transform:uppercase;margin:0}
 .sp-trust span{font-size:13px;color:var(--sp-text-light)}
 
 /* CATEGORÍAS */
