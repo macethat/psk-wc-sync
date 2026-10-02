@@ -99,6 +99,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-eyebrow{font-family:var(--sp-heading);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:var(--sp-primary)}
 .sp-eyebrow--lg{font-size:16px}
 .sp-sec h2{font-size:32px;text-transform:uppercase;letter-spacing:-.01em}
+.sp-sec__head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:6px}
 .sp-sec p.sp-sub{color:var(--sp-text);margin-top:4px}
 .sp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;padding:14px 26px;border-radius:0;text-decoration:none;transition:.2s;cursor:pointer}
 .sp-btn--primary{background:var(--primary,#E20613);color:#fff}
@@ -359,8 +360,10 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec" id="ofertas">
     <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow sp-eyebrow--lg">RETIRA POR SUCURSAL/DELIVERY, COMO QUIERAS</span>
-      <h2>Ofertas Exclusivas Online</h2>
-      <p class="sp-sub">Descuentos directos por comprar en la web.</p>
+      <div class="sp-sec__head">
+        <h2>Ofertas Exclusivas Online</h2>
+        <a class="sp-btn sp-btn--dark" href="/black-weekend/">VER TODO</a>
+      </div>
       <div class="sp-combos sp-combos--4">
         <?php if ($sp_onsale):
           foreach ($sp_onsale as $p):
