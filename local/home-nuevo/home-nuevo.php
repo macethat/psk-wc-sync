@@ -438,7 +438,7 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 8. VIDEOS DE MARCA -->
   <section class="sp-sec">
     <div class="sp-wrap">
-      <span class="sp-eyebrow">Marcas Oficiales</span>
+      <span class="sp-eyebrow sp-eyebrow--lg">La casa oficial de suplementos nutricionales en Panamá</span>
       <h2>Las marcas que nos eligen</h2>
       <p class="sp-sub">Productos originales de las mejores marcas del mundo.</p>
       <div class="sp-videos" id="sp-videos">
