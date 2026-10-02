@@ -1,0 +1,3 @@
+id,parent,tipo,sku,nombre,old_stock,new_stock,new_status,old_status,manage,old_price,new_price
+19818,19817,variation,748927028614,GOLD STANDARD WEY DOBLE RICH CHOCOLATE 2 LB,23,23,instock,instock,True,58.99,64.99
+19819,19817,variation,748927028652,GOLD STANDAR WHEY VAINILLA ICE CREAN 1.98 LBS,1,1,outofstock,outofstock,True,58.99,64.99
