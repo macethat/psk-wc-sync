@@ -43,8 +43,9 @@ function sp_combo_ahorro($pid) {
     return $ahorro > 0 ? $ahorro : 0;
 }
 
-// Categorías principales
-$sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'parent' => 0, 'number' => 6));
+// Categorías principales (con icono)
+$sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'include' => array(18, 258, 22, 253, 265), 'orderby' => 'include'));
+$sp_cat_icons = array('proteinas' => 'proteina', 'creatina' => 'creatina', 'pre-entrenos' => 'pre-entreno', 'aminoacidos' => 'aminoacidos', 'quemadores-de-grasa' => 'quemadores');
 
 // Productos en oferta (categoría "Descuento Online") — solo disponibles, on-sale y sin combos
 function sp_es_oferta_web($p) {
@@ -172,7 +173,8 @@ body .breadcrumb-wrap{display:none !important}
 @media(max-width:900px){.sp-trust__in{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.sp-trust__in{grid-template-columns:1fr;gap:16px}}
 .sp-trust__it{display:flex;align-items:center;gap:14px}
-.sp-trust__ic{width:48px;height:48px;border-radius:0;background:var(--sp-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px}
+.sp-trust__ic{width:64px;height:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.sp-trust__ic img{width:100%;height:100%;object-fit:contain;display:block}
 .sp-trust h3{font-size:14px;text-transform:uppercase;margin:0}
 .sp-trust span{font-size:13px;color:var(--sp-text-light)}
 
@@ -182,7 +184,8 @@ body .breadcrumb-wrap{display:none !important}
 @media(max-width:520px){.sp-cats{grid-template-columns:1fr}}
 .sp-cat{background:#fff;border:1px solid var(--sp-border);border-radius:0;padding:22px;transition:.2s;text-decoration:none;display:flex;flex-direction:column;gap:12px}
 .sp-cat:hover{box-shadow:0 10px 28px rgba(0,0,0,.08);border-color:#ccc}
-.sp-cat__ic{width:52px;height:52px;border-radius:0;background:#fdeceb;display:flex;align-items:center;justify-content:center;font-size:26px}
+.sp-cat__ic{width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.sp-cat__ic img{width:100%;height:100%;object-fit:contain;display:block}
 .sp-cat h3{font-size:18px;margin:0}
 .sp-cat p{font-size:13px;color:var(--sp-text-light);margin:0}
 .sp-cat .go{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:700;font-size:14px;margin-top:auto}
@@ -310,10 +313,10 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-trust">
     <div class="sp-wrap">
       <div class="sp-trust__in">
-        <div class="sp-trust__it"><div class="sp-trust__ic">🚚</div><div><h3>Envío Gratis</h3><span>En compras desde $150 a todo Panamá</span></div></div>
-        <div class="sp-trust__it"><div class="sp-trust__ic">🏬</div><div><h3>Retiro Gratis</h3><span>En nuestras 6 sucursales</span></div></div>
-        <div class="sp-trust__it"><div class="sp-trust__ic">✅</div><div><h3>100% Originales</h3><span>Directo de fábrica, lote trazable</span></div></div>
-        <div class="sp-trust__it"><div class="sp-trust__ic">💬</div><div><h3>Asesoría WhatsApp</h3><span>Expertos en suplementación</span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/envio-gratis.webp" alt="Envío gratis a todo Panamá" loading="lazy"></div><div><h3>Envío Gratis</h3><span>En compras desde $150 a todo Panamá</span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/retiro-sucursal.webp" alt="Retira por sucursal" loading="lazy"></div><div><h3>Retira por Sucursal</h3><span>En nuestras 6 sucursales</span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/originales.webp" alt="Productos 100% originales" loading="lazy"></div><div><h3>100% Originales</h3><span>Directo de fábrica, lote trazable</span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/asesoria-whatsapp.webp" alt="Asesoría por WhatsApp" loading="lazy"></div><div><h3>Asesoría WhatsApp</h3><span>Expertos en suplementación</span></div></div>
       </div>
     </div>
   </section>
@@ -330,7 +333,7 @@ body .breadcrumb-wrap{display:none !important}
             $link = get_term_link($cat);
             $count = $cat->count; ?>
           <a class="sp-cat" href="<?php echo esc_url($link); ?>">
-            <div class="sp-cat__ic">🏷️</div>
+            <div class="sp-cat__ic"><?php $sp_ic = isset($sp_cat_icons[$cat->slug]) ? $sp_cat_icons[$cat->slug] : ''; if ($sp_ic): ?><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/<?php echo esc_attr($sp_ic); ?>.webp" alt="<?php echo esc_attr($cat->name); ?>" loading="lazy"><?php endif; ?></div>
             <h3><?php echo esc_html($cat->name); ?></h3>
             <p><?php echo $count; ?> productos</p>
             <span class="go">Explorar →</span>
