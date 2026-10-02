@@ -77,6 +77,7 @@ if (function_exists('sp_fetch_google_reviews')) {
                 $rtxt = trim($rev['originalText']['text'] ?? '');
                 if ((int) ($rev['rating'] ?? 0) >= 4 && $rtxt !== '') {
                     $rev['_suc'] = $suc['nombre_completo'] ?? ($suc['nombre'] ?? '');
+                    $rev['_suc_url'] = $suc['google_maps_url'] ?? '';
                     $sp_reviews[] = $rev;
                 }
             }
@@ -242,6 +243,8 @@ body .breadcrumb-wrap{display:none !important}
 .sp-test p{font-style:italic;font-size:14px}
 .sp-test .who{font-family:var(--sp-heading);font-weight:700;color:var(--sp-accent);font-size:14px}
 .sp-test .src{font-size:12px;color:var(--sp-text-light);margin-top:8px}
+.sp-test .who a{color:var(--sp-accent);text-decoration:none}
+.sp-test .who a:hover{color:var(--sp-primary);text-decoration:underline}
 
 /* CTA WHATSAPP */
 .sp-cta{background:var(--sp-accent);border-radius:0;padding:44px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
@@ -491,7 +494,7 @@ body .breadcrumb-wrap{display:none !important}
           <div class="sp-test">
             <div class="stars"><?php echo str_repeat('★', $rating) . str_repeat('☆', 5 - $rating); ?></div>
             <p>“<?php echo esc_html(wp_trim_words($rtxt, 38, '…')); ?>”</p>
-            <div class="who"><?php echo esc_html($autor); ?><?php if ($suc): ?> — <?php echo esc_html($suc); ?><?php endif; ?></div>
+            <div class="who"><?php echo esc_html($autor); ?><?php if ($suc): ?> — <?php if (!empty($rev['_suc_url'])): ?><a href="<?php echo esc_url($rev['_suc_url']); ?>" target="_blank" rel="noopener"><?php echo esc_html($suc); ?></a><?php else: ?><?php echo esc_html($suc); ?><?php endif; ?><?php endif; ?></div>
             <div class="src">Reseña de Google</div>
           </div>
         <?php endforeach; else: ?>
