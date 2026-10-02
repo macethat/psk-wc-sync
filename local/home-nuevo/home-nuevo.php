@@ -17,14 +17,27 @@ foreach ($sp_hero_ids as $spid) {
     if ($pp && $pp->post_status === 'publish') $sp_combos[] = $pp;
 }
 
-function sp_combo_ahorro($pid) {
+function sp_combo_regular_total($pid) {
     $p = wc_get_product($pid);
     if (!$p) return 0;
     $sum = 0;
     foreach ($p->get_children() as $cid) {
         $c = wc_get_product($cid);
-        if ($c) $sum += (float) $c->get_price();
+        if (!$c) continue;
+        if ($c->is_type('variable')) {
+            $pr = $c->get_variation_prices();
+            $reg = !empty($pr['regular_price']) ? $pr['regular_price'] : $pr['price'];
+            $sum += !empty($reg) ? (float) min($reg) : 0;
+        } else {
+            $reg = $c->get_regular_price();
+            $sum += (float) ($reg !== '' ? $reg : $c->get_price());
+        }
     }
+    return $sum;
+}
+
+function sp_combo_ahorro($pid) {
+    $sum = sp_combo_regular_total($pid);
     $combo = (float) get_post_meta($pid, '_combo_price', true);
     $ahorro = $sum - $combo;
     return $ahorro > 0 ? $ahorro : 0;
@@ -300,7 +313,7 @@ body .breadcrumb-wrap{display:none !important}
               $prod = wc_get_product($c->ID);
               $ahorro = sp_combo_ahorro($c->ID);
               $combo_price = (float) get_post_meta($c->ID, '_combo_price', true);
-              $sum = 0; foreach ($prod->get_children() as $cid){ $ch=wc_get_product($cid); if($ch) $sum += (float)$ch->get_price(); }
+              $sum = sp_combo_regular_total($c->ID);
               $pct = $sum>0 ? round(($ahorro/$sum)*100) : 0;
               $thumb_id = get_post_thumbnail_id($c->ID);
               $img = get_the_post_thumbnail_url($c->ID, 'woocommerce_thumbnail') ?: (get_the_post_thumbnail_url($c->ID, 'medium') ?: wc_placeholder_img_src());

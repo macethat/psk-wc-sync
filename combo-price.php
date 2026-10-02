@@ -124,10 +124,11 @@ function combo_get_children_total($product) {
         if (!$child) continue;
         if ($child->is_type('variable')) {
             $prices = $child->get_variation_prices();
-            $min = !empty($prices['price']) ? min($prices['price']) : 0;
-            $total += (float)$min;
+            $reg = !empty($prices['regular_price']) ? $prices['regular_price'] : $prices['price'];
+            $total += !empty($reg) ? (float) min($reg) : 0;
         } else {
-            $total += (float)$child->get_price();
+            $reg = $child->get_regular_price();
+            $total += (float)($reg !== '' ? $reg : $child->get_price());
         }
     }
     return $total;
