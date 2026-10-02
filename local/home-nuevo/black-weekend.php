@@ -54,15 +54,19 @@ body .breadcrumb-wrap{display:none !important}
 .sp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:24px}
 @media(max-width:1024px){.sp-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){.sp-grid{grid-template-columns:repeat(2,1fr)}}
-.sp-card{background:#fff;border:1px solid var(--sp-border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;position:relative;text-decoration:none}
-.sp-card__sticker{position:absolute;top:12px;left:12px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:12px;text-transform:uppercase;padding:6px 10px;border-radius:6px;z-index:2}
+.sp-card{background:#fff;border:1px solid var(--sp-border);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.sp-card__sticker{position:absolute;top:12px;left:12px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:400;font-size:14px;text-transform:uppercase;padding:6px 10px;z-index:2}
 .sp-card__img{aspect-ratio:1/1;background:var(--sp-light);display:flex;align-items:center;justify-content:center;padding:16px}
 .sp-card__img img{max-width:100%;max-height:100%;object-fit:contain}
-.sp-card__body{padding:16px}
-.sp-card__body h3{font-size:14px;margin:0 0 8px;line-height:1.3}
-.sp-card__price{display:flex;align-items:baseline;gap:10px}
-.sp-card__price .reg{color:var(--sp-text-light);text-decoration:line-through;font-size:13px}
-.sp-card__price .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:22px}
+.sp-card__body{padding:18px;display:flex;flex-direction:column;flex:1}
+.sp-card__body h3{font-size:16px;margin:4px 0 10px}
+.sp-card__price{display:flex;align-items:baseline;gap:10px;margin:10px 0}
+.sp-card__price .reg{color:var(--sp-text-light);text-decoration:line-through;font-size:15px}
+.sp-card__price .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:24px}
+.sp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;padding:14px 26px;text-decoration:none;transition:.2s;cursor:pointer}
+.sp-btn--comprar{background:var(--primary,#E20613);color:#fff}
+.sp-btn--comprar:hover{background:#000;color:#fff}
+.sp-card .sp-btn{width:100%;margin-top:auto}
 .sp-empty{padding:40px;text-align:center;color:var(--sp-text-light)}
 </style>
 
@@ -89,7 +93,7 @@ body .breadcrumb-wrap{display:none !important}
             }
             $pct = ($reg > 0 && $sale < $reg) ? round((($reg - $sale) / $reg) * 100) : 0;
           ?>
-            <a class="sp-card" href="<?php echo esc_url($p->get_permalink()); ?>">
+            <div class="sp-card">
               <?php if ($pct > 0): ?><span class="sp-card__sticker"><?php echo $pct; ?>% OFF</span><?php endif; ?>
               <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($p->get_name()); ?>" loading="lazy"></div>
               <div class="sp-card__body">
@@ -98,8 +102,10 @@ body .breadcrumb-wrap{display:none !important}
                   <?php if ($reg > $sale): ?><span class="reg">$<?php echo number_format($reg, 2); ?></span><?php endif; ?>
                   <span class="now">$<?php echo number_format($sale, 2); ?></span>
                 </div>
+                <?php if ($pct > 0): ?><div style="font-size:12px;font-weight:700;color:#00832f;margin:2px 0 8px">Compra online y ahorras <?php echo $pct; ?>%</div><?php endif; ?>
+                <a class="sp-btn sp-btn--comprar" href="<?php echo esc_url($p->get_permalink()); ?>">COMPRAR</a>
               </div>
-            </a>
+            </div>
           <?php endforeach; ?>
         </div>
       <?php else: ?>
