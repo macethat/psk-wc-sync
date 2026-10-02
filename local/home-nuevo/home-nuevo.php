@@ -325,7 +325,7 @@ body .breadcrumb-wrap{display:none !important}
             <?php if ($ahorro>0): ?><div class="sp-card__sticker">Ahorra $<?php echo number_format($ahorro,2); ?></div><?php endif; ?>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($img_alt); ?>" loading="lazy"></div>
             <div class="sp-card__body">
-              <span class="tag">Combo Web</span>
+              <span class="tag">Combos Online</span>
               <h3><?php echo esc_html($prod->get_name()); ?></h3>
               <div class="sp-card__price">
                 <?php if ($sum>0): ?><span class="reg">$<?php echo number_format($sum,2); ?></span><?php endif; ?>
