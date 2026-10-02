@@ -325,7 +325,7 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 3. CATEGORÍAS -->
   <section class="sp-sec">
     <div class="sp-wrap">
-      <span class="sp-eyebrow">Catálogo Oficial</span>
+      <span class="sp-eyebrow sp-eyebrow--lg">Suplementos Deportivos en Panamá</span>
       <h2>Explora por Categoría</h2>
       <p class="sp-sub">Encuentra el suplemento exacto para tus objetivos.</p>
       <div class="sp-cats">
