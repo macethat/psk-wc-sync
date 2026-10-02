@@ -26,6 +26,10 @@ get_header();
   --sp-heading: var(--e-global-typography-accent-font-family, "Nutritix Heading", "Plus Jakarta Sans", Helvetica, Arial, sans-serif);
 }
 .sp-home{width:100%;color:var(--sp-text)}
+body .site-content .col-full{max-width:none !important;padding-left:0 !important;padding-right:0 !important}
+body .content-area,body .site-content .content-area{max-width:none !important;width:100% !important;float:none !important}
+body .site-content{margin-top:0 !important;margin-bottom:0 !important;padding-left:0 !important;padding-right:0 !important}
+body .breadcrumb-wrap{display:none !important}
 .sp-home *{box-sizing:border-box;border-radius:0 !important}
 .sp-home h1,.sp-home h2,.sp-home h3{font-family:var(--sp-heading);color:var(--sp-accent);margin:0 0 .5em}
 .sp-wrap{max-width:1280px;margin:0 auto;padding:0 16px}
