@@ -509,8 +509,8 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-cta">
         <div>
-          <h2>¿No sabes cuál elegir?</h2>
-          <p>Chatea con nuestros asesores y recibe un plan personalizado en minutos.</p>
+          <h2>¿No sabes cuál suplemento elegir?</h2>
+          <p>Chatea con nuestros asesores y recibe un plan personalizado de acuerdo a tus necesidades.</p>
         </div>
         <a class="sp-btn sp-btn--wa" href="https://wa.me/50760100948?text=Hola%20Suplementos%20Panam%C3%A1,%20deseo%20asesor%C3%ADa" target="_blank" rel="noopener">Asesoría por WhatsApp: +507 6010-0948</a>
       </div>
