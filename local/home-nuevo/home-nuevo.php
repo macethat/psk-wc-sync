@@ -357,7 +357,7 @@ body .breadcrumb-wrap{display:none !important}
 
   <!-- 6. OFERTAS WEB-ONLY -->
   <section class="sp-sec" id="ofertas">
-    <div class="sp-wrap">
+    <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow">Precio Web</span>
       <h2>Ofertas Exclusivas Online</h2>
       <p class="sp-sub">Descuentos directos por comprar en la web.</p>
