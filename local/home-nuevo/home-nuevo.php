@@ -209,8 +209,12 @@ body .breadcrumb-wrap{display:none !important}
 .sp-vid{display:block;text-decoration:none}
 .sp-vid__box{position:relative;border-radius:0;overflow:hidden;background:#000;border:1px solid var(--sp-border)}
 .sp-vid video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block;background:#000}
-.sp-vid .lbl{display:block;text-align:center;margin-top:10px;font-family:var(--sp-heading);font-weight:700;font-size:14px;color:var(--sp-accent)}
+.sp-vid .lbl{display:block;text-align:center;margin-top:10px;font-family:var(--sp-heading);font-weight:700;font-size:14px;color:var(--sp-accent);text-decoration:none}
 .sp-vid:hover .lbl{color:var(--sp-primary)}
+.sp-vid__btn{position:absolute;bottom:10px;right:10px;width:40px;height:40px;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;font-size:14px;line-height:1}
+.sp-vid__btn::before{content:'\25B6'}
+.sp-vid__btn.is-playing::before{content:'\2759\2759'}
+.sp-vid__btn:hover{background:var(--sp-primary)}
 
 /* TESTIMONIOS */
 .sp-tests{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
@@ -438,13 +442,15 @@ body .breadcrumb-wrap{display:none !important}
       <h2>Las marcas que nos eligen</h2>
       <p class="sp-sub">Productos originales de las mejores marcas del mundo.</p>
       <div class="sp-videos" id="sp-videos">
-        <?php foreach ($sp_videos as $v): ?>
-          <a class="sp-vid" href="<?php echo esc_url($v['link']); ?>">
+        <?php foreach ($sp_videos as $v):
+            $poster = preg_replace('#\.mp4$#', '.jpg', str_replace('/upload/', '/upload/so_3/', $v['url'])); ?>
+          <div class="sp-vid">
             <div class="sp-vid__box">
-              <video muted loop playsinline preload="none" data-src="<?php echo esc_url($v['url']); ?>" aria-label="<?php echo esc_attr($v['marca']); ?>"></video>
+              <video muted loop playsinline preload="none" poster="<?php echo esc_url($poster); ?>" data-src="<?php echo esc_url($v['url']); ?>" aria-label="<?php echo esc_attr($v['marca']); ?>"></video>
+              <button type="button" class="sp-vid__btn" aria-label="Reproducir o pausar <?php echo esc_attr($v['marca']); ?>"></button>
             </div>
-            <span class="lbl"><?php echo esc_html($v['marca']); ?></span>
-          </a>
+            <a class="lbl" href="<?php echo esc_url($v['link']); ?>"><?php echo esc_html($v['marca']); ?></a>
+          </div>
         <?php endforeach; ?>
       </div>
     </div>
@@ -523,18 +529,29 @@ body .breadcrumb-wrap{display:none !important}
     render();
   }
 
-  /* --- Videos de marca: carga y reproduce al entrar en viewport --- */
+  /* --- Videos de marca: botón play/pause independiente por video --- */
   var vids = document.querySelectorAll('#sp-videos video');
   function loadVid(v){ if(v.dataset.loaded) return; v.dataset.loaded=1; var s=document.createElement('source'); s.src=v.dataset.src; s.type='video/mp4'; v.appendChild(s); v.load(); }
-  var currentPlaying = [];
+  function syncBtn(v){ var b=v.parentNode.querySelector('.sp-vid__btn'); if(b) b.classList.toggle('is-playing', !v.paused); }
+  vids.forEach(function(v){
+    var b = v.parentNode.querySelector('.sp-vid__btn');
+    if (b) b.addEventListener('click', function(ev){
+      ev.preventDefault(); ev.stopPropagation();
+      loadVid(v);
+      if (v.paused) { delete v.dataset.userpaused; var pr=v.play(); if(pr) pr.catch(function(){}); }
+      else { v.dataset.userpaused='1'; v.pause(); }
+      setTimeout(function(){ syncBtn(v); }, 60);
+    });
+    v.addEventListener('play', function(){ syncBtn(v); });
+    v.addEventListener('pause', function(){ syncBtn(v); });
+  });
   if ('IntersectionObserver' in window) {
     var vIO = new IntersectionObserver(function(es){
       es.forEach(function(e){
         var v=e.target;
         if (e.isIntersecting && e.intersectionRatio>=.5) {
-          currentPlaying.forEach(function(o){ if(o!==v) o.pause(); });
-          loadVid(v); var pr=v.play(); if(pr) pr.catch(function(){});
-          currentPlaying=[v];
+          loadVid(v);
+          if (!v.dataset.userpaused) { var pr=v.play(); if(pr) pr.catch(function(){}); }
         } else { v.pause(); }
       });
     }, {threshold:[0,.5,1], rootMargin:'120px'});
