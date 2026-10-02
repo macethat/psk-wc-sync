@@ -123,6 +123,7 @@ body .site-content{margin-top:0 !important;margin-bottom:0 !important}
 body .breadcrumb-wrap{display:none !important}
 .sp-sec{padding:56px 0}
 .sp-sec--tight{padding:40px 0}
+@media(max-width:600px){.sp-sec{padding:38px 0}.sp-sec--tight{padding:26px 0}}
 .sp-eyebrow{font-family:var(--sp-heading);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:var(--sp-primary)}
 .sp-eyebrow--lg{font-size:16px}
 .sp-sec h2{font-size:32px;text-transform:uppercase;letter-spacing:-.01em}
