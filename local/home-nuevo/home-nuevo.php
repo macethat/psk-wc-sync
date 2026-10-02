@@ -175,7 +175,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-card{background:#fff;border:1px solid var(--sp-border);border-radius:0;overflow:hidden;display:flex;flex-direction:column;position:relative}
 .sp-card__img{aspect-ratio:1/1;background:var(--sp-light);display:flex;align-items:center;justify-content:center;padding:16px}
 .sp-card__img img{max-width:100%;max-height:100%;object-fit:contain}
-.sp-card__sticker{position:absolute;top:12px;left:12px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:12px;text-transform:uppercase;padding:6px 10px;border-radius:0}
+.sp-card__sticker{position:absolute;top:12px;left:12px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:400;font-size:14px;text-transform:uppercase;padding:6px 10px;border-radius:0}
 .sp-card__body{padding:18px;display:flex;flex-direction:column;flex:1}
 .sp-card__body .tag{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--sp-text-light);font-weight:700}
 .sp-card__body h3{font-size:16px;margin:4px 0 10px}
