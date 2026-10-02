@@ -411,7 +411,7 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border)">
     <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow sp-eyebrow--lg">Si entrenas fuerte, sabes donde comprar</span>
-      <h2>Más Vendidos</h2>
+      <h2>Lo que más nos piden</h2>
       <div class="sp-reel">
         <div class="sp-reel__track">
         <?php if ($sp_best): foreach (array(0, 1) as $sp_pass): foreach ($sp_best as $p):
