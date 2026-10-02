@@ -325,83 +325,83 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 - **Resultado**: `product-sitemap.xml` regenerado con **165 URLs** incluyendo los 5 combos; `sitemap_index.xml` con lastmod actualizado (`2026-08-12T01:46:27+00:00`). Verificado por loopback PHP y curl externo (HTTP 200, headers no-store).
 
 
-## 2026-08-11 — Fix schema.org combos: hasVariant -> hasPart (error critico GSC)
+## 2026-08-11 ï¿½ Fix schema.org combos: hasVariant -> hasPart (error critico GSC)
 
 - **Problema**: GSC reportaba error critico "El tipo de objeto del campo <parent_node> no es valido" en el combo 21960 (hijos CREATINA/GLUTAMINA). El schema del combo usaba hasVariant (solo valido para variaciones del mismo producto), no para combos de productos distintos.
 - **Cambio**: sp_output_combo_structured_data() en functions.php del child ahora emite 'hasPart' en vez de 'hasVariant' (mantiene hijos como @type: Product completos con offers). Backup: functions.php.bak-20260811-schema-hasPart.
 - **Verificado**: combo 21960 y 21989 sirven hasPart (2 hijos), sin hasVariant, JSON valido, offers del combo intactos. Checklist retiro en sucursal OK (SP_DEBUG selected=1 method=local_pickup + fila sp-sucursal-review). local/functions_current.php sincronizado.
 
-## 2026-08-11 — Mailchimp: desactivacion doble opt-in (form 417)
+## 2026-08-11 ï¿½ Mailchimp: desactivacion doble opt-in (form 417)
 
 - Form 417 -> _mc4wp_settings: double_optin 1->0. Nuevos suscriptores quedan subscribed de inmediato.
 - Contexto: 2 nuevos (henrybatista24@icloud.com 11-ago, xeniayazmin27@gmail.com 06-ago) permanecian pending sin confirmar el opt-in.
 
-## 2026-08-11 — Combo 21961 precio 44.99 -> 54.99
+## 2026-08-11 ï¿½ Combo 21961 precio 44.99 -> 54.99
 
 - _combo_price 54.99, ahorro 19.99 (retail 74.98). Descripcion actualizada (~\ -> ~\, precios \.99). Verificado en vivo.
 
-## 2026-08-13 — Schema home: sameAs a Google Maps en Store/Organization + diagnostico GLA
+## 2026-08-13 ï¿½ Schema home: sameAs a Google Maps en Store/Organization + diagnostico GLA
 
-- functions.php filtro rank_math/json_ld: en front page se añade sameAs con URL Maps de El Cangrejo al Store (conservando Facebook). Backup functions.php.bak-20260813-sameas.
+- functions.php filtro rank_math/json_ld: en front page se aï¿½ade sameAs con URL Maps de El Cangrejo al Store (conservando Facebook). Backup functions.php.bak-20260813-sameas.
 - Verificado: home sameAs doble (FB + Maps), checklist retiro OK.
 - Diagnostico Firecrawl: Merchant Center conectado (GLA 3.9.0) pero SIN sync de productos (no hay _wc_gla_* meta, no hay jobs sync_products). Google Ads invite sin aceptar (account_access=-1). GMB API = falso positivo (no existe en codigo; sucursales ya tienen HealthAndBeautyBusiness + sameAs Maps).
 
-## 2026-08-13 — GUIA-COMPLETAR-GMC-SYNC.md: vía sin método de pago
+## 2026-08-13 ï¿½ GUIA-COMPLETAR-GMC-SYNC.md: vï¿½a sin mï¿½todo de pago
 
-- Reescrita: Opcion A (recomendada) solo Merchant Center sin Ads ni tarjeta (free listings), Opcion B aceptar invite sin cobro. El feed de MC no requiere billing; metodo de pago solo para campañas pagadas.
+- Reescrita: Opcion A (recomendada) solo Merchant Center sin Ads ni tarjeta (free listings), Opcion B aceptar invite sin cobro. El feed de MC no requiere billing; metodo de pago solo para campaï¿½as pagadas.
 
-## 2026-08-20 — Fix cron sync diario (faltaba wc_export_ssh.php en servidor)
+## 2026-08-20 ï¿½ Fix cron sync diario (faltaba wc_export_ssh.php en servidor)
 
 - El cron diario (02:00, psk-sync) fallaba desde 17-08 porque faltaba ~/wc_export_ssh.php (export auxiliar). Repuesto desde local/wc_export_ssh.php. Dry-run OK (704 articulos PSK -> 387 productos WC, 163 cambios).
 - Documentado Troubleshooting en docs/proceso_actualizacion_diaria.md.
 
-## 2026-08-21 — Fix critico: Elementor 4.2.3 corrupto (HTTP 500) -> reinstalado
+## 2026-08-21 ï¿½ Fix critico: Elementor 4.2.3 corrupto (HTTP 500) -> reinstalado
 
 - La auto-actualizacion de Elementor a 4.2.3 dejo el directorio core/data/ vacio (clase Elementor\Data\V2\Manager ausente) -> fatal + HTTP 500 y .maintenance (503).
 - Reinstalado Elementor 4.2.3 desde ZIP oficial de wordpress.org (backup del directorio corrupto y luego eliminado). Clase restaurada en data/v2/manager.php. Eliminado .maintenance.
 - Verificado: home/cart/producto/sucursales 200, checkout 302 normal, wp-cli OK, flujo retiro OK (SP_DEBUG selected=1 method=local_pickup + fila review). NO se toco child theme ni funciones sp_*.
 - Recomendacion: limitar auto-updates de Elementor o validar integridad post-update.
 - 2026-08-21: diseno roto post-reinstalacion Elementor por combined-css viejo del SG Optimizer. Purgado cache SG (wp sg purge + wp cache flush); combined-css regenerado con estilos Elementor. Verificado home y paginas internas HTTP 200.
-## 2026-08-21 — Bloqueadas auto-actualizaciones de WordPress
+## 2026-08-21 ï¿½ Bloqueadas auto-actualizaciones de WordPress
 
 - Creado mu-plugin sp-bloquear-auto-updates.php (wp-content/mu-plugins) que fuerza false en auto_update_plugin/core/major/minor/translation/theme. Verificado en vivo: BLOQUEADO para plugins, themes, core y traducciones.
 - Vaciada la opcion auto_update_plugins (backup en /tmp/backup_auto_update_plugins_20260821.json). Copia local en local/sp-bloquear-auto-updates.php.
 - Motivo: Elementor 4.2.3 se auto-actualizo y quedo corrupto (HTTP 500) el 2026-08-21.
 
-## 2026-08-31 — Combos: _combo_price fijo, ahorro actualizado por subida de hijos IMPULSE/VMS
+## 2026-08-31 ï¿½ Combos: _combo_price fijo, ahorro actualizado por subida de hijos IMPULSE/VMS
 
 - Fix cache _price: 69 variaciones + 4 padres (VMS/Bio5/Bio6/Vegana) desfasados por post meta update directo del script (no recalcula _price). Ahora front y badge usan precios nuevos.
 - Contenidos de 7 combos (21512,21514,21517,21520,21522,21643,21647): retail y ahorro actualizados (ej. VMS+Creatina .99, Bio6+Nutrex .99, Triple Stack .98). Backup en /tmp.
 - Verificado: badge y textos .99, sin cifras viejas, retiro OK.
-## 2026-08-31 — Auditoria completa combos + automatizacion
+## 2026-08-31 ï¿½ Auditoria completa combos + automatizacion
 
 - Auditados los 27 combos: corregidos 4 adicionales (21525 IsoJect+RawPre+Creatina ahorro \.98/retail \.97; 21660 Elite ahorro \.98/retail \.97; 21524 ahorro \.98; 21515 ahorro \.99). Todos _combo_price intactos.
 - Creado skill combo-sync-ahorro y script sp_auditar_combos.php (audita cache _price + cifras de fichas). Integrado al cron: run_sync.sh ejecuta el fix de cache _price y reporta pendientes en cron.log.
 
-## 2026-09-04 — T&C nuevo publicado en /terminosycondiciones/
+## 2026-09-04 ï¿½ T&C nuevo publicado en /terminosycondiciones/
 
 - Sustituido el contenido viejo (pagina 9, 22/03/2025) por el nuevo (08/08/2026, indice 13 secciones) creando pagina nueva ID 22030 con mismo slug. La 9 quedo draft. Backup en /tmp/backup_tc_pagina9_20260904.json.
 - Leccion: reemplazar el _elementor_data de una pagina publicada no se refleja en el front por cache (elementor_element_cache + SG/CDN); recrear la pagina con meta Elementor completo (_elementor_edit_mode=builder, _elementor_template_type=wp-page, versiones) + purgar caches resuelve.
 - Verificado desktop/movil HTTP 200.
-## 2026-09-04 — Fix T&C: CSS crudo visible
+## 2026-09-04 ï¿½ Fix T&C: CSS crudo visible
 
 - El sanitizer de Elementor (text-editor) elimina etiquetas <style> del contenido -> el CSS se mostraba como texto. Limpiado el editor y movido el CSS a un mu-plugin (sp-tc-css.php) que lo inyecta en <head> solo en /terminosycondiciones/. Verificado desktop/movil.
-## 2026-09-04 — Fix corte de palabras en tabla T&C (metodos de pago)
+## 2026-09-04 ï¿½ Fix corte de palabras en tabla T&C (metodos de pago)
 
 - En sp-tc-css.php: word-break:normal!important + overflow-wrap:normal!important + hyphens:none en th/td + table-layout:auto. Ya no se cortan palabras en ninguna columna.
-## 2026-09-04 — Checkbox obligatorio Terminos y Condiciones en fichas de producto
+## 2026-09-04 ï¿½ Checkbox obligatorio Terminos y Condiciones en fichas de producto
 
-- Nuevo mu-plugin sp-tc-agree.php: checkbox 'He leído y acepto los Terminos y Condiciones' (enlace a /terminosycondiciones/) debajo del boton Añadir al carrito en simple/variable/combo. Bloqueo JS + server-side.
+- Nuevo mu-plugin sp-tc-agree.php: checkbox 'He leï¿½do y acepto los Terminos y Condiciones' (enlace a /terminosycondiciones/) debajo del boton Aï¿½adir al carrito en simple/variable/combo. Bloqueo JS + server-side.
 - Clave tecnica: los combos con _combo_price usan handler custom 'combo' que bypasea woocommerce_add_to_cart_validation. Se intercepta woocommerce_add_to_cart_handler con prioridad 20 (despues de combo-price) para forzar handler 'grouped' sin checkbox (asi pasa por validacion y muestra el error). No se modifico combo-price.php ni functions.php del child.
 - Verificado simple/variable/combo: sin checkbox -> error + carrito vacio; con checkbox -> OK. Checklist retiro OK.
-## 2026-09-07 — Fix imagenes de combos (tamaños faltantes en srcset)
+## 2026-09-07 ï¿½ Fix imagenes de combos (tamaï¿½os faltantes en srcset)
 
-- Combos 21960, 21962, 21961 (subidos 11-08): sus PNG tenian metadata con tamaños pero faltaban 4 archivos fisicos (-1024x1024, -150x150, -1070x510, -100x100) -> srcset con 404, imagen podia no verse segun viewport. Regenerados attachments 21963/21965/21964 con wp media regenerate. Auditados los 27 combos: todos OK.
-## 2026-09-07 — Fix CTA WhatsApp en fichas de combos (movil)
+- Combos 21960, 21962, 21961 (subidos 11-08): sus PNG tenian metadata con tamaï¿½os pero faltaban 4 archivos fisicos (-1024x1024, -150x150, -1070x510, -100x100) -> srcset con 404, imagen podia no verse segun viewport. Regenerados attachments 21963/21965/21964 con wp media regenerate. Auditados los 27 combos: todos OK.
+## 2026-09-07 ï¿½ Fix CTA WhatsApp en fichas de combos (movil)
 
 - En 27 combos grouped: reescrito el bloque CTA del post_content. Icono WhatsApp (viewBox ok) arriba centrado + texto en <p> fluido debajo (antes un <span> con inline-flex partia el texto en 3 bloques en movil y el logo no se veia). Backup /tmp/backup_cta_todos_20260907.json.
 
-## 2026-09-11 — Cierre lote 26 productos nuevos
+## 2026-09-11 ï¿½ Cierre lote 26 productos nuevos
 
 - 26/26 publicados (EVOGEN 9, LANDERFIT 7, MUTANT 2, RAW 8): imagenes, contenido template, SEO, stock por sucursal.
 - Perfiles validados con etiqueta real: EVP AQ, Omega 3, CLA 2000, Vitamina C. Pendientes de validar: Fiber, Xtreme, ISO Surge, Proteina RAW, RAW Glycerol, Lipo Stim Free, Testolander, Lipo Thermogenic.
@@ -525,3 +525,13 @@ La estructura del CTA pasÃ³ por 2 correcciones en los combos 21960/21961/21962:
 - Cambio en _elementor_data del home (18625): limit 200 -> 12 en ambos (update_metadata + wp_slash; backup /tmp/home_el_backup_before_limit_20260926-172456.json).
 - Resultado: render fresco ~10s -> ~4s; HTML 3.1MB -> 616KB; tarjetas 365 -> 47; TTFB cache ~0.03s. Home HTTP 200.
 - El widget woocommerce-products (89c21b) consulta por 6 categorias (limit por defecto) - pendiente de revisar si tambien conviene acotar.
+
+## 2026-10-02 - Verificacion retiro en sucursal (carrito) â€” reporte "no aparece el select"
+
+- Reporte: "en el carrito no aparece la opcion de seleccionar sucursal para retiro" (funcionalidad protegida). Se diagnostico a fondo.
+- Codigo desplegado (child `functions.php`) INTACTO: presentes todas las funciones `sp_*` y el JS inline. md5 `ed6779fdc763209f7e5adfb54668b4a3` (identico a `local/functions_current.php` del repo git).
+- Regresiones conocidas OK: BUG C -> `if (!isPickup) return` presente, `!isPickup ||` ausente; BUG D -> sin listener directo `spBindSucursalChange`.
+- Shipping: zona "Panama Centro" con `flat_rate` + `local_pickup` habilitados.
+- Metas de sucursal OK: simples (9190, 21456, 21457, 22135) con `_sucursales_disponibles`; variaciones (p.ej. 22159) con meta. Combos grouped usan hijos via `sp_get_cart_item_ids()`.
+- Simulacion de carrito (`wp eval-file`): simple 9190, combo 21516, combo 21961 y variable 19364 -> `sp_get_valid_sucursales_for_cart()` = `[1,5,6,7,8,10]` y `sp_cart_sucursal_field()` SI renderiza el `<select id="sp_sucursal_retiro_cart">` (oculto por defecto; el JS lo muestra al marcar "Recoger en local").
+- Conclusion: el retiro en sucursal NO esta roto. El select aparece al seleccionar "Recoger en local" en el carrito. Verificado simple/combo/variable (flujo carrito). Codigo del repo = codigo desplegado.
