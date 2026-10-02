@@ -422,7 +422,7 @@ body .breadcrumb-wrap{display:none !important}
             <div class="sp-card__body">
               <h3><?php echo esc_html($p->get_name()); ?></h3>
               <div class="sp-card__price"><span class="now">$<?php echo number_format((float)$p->get_price(),2); ?></span></div>
-              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url($p->get_permalink()); ?>"<?php echo $sp_dup ? ' tabindex="-1"' : ''; ?>>Añadir al carrito</a>
+              <a class="sp-btn sp-btn--primary" href="<?php echo esc_url($p->get_permalink()); ?>"<?php echo $sp_dup ? ' tabindex="-1"' : ''; ?>>COMPRAR</a>
             </div>
           </div>
         <?php endforeach; endforeach; endif; ?>
