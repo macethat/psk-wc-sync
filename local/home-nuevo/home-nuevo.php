@@ -183,13 +183,19 @@ body .breadcrumb-wrap{display:none !important}
 .sp-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
 @media(max-width:900px){.sp-cats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.sp-cats{grid-template-columns:1fr}}
-.sp-cat{background:#fff;border:1px solid var(--sp-border);border-radius:0;padding:22px;transition:.2s;text-decoration:none;display:flex;flex-direction:column;gap:12px}
-.sp-cat:hover{box-shadow:0 10px 28px rgba(0,0,0,.08);border-color:#ccc}
-.sp-cat__ic{width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.sp-cat{position:relative;overflow:hidden;background:#070707;border:0;border-radius:0;padding:28px 22px;transition:.2s;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;min-height:200px}
+.sp-cat::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-900x400.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-900x400.jpg') type('image/jpeg'));background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.4;filter:brightness(.9) contrast(1.25) saturate(1.15);z-index:0}
+@media(min-width:1500px){.sp-cat::before{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-1200x420.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-1200x420.jpg') type('image/jpeg'))}}
+@media(max-width:900px){.sp-cat::before{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-800x400.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-800x400.jpg') type('image/jpeg'))}}
+@media(max-width:520px){.sp-cat::before{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-720x400.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/bg-cat/bg-cat-720x400.jpg') type('image/jpeg'))}}
+.sp-cat:hover{box-shadow:0 10px 28px rgba(0,0,0,.25)}
+.sp-cat > *{position:relative;z-index:1}
+.sp-cat__head{display:flex;align-items:center;justify-content:center;gap:12px}
+.sp-cat__ic{width:56px;height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .sp-cat__ic img{width:100%;height:100%;object-fit:contain;display:block}
-.sp-cat h3{font-size:18px;margin:0}
-.sp-cat p{font-size:13px;color:var(--sp-text-light);margin:0}
-.sp-cat .go{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:700;font-size:14px;margin-top:auto}
+.sp-cat h3{font-size:26px;text-transform:uppercase;margin:0;color:#fff}
+.sp-cat p{font-size:14px;color:#fff;margin:0}
+.sp-cat .go{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:700;font-size:14px;margin-top:4px}
 
 /* COMBOS GRID */
 .sp-combos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:24px}
@@ -335,8 +341,10 @@ body .breadcrumb-wrap{display:none !important}
             $link = get_term_link($cat);
             $count = $cat->count; ?>
           <a class="sp-cat" href="<?php echo esc_url($link); ?>">
-            <div class="sp-cat__ic"><?php $sp_ic = isset($sp_cat_icons[$cat->slug]) ? $sp_cat_icons[$cat->slug] : ''; if ($sp_ic): ?><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/<?php echo esc_attr($sp_ic); ?>.webp" alt="<?php echo esc_attr($cat->name); ?>" loading="lazy"><?php endif; ?></div>
-            <h3><?php echo esc_html($cat->name); ?></h3>
+            <div class="sp-cat__head">
+              <div class="sp-cat__ic"><?php $sp_ic = isset($sp_cat_icons[$cat->slug]) ? $sp_cat_icons[$cat->slug] : ''; if ($sp_ic): ?><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/<?php echo esc_attr($sp_ic); ?>.webp" alt="<?php echo esc_attr($cat->name); ?>" loading="lazy"><?php endif; ?></div>
+              <h3><?php echo esc_html($cat->name); ?></h3>
+            </div>
             <p><?php echo $count; ?> productos</p>
             <span class="go">Explorar →</span>
           </a>
