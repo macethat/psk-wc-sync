@@ -65,8 +65,14 @@ get_header();
         <div class="sp-grid">
           <?php foreach ($sp_products as $p):
             $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src();
-            $reg = (float) $p->get_regular_price();
-            $sale = (float) $p->get_price();
+            if ($p->get_type() === 'variable') {
+                $vp = $p->get_variation_prices();
+                $reg = !empty($vp['regular_price']) ? (float) min($vp['regular_price']) : 0;
+                $sale = !empty($vp['price']) ? (float) min($vp['price']) : 0;
+            } else {
+                $reg = (float) $p->get_regular_price();
+                $sale = (float) $p->get_price();
+            }
             $pct = ($reg > 0 && $sale < $reg) ? round((($reg - $sale) / $reg) * 100) : 0;
           ?>
             <a class="sp-card" href="<?php echo esc_url($p->get_permalink()); ?>">

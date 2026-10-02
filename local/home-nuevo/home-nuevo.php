@@ -49,7 +49,8 @@ $sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'p
 // Productos en oferta (categoría "Descuento Online") — solo disponibles, on-sale y sin combos
 function sp_es_oferta_web($p) {
     if (!$p) return false;
-    if ($p->get_type() === 'grouped' || get_post_meta($p->get_id(), '_combo_price', true) !== '') return false;
+    if ($p->get_type() !== 'simple') return false;
+    if (get_post_meta($p->get_id(), '_combo_price', true) !== '') return false;
     return $p->is_on_sale();
 }
 $sp_onsale = array_values(array_filter(
