@@ -5,12 +5,19 @@
  */
 if (!defined('ABSPATH')) exit;
 
-$sp_products = wc_get_products(array(
-    'limit'   => -1,
-    'status'  => 'publish',
-    'on_sale' => true,
-    'orderby' => 'date',
-    'order'   => 'DESC',
+$sp_products = array_values(array_filter(
+    wc_get_products(array(
+        'limit'    => -1,
+        'status'   => 'publish',
+        'category' => array('descuento-online'),
+        'orderby'  => 'date',
+        'order'    => 'DESC',
+    )),
+    function ($p) {
+        return $p->is_on_sale()
+            && $p->get_type() !== 'grouped'
+            && get_post_meta($p->get_id(), '_combo_price', true) === '';
+    }
 ));
 
 get_header();
