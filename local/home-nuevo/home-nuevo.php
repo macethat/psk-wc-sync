@@ -110,6 +110,8 @@ body .breadcrumb-wrap{display:none !important}
 .sp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;padding:14px 26px;border-radius:0;text-decoration:none;transition:.2s;cursor:pointer}
 .sp-btn--primary{background:var(--primary,#E20613);color:#fff}
 .sp-btn--dark{background:var(--sp-accent);color:#fff}
+.sp-btn--comprar{background:var(--primary,#E20613);color:#fff}
+.sp-btn--comprar:hover{background:#000;color:#fff}
 .sp-btn--wa{background:#00832f;color:#fff}
 .sp-home .sp-btn:hover,.sp-home .sp-btn:focus{transform:translateY(-2px);color:#fff}
 
@@ -394,7 +396,7 @@ body .breadcrumb-wrap{display:none !important}
                 <span class="now">$<?php echo number_format($sale,2); ?></span>
               </div>
               <?php if ($sp_pct>0): ?><div style="font-size:12px;font-weight:700;color:#00832f;margin:2px 0 8px">Compra online y ahorras <?php echo $sp_pct; ?>%</div><?php endif; ?>
-              <a class="sp-btn sp-btn--dark" href="<?php echo esc_url($p->get_permalink()); ?>">Ver / Añadir</a>
+              <a class="sp-btn sp-btn--comprar" href="<?php echo esc_url($p->get_permalink()); ?>">COMPRAR</a>
             </div>
           </div>
         <?php endforeach; else: ?>
