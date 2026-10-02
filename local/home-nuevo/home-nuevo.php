@@ -410,7 +410,7 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 7. MÁS VENDIDOS -->
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border)">
     <div class="sp-wrap sp-wrap--boxed">
-      <span class="sp-eyebrow">Los Favoritos de Panamá</span>
+      <span class="sp-eyebrow sp-eyebrow--lg">Si entrenas fuerte, sabes donde comprar</span>
       <h2>Más Vendidos</h2>
       <div class="sp-reel">
         <div class="sp-reel__track">
