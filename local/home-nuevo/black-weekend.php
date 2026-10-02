@@ -37,7 +37,10 @@ body .breadcrumb-wrap{display:none !important}
 .sp-eyebrow{font-family:var(--sp-heading);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:var(--sp-primary)}
 .sp-sec h2{font-size:34px;text-transform:uppercase;letter-spacing:-.01em}
 .sp-sub{color:var(--sp-text);margin-top:4px}
-.sp-bw-head{background:var(--sp-accent);color:#fff;border-radius:16px;padding:38px;margin:24px 0 8px}
+.sp-bw-head{position:relative;overflow:hidden;background:#070707;color:#fff;padding:38px;margin:24px 0 8px}
+.sp-bw-head::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg') type('image/jpeg'));background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.14;filter:brightness(.75) contrast(1.7) saturate(1.15);z-index:0}
+@media(max-width:900px){.sp-bw-head::before{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg') type('image/jpeg'))}}
+.sp-bw-head > *{position:relative;z-index:1}
 .sp-bw-head h1{color:#fff;font-size:40px;text-transform:uppercase;margin:0 0 6px}
 .sp-bw-head p{color:#c9c9c9;margin:0}
 .sp-bw-head .badge{display:inline-block;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:12px;text-transform:uppercase;padding:6px 12px;border-radius:4px;margin-bottom:12px}
@@ -61,7 +64,7 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-bw-head">
         <span class="badge">Solo 3 días</span>
-        <h1>Black Weekend</h1>
+        <h1>Black Weekend Sale</h1>
         <p>Descuentos exclusivos comprando online. Aprovecha antes de que terminen.</p>
       </div>
 
