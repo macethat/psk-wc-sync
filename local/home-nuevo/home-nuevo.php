@@ -107,7 +107,7 @@ get_header();
   --sp-border: var(--border, #E8E8E8);
   --sp-heading: var(--e-global-typography-accent-font-family, "Nutritix Heading", "Plus Jakarta Sans", Helvetica, Arial, sans-serif);
 }
-.sp-home{width:100%;overflow-x:hidden;color:var(--sp-text)}
+.sp-home{width:100%;overflow-x:hidden;color:var(--sp-text);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .sp-home *{box-sizing:border-box;border-radius:0 !important}
 .sp-home{border-radius:0 !important}
 .sp-home h1,.sp-home h2,.sp-home h3,.sp-home h4{font-family:var(--sp-heading);color:var(--sp-accent);margin:0 0 .5em}
