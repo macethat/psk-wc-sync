@@ -145,7 +145,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-hero__badge{display:inline-flex;align-items:center;gap:8px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;padding:10px 20px;border-radius:0;margin-bottom:16px;text-decoration:none;transition:.2s}
 .sp-hero__badge:hover{transform:translateY(-2px);color:#fff}
 .sp-hero h1{color:#fff;font-size:44px;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em;max-width:620px}
-@media(max-width:900px){.sp-hero h1{font-size:32px}}
+@media(max-width:900px){.sp-hero h1{font-size:32px}.sp-hero h1 .sp-h1l{display:block}}
 .sp-hero h1 .red{color:var(--sp-primary)}
 .sp-hero p.lead{color:#E4E2E2;font-size:17px;max-width:560px}
 .sp-chips{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
@@ -274,7 +274,7 @@ body .breadcrumb-wrap{display:none !important}
       <div class="sp-hero__in">
         <div>
           <a class="sp-hero__badge" href="/promociones/combos/">BLACK WEEKEND MODE</a>
-          <h1>BEAST MODE ON. <span class="red">COMBOS ONLINE</span>, SIN PAGAR DE MÁS.</h1>
+          <h1><span class="sp-h1l">BEAST MODE ON.</span> <span class="sp-h1l red">COMBOS ONLINE,</span> <span class="sp-h1l">SIN PAGAR DE MÁS.</span></h1>
           <p class="lead">Ahorra comprando en combo. Stacks diseñados para volumen, definición y fuerza. Ofertas válidas solo para compras en línea.</p>
           <div class="sp-chips">
             <span class="sp-chip">Envíos a todo Panamá</span>
