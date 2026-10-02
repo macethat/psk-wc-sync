@@ -67,6 +67,24 @@ $sp_best = array_values(array_filter(
 shuffle($sp_best);
 $sp_best = array_slice($sp_best, 0, 12);
 
+// Reseñas reales de Google (Google Places API por sucursal) — solo 4★+ con texto
+$sp_reviews = array();
+if (function_exists('sp_fetch_google_reviews')) {
+    $sp_suc_data = @include get_stylesheet_directory() . '/sucursales/data.php';
+    if (is_array($sp_suc_data)) {
+        foreach ($sp_suc_data as $suc) {
+            foreach ((array) sp_fetch_google_reviews($suc) as $rev) {
+                $rtxt = trim($rev['originalText']['text'] ?? '');
+                if ((int) ($rev['rating'] ?? 0) >= 4 && $rtxt !== '') {
+                    $rev['_suc'] = $suc['nombre_completo'] ?? ($suc['nombre'] ?? '');
+                    $sp_reviews[] = $rev;
+                }
+            }
+        }
+    }
+    if ($sp_reviews) { shuffle($sp_reviews); $sp_reviews = array_slice($sp_reviews, 0, 4); }
+}
+
 // Videos (Cloudinary) + enlace a la página de marca
 $sp_videos = array(
     array('marca' => 'EVOGEN',            'url' => 'https://res.cloudinary.com/jrm5xhxt/video/upload/v1790785479/u0wc07yncqaiun9uqmat.mp4', 'link' => '/product-brand/suplementos-evogen/'),
@@ -223,6 +241,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-test .stars{color:#f5a623;font-size:16px;margin-bottom:8px}
 .sp-test p{font-style:italic;font-size:14px}
 .sp-test .who{font-family:var(--sp-heading);font-weight:700;color:var(--sp-accent);font-size:14px}
+.sp-test .src{font-size:12px;color:var(--sp-text-light);margin-top:8px}
 
 /* CTA WHATSAPP */
 .sp-cta{background:var(--sp-accent);border-radius:0;padding:44px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
@@ -463,9 +482,21 @@ body .breadcrumb-wrap{display:none !important}
       <span class="sp-eyebrow">Comunidad & Confianza</span>
       <h2>Lo que dicen nuestros clientes</h2>
       <div class="sp-tests">
-        <div class="sp-test"><div class="stars">★★★★★</div><p>“Pedí el combo y en la tarde ya lo tenía. Productos originales y excelente asesoría.”</p><div class="who">Cliente — Ciudad de Panamá</div></div>
-        <div class="sp-test"><div class="stars">★★★★★</div><p>“Los precios web de los combos son los mejores. Retiro gratis en sucursal.”</p><div class="who">Cliente — San Francisco</div></div>
-        <div class="sp-test"><div class="stars">★★★★★</div><p>“La asesoría por WhatsApp me ayudó a armar mi stack según mi objetivo.”</p><div class="who">Cliente — Panamá</div></div>
+        <?php if ($sp_reviews): foreach ($sp_reviews as $rev):
+            $rating = max(1, min(5, (int) ($rev['rating'] ?? 5)));
+            $rtxt = trim($rev['originalText']['text'] ?? '');
+            $autor = $rev['authorAttribution']['displayName'] ?? 'Cliente';
+            $suc = $rev['_suc'] ?? '';
+        ?>
+          <div class="sp-test">
+            <div class="stars"><?php echo str_repeat('★', $rating) . str_repeat('☆', 5 - $rating); ?></div>
+            <p>“<?php echo esc_html(wp_trim_words($rtxt, 38, '…')); ?>”</p>
+            <div class="who"><?php echo esc_html($autor); ?><?php if ($suc): ?> — <?php echo esc_html($suc); ?><?php endif; ?></div>
+            <div class="src">Reseña de Google</div>
+          </div>
+        <?php endforeach; else: ?>
+          <div class="sp-test"><div class="stars">★★★★★</div><p>“Productos originales y excelente asesoría.”</p><div class="who">Cliente — Panamá</div></div>
+        <?php endif; ?>
       </div>
     </div>
   </section>
