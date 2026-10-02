@@ -373,8 +373,14 @@ body .breadcrumb-wrap{display:none !important}
         <?php if ($sp_onsale):
           foreach ($sp_onsale as $p):
             $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src();
-            $reg = (float) $p->get_regular_price();
-            $sale = (float) $p->get_price();
+            if ($p->get_type() === 'variable') {
+                $vp = $p->get_variation_prices();
+                $reg = !empty($vp['regular_price']) ? (float) min($vp['regular_price']) : 0;
+                $sale = !empty($vp['price']) ? (float) min($vp['price']) : 0;
+            } else {
+                $reg = (float) $p->get_regular_price();
+                $sale = (float) $p->get_price();
+            }
             $sp_pct = function_exists('sp_pct_ahorro') ? sp_pct_ahorro($p) : 0;
         ?>
           <div class="sp-card">
