@@ -46,10 +46,15 @@ function sp_combo_ahorro($pid) {
 // Categorías principales
 $sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'parent' => 0, 'number' => 6));
 
-// Productos en oferta (categoría "Descuento Online") — solo disponibles
+// Productos en oferta (categoría "Descuento Online") — solo disponibles, on-sale y sin combos
+function sp_es_oferta_web($p) {
+    if (!$p) return false;
+    if ($p->get_type() === 'grouped' || get_post_meta($p->get_id(), '_combo_price', true) !== '') return false;
+    return $p->is_on_sale();
+}
 $sp_onsale = array_values(array_filter(
-    wc_get_products(array('limit' => 12, 'status' => 'publish', 'category' => array('descuento-online'))),
-    'sp_disponible'
+    wc_get_products(array('limit' => 40, 'status' => 'publish', 'category' => array('descuento-online'))),
+    function($p) { return sp_es_oferta_web($p) && sp_disponible($p); }
 ));
 $sp_onsale = array_slice($sp_onsale, 0, 8);
 
@@ -376,7 +381,7 @@ body .breadcrumb-wrap{display:none !important}
             <div class="sp-card__sticker">Ahorras <?php echo $sp_pct; ?>%</div>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($p->get_name()); ?>" loading="lazy"></div>
             <div class="sp-card__body">
-              <h3 style="font-size:14px"><?php echo esc_html($p->get_name()); ?></h3>
+              <h3><?php echo esc_html($p->get_name()); ?></h3>
               <div class="sp-card__price">
                 <?php if ($reg>$sale): ?><span class="reg">$<?php echo number_format($reg,2); ?></span><?php endif; ?>
                 <span class="now">$<?php echo number_format($sale,2); ?></span>
