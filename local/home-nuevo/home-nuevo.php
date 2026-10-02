@@ -137,8 +137,8 @@ body .breadcrumb-wrap{display:none !important}
 
 /* HERO */
 .sp-hero{background:#070707;color:#fff;position:relative;overflow:hidden;border-bottom:1px solid #2a2a2a}
-.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.12;filter:brightness(.7) contrast(1.7) saturate(1.15)}
-@media(max-width:900px){.sp-hero__bg{background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg');background-position:center top;opacity:.15}}
+.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg') type('image/jpeg'));background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.12;filter:brightness(.7) contrast(1.7) saturate(1.15)}
+@media(max-width:900px){.sp-hero__bg{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg') type('image/jpeg'));background-position:center top;opacity:.15}}
 .sp-hero__in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,620px) minmax(0,720px);gap:24px;justify-content:center;align-items:center;padding:64px 0}
 @media(max-width:900px){.sp-hero__in{grid-template-columns:1fr;justify-content:stretch;padding:44px 0}}
 .sp-hero__badge{display:inline-flex;align-items:center;gap:8px;background:var(--sp-primary);color:#fff;font-family:var(--sp-heading);font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;padding:10px 20px;border-radius:0;margin-bottom:16px;text-decoration:none;transition:.2s}
@@ -248,11 +248,11 @@ body .breadcrumb-wrap{display:none !important}
 
 /* CTA WHATSAPP */
 .sp-cta{position:relative;overflow:hidden;background:#070707;border-radius:0;padding:48px 44px;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;text-align:center}
-.sp-cta__bg{position:absolute;inset:0;pointer-events:none;background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.14;filter:brightness(.75) contrast(1.7) saturate(1.15)}
+.sp-cta__bg{position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg') type('image/jpeg'));background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.14;filter:brightness(.75) contrast(1.7) saturate(1.15)}
 .sp-cta__in,.sp-cta > a{position:relative;z-index:2}
 .sp-cta h2{color:#fff;font-size:28px;text-transform:uppercase;margin:0}
 .sp-cta p{color:#c9c9c9;margin:6px 0 0}
-@media(max-width:900px){.sp-cta__bg{background-image:url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg');opacity:.16}}
+@media(max-width:900px){.sp-cta__bg{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg') type('image/jpeg'));opacity:.16}}
 </style>
 
 <main class="sp-home">
@@ -386,8 +386,11 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <a class="sp-bw__box" href="/black-weekend/">
         <picture>
+          <source media="(max-width:700px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1080x720.webp">
           <source media="(max-width:700px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1080x720.jpg">
+          <source media="(max-width:1200px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1200x480.webp">
           <source media="(max-width:1200px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1200x480.jpg">
+          <source type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.webp">
           <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.jpg" alt="Black Weekend: descuentos exclusivos en suplementos comprando online" loading="lazy">
         </picture>
       </a>
