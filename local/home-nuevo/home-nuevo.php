@@ -217,7 +217,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-vid__btn:hover{background:var(--sp-primary)}
 
 /* TESTIMONIOS */
-.sp-tests{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
+.sp-tests{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:24px}
 @media(max-width:900px){.sp-tests{grid-template-columns:1fr}}
 .sp-test{background:#fff;border:1px solid var(--sp-border);border-radius:0;padding:22px}
 .sp-test .stars{color:#f5a623;font-size:16px;margin-bottom:8px}
@@ -459,7 +459,7 @@ body .breadcrumb-wrap{display:none !important}
 
   <!-- 9. TESTIMONIOS -->
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border)">
-    <div class="sp-wrap">
+    <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow">Comunidad & Confianza</span>
       <h2>Lo que dicen nuestros clientes</h2>
       <div class="sp-tests">
