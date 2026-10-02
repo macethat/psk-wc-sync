@@ -436,12 +436,11 @@ body .breadcrumb-wrap{display:none !important}
   </section>
 
   <!-- 8. VIDEOS DE MARCA -->
-  <section class="sp-sec">
+  <section class="sp-sec" style="padding-top:84px">
     <div class="sp-wrap">
       <div style="text-align:center">
         <span class="sp-eyebrow sp-eyebrow--lg">La casa oficial de suplementos nutricionales en Panamá</span>
         <h2>No vendemos marcas, las marcas nos eligen</h2>
-        <p class="sp-sub">Productos originales de las mejores marcas del mundo.</p>
       </div>
       <div class="sp-videos" id="sp-videos">
         <?php foreach ($sp_videos as $v):
