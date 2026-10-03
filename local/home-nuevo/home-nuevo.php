@@ -249,6 +249,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-vid__btn::before{content:'\25B6'}
 .sp-vid__btn.is-playing::before{content:'\2759\2759'}
 .sp-vid__btn:hover{background:var(--sp-primary)}
+@media(max-width:600px){.sp-videos{grid-template-columns:1fr}.sp-vid{display:flex;flex-direction:column}.sp-vid .lbl{order:-1;margin:0 0 8px}}
 
 /* TESTIMONIOS */
 .sp-tests{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:24px}
