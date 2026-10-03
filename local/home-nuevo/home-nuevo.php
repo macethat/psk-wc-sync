@@ -182,6 +182,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-trust__it > div:last-child{flex:1;background:#F65000;color:#fff;padding:10px 16px}
 .sp-trust h3{font-size:18px;text-transform:uppercase;margin:0;color:#fff}
 .sp-trust span{font-size:13px;color:#fff}
+@media(max-width:900px){.sp-hide-mobile{display:none}}
 
 /* CATEGORÍAS */
 .sp-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
@@ -324,7 +325,7 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-trust">
     <div class="sp-wrap">
       <div class="sp-trust__in">
-        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/envio-gratis.webp" alt="Envío gratis a todo Panamá" loading="lazy"></div><div><h3>Envío Gratis</h3><span>En compras desde $150 a todo Panamá</span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/envio-gratis.webp" alt="Envío gratis a todo Panamá" loading="lazy"></div><div><h3>Envío Gratis</h3><span>En compras desde $150<span class="sp-hide-mobile"> a todo Panamá</span></span></div></div>
         <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/retiro-sucursal.webp" alt="Retira por sucursal" loading="lazy"></div><div><h3>Retira por Sucursal</h3><span>En nuestras 6 sucursales</span></div></div>
         <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/originales.webp" alt="Productos 100% originales" loading="lazy"></div><div><h3>100% Originales</h3><span>Directo de fábrica, lote trazable</span></div></div>
         <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/asesoria-whatsapp.webp" alt="Asesoría por WhatsApp" loading="lazy"></div><div><h3>Asesoría WhatsApp</h3><span>Expertos en suplementación</span></div></div>
