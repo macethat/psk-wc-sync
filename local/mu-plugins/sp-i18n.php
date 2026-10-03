@@ -10,10 +10,10 @@ if (!function_exists('sp_i18n_map')) {
         $t = str_replace(array('&hellip;', '&#8230;'), '…', $text);
         $t = trim($t);
         $map = array(
-            'Search products…'              => 'Buscar productos…',
-            'Search products...'            => 'Buscar productos…',
-            'Search for products…'          => 'Buscar productos…',
-            'Type any keyword to search...' => 'Escribe para buscar…',
+            'Search products…'              => 'Encuentra tu suplemento',
+            'Search products...'            => 'Encuentra tu suplemento',
+            'Search for products…'          => 'Encuentra tu suplemento',
+            'Type any keyword to search...' => 'Encuentra tu suplemento',
         );
         return isset($map[$t]) ? $map[$t] : null;
     }
