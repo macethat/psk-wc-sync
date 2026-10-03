@@ -60,10 +60,10 @@ body .breadcrumb-wrap{display:none !important}
 .sp-card__img{aspect-ratio:1/1;background:var(--sp-light);display:flex;align-items:center;justify-content:center;padding:16px}
 .sp-card__img img{max-width:100%;max-height:100%;object-fit:contain}
 .sp-card__body{padding:18px;display:flex;flex-direction:column;flex:1}
-.sp-card__body h3{font-size:16px;margin:4px 0 10px}
+.sp-card__body h3{font-size:18px;margin:4px 0 10px}
 .sp-card__price{display:flex;align-items:baseline;gap:10px;margin:10px 0}
-.sp-card__price .reg{color:var(--sp-text-light);text-decoration:line-through;font-size:15px}
-.sp-card__price .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:24px}
+.sp-card__price .reg{color:var(--sp-text-light);text-decoration:line-through;font-size:17px}
+.sp-card__price .now{color:var(--sp-primary);font-family:var(--sp-heading);font-weight:800;font-size:28px}
 .sp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;padding:14px 26px;text-decoration:none;transition:.2s;cursor:pointer}
 .sp-btn--comprar{background:var(--primary,#E20613);color:#fff}
 .sp-btn--comprar:hover{background:#000;color:#fff}
@@ -103,7 +103,7 @@ body .breadcrumb-wrap{display:none !important}
                   <?php if ($reg > $sale): ?><span class="reg">$<?php echo number_format($reg, 2); ?></span><?php endif; ?>
                   <span class="now">$<?php echo number_format($sale, 2); ?></span>
                 </div>
-                <?php if ($pct > 0): ?><div style="font-size:12px;font-weight:700;color:#00832f;margin:2px 0 8px">Compra online y ahorras <?php echo $pct; ?>%</div><?php endif; ?>
+                <?php if ($pct > 0): ?><div style="font-size:14px;font-weight:700;color:#00832f;margin:2px 0 8px">Compra online y ahorras <?php echo $pct; ?>%</div><?php endif; ?>
                 <a class="sp-btn sp-btn--comprar" href="<?php echo esc_url($p->get_permalink()); ?>">COMPRAR</a>
               </div>
             </div>
