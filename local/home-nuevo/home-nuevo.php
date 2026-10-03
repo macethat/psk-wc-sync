@@ -208,7 +208,7 @@ body .breadcrumb-wrap{display:none !important}
 @media(max-width:600px){.sp-combos{grid-template-columns:1fr}}
 .sp-combos--4{grid-template-columns:repeat(4,1fr)}
 @media(max-width:900px){.sp-combos--4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.sp-combos--4{grid-template-columns:1fr}}
+@media(max-width:600px){.sp-combos--4{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:14px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px}.sp-combos--4 .sp-card{flex:0 0 76%;max-width:300px;scroll-snap-align:center}}
 .sp-reel{overflow:hidden;margin-top:24px;position:relative}
 .sp-reel__track{display:flex;width:max-content;animation:spReel 86s linear infinite}
 .sp-reel:hover .sp-reel__track{animation-play-state:paused}
