@@ -127,6 +127,8 @@ body .breadcrumb-wrap{display:none !important}
 @media(max-width:600px){.sp-sec{padding:38px 0}.sp-sec--tight{padding:26px 0}}
 .sp-eyebrow{font-family:var(--sp-heading);text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800;color:var(--sp-primary)}
 .sp-eyebrow--lg{font-size:16px}
+@media(min-width:601px){.sp-br-mobile{display:none}}
+@media(max-width:600px){.sp-eyebrow--lg{line-height:1.15}}
 .sp-sec h2{font-size:32px;text-transform:uppercase;letter-spacing:-.01em}
 .sp-sec__head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:6px}
 .sp-sec p.sp-sub{color:var(--sp-text);margin-top:4px}
@@ -482,7 +484,7 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec" style="padding-top:84px">
     <div class="sp-wrap">
       <div style="text-align:center">
-        <span class="sp-eyebrow sp-eyebrow--lg">La casa oficial de suplementos nutricionales en Panamá</span>
+        <span class="sp-eyebrow sp-eyebrow--lg">La casa oficial de suplementos <br class="sp-br-mobile">nutricionales en Panamá</span>
         <h2>No vendemos marcas, las marcas nos eligen</h2>
       </div>
       <div class="sp-videos" id="sp-videos">
