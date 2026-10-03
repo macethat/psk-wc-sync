@@ -35,3 +35,11 @@ add_filter('gettext_with_context', function ($translation, $text, $context, $dom
     $m = sp_i18n_map($text);
     return $m !== null ? $m : $translation;
 }, 10, 4);
+
+// Textos que vienen del valor por defecto de widgets de Elementor (no pasan por gettext)
+add_filter('elementor/widget/render_content', function ($content, $widget) {
+    if (strpos($content, 'Sign In / Register') !== false) {
+        $content = str_replace('Sign In / Register', 'Iniciar sesión / Registrarse', $content);
+    }
+    return $content;
+}, 10, 2);
