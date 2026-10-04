@@ -1,6 +1,7 @@
 {
   "meta": {
     "generado": "2026-10-04",
+    "version": "2.0 - ampliado con (8) landings de sucursal como activos de geolocalización y (9) correlaciones de zonas/barrios/landmarks por sucursal",
     "autor_agente": "seo-ecommerce",
     "proyecto": "Suplementos Panamá",
     "sitio": "https://suplementospanama.net",
@@ -9,6 +10,7 @@
     "alcance": "Auditoría + diagnóstico + plan. NO se modifica el sitio ni las fichas GBP en este entregable.",
     "idioma": "español de Panamá",
     "restricciones": "Sin claims médicos ni terapéuticos. Sin inventar precios, ratings ni reseñas. Datos de sucursales tomados de psk-sucursales/src/theme/sucursales/data.php (fuente única).",
+    "ampliacion_v2": "Se agregaron dos refuerzos de Local Pack: seccion_8_landings_sucursal_como_activos_geo (H1/title/meta, contenido local único, schema LocalBusiness por sucursal, enlazado interno, reseñas GBP, horarios, mapa y cómo llegar de las 6 landings) y seccion_9_correlaciones_zonas (barrios, zonas y landmarks por sucursal con keywords long-tail locales, cómo integrarlas y anchors, validados con geocodificación inversa OSM/Nominatim).",
     "fuentes": [
       "psk-sucursales/src/theme/sucursales/data.php (6 sucursales: dirección, teléfono, WhatsApp, lat/lng, horarios, rating, review_count, Place ID, Maps URL)",
       "psk-sucursales/docs/esquema-hub-sucursales.md (estructura hub /sucursales/ y schema WebPage+ItemList)",
@@ -670,6 +672,511 @@
       "mensual": "GBP Insights por sucursal + grid de Local Falcon + reseñas + GSC local + GA4 (gbp).",
       "trimestral": "Auditoría NAP y de citas; revisión de categorías y catálogo GBP; revisión de cobertura de sucursales."
     }
+  },
+
+  "seccion_8_landings_sucursal_como_activos_geo": {
+    "objetivo": "Convertir el hub /sucursales/ y las 6 landings /sucursales/<slug>/ en activos de geolocalización que refuercen la entidad local de marca, alimenten la categoría /proteinas/ y aumenten la relevancia y prominencia de cada ficha GBP.",
+    "por_que_importan": [
+      "Cada landing es la página que la ficha GBP puede usar como enlace de sitio y la que Google usa para entender la relación marca <-> zona <-> sucursal.",
+      "Refuerzan el entity building local: Organization -> subOrganization (6 ramas) -> areaServed por zona.",
+      "Capturan long-tail de barrio/landmark que una sola ficha no cubre.",
+      "Sostienen la coherencia NAP: la landing repite exactamente el mismo nombre, dirección, teléfono y horario que la ficha GBP."
+    ],
+    "principio_entity_building_local": "Google conecta la entidad web (Organization + ramas con @id estable) con las entidades de Maps. Si la landing de sucursal y la ficha GBP comparten el mismo NAP, el mismo @id de rama y un enlace cruzado (sameAs / sitio web), Google consolida una sola entidad local fuerte por sucursal. Esa señal, repetida en 6 puntos, es lo que hace que la marca sea 'localmente relevante' en toda la ciudad y no solo en un punto.",
+
+    "patron_on_page": {
+      "title_formula": "'Proteína en [zona] | [Sucursal/landmark] | Suplementos Panamá'. 48-60 caracteres. Keyword local al inicio; marca al final.",
+      "meta_formula": "'Proteína, creatina y pre-entrenos en [zona]. Retira gratis en [sucursal/landmark] o recibe en todo Panamá. [referencia de acceso].' 145-160 caracteres.",
+      "h1_formula": "'Suplementos Panamá [Sucursal]: proteína y suplementos en [zona principal]'. Un solo H1; no meter todas las zonas en el H1.",
+      "estructura_h2": [
+        "H2: Tienda de suplementos en [zona] (contexto + propuesta de valor + landmark)",
+        "H2: Proteína y suplementos disponibles en la sucursal [Sucursal] (enlaces a subcategorías)",
+        "H2: Cómo llegar a [Sucursal] (mapa + dirección + referencias de zona + transporte)",
+        "H2: Horario y servicios (retiro en tienda, envío, pagos)",
+        "H2: Preguntas frecuentes de la sucursal [Sucursal] (FAQ local)",
+        "H2: Otras sucursales cerca de [zona] (enlazado cruzado)"
+      ],
+      "contenido_local_unico": {
+        "regla": "Nada de párrafos clonados entre sucursales. Personalizar por zona, landmarks, público y accesos. La duplicación resta relevancia.",
+        "bloques_minimos": [
+          "Intro (120-180 palabras): zonas + 2-3 landmarks + para quién es (quien entrena cerca, residentes de la zona).",
+          "Sección de cómo llegar: direcciones, transporte (Metro/bus), estacionamiento.",
+          "Productos destacados de la sucursal y enlace a /proteinas/.",
+          "FAQ local (5-8 preguntas) con respuestas reales.",
+          "Reseñas GBP (rating + enlace) y bloque de confianza."
+        ],
+        "tono": "Natural, de barrio, sin claims médicos. Hablar de 'encontrar', 'retirar', 'llegar', 'entrenar' — no de resultados de salud."
+      },
+      "imagenes_alts": {
+        "regla": "Nombre de archivo descriptivo + alt con sucursal/zona/landmark.",
+        "ejemplos": [
+          "sucursal-san-francisco-proteina-panamá.webp / alt: 'Tienda de suplementos en San Francisco, Ciudad de Panamá'",
+          "sucursal-megapolis-paitilla.webp / alt: 'Suplementos Panamá Megapolis en Paitilla, Avenida Balboa'",
+          "proteina-costa-del-este.webp / alt: 'Proteína en Costa del Este, Atrio Mall'"
+        ]
+      },
+      "cta": [
+        "Retira gratis en esta sucursal (enlace al checkout/carrito o a la categoría)",
+        "Cómo llegar (enlace a Google Maps de la sucursal)",
+        "Hablar por WhatsApp (enlace con número de la sucursal)",
+        "Ver toda la proteína en Panamá (enlace a /proteinas/)"
+      ]
+    },
+
+    "schema_localbusiness_por_sucursal": {
+      "tipo_recomendado": ["Store", "SportingGoodsStore", "LocalBusiness"],
+      "id": "https://suplementospanama.net/sucursales/{slug}/#branch (mismo @id que la rama del hub para no duplicar entidad)",
+      "campos_requeridos": [
+        "@type (array Store + SportingGoodsStore + LocalBusiness)",
+        "@id estable .../#branch",
+        "name: 'Suplementos Panamá [Sucursal]'",
+        "url: la landing",
+        "telephone: teléfono local de la sucursal",
+        "image: foto real de la sucursal",
+        "address: PostalAddress (streetAddress, addressLocality, addressRegion, addressCountry 'PA')",
+        "geo: GeoCoordinates (lat/lng reales de data.php)",
+        "openingHoursSpecification: desde data.php (coincidir con GBP)",
+        "areaServed: barrios/zonas que cubre (City / AdministrativeArea)",
+        "sameAs: URL de la ficha GBP/Maps de la sucursal",
+        "hasMap: URL de Maps",
+        "priceRange: '$$'",
+        "parentOrganization: {@id del #organization}",
+        "hasOfferCatalog: categorías (Proteínas, Creatina, Pre-entrenos, Aminoácidos, Vitaminas)"
+      ],
+      "notas": [
+        "No emitir dos Store distintas para la misma sucursal: reutilizar el @id .../sucursales/{slug}/#branch que ya usa el hub.",
+        "No incluir AggregateRating en el LocalBusiness con reseñas propias de Google (política: reseñas auto-servicio). Mostrar el rating como texto con enlace a Google, sin schema.",
+        "El schema debe corresponder al contenido visible de la landing.",
+        "Validar con Rich Results Test y Schema Markup Validator."
+      ],
+      "plantilla_jsonld": {
+        "@context": "https://schema.org",
+        "@type": ["Store", "SportingGoodsStore", "LocalBusiness"],
+        "@id": "{{SITE_URL}}sucursales/{{SLUG}}/#branch",
+        "name": "Suplementos Panamá {{SUCURSAL}}",
+        "url": "{{SITE_URL}}sucursales/{{SLUG}}/",
+        "telephone": "{{TELEFONO_SUCURSAL}}",
+        "image": "{{FOTO_SUCURSAL}}",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "{{DIRECCION}}",
+          "addressLocality": "Ciudad de Panamá",
+          "addressRegion": "Panamá",
+          "addressCountry": "PA"
+        },
+        "geo": {"@type": "GeoCoordinates", "latitude": "{{LAT}}", "longitude": "{{LNG}}"},
+        "openingHoursSpecification": "{{HORARIOS_DESDE_DATA_PHP}}",
+        "areaServed": "{{ZONAS}}",
+        "sameAs": "{{GBP_MAPS_URL}}",
+        "hasMap": "{{GBP_MAPS_URL}}",
+        "priceRange": "$$",
+        "parentOrganization": {"@id": "{{SITE_URL}}#organization"},
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Categorías de producto",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Proteínas"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Creatina"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Pre-entrenos"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Aminoácidos"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Vitaminas"}}
+          ]
+        }
+      }
+    },
+
+    "enlazado_interno": {
+      "desde_la_landing_de_sucursal": [
+        "/proteinas/ con anchor 'proteína en Panamá' (refuerza la categoría)",
+        "subcategorías: /proteinas/proteina-de-suero-whey-protein/, /proteinas/proteina-aislada-isolate/, /proteinas/ganadores-de-masa-mass-gainer/, /proteinas/proteina-vegana/, /proteinas/proteina-para-mujer/, /proteinas/proteina-rtd/",
+        "/sucursales/ (hub) con anchor 'todas las sucursales'",
+        "sucursales cercanas con anchor 'sucursal [Nombre]'",
+        "categorías complementarias: /creatina/, /pre-entrenos/, /aminoacidos/",
+        "blog de apoyo de la zona (si existe)"
+      ],
+      "hacia_la_landing_de_sucursal": [
+        "/proteinas/ -> cada sucursal con anchor 'proteína en [zona]' o 'sucursal [Sucursal]'",
+        "/sucursales/ (hub) -> cada landing (ya existe)",
+        "home -> hub y a sucursales destacadas",
+        "fichas de producto -> sucursales con anchor 'retiro en [Sucursal]'",
+        "blog de proteína -> sucursales con anchor local"
+      ],
+      "regla": "1-2 enlaces contextuales por zona; no repetir el mismo anchor exacto muchas veces. Evitar bloques de enlaces de 6 sucursales en cada página (footer ok, cuerpo no)."
+    },
+
+    "resenas_gbp_en_la_landing": {
+      "que_mostrar": [
+        "Rating de la sucursal (texto) + número de reseñas + enlace 'Ver reseñas en Google' a la ficha GBP de esa sucursal.",
+        "2-3 testimonios reales (transcritos) de esa sucursal, con nombre/fecha si es público.",
+        "Botón 'Escribir una reseña' con el enlace directo a la ficha."
+      ],
+      "que_no_hacer": [
+        "No marcar AggregateRating en el schema del LocalBusiness con reseñas de Google (auto-servicio).",
+        "No mostrar reseñas de una sucursal en la landing de otra.",
+        "No inventar ni editar reseñas."
+      ]
+    },
+
+    "horarios_mapa_como_llegar": {
+      "horarios": "Mostrar el horario completo de la sucursal (idéntico a data.php y a GBP), incluido 'cerrado el domingo' donde aplique (San Francisco y Altos de Panamá). Añadir feriados panameños.",
+      "mapa": "Embed de Google Maps con el Place ID correcto de la sucursal (no reutilizar el embed de otra). Cargar el iframe en lazy load para no afectar CWV móvil.",
+      "como_llegar": "Botón 'Cómo llegar' que abra Google Maps con navegación (https://www.google.com/maps/dir/?api=1&destination={lat},{lng}).",
+      "transporte": "Indicar acceso en Metro/bus/auto según la sucursal (Metro Vía Argentina en El Cangrejo; Metro Cerro Viento en Metromall; Corredor Sur en Atrio/San Francisco)."
+    },
+
+    "checklist_tecnico": [
+      "Cada landing indexable (index,follow) y en el sitemap; canonical autorreferencial.",
+      "Title y meta únicos por landing (no duplicar entre sucursales).",
+      "Un solo H1 por landing.",
+      "Schema Store/LocalBusiness válido por landing + BreadcrumbList.",
+      "Core Web Vitals móvil en verde (el usuario local busca en móvil).",
+      "Mapa embed sin bloquear el render.",
+      "NAP idéntico a la ficha GBP (nombre, dirección, teléfono, horario).",
+      "Enlace de la ficha GBP 'Sitio web' apuntando a la landing de ESA sucursal con UTM."
+    ],
+
+    "landings": [
+      {
+        "prioridad": 1,
+        "sucursal": "San Francisco",
+        "slug": "san-francisco",
+        "url": "https://suplementospanama.net/sucursales/san-francisco/",
+        "zona_principal": "San Francisco",
+        "h1": "Suplementos Panamá San Francisco: proteína y suplementos en San Francisco",
+        "title": "Proteína en San Francisco | PowerClub | Suplementos Panamá",
+        "title_chars": 58,
+        "meta": "Proteína, creatina y pre-entrenos originales en San Francisco. Retira gratis en Plaza Arval (dentro de PowerClub SF) o recibe en todo Panamá.",
+        "meta_chars": 148,
+        "keyword_principal": "proteína en San Francisco",
+        "keywords_secundarias": ["suplementos en San Francisco", "proteína cerca de PowerClub San Francisco", "proteína en Plaza Arval", "suplementos cerca de Parque Omar", "proteína en Coco del Mar"],
+        "contenido_local_unico": "Intro de barrio: para quien entrena en PowerClub SF, vive en San Francisco, Villa Lilla o Coco del Mar, o pasa por Vía Brasil / C. 72 Este. Mencionar Parque Omar como referencia. Cómo llegar: C. 72 Este, Plaza Arval; estacionamiento en la plaza; acceso desde C. 50 y Corredor Sur.",
+        "schema_branch": {
+          "telephone": "+507 6382-0672",
+          "address_street": "Plaza Arval, C. 72 Este de San Francisco",
+          "address_locality": "Ciudad de Panamá",
+          "geo": {"latitude": "8.9948786", "longitude": "-79.5082338"},
+          "areaServed": ["San Francisco", "Villa Lilla", "Coco del Mar", "Punta Pacífica"],
+          "sameAs_maps": "URL de la ficha GBP/Maps de San Francisco (regenerar desde el panel)"
+        },
+        "horario_resumen": "L-V 6:00-21:00 · Sáb 7:00-17:00 · Domingo cerrado",
+        "notas": [
+          "Es la landing prioritaria: mejor rating (4.9) y más reseñas (203).",
+          "Aprovechar la co-ubicación con PowerClub para contenido y co-marketing."
+        ]
+      },
+      {
+        "prioridad": 2,
+        "sucursal": "El Cangrejo",
+        "slug": "el-cangrejo",
+        "url": "https://suplementospanama.net/sucursales/el-cangrejo/",
+        "zona_principal": "El Cangrejo",
+        "h1": "Suplementos Panamá El Cangrejo: proteína y suplementos en El Cangrejo",
+        "title": "Suplementos en El Cangrejo | Proteína | Suplementos Panamá",
+        "title_chars": 58,
+        "meta": "Proteína, creatina y pre-entrenos originales en El Cangrejo. Retira gratis en Plaza El Cangrejo o recibe en todo Panamá. Cerca del Metro Vía Argentina.",
+        "meta_chars": 160,
+        "keyword_principal": "proteína en El Cangrejo",
+        "keywords_secundarias": ["suplementos en El Cangrejo", "proteína en Obarrio", "proteína en Bella Vista", "proteína cerca de Vía Argentina", "suplementos cerca de Calle 50"],
+        "contenido_local_unico": "Intro: corazón de la Ciudad de Panamá, zona bancaria y de alta densidad de gimnasios; para quien trabaja en Obarrio/Bella Vista o baja en el Metro Vía Argentina. Mencionar Plaza El Cangrejo y Av. Manuel Espinoza Batista. Cómo llegar: Metro Vía Argentina (Línea 1), Avenida Argentina, Vía España; estacionamiento en la plaza.",
+        "schema_branch": {
+          "telephone": "+507 6818-2546",
+          "address_street": "Av. Manuel Espinoza Batista, Plaza El Cangrejo L7",
+          "address_locality": "Ciudad de Panamá",
+          "geo": {"latitude": "8.9842946", "longitude": "-79.5302391"},
+          "areaServed": ["El Cangrejo", "La Cresta", "Obarrio", "Bella Vista", "Campo Alegre"],
+          "sameAs_maps": "URL de la ficha GBP/Maps de El Cangrejo"
+        },
+        "horario_resumen": "L-V 9:00-20:00 · Sáb y Dom 9:00-17:30",
+        "notas": [
+          "Fijar la dirección canónica (ver sección 3.1): 'Av. Manuel Espinoza Batista, Plaza El Cangrejo L7'.",
+          "Segunda mayor base de reseñas (152) y rating 4.8."
+        ]
+      },
+      {
+        "prioridad": 3,
+        "sucursal": "Megapolis",
+        "slug": "megapolis",
+        "url": "https://suplementospanama.net/sucursales/megapolis/",
+        "zona_principal": "Paitilla (Avenida Balboa)",
+        "h1": "Suplementos Panamá Megapolis: proteína y suplementos en Paitilla y Avenida Balboa",
+        "title": "Proteína en Paitilla | Megapolis | Suplementos Panamá",
+        "title_chars": 53,
+        "meta": "Compra proteína y suplementos en Megapolis (Paitilla, Av. Balboa). Retiro gratis y envío en Panamá. Frente al SmartFit, cerca de la Cinta Costera.",
+        "meta_chars": 155,
+        "keyword_principal": "proteína en Paitilla",
+        "keywords_secundarias": ["proteína en Punta Paitilla", "proteína en Marbella", "proteína cerca de la Cinta Costera", "proteína en Avenida Balboa", "suplementos en Megapolis Outlet"],
+        "contenido_local_unico": "Intro con la geografía real: 'detrás está Marbella, el inicio de la Av. Balboa y la Cinta Costera; al frente, Paitilla'. Para quien vive en Punta Paitilla/Marbella, trabaja en la zona bancaria o entrena en el SmartFit del Megapolis. Cómo llegar: Avenida Balboa, Megapolis Outlet 3er nivel; estacionamiento directo del mall.",
+        "schema_branch": {
+          "telephone": "+507 6631-6632",
+          "address_street": "Megapolis Outlet, 3er nivel frente al SmartFit",
+          "address_locality": "Ciudad de Panamá",
+          "geo": {"latitude": "8.9758981", "longitude": "-79.5174364"},
+          "areaServed": ["Paitilla", "Punta Paitilla", "Marbella", "Avenida Balboa", "Punta Pacífica"],
+          "sameAs_maps": "URL de la ficha GBP/Maps de Megapolis"
+        },
+        "horario_resumen": "L-V 10:00-20:00 · Sáb y Dom 10:30-19:00",
+        "notas": [
+          "CORREGIR copy actual: data.php dice 'la estación Paitilla queda a pocos minutos'; no existe tal estación. La más cercana es Vía Argentina (Línea 1).",
+          "Tiene analizador de composición corporal (servicio a destacar sin claims)."
+        ]
+      },
+      {
+        "prioridad": 4,
+        "sucursal": "Metromall",
+        "slug": "metromall",
+        "url": "https://suplementospanama.net/sucursales/metromall/",
+        "zona_principal": "San Miguelito",
+        "h1": "Suplementos Panamá Metromall: proteína y suplementos en San Miguelito",
+        "title": "Proteína en San Miguelito | Metromall | Suplementos Panamá",
+        "title_chars": 58,
+        "meta": "Proteína y suplementos en Metromall, San Miguelito. Retira gratis o recibe en todo Panamá. Entrada directa por el Metro Cerro Viento.",
+        "meta_chars": 145,
+        "keyword_principal": "proteína en San Miguelito",
+        "keywords_secundarias": ["proteína en Metromall", "suplementos en San Miguelito", "proteína cerca de Cerro Viento", "proteína en Rufina Alfaro", "proteína cerca de la Vía Tocumen"],
+        "contenido_local_unico": "Intro: acceso directo por la estación del Metro Cerro Viento (Línea 2); para residentes de San Miguelito, Pedregal, Las Mañanitas, Tocumen y el corredor de la Vía Tocumen. Cómo llegar: Av. Domingo Díaz / Vía Tocumen, Metromall nivel 3; estacionamiento amplio; entrada directa desde el Metro.",
+        "schema_branch": {
+          "telephone": "+507 6013-0765",
+          "address_street": "Metromall nivel 3 al lado del SmartFit",
+          "address_locality": "Ciudad de Panamá",
+          "geo": {"latitude": "9.0520634", "longitude": "-79.4509633"},
+          "areaServed": ["San Miguelito", "Rufina Alfaro", "Cerro Viento", "Pedregal", "Las Mañanitas"],
+          "sameAs_maps": "URL de la ficha GBP/Maps de Metromall"
+        },
+        "horario_resumen": "L-V 10:00-20:00 · Sáb 10:30-20:00 · Dom 11:00-19:00",
+        "notas": [
+          "Única sucursal que cubre el este de la ciudad; alta prioridad para 'proteína cerca de mí' en San Miguelito/Tocumen.",
+          "Confirmar el nombre de la zona en GBP (OSM la registra como Rufina Alfaro / San Miguelito)."
+        ]
+      },
+      {
+        "prioridad": 5,
+        "sucursal": "Atrio Mall",
+        "slug": "atrio-mall",
+        "url": "https://suplementospanama.net/sucursales/atrio-mall/",
+        "zona_principal": "Costa del Este",
+        "h1": "Suplementos Panamá Atrio Mall: proteína y suplementos en Costa del Este",
+        "title": "Proteína en Costa del Este | Atrio Mall | Suplementos Panamá",
+        "title_chars": 60,
+        "meta": "Proteína y suplementos en Atrio Mall, Costa del Este. Retira gratis o recibe en todo Panamá. Frente al SmartFit, cerca de Paseo del Mar.",
+        "meta_chars": 143,
+        "keyword_principal": "proteína en Costa del Este",
+        "keywords_secundarias": ["suplementos en Costa del Este", "proteína en Atrio Mall", "proteína cerca de Paseo del Mar", "proteína en Juan Díaz", "proteína cerca del Corredor Sur"],
+        "contenido_local_unico": "Intro: hub empresarial y residencial de Costa del Este; para quienes viven/trabajan en Costa del Este, Campo Lindbergh, Coco del Mar o Juan Díaz y pasan por el Corredor Sur. Mencionar Atrio Mall, SmartFit y Paseo del Mar. Cómo llegar: Avenida Marina Norte, Atrio Mall 2do piso; estacionamiento amplio; acceso por el Corredor Sur.",
+        "schema_branch": {
+          "telephone": "+507 6604-6701",
+          "address_street": "Atrio Mall, 2do Piso frente al SmartFit, Costa del Este",
+          "address_locality": "Ciudad de Panamá",
+          "geo": {"latitude": "9.0224236", "longitude": "-79.4619632"},
+          "areaServed": ["Costa del Este", "Campo Lindbergh", "Juan Díaz", "Coco del Mar"],
+          "sameAs_maps": "URL de la ficha GBP/Maps de Atrio Mall (regenerar: la actual trae datos de Metromall)"
+        },
+        "horario_resumen": "L-V 10:30-20:00 · Sáb y Dom 11:00-19:00",
+        "notas": [
+          "CORREGIR copy actual: data.php menciona 'Panamá Pacífico' como zona cercana; es incorrecto (Panamá Pacífico está en la ribera oeste del Canal, lejos). Reemplazar por Juan Díaz / Coco del Mar / Parque Lefevre.",
+          "Tiene analizador de composición corporal."
+        ]
+      },
+      {
+        "prioridad": 6,
+        "sucursal": "Altos de Panamá",
+        "slug": "altos-de-panama",
+        "url": "https://suplementospanama.net/sucursales/altos-de-panama/",
+        "zona_principal": "Altos de Panamá (Centennial)",
+        "h1": "Suplementos Panamá Altos de Panamá: proteína y suplementos en Centennial",
+        "title": "Proteína en Altos de Panamá | Centennial | Panamá",
+        "title_chars": 49,
+        "meta": "Proteína y suplementos en Altos de Panamá, dentro de Power Club Centennial. Retiro gratis y envío en Panamá. Horario de 6:00 a.m. a 9:00 p.m.",
+        "meta_chars": 154,
+        "keyword_principal": "proteína en Altos de Panamá",
+        "keywords_secundarias": ["suplementos en Altos de Panamá", "proteína en Centennial", "proteína cerca de Centennial Mall", "proteína en Dorado Lakes", "proteína cerca de Power Club Centennial"],
+        "contenido_local_unico": "Intro: Plaza Caminos del Centennial, detrás del Centennial Mall, dentro de Power Club; horario amplio ideal para antes/después de entrenar. Para residentes del norte de la ciudad y alrededores del Centennial. Cómo llegar: Calle Centennial, Plaza Caminos del Centennial; estacionamiento de la plaza.",
+        "schema_branch": {
+          "telephone": "+507 6890-6325",
+          "address_street": "Plaza Caminos del Centennial, detrás del Centennial Mall",
+          "address_locality": "Ciudad de Panamá",
+          "geo": {"latitude": "9.0315", "longitude": "-79.5312"},
+          "areaServed": ["Altos de Panamá", "Centennial", "Dorado Lakes", "Ancón"],
+          "sameAs_maps": "URL de la ficha GBP/Maps de Altos de Panamá (la actual tiene el typo 'centanial')"
+        },
+        "horario_resumen": "L-V 6:00-21:00 · Sáb 7:00-17:00 · Domingo cerrado",
+        "notas": [
+          "Es la ficha más débil (4.5 / 62 reseñas): máxima prioridad en la campaña de reseñas.",
+          "OSM registra la zona como 'Dorado Lakes / Ancón'; el negocio y el mall usan 'Altos de Panamá'. Unificar la denominación (web + GBP).",
+          "Tiene analizador de composición corporal y es la única con horario 6:00-21:00 junto a San Francisco."
+        ]
+      }
+    ],
+
+    "como_refuerzan_a_proteinas_y_al_local_pack": [
+      "Entity building: cada landing declara la rama con @id estable y la enlaza al #organization; repetido 6 veces consolida la entidad local de la marca en toda la ciudad.",
+      "sameAs: enlazar cada rama con su ficha GBP/Maps crea la relación web <-> mapa que Google usa para confiar en la entidad.",
+      "Coherencia NAP: la landing y la ficha muestran el mismo nombre/dirección/teléfono/horario; esto reduce la ambigüedad que hoy frena el pack.",
+      "Refuerzo de la categoría: todas las landings enlazan a /proteinas/ con anchors locales ('proteína en [zona]'), lo que reparte autoridad local hacia la categoría dueña del head term.",
+      "Cobertura de intención: la categoría /proteinas/ pelea 'proteína en Panamá'; las landings pelean 'proteína en [zona]' / 'proteína cerca de [landmark]', sin canibalizar.",
+      "Accesibilidad de Google: la landing es la URL de destino de la ficha (enlace 'Sitio web'), así Google conecta el resultado orgánico, la ficha y el mapa."
+    ],
+
+    "propiedad_de_intenciones": [
+      {"url": "/proteinas/", "intencion": "proteína en Panamá / proteínas en Panamá (head local)", "no_competir_con": "las landings de sucursal"},
+      {"url": "/sucursales/{slug}/", "intencion": "proteína/suplementos en [zona] y cerca de [landmark]", "no_competir_con": "el head term nacional"},
+      {"url": "/sucursales/", "intencion": "sucursales de suplementos en Panamá (hub)", "no_competir_con": "las landings individuales"},
+      {"url": "/product/{top-seller}/", "intencion": "marca + formato (no zona)", "no_competir_con": "local genérico"}
+    ]
+  },
+
+  "seccion_9_correlaciones_zonas": {
+    "metodologia": "Para cada sucursal se tomaron la dirección y las coordenadas reales de data.php y se validaron con geocodificación inversa en OpenStreetMap (Nominatim) el 2026-10-04, más landmarks verificados por búsqueda directa (p. ej. Cinta Costera junto a Paitilla en 8.97532,-79.51717; Parque Omar en San Francisco en 9.00119,-79.50631; Centennial Mall en Dorado Lakes/Ancón; Metromall en Av. Domingo Díaz, Rufina Alfaro, San Miguelito). Los barrios se usan como keywords long-tail locales y como contexto en contenido/GBP, nunca como mini-landings duplicadas.",
+    "regla_principal": "Una landing por sucursal; los barrios y landmarks se integran DENTRO de la landing, no se crean páginas por barrio (evita doorway pages y contenido duplicado).",
+
+    "tabla_resumen": [
+      {"sucursal": "San Francisco", "zona_principal": "San Francisco", "zonas": "San Francisco, Villa Lilla, Coco del Mar, Punta Pacífica", "landmark_ancla": "PowerClub SF / Parque Omar", "keyword_principal": "proteína en San Francisco", "prioridad": 1},
+      {"sucursal": "El Cangrejo", "zona_principal": "El Cangrejo", "zonas": "El Cangrejo, La Cresta, Obarrio, Bella Vista", "landmark_ancla": "Metro Vía Argentina / Zona Bancaria", "keyword_principal": "proteína en El Cangrejo", "prioridad": 2},
+      {"sucursal": "Megapolis", "zona_principal": "Paitilla / Av. Balboa", "zonas": "Paitilla, Punta Paitilla, Marbella, Punta Pacífica", "landmark_ancla": "Cinta Costera / Av. Balboa", "keyword_principal": "proteína en Paitilla", "prioridad": 3},
+      {"sucursal": "Metromall", "zona_principal": "San Miguelito", "zonas": "San Miguelito, Rufina Alfaro, Cerro Viento, Pedregal", "landmark_ancla": "Metro Cerro Viento / Vía Tocumen", "keyword_principal": "proteína en San Miguelito", "prioridad": 4},
+      {"sucursal": "Atrio Mall", "zona_principal": "Costa del Este", "zonas": "Costa del Este, Campo Lindbergh, Juan Díaz, Coco del Mar", "landmark_ancla": "Atrio Mall / Paseo del Mar", "keyword_principal": "proteína en Costa del Este", "prioridad": 5},
+      {"sucursal": "Altos de Panamá", "zona_principal": "Altos de Panamá (Centennial)", "zonas": "Altos de Panamá, Centennial, Dorado Lakes, Ancón", "landmark_ancla": "Centennial Mall / Power Club Centennial", "keyword_principal": "proteína en Altos de Panamá", "prioridad": 6}
+    ],
+
+    "por_sucursal": [
+      {
+        "sucursal": "San Francisco",
+        "slug": "san-francisco",
+        "coordenadas": "8.9948786, -79.5082338",
+        "zonas_y_barrios": ["San Francisco", "Villa Lilla", "Coco del Mar", "Punta Pacífica (sureste)", "Villa del Rey (referencia)"],
+        "landmarks": ["PowerClub San Francisco (dentro del local)", "Plaza Arval", "Parque Omar (Parque Recreativo Omar Torrijos)", "Vía Brasil", "Calle 72 Este", "Vía Israel", "Multiplaza Pacific (Punta Pacífica, ~2.5 km)", "Soho Mall (Calle 50, ~2 km)"],
+        "keywords_long_tail": ["proteína en San Francisco", "suplementos en San Francisco", "proteína en Plaza Arval", "proteína cerca de PowerClub San Francisco", "proteína cerca de Parque Omar", "proteína en Coco del Mar", "proteína en Villa Lilla", "proteína cerca de Vía Brasil", "proteína cerca de Multiplaza", "tienda de suplementos en San Francisco"],
+        "integracion": {
+          "h1_intro": "Usar 'San Francisco' en H1 y 'Coco del Mar / Parque Omar' en la intro (2-3 landmarks como máximo).",
+          "gbp": "Descripción de la ficha: mencionar 'dentro de PowerClub SF, Plaza Arval, a pasos de Parque Omar y Vía Brasil'.",
+          "posts": "Post: '¿Entrenas en PowerClub San Francisco? Retira tu proteína al salir del gym'.",
+          "alts": "Alt con 'San Francisco', 'PowerClub', 'Parque Omar'.",
+          "enlaces": "Enlazar a /proteinas/ con anchor 'proteína en San Francisco'."
+        },
+        "anchors_sugeridos": ["proteína en San Francisco", "suplementos cerca de Parque Omar", "sucursal San Francisco (PowerClub)"],
+        "advertencias": "Ninguna geográfica detectada. Confirmar que el nombre de ficha y landing usan 'San Francisco'."
+      },
+      {
+        "sucursal": "El Cangrejo",
+        "slug": "el-cangrejo",
+        "coordenadas": "8.9842946, -79.5302391",
+        "zonas_y_barrios": ["El Cangrejo", "La Cresta", "Obarrio", "Bella Vista", "Campo Alegre"],
+        "landmarks": ["Plaza El Cangrejo", "Metro Vía Argentina (Línea 1)", "Avenida Argentina", "Vía España", "Calle Uruguay (zona rosa)", "Calle 50 / Zona Bancaria", "Hotel Panamá Marriott (referencia, según data.php)", "Iglesia del Carmen (~1 km)"],
+        "keywords_long_tail": ["proteína en El Cangrejo", "suplementos en El Cangrejo", "proteína en Obarrio", "proteína en Bella Vista", "proteína cerca de Vía Argentina", "proteína cerca del Metro Vía Argentina", "suplementos cerca de Calle 50", "proteína en Campo Alegre", "proteína en La Cresta", "tienda de suplementos en El Cangrejo"],
+        "integracion": {
+          "h1_intro": "'El Cangrejo' en H1; 'Obarrio / Vía Argentina / zona bancaria' en la intro.",
+          "gbp": "Descripción: 'en Plaza El Cangrejo, cerca del Metro Vía Argentina y de la zona bancaria de Calle 50'.",
+          "posts": "Post con horario de oficina: 'Sal de la oficina y pasa por tu proteína en El Cangrejo'.",
+          "alts": "Alt con 'El Cangrejo', 'Vía Argentina', 'Plaza El Cangrejo'.",
+          "enlaces": "Enlazar a /proteinas/ con anchor 'proteína en El Cangrejo'."
+        },
+        "anchors_sugeridos": ["proteína en El Cangrejo", "proteína cerca de Vía Argentina", "sucursal El Cangrejo"],
+        "advertencias": "Fijar la dirección canónica (Av. Manuel Espinoza Batista, Plaza El Cangrejo L7) en web y GBP."
+      },
+      {
+        "sucursal": "Megapolis",
+        "slug": "megapolis",
+        "coordenadas": "8.9758981, -79.5174364",
+        "zonas_y_barrios": ["Paitilla", "Punta Paitilla", "Marbella", "Avenida Balboa", "Punta Pacífica (oeste)", "Obarrio / Calle 50 (norte)"],
+        "landmarks": ["Megapolis Outlet", "SmartFit Megapolis", "Cinta Costera (a metros: 8.97532,-79.51717)", "Avenida Balboa", "Vía Italia", "Punta Pacífica", "Calle 50 (Zona Bancaria)"],
+        "keywords_long_tail": ["proteína en Paitilla", "proteína en Punta Paitilla", "proteína en Marbella", "proteína cerca de la Cinta Costera", "proteína en Avenida Balboa", "suplementos en Megapolis Outlet", "proteína cerca de Punta Pacífica", "proteína en Vía Italia", "proteína frente al SmartFit Paitilla", "proteína cerca de la Zona Bancaria"],
+        "integracion": {
+          "h1_intro": "'Paitilla / Avenida Balboa' en H1; la intro usa la geografía real: 'detrás está Marbella, el inicio de la Av. Balboa y la Cinta Costera; al frente, Paitilla'.",
+          "gbp": "Descripción: 'en Megapolis Outlet (Av. Balboa), frente al SmartFit, cerca de la Cinta Costera y Marbella'.",
+          "posts": "Post: '¿Vienes de correr en la Cinta Costera? Pasa por tu proteína en Paitilla'.",
+          "alts": "Alt con 'Paitilla', 'Avenida Balboa', 'Cinta Costera'.",
+          "enlaces": "Enlazar a /proteinas/ con anchor 'proteína en Paitilla'."
+        },
+        "anchors_sugeridos": ["proteína en Paitilla", "suplementos cerca de la Cinta Costera", "sucursal Megapolis (Av. Balboa)"],
+        "advertencias": "El copy actual menciona 'la estación Paitilla'; no existe. Usar Metro Vía Argentina (Línea 1) como referencia real o quitar la mención."
+      },
+      {
+        "sucursal": "Metromall",
+        "slug": "metromall",
+        "coordenadas": "9.0520634, -79.4509633",
+        "zonas_y_barrios": ["San Miguelito", "Rufina Alfaro", "Cerro Viento", "Pedregal", "Las Mañanitas", "Tocumen (este)", "Juan Díaz (oeste)"],
+        "landmarks": ["Metromall", "SmartFit Metromall", "Estación Metro Cerro Viento (Línea 2)", "Avenida Domingo Díaz / Vía Tocumen", "Courtyard Panama Metromall"],
+        "keywords_long_tail": ["proteína en Metromall", "proteína en San Miguelito", "suplementos en San Miguelito", "proteína cerca de Cerro Viento", "proteína en Rufina Alfaro", "proteína en Pedregal", "proteína en Las Mañanitas", "proteína cerca de la Vía Tocumen", "proteína cerca del Metro Cerro Viento", "proteína en Tocumen"],
+        "integracion": {
+          "h1_intro": "'San Miguelito' en H1; 'Metromall / Metro Cerro Viento / Vía Tocumen' en la intro.",
+          "gbp": "Descripción: 'en Metromall (Av. Domingo Díaz), con entrada directa desde el Metro Cerro Viento'.",
+          "posts": "Post: 'Baja en Cerro Viento y entra directo a tu proteína en Metromall'.",
+          "alts": "Alt con 'San Miguelito', 'Metromall', 'Cerro Viento'.",
+          "enlaces": "Enlazar a /proteinas/ con anchor 'proteína en San Miguelito'."
+        },
+        "anchors_sugeridos": ["proteína en San Miguelito", "suplementos en Metromall", "sucursal Metromall (Cerro Viento)"],
+        "advertencias": "Única cobertura del este; no hay sucursal en Colón ni en Arraiján/La Chorrera (oeste)."
+      },
+      {
+        "sucursal": "Atrio Mall",
+        "slug": "atrio-mall",
+        "coordenadas": "9.0224236, -79.4619632",
+        "zonas_y_barrios": ["Costa del Este", "Campo Lindbergh", "Juan Díaz", "Parque Lefevre (noroeste)", "Coco del Mar (oeste)", "San Francisco (oeste)"],
+        "landmarks": ["Atrio Mall", "SmartFit Costa del Este", "Paseo del Mar (Costa del Este)", "Town Center Costa del Este", "Costa del Este Business District", "Corredor Sur", "Vía Israel"],
+        "keywords_long_tail": ["proteína en Costa del Este", "suplementos en Costa del Este", "proteína en Atrio Mall", "proteína cerca de Paseo del Mar", "proteína en Juan Díaz", "proteína cerca del Corredor Sur", "proteína en Campo Lindbergh", "suplementos cerca de Town Center Costa del Este", "proteína cerca de la Vía Israel", "proteína en Parque Lefevre"],
+        "integracion": {
+          "h1_intro": "'Costa del Este' en H1; 'Atrio Mall / Paseo del Mar / Corredor Sur' en la intro.",
+          "gbp": "Descripción: 'en Atrio Mall (Av. Marina Norte), frente al SmartFit, cerca de Paseo del Mar y el Corredor Sur'.",
+          "posts": "Post: 'Para los que trabajan en Costa del Este: proteína lista para retirar en Atrio Mall'.",
+          "alts": "Alt con 'Costa del Este', 'Atrio Mall', 'Paseo del Mar'.",
+          "enlaces": "Enlazar a /proteinas/ con anchor 'proteína en Costa del Este'."
+        },
+        "anchors_sugeridos": ["proteína en Costa del Este", "suplementos en Atrio Mall", "sucursal Costa del Este"],
+        "advertencias": "El copy actual cita 'Panamá Pacífico' como zona cercana: es incorrecto (ribera oeste del Canal). Reemplazar por Juan Díaz / Coco del Mar / Parque Lefevre."
+      },
+      {
+        "sucursal": "Altos de Panamá",
+        "slug": "altos-de-panama",
+        "coordenadas": "9.0315, -79.5312",
+        "zonas_y_barrios": ["Altos de Panamá", "Centennial", "Dorado Lakes", "Ancón", "límite con San Miguelito"],
+        "landmarks": ["Centennial Mall", "Power Club Centennial", "Plaza Caminos del Centennial", "Calle Centennial", "Vía Centenario / acceso norte"],
+        "keywords_long_tail": ["proteína en Altos de Panamá", "suplementos en Altos de Panamá", "proteína en Centennial", "proteína cerca de Centennial Mall", "proteína en Dorado Lakes", "proteína cerca de Power Club Centennial", "proteína en Ancón", "suplementos cerca de Plaza Caminos del Centennial", "proteína cerca de Vía Centenario"],
+        "integracion": {
+          "h1_intro": "'Altos de Panamá / Centennial' en H1; 'Centennial Mall / Power Club' en la intro.",
+          "gbp": "Descripción: 'Plaza Caminos del Centennial, detrás del Centennial Mall, dentro de Power Club'.",
+          "posts": "Post: 'Entrena temprano en Power Club Centennial y retira tu proteína de 6:00 a.m.'.",
+          "alts": "Alt con 'Altos de Panamá', 'Centennial', 'Power Club'.",
+          "enlaces": "Enlazar a /proteinas/ con anchor 'proteína en Altos de Panamá'."
+        },
+        "anchors_sugeridos": ["proteína en Altos de Panamá", "suplementos en Centennial", "sucursal Altos de Panamá"],
+        "advertencias": "OSM registra 'Dorado Lakes / Ancón'; unificar la denominación 'Altos de Panamá' en web y GBP."
+      }
+    ],
+
+    "integracion_por_canal": {
+      "h1_y_intro_landing": "1 zona principal en H1; 2-3 landmarks en la intro con contexto natural. No listar todas las zonas.",
+      "gbp_descripcion_servicios": "Mencionar 2-3 zonas/landmarks de referencia ('detrás de X', 'frente a Y', 'a pasos de Z'). NO meter barrios en el nombre de la ficha ni en el nombre de productos.",
+      "gbp_posts": "Usar landmarks en el gancho ('¿vienes del SmartFit de Paitilla?', 'salida del PowerClub San Francisco').",
+      "gbp_qa": "Incluir preguntas tipo '¿están cerca de [landmark]?' cuando aplique.",
+      "alts_imagenes": "'Tienda de suplementos en [zona]' / 'Proteína en [zona]' / foto con landmark.",
+      "enlaces_internos": "Anchor = zona + intención; 1-2 por zona; variar el texto.",
+      "blog": "Guías/Docs: 'Dónde comprar proteína en [zona]' con enlace a la landing y a /proteinas/."
+    },
+
+    "reglas_anti_stuffing": [
+      "Máximo 2-3 menciones de la misma zona en toda la página (H1 + intro + un H2).",
+      "No meter listas de barrios separados por comas solo por SEO: el texto debe leerse natural.",
+      "Una keyword por intención: no crear una URL por barrio (doorway).",
+      "No canibalizar: el head term 'proteína en Panamá' es de /proteinas/; los barrios van en las landings de sucursal.",
+      "No usar el mismo title/meta entre sucursales ni repetir el patrón exacto sin adaptar.",
+      "Los landmarks se mencionan porque ayudan a ubicar al cliente, no como relleno de keywords.",
+      "Sin claims médicos en el copy resultante."
+    ],
+
+    "matriz_keyword_a_url": [
+      {"keyword": "proteína en Panamá", "url": "/proteinas/", "tipo": "head local"},
+      {"keyword": "proteína en San Francisco", "url": "/sucursales/san-francisco/", "tipo": "long-tail local"},
+      {"keyword": "proteína cerca de Parque Omar", "url": "/sucursales/san-francisco/", "tipo": "long-tail landmark"},
+      {"keyword": "proteína en El Cangrejo", "url": "/sucursales/el-cangrejo/", "tipo": "long-tail local"},
+      {"keyword": "proteína cerca de Vía Argentina", "url": "/sucursales/el-cangrejo/", "tipo": "long-tail landmark"},
+      {"keyword": "proteína en Paitilla", "url": "/sucursales/megapolis/", "tipo": "long-tail local"},
+      {"keyword": "proteína cerca de la Cinta Costera", "url": "/sucursales/megapolis/", "tipo": "long-tail landmark"},
+      {"keyword": "proteína en San Miguelito", "url": "/sucursales/metromall/", "tipo": "long-tail local"},
+      {"keyword": "proteína cerca de Cerro Viento", "url": "/sucursales/metromall/", "tipo": "long-tail landmark"},
+      {"keyword": "proteína en Costa del Este", "url": "/sucursales/atrio-mall/", "tipo": "long-tail local"},
+      {"keyword": "proteína cerca de Paseo del Mar", "url": "/sucursales/atrio-mall/", "tipo": "long-tail landmark"},
+      {"keyword": "proteína en Altos de Panamá", "url": "/sucursales/altos-de-panama/", "tipo": "long-tail local"},
+      {"keyword": "proteína cerca de Centennial Mall", "url": "/sucursales/altos-de-panama/", "tipo": "long-tail landmark"}
+    ]
   },
 
   "restricciones_no_tocar": [
