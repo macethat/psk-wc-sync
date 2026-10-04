@@ -107,7 +107,11 @@ function sp_gmc_item($args) {
     $out .= '  <g:price>' . esc_html($args['price']) . "</g:price>\n";
     $out .= '  <g:condition>new</g:condition>' . "\n";
     if (!empty($args['brand']))   { $out .= '  <g:brand>' . esc_html($args['brand']) . "</g:brand>\n"; }
-    if (!empty($args['gtin']))    { $out .= '  <g:gtin>' . esc_html($args['gtin']) . "</g:gtin>\n"; }
+    if (!empty($args['gtin'])) {
+        $out .= '  <g:gtin>' . esc_html($args['gtin']) . "</g:gtin>\n";
+    } else {
+        $out .= "  <g:identifier_exists>no</g:identifier_exists>\n";
+    }
     if (!empty($args['mpn']))     { $out .= '  <g:mpn>' . esc_html($args['mpn']) . "</g:mpn>\n"; }
     if (!empty($args['group_id'])){ $out .= '  <g:item_group_id>' . esc_html($args['group_id']) . "</g:item_group_id>\n"; }
     if (!empty($args['category'])){ $out .= '  <g:product_type>' . esc_html($args['category']) . "</g:product_type>\n"; }
