@@ -1,0 +1,206 @@
+{
+  "generado": "2026-10-02",
+  "sitio": "https://suplementospanama.net",
+  "plataforma": "WooCommerce + Rank Math SEO (static front page)",
+  "alcance": "Solo metadatos SEO on-page de 2 paginas. No se modifico el sitio.",
+  "notas_generales": [
+    "Rank Math, con front page ESTATICO (Settings > Reading > A static page), toma el titulo/descripcion del meta de la propia pagina (rank_math_title / rank_math_description), NO de la pestana 'Homepage' de Titles & Meta. Por eso los comandos sobre el ID 22215 aplican al publicarlo como inicio.",
+    "Robots por defecto en paginas publicadas = index,follow. Los comandos de robots quedan documentados pero son opcionales; si se ejecutan, usar --format=json para que WP-CLI guarde un array real (evita doble serializacion).",
+    "Canonical: dejar en automatico (Rank Math emite canonical autorreferencial). No definir rank_math_canonical_url salvo necesidad; si existe un valor viejo, borrarlo.",
+    "OG/Twitter: se reutilizan los valores de Facebook con rank_math_twitter_use_facebook=on. La imagen OG ideal es 1200x630; los assets actuales (hero/banner) no tienen ese ratio exacto, conviene subir una imagen 1200x630 dedicada.",
+    "Sin claims medicos ni precios inventados. Se usa el umbral real de envio gratis ($150) y el dato de 6 sucursales dado en el brief.",
+    "Español de Panama: 'compra online', 'retira por sucursal', 'envio a todo Panama'."
+  ],
+  "paginas": {
+    "22215": {
+      "rol": "Home / front page (page template: Home Nuevo - Vitrina)",
+      "url_actual": "https://suplementospanama.net/home-nuevo/",
+      "url_final": "https://suplementospanama.net/",
+      "intencion": "Transaccional-comercial amplia (tienda de suplementos deportivos en Panama)",
+      "focus_keyword": "suplementos panama",
+      "focus_keyword_meta": "suplementos panamá,suplementos deportivos panamá,tienda de suplementos panamá",
+      "keywords_secundarias": [
+        "suplementos deportivos panamá",
+        "tienda de suplementos panamá",
+        "combos de suplementos online",
+        "proteínas creatina pre-entrenos panamá"
+      ],
+      "seo_title": "Suplementos Panamá | Proteínas, Creatina y Pre-Entrenos",
+      "seo_title_chars": 55,
+      "seo_title_token_alternativa": "%sitename% | Proteínas, Creatina y Pre-Entrenos",
+      "meta_description": "Compra suplementos deportivos 100% originales en Panamá: proteínas, creatina, pre-entrenos y combos online con descuento. Envío gratis desde $150 en Panamá.",
+      "meta_description_chars": 156,
+      "og_title": "Suplementos Panamá | Proteínas, Creatina y Más",
+      "og_title_chars": 46,
+      "og_description": "Proteínas, creatina, pre-entrenos y combos con descuento online. Envío gratis desde $150 y retiro en 6 sucursales en Panamá.",
+      "og_description_chars": 124,
+      "og_image_sugerida": "Subir una imagen 1200x630 (propuesta: hero de combos con logo). Placeholder actual: https://suplementospanama.net/wp-content/themes/nutritix-child/assets/hero-bg/hero-bg-desktop.jpg",
+      "schema": {
+        "principal": "WebPage (default de Rank Math para paginas) - mantener",
+        "globales": [
+          "Organization / OnlineStore: name 'Suplementos Panamá', url, logo, sameAs (redes + Google Maps de El Cangrejo), telephone, priceRange, areaServed 'Panamá', address (PA) y openingHoursSpecification. El filtro rank_math/json_ld existente ya agrega addressCountry=PA y el sameAs de Google Maps en el front page.",
+          "WebSite + SearchAction (Sitelinks Searchbox) si esta habilitado en Rank Math.",
+          "LocalBusiness/Store por sucursal: dejar el modulo Local SEO de Rank Math para las 6 sucursales (El Cangrejo, Megapolis, Atrio Mall, San Francisco, Altos de Panamá, Metromall)."
+        ],
+        "opcional": "ItemList con las 6 categorias principales (Proteínas, Creatina, Pre-Entrenos, Aminoácidos, Quemadores, Vitaminas) para reforzar entidades. NO marcar productos en el home: eso compite con las paginas de categoria.",
+        "evitar": "No usar AggregateRating/Review de los testimonios del home salvo que todas las resenas esten visibles y sean verificables (riesgo de rich results invalidos)."
+      },
+      "robots": "index, follow",
+      "canonical": "auto (https://suplementospanama.net/)",
+      "h1_recomendaciones": [
+        "El H1 actual es visual: 'BEAST MODE ON. COMBOS ONLINE, SIN PAGAR DE MÁS.' No contiene la keyword principal. Opcion A (recomendada, sin romper diseño): mantenerlo y reforzar la keyword con el eyebrow 'Suplementos Deportivos en Panamá' + un parrafo corto de intro bajo el hero que mencione 'suplementos deportivos en Panamá' y 'compra online'.",
+        "Opcion B: ajustar el H1 a algo como 'Suplementos y Combos Online en Panamá' manteniendo el estilo tipografico. Recordar: un solo H1 por pagina.",
+        "Los H2 actuales son correctos y descriptivos: 'Encuentra el suplemento exacto para tus objetivos', 'Combos Online', 'Ofertas Exclusivas Online', 'Lo que más nos piden', 'No vendemos marcas, las marcas nos eligen', 'Lo que dicen nuestros clientes'. Añadir 'en Panamá' a 1-2 H2 si encaja naturalmente."
+      ],
+      "enlazado_interno": [
+        "Categorias del home ya enlazan con anchor = nombre de categoria (Proteínas, Creatina, etc.). Mantener y verificar que todas resuelvan.",
+        "Enlazar combos a /promociones/combos/ y ofertas a /black-weekend/ (ya presente).",
+        "Incluir enlaces a las paginas de marca (/product-brand/...) desde la seccion de videos.",
+        "Revisar enlaces huerfanos hacia categorias y agregar breadcrumbs (BreadcrumbList) si el tema lo permite."
+      ],
+      "wp_cli": [
+        "wp post meta update 22215 rank_math_title 'Suplementos Panamá | Proteínas, Creatina y Pre-Entrenos'",
+        "wp post meta update 22215 rank_math_description 'Compra suplementos deportivos 100% originales en Panamá: proteínas, creatina, pre-entrenos y combos online con descuento. Envío gratis desde $150 en Panamá.'",
+        "wp post meta update 22215 rank_math_focus_keyword 'suplementos panamá,suplementos deportivos panamá,tienda de suplementos panamá'",
+        "wp post meta update 22215 rank_math_facebook_title 'Suplementos Panamá | Proteínas, Creatina y Más'",
+        "wp post meta update 22215 rank_math_facebook_description 'Proteínas, creatina, pre-entrenos y combos con descuento online. Envío gratis desde $150 y retiro en 6 sucursales en Panamá.'",
+        "wp post meta update 22215 rank_math_twitter_use_facebook 'on'",
+        "wp post meta update 22215 rank_math_robots '[\"index\",\"follow\"]' --format=json",
+        "wp post meta delete 22215 rank_math_canonical_url 2>/dev/null || true"
+      ]
+    },
+    "22216": {
+      "rol": "Landing de campana Black Weekend (page template: Black Weekend - Listado de Descuentos)",
+      "url_actual": "https://suplementospanama.net/black-weekend/",
+      "url_final": "https://suplementospanama.net/black-weekend/",
+      "intencion": "Transaccional de campana (black weekend / ofertas de suplementos en Panama, compra online)",
+      "focus_keyword": "black weekend panama",
+      "focus_keyword_meta": "black weekend panamá,ofertas suplementos panamá,descuentos suplementos panamá",
+      "keywords_secundarias": [
+        "ofertas suplementos panamá",
+        "descuentos suplementos panamá",
+        "black friday suplementos panamá",
+        "suplementos en oferta online"
+      ],
+      "seo_title": "Black Weekend Panamá | Descuentos Online en Suplementos",
+      "seo_title_chars": 55,
+      "meta_description": "Black Weekend en Suplementos Panamá: descuentos exclusivos en compras online de proteínas, creatina y más. Válido solo en la web, no en sucursales ni WhatsApp.",
+      "meta_description_chars": 159,
+      "og_title": "Black Weekend | Descuentos Online en Suplementos Panamá",
+      "og_title_chars": 55,
+      "og_description": "Descuentos exclusivos online en proteínas, creatina, pre-entrenos y más. Solo este fin de semana en Suplementos Panamá.",
+      "og_description_chars": 119,
+      "og_image_sugerida": "Usar el banner de la campana 1200x630 ideal. Placeholder actual: https://suplementospanama.net/wp-content/themes/nutritix-child/assets/banner-bw/banner-bw-1920x500.jpg (ratio 1920x500, recortar a 1200x630 para OG).",
+      "schema": {
+        "principal": "CollectionPage con mainEntity = ItemList (listado de ofertas).",
+        "detalle": [
+          "ItemList: 34 ListItem con position, url y name de cada producto de la categoria 'descuento-online' (on-sale, simple, sin combo).",
+          "BreadcrumbList: Inicio > Black Weekend (Rank Math lo puede emitir si los breadcrumbs estan activos).",
+          "Opcional avanzado (rich result carrusel): cada item como Product + Offer con price, priceCurrency 'USD' y availability calculados EN VIVO desde WooCommerce. Solo si el dato es dinamico y valido; no hardcodear precios."
+        ],
+        "implementacion": "Rank Math no genera ItemList para un template propio. Agregar el snippet PHP (ver 'snippets.black_weekend_itemlist') que imprime CollectionPage + ItemList dinamico en wp_head solo en is_page(22216).",
+        "evitar": "No duplicar Product schema completo por cada item del listado: las fichas ya lo tienen. En el listado basta ListItem(url,name)."
+      },
+      "robots": "index, follow (mientras la campana este activa)",
+      "canonical": "auto (autorreferencial: https://suplementospanama.net/black-weekend/)",
+      "h1_recomendaciones": [
+        "H1 actual: 'Black Weekend Sale'. Cambiar a 'Black Weekend: descuentos online en suplementos' para incluir keyword + claridad.",
+        "Corregir el parrafo intro (typo y coma final): 'Descuentos exclusivos válidos solo en compras por la web. No aplican en sucursales ni por WhatsApp.'",
+        "Agregar 2-3 frases de contenido unico antes del grid (que es lo unico que lo diferencia de la categoria Descuento Online) para evitar contenido thin/duplicado. Ej: que es el Black Weekend, vigencia, como comprar, medios de pago (Yappy/tarjeta) y retiro/envio.",
+        "No canibalizar con la pagina de categoria 'Descuento Online': el H1 y la intro deben hablar de la campana concreta."
+      ],
+      "enlazado_interno": [
+        "Enlazar de vuelta al home (/) y a las categorias principales.",
+        "Enlazar a la categoria Descuento Online como listado permanente solo si existe y no compite; en caso de retirar la campana, 301 hacia esa categoria o hacia /ofertas/.",
+        "Cada card ya enlaza a su ficha de producto (COMPRAR). Mantener anchor descriptivo o usar el nombre del producto."
+      ],
+      "wp_cli": [
+        "wp post meta update 22216 rank_math_title 'Black Weekend Panamá | Descuentos Online en Suplementos'",
+        "wp post meta update 22216 rank_math_description 'Black Weekend en Suplementos Panamá: descuentos exclusivos en compras online de proteínas, creatina y más. Válido solo en la web, no en sucursales ni WhatsApp.'",
+        "wp post meta update 22216 rank_math_focus_keyword 'black weekend panamá,ofertas suplementos panamá,descuentos suplementos panamá'",
+        "wp post meta update 22216 rank_math_facebook_title 'Black Weekend | Descuentos Online en Suplementos Panamá'",
+        "wp post meta update 22216 rank_math_facebook_description 'Descuentos exclusivos online en proteínas, creatina, pre-entrenos y más. Solo este fin de semana en Suplementos Panamá.'",
+        "wp post meta update 22216 rank_math_twitter_use_facebook 'on'",
+        "wp post meta update 22216 rank_math_robots '[\"index\",\"follow\"]' --format=json",
+        "wp post meta delete 22216 rank_math_canonical_url 2>/dev/null || true"
+      ]
+    }
+  },
+  "metakeys_rank_math_usados": {
+    "rank_math_title": "SEO title",
+    "rank_math_description": "Meta description",
+    "rank_math_focus_keyword": "Focus keyword(s), separadas por coma (la primera es la principal)",
+    "rank_math_facebook_title": "OG title",
+    "rank_math_facebook_description": "OG description",
+    "rank_math_facebook_image": "OG image (URL o attachment)",
+    "rank_math_twitter_use_facebook": "'on' para reutilizar los valores de Facebook en Twitter/X",
+    "rank_math_robots": "Array de directivas (index,follow). Pasar con --format=json",
+    "rank_math_canonical_url": "Canonical manual (borrar para dejar auto)",
+    "rank_math_advanced_robots": "Array opcional (max-snippet, max-image-preview, etc.)",
+    "rank_math_schema_<Type>": "Datos de schema en array (preferir UI de Rank Math o filtro rank_math/json_ld, no WP-CLI)"
+  },
+  "acciones_post_publicacion": [
+    "Publicar 22215 y en Settings > Reading fijarlo como front page; dejar el home viejo en borrador.",
+    "301 de /home-nuevo/ hacia / para evitar duplicado de la misma pagina.",
+    "Enviar/actualizar sitemap en Search Console y solicitar indexacion de / y /black-weekend/.",
+    "Verificar en GSC que el title/description renderizados coinciden con los definidos.",
+    "Plan de fin de campana Black Weekend: decidir 301 a /product-category/descuento-online/ (o a /ofertas/ si se crea una pagina persistente) y quitar enlaces internos al slug temporal para no dejar 404.",
+    "Cambiar la imagen OG por una 1200x630 real (home y Black Weekend)."
+  ],
+  "snippets": {
+    "black_weekend_itemlist": {
+      "descripcion": "JSON-LD CollectionPage + ItemList dinamico para la pagina Black Weekend (ID 22216). Pegar en functions.php del child theme o en un mu-plugin. No toca la logica de retiro en sucursal.",
+      "ubicacion_sugerida": "mu-plugin (ej. local/mu-plugins/sp-seo-black-weekend.php)",
+      "php": [
+        "<?php",
+        "add_action('wp_head', function () {",
+        "    if (!is_page(22216)) return;",
+        "",
+        "    $products = array_values(array_filter(",
+        "        wc_get_products(array(",
+        "            'limit'    => -1,",
+        "            'status'   => 'publish',",
+        "            'category' => array('descuento-online'),",
+        "            'orderby'  => 'date',",
+        "            'order'    => 'DESC',",
+        "        )),",
+        "        function ($p) {",
+        "            return $p->is_on_sale()",
+        "                && $p->get_type() !== 'grouped'",
+        "                && get_post_meta($p->get_id(), '_combo_price', true) === '';",
+        "        }",
+        "    ));",
+        "",
+        "    if (!$products) return;",
+        "",
+        "    $items = array();",
+        "    foreach ($products as $i => $p) {",
+        "        $items[] = array(",
+        "            '@type'    => 'ListItem',",
+        "            'position' => $i + 1,",
+        "            'url'      => get_permalink($p->get_id()),",
+        "            'name'     => $p->get_name(),",
+        "        );",
+        "    }",
+        "",
+        "    $schema = array(",
+        "        '@context'   => 'https://schema.org',",
+        "        '@type'      => 'CollectionPage',",
+        "        '@id'        => get_permalink(22216) . '#collection',",
+        "        'url'        => get_permalink(22216),",
+        "        'name'       => 'Black Weekend: descuentos online en suplementos',",
+        "        'isPartOf'   => array('@type' => 'WebSite', 'url' => home_url('/')),",
+        "        'mainEntity' => array(",
+        "            '@type'           => 'ItemList',",
+        "            'itemListOrder'   => 'https://schema.org/ItemListOrderDescending',",
+        "            'numberOfItems'   => count($items),",
+        "            'itemListElement' => $items,",
+        "        ),",
+        "    );",
+        "",
+        "    echo '<script type=\"application/ld+json\">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>' . \"\\n\";",
+        "}, 99);"
+      ]
+    }
+  }
+}

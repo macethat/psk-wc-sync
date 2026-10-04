@@ -1,0 +1,633 @@
+{
+  "meta": {
+    "generado": "2026-10-04",
+    "sitio": "https://suplementospanama.net",
+    "plataforma": "WooCommerce + Rank Math SEO (child theme nutritix-child)",
+    "tarea": "Posicionar la categoría /proteinas/ en página 1 para búsquedas locales de 'proteína en Panamá' y derivadas",
+    "alcance": "Análisis + plan. NO se modificó el sitio (solo lecturas HTTP/read-only y API pública).",
+    "idioma": "español de Panamá",
+    "restricciones": "Sin claims médicos. Sin precios inventados. Envío gratis confirmado en compra >= $150 (header del sitio). 6 sucursales confirmadas.",
+    "fuentes": [
+      "Live HTML de /proteinas/ (title, meta, H1, schema, intro)",
+      "WordPress REST API (term_id de product_cat 'proteinas')",
+      "Google Search Console export local (gsc_pages.json, 818 URLs)",
+      "Google Autocomplete (suggestqueries, hl=es&gl=pa)",
+      "SERP vía DuckDuckGo HTML (proxy; validar en Google)",
+      "Páginas de categoría de competidores (fetch directo)",
+      "KB SEO del proyecto (metodología, on-page, local, estratégico, tracking)"
+    ],
+    "caveat_serp": "El orden de la SERP se obtuvo de DuckDuckGo, no de Google. Sirve para descubrir competidores y patrones, no como ranking oficial. Validar posiciones reales en GSC por consulta y en una búsqueda de Google localizada en Panamá."
+  },
+
+  "resumen_ejecutivo": {
+    "situacion": "La categoría /proteinas/ ya está en posición media 6.1 con 10,003 impresiones y solo 114 clics (CTR 1.14%). Está al borde de página 1 pero el snippet y la página no convierten clics.",
+    "oportunidad_principal": "Es un QUICK WIN clásico (posición 4-15 + muchas impresiones + CTR bajo). Con title/meta optimizados, H1 (hoy NO existe), FAQ y enlazado interno se puede subir a top 3-5 y multiplicar clics sin cambiar el catálogo.",
+    "hallazgos_criticos": [
+      "La página NO tiene H1 (0 etiquetas <h1> en todo el documento). El título de categoría no se renderiza.",
+      "El term description (intro) tiene ~44 palabras, es genérico y NO menciona 'Panamá', ni sucursales, ni envío, ni retiro.",
+      "Title actual de 70 caracteres (se trunca) y meta de 140 (sin keyword local).",
+      "No existe bloque FAQ ni schema FAQPage (sí hay BreadcrumbList e ItemList).",
+      "/product-category/proteinas/ responde 200 (canonical correcto a /proteinas/, pero sigue indexada con 506 impresiones): conviene 301.",
+      "Slugs antiguos de subcategoría ya dan 404 (/proteinas/mass-gainer/, /proteinas/aisladas-isolate/, /proteinas/blend/, /proteinas/whey-suero-de-leche/) pero GSC aún les atribuye 3,150+ impresiones: faltan 301.",
+      "La primera página del listado la dominan COMBOS (aunque /proteinas/ tiene 65 productos): afecta relevancia percibida y UX."
+    ],
+    "competencia": "BodyBuildingLatino y Fitness Game tienen title/meta fuertemente localizados ('Proteínas en Panamá: ...'). Vitamin Shoppe y FitMarket tienen title/H1 pobre y se apoyan en marca. Savage Gear usa un title local muy fuerte ('Proteína en Panamá: 38 productos de 12 marcas').",
+    "recomendacion_canibalizacion": "La categoría /proteinas/ debe ser la dueña de 'proteína(s) en Panamá'. El home se queda con 'suplementos Panamá'. Las fichas se quedan con marca+formato ('iso 100 Panamá', 'gold standard whey Panamá'). NO optimizar home ni fichas por el término genérico."
+  },
+
+  "diagnostico_actual": {
+    "url": "https://suplementospanama.net/proteinas/",
+    "term_id": 18,
+    "taxonomia": "product_cat",
+    "nombre": "Proteínas",
+    "slug": "proteinas",
+    "parent": 0,
+    "count_productos": 65,
+    "hijo_subcategorias": [
+      "proteina-de-suero-whey-protein",
+      "proteina-aislada-isolate",
+      "proteina-vegana",
+      "ganadores-de-masa-mass-gainer",
+      "proteina-para-mujer",
+      "proteina-rtd",
+      "snacks-proteicos"
+    ],
+    "title_actual": "Proteínas En Panamá | Whey, Isolate Y Mass Gainer | Suplementos Panamá",
+    "title_actual_chars": 70,
+    "meta_description_actual": "Nuestra Proteína apoya al crecimiento muscular, la recuperación y el rendimiento. Ideal para entrenar fuerte y lograr resultados más rápido.",
+    "meta_description_actual_chars": 140,
+    "h1_actual": null,
+    "h1_actual_nota": "No existe H1. El header de la categoría solo imprime el 'term description' sin título.",
+    "intro_actual": "Si tu objetivo es ganar masa muscular, recuperarte más rápido y mejorar tu rendimiento, las proteínas son un suplemento fundamental en tu rutina. Ayudan a reparar el músculo después del entrenamiento, favorecen el crecimiento magro y te permiten mantener un cuerpo fuerte y definido.",
+    "intro_actual_palabras": 44,
+    "focus_keyword_actual": "No definida (Rank Math sin focus keyword en el término)",
+    "schema_actual": {
+      "BreadcrumbList": true,
+      "ItemList": "Sí, 10 items (solo primera página, numberOfItems=10)",
+      "FAQPage": false,
+      "Product_en_categoria": false
+    },
+    "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+    "canonical": "https://suplementospanama.net/proteinas/ (autorreferencial correcto)",
+    "paginacion": "6 páginas (62 resultados, 12 por página). /proteinas/page/2..10/ indexables.",
+    "bloque_local": "Existe bloque 'Retira gratis en nuestras sucursales en Panamá' con enlace a /sucursales/ (señal local positiva).",
+    "gsc_baseline": {
+      "clicks": 114,
+      "impresiones": 10003,
+      "ctr": "1.14%",
+      "posicion_media": 6.1,
+      "periodo": "histórico del export local",
+      "interpretacion": "Buen ranking, CTR pésimo -> problema de snippet, no de autoridad."
+    }
+  },
+
+  "baseline_gsc_relevante": [
+    { "url": "/proteinas/", "clicks": 114, "impresiones": 10003, "posicion": 6.1, "rol": "Categoría principal (objetivo)" },
+    { "url": "/proteinas/proteina-aislada-isolate/", "clicks": 68, "impresiones": 2883, "posicion": 10.2, "rol": "Subcategoría Isolate" },
+    { "url": "/proteinas/proteina-de-suero-whey-protein/", "clicks": 51, "impresiones": 2986, "posicion": 8.0, "rol": "Subcategoría Whey" },
+    { "url": "/proteinas/ganadores-de-masa-mass-gainer/", "clicks": 42, "impresiones": 1438, "posicion": 8.2, "rol": "Subcategoría Mass Gainer" },
+    { "url": "/proteinas/proteina-vegana/", "clicks": 17, "impresiones": 409, "posicion": 10.4, "rol": "Subcategoría Vegana" },
+    { "url": "/proteinas/proteina-para-mujer/", "clicks": 9, "impresiones": 151, "posicion": 4.6, "rol": "Subcategoría Mujer" },
+    { "url": "/proteinas/proteina-rtd/", "clicks": 2, "impresiones": 27, "posicion": 7.2, "rol": "Subcategoría RTD" },
+    { "url": "/product-category/proteinas/", "clicks": 0, "impresiones": 506, "posicion": 6.5, "rol": "DUPLICADO antiguo (canonical a /proteinas/) - 301 sugerido" },
+    { "url": "/proteinas/mass-gainer/", "clicks": 10, "impresiones": 1591, "posicion": 7.3, "rol": "URL antigua hoy 404 - faltan 301" },
+    { "url": "/proteinas/aisladas-isolate/", "clicks": 4, "impresiones": 3150, "posicion": 7.3, "rol": "URL antigua hoy 404 - faltan 301" },
+    { "url": "/proteinas/whey-suero-de-leche/", "clicks": 9, "impresiones": 567, "posicion": 9.4, "rol": "URL antigua hoy 404 - faltan 301" },
+    { "url": "/proteinas/blend/", "clicks": 0, "impresiones": 253, "posicion": 6.7, "rol": "URL antigua hoy 404 - faltan 301" },
+    { "url": "/proteinas/page/2/", "clicks": 7, "impresiones": 341, "posicion": 13.4, "rol": "Paginación indexada" },
+    { "url": "/batidos-de-proteina-como-y-cuando-tomarlos-para-maximizar-resultados/", "clicks": 2, "impresiones": 203, "posicion": 51.1, "rol": "Blog de apoyo (oportunidad de mejora)" }
+  ],
+
+  "analisis_competitivo": {
+    "serp_referencia": {
+      "consultas": ["proteina en panama", "proteinas en panama", "proteina cerca de mi panama"],
+      "fuente": "DuckDuckGo HTML (proxy de Google)",
+      "orden_detectado": [
+        "bodybuildinglatino.com/categoria-producto/proteina/",
+        "vitaminshoppepanama.com/570-proteinas",
+        "fitnessgamepty.com/proteinas",
+        "suplementospanama.net/proteinas/ (posición ~4)",
+        "organicastore.com/collections/proteina",
+        "savagegearsupps.com/collections/proteinas",
+        "fitlab.com.pa (fichas de producto)",
+        "fitmarket.com.pa/collections/proteinas"
+      ],
+      "nota": "Supermercados Rey no apareció en esta SERP de DuckDuckGo para la consulta dedicada; aparece más en consultas de despensa/grocery con intención genérica. En Google puede aparecer por autoridad de marca."
+    },
+    "competidores": [
+      {
+        "nombre": "BodyBuildingLatino",
+        "url": "https://www.bodybuildinglatino.com/categoria-producto/proteina/",
+        "title": "Proteínas en Panamá: Whey, Isolate, Vegana, Caseína y Gainers",
+        "title_chars": 64,
+        "meta": "Proteínas en Panamá: compra whey protein, isolate, caseína, proteína vegetal, barras y mass gainers según tu objetivo: ganar masa muscular, recuperarte mejor o completar tu ingesta diaria de proteína.",
+        "meta_chars": 198,
+        "h1_estimado": "Igual al title (keyword al inicio)",
+        "patron": "Keyword local al inicio + enumeración de formatos + segmentación por objetivo de compra. URL en singular /proteina/. Blog educativo que apoya. 814 reseñas 4.94/5.",
+        "aprendizaje": "Es el modelo a superar en on-page e intención. Nuestra ventaja: 6 sucursales + retiro + envío gratis + disponibilidad en tiempo real."
+      },
+      {
+        "nombre": "Fitness Game Panamá",
+        "url": "https://www.fitnessgamepty.com/proteinas",
+        "title": "Proteínas en Panamá | Fitness Game - Whey, Iso y Más",
+        "title_chars": 55,
+        "meta": "Compra proteínas en polvo, whey, iso, veganas y mass gainers en Panamá. En Fitness Game encuentras calidad, buenos precios y asesoría experta.",
+        "meta_chars": 141,
+        "h1": "PROTEINAS",
+        "patron": "Title y meta localizados y muy buenos; H1 pobre (sin tilde ni 'Panamá'); sin copy de intro; etiquetas de urgencia ('Recién Llegado!', 'LA MAS VENDIDA', 'Nueva Presentación!').",
+        "aprendizaje": "Ganamos en H1, intro y FAQ. Su H1 'PROTEINAS' es una debilidad explotable."
+      },
+      {
+        "nombre": "Vitamin Shoppe Panamá",
+        "url": "https://vitaminshoppepanama.com/570-proteinas",
+        "title": "Proteinas - vitaminshoppepanama.com",
+        "title_chars": 38,
+        "meta": "Proteínas para apoyo al entrenamiento, proteínas aisladas e hidrolizadas y mezclas de proteínas y caseína que te ayudarán a aumentar tu masa muscular y lograr tus objetivos deportivos.",
+        "meta_chars": 187,
+        "h1": "Proteínas",
+        "patron": "Title autogenerado (marca al final, sin keyword local); fuerte por autoridad de marca y volumen (91 productos) con subcategorías (Clear Whey, Mezcla Proteínas+Caseína, Aisladas e Hidrolizadas, Plant-based).",
+        "aprendizaje": "Su title es débil: no optimizan intención local. Ganamos claramente en snippet."
+      },
+      {
+        "nombre": "FitMarket Panamá",
+        "url": "https://fitmarket.com.pa/collections/proteinas",
+        "title": "Proteínas - FitMarket Panamá",
+        "title_chars": 28,
+        "meta": "Descripción genérica de tienda (no específica de categoría).",
+        "meta_chars": null,
+        "h1": "Proteínas",
+        "patron": "Shopify; catálogo puro sin copy ni FAQ; se apoya en la marca y variedad de marcas internacionales.",
+        "aprendizaje": "Sin contenido: enorme brecha de contenido explotable."
+      },
+      {
+        "nombre": "Savage Gear Supps",
+        "url": "https://savagegearsupps.com/collections/proteinas",
+        "title": "Proteína en Panamá: 38 productos de 12 marcas - Savage Gear Supps",
+        "title_chars": 65,
+        "meta": "Toda la proteína en polvo que trabajamos, de 12 marcas originales con stock en Panamá. 38 presentaciones entre aislada, whey concentrada, hidrolizada, caseína y vegetal.",
+        "meta_chars": 167,
+        "h1": "Probable: Proteína en Panamá",
+        "patron": "Usa el término en SINGULAR + 'en Panamá' + número de productos + número de marcas + 'stock en Panamá'. Apela a 'originales' y disponibilidad.",
+        "aprendizaje": "Buen patrón de title local. Nuestra categoría puede replicarlo con 'Proteínas' al inicio y diferenciar con sucursales/retiro."
+      },
+      {
+        "nombre": "Fitlab Panamá",
+        "url": "https://fitlab.com.pa",
+        "title": "Fitlab Panamá (home); fichas de producto rankean por marca",
+        "title_chars": null,
+        "meta": null,
+        "h1": null,
+        "patron": "Ranquea con fichas (100% Whey, Gold Standard 100% Whey) más que con una categoría fuerte. Blog 'Tips Fitness'.",
+        "aprendizaje": "Su debilidad de categoría es nuestra oportunidad."
+      },
+      {
+        "nombre": "Supermercados Rey",
+        "url": "https://www.supermercadosrey.com",
+        "title": "Grocery genérico",
+        "title_chars": null,
+        "meta": null,
+        "h1": null,
+        "patron": "Autoridad de marca y presencia física, pero intención grocery/supermercado y poca especialización en proteína deportiva.",
+        "aprendizaje": "Compite por marca/genérico, no por intención fitness. Diferenciar con asesoría, marcas deportivas y stock por sucursal."
+      }
+    ],
+    "patrones_clave_competencia": [
+      "Los que mejor rankean ponen 'Proteína(s) en Panamá' AL INICIO del title.",
+      "Enumeran formatos (whey, isolate, caseína, vegana, mass gainer) para cubrir variantes.",
+      "Mencionan 'originales' / 'marcas' como diferenciador de confianza.",
+      "Casi ninguno tiene un H1 fuerte + intro útil + FAQ: ahí está la ventaja.",
+      "Los titles largos (65-70) se truncan en móvil: 52-55 es mejor.",
+      "Ninguno combina bien contenido educativo + disponibilidad local en tiempo real + retiro en sucursal."
+    ]
+  },
+
+  "mapa_keywords": {
+    "principal": {
+      "keyword": "proteína en Panamá",
+      "variante_top": "proteínas en Panamá",
+      "intencion": "Transaccional + local (comprar / ver dónde)",
+      "url": "https://suplementospanama.net/proteinas/",
+      "justificacion": "Head term con geolocalización explícita; la categoría es la página correcta por formato (listado comercial amplio)."
+    },
+    "secundarias": [
+      { "keyword": "comprar proteína en Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína whey en Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína de suero en Panamá", "intencion": "Transaccional/informativa" },
+      { "keyword": "proteína isolate en Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína isopure en Panamá", "intencion": "Transaccional (marca)" },
+      { "keyword": "proteína vegana en Panamá", "intencion": "Transaccional" },
+      { "keyword": "mass gainer Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína para mujer en Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína barata en Panamá", "intencion": "Transaccional (precio)" },
+      { "keyword": "proteína Panamá precio", "intencion": "Comercial-investigación" },
+      { "keyword": "dónde comprar proteína en Panamá", "intencion": "Transaccional/local" },
+      { "keyword": "tiendas de proteínas en Panamá", "intencion": "Transaccional/local" },
+      { "keyword": "venta de proteína en Panamá", "intencion": "Transaccional" },
+      { "keyword": "batidos de proteína en Panamá", "intencion": "Transaccional" }
+    ],
+    "long_tail": [
+      { "keyword": "proteína whey isolate en Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína gold standard whey Panamá", "intencion": "Transaccional (marca)" },
+      { "keyword": "proteína iso 100 Panamá", "intencion": "Transaccional (marca)" },
+      { "keyword": "mejor proteína para aumentar masa muscular en Panamá", "intencion": "Comercial" },
+      { "keyword": "proteína en polvo Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína RTD Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína con envío gratis Panamá", "intencion": "Transaccional" },
+      { "keyword": "proteína original Panamá", "intencion": "Transaccional/confianza" }
+    ],
+    "cerca_de_mi": [
+      { "keyword": "proteína cerca de mí", "intencion": "Local (mapa/GBP + categoría)" },
+      { "keyword": "proteína cerca de mi ubicación", "intencion": "Local" },
+      { "keyword": "proteína cerca de mí abierto ahora", "intencion": "Local (horarios GBP)" },
+      { "keyword": "comprar proteína cerca de mí", "intencion": "Transaccional local" },
+      { "keyword": "tienda de proteína cerca de mí", "intencion": "Local" },
+      { "keyword": "proteína whey cerca de mí", "intencion": "Local" }
+    ],
+    "oferta": [
+      { "keyword": "proteína en oferta", "intencion": "Transaccional" },
+      { "keyword": "proteína whey en oferta", "intencion": "Transaccional" },
+      { "keyword": "proteína iso en oferta", "intencion": "Transaccional" },
+      { "keyword": "proteína isolate en oferta", "intencion": "Transaccional" },
+      { "keyword": "proteína vegana en oferta", "intencion": "Transaccional" },
+      { "keyword": "ofertas en proteína Panamá", "intencion": "Transaccional" }
+    ],
+    "errores_ortograficos_y_variantes": [
+      { "keyword": "proteina en panama (sin tildes)", "intencion": "Transaccional", "nota": "Google normaliza tildes, pero conviene cubrir la forma sin tilde en el copy/H1 en texto plano." },
+      { "keyword": "proteinas en panama", "intencion": "Transaccional" },
+      { "keyword": "proteina whey panama", "intencion": "Transaccional" },
+      { "keyword": "proteina panama", "intencion": "Transaccional" },
+      { "keyword": "proteina de panama", "intencion": "Transaccional" },
+      { "keyword": "proteina isolate panama", "intencion": "Transaccional" },
+      { "keyword": "proteinas panama", "intencion": "Transaccional" },
+      { "keyword": "proteina polvo panama", "intencion": "Transaccional" }
+    ],
+    "informativas_blog": [
+      { "keyword": "cómo tomar batidos de proteína", "url": "/batidos-de-proteina-como-y-cuando-tomarlos-para-maximizar-resultados/", "intencion": "Informativa" },
+      { "keyword": "beneficios de la proteína", "url": "/beneficios-de-la-proteina/", "intencion": "Informativa" },
+      { "keyword": "proteína en polvo para rendimiento", "url": "/proteina-en-polvo-clave-para-tu-rendimiento-deportivo/", "intencion": "Informativa" },
+      { "keyword": "whey vs isolate vs mass gainer", "url": "GUÍA NUEVA (a crear)", "intencion": "Comparativa" },
+      { "keyword": "qué proteína elegir según mi objetivo", "url": "GUÍA NUEVA (a crear)", "intencion": "Informativa" }
+    ]
+  },
+
+  "estructura_pagina": {
+    "url": "https://suplementospanama.net/proteinas/",
+    "intencion": "Transaccional local: comprar proteína en Panamá (online o retiro en sucursal)",
+    "h1": {
+      "recomendado": "Proteínas en Panamá: whey, isolate, vegana y mass gainer",
+      "chars": 58,
+      "nota": "Debe ser un H1 real (hoy no existe). Un solo H1. Si el tema no permite H1 en archivo, insertarlo vía header de la plantilla de categoría o un widget de título antes del term-description."
+    },
+    "h2_h3": [
+      { "nivel": "H2", "texto": "Compra proteína original en Panamá con envío o retiro en sucursal" },
+      { "nivel": "H2", "texto": "Qué tipo de proteína elegir según tu objetivo" },
+      { "nivel": "H3", "texto": "Proteína de suero (whey protein)" },
+      { "nivel": "H3", "texto": "Proteína aislada o isolate" },
+      { "nivel": "H3", "texto": "Mass gainer / ganador de masa" },
+      { "nivel": "H3", "texto": "Proteína vegana y plant-based" },
+      { "nivel": "H3", "texto": "Proteína para mujer y proteína RTD" },
+      { "nivel": "H2", "texto": "Marcas de proteína disponibles en Suplementos Panamá" },
+      { "nivel": "H2", "texto": "Envíos y retiro en sucursal" },
+      { "nivel": "H2", "texto": "Preguntas frecuentes sobre la proteína en Panamá" }
+    ],
+    "intro_recomendada": {
+      "palabras_aprox": 205,
+      "texto": "En Suplementos Panamá encuentras proteína 100% original para tu objetivo: whey protein, proteína aislada (isolate), proteína vegana, mass gainers, proteína para mujer y RTD, de marcas como EVOGEN, RAW Nutrition, Dymatize, Optimum Nutrition, MuscleTech y Nutrex. Si buscas proteína en Panamá, compra online y recíbela en todo el país, o retírala gratis en nuestras 6 sucursales: El Cangrejo, Megapolis, Atrio Mall, San Francisco, Altos de Panamá y Metromall.\n\nLa proteína de suero (whey) es la más popular para completar tu ingesta diaria de proteínas; la aislada o isolate concentra más proteína por porción con menos grasa y azúcar; el mass gainer suma calorías si te cuesta ganar peso; y las opciones veganas y plant-based cubren dietas sin lácteos. En cada ficha ves tamaño, sabor, proteína por porción y disponibilidad actualizada.\n\nCompra proteína en Panamá con envío gratis desde $150 y paga con tarjeta o Yappy. Todos los productos son sellados y originales. Si dudas sobre cuál elegir, nuestros asesores en sucursal te orientan según tu objetivo y presupuesto. Pide online y retira en la sucursal más cercana o recibe en tu casa.",
+      "uso": "Reemplaza/complementa el term-description actual (44 palabras) y sirve como contenido único on-page.",
+      "densidad_objetivo": "La frase 'proteína(s) en Panamá' aparece 3 veces (1 en H1, 1 en intro, 1 en FAQ). Variantes semánticas de forma natural. Densidad total keyword principal <= 1.5%.",
+      "sin_claims": "Se evita todo claim fisiológico/terapéutico; se habla de 'completar la ingesta diaria', formato y disponibilidad."
+    },
+    "faq": [
+      {
+        "pregunta": "¿Dónde comprar proteína en Panamá?",
+        "respuesta": "Puedes comprar proteína en Panamá online en suplementospanama.net y recibirla en todo el país, o retirarla gratis en cualquiera de nuestras 6 sucursales: El Cangrejo, Megapolis, Atrio Mall, San Francisco, Altos de Panamá y Metromall.",
+        "fuente_paa": "Autocomplete: 'donde comprar proteina en panama'"
+      },
+      {
+        "pregunta": "¿Cuánto cuesta la proteína en Panamá?",
+        "respuesta": "El precio depende del tipo de proteína, la marca, el tamaño y la cantidad de porciones. En cada ficha de producto ves el precio actualizado y las ofertas vigentes. Revisa la categoría de descuentos para encontrar proteína en oferta.",
+        "fuente_paa": "Autocomplete: 'proteina panama precio' / 'proteina barata en panama'",
+        "nota": "No se inventan precios; se dirige a la ficha y a la página de ofertas."
+      },
+      {
+        "pregunta": "¿Qué proteína me conviene: whey, isolate o mass gainer?",
+        "respuesta": "La whey protein es la opción más versátil para completar tu ingesta diaria de proteínas. La proteína aislada (isolate) aporta más proteína por porción con menos grasa y azúcar. El mass gainer es una mezcla con más calorías y carbohidratos, pensada para quienes buscan subir de peso. Si prefieres evitar lácteos, tienes opciones veganas y plant-based.",
+        "fuente_paa": "Autocomplete: 'mejor proteina para aumentar masa muscular' / 'proteina vegana'"
+      },
+      {
+        "pregunta": "¿Hacen envíos de proteína a todo Panamá?",
+        "respuesta": "Sí. Enviamos a todo Panamá y el envío es gratis en compras desde $150. En Ciudad de Panamá y zona metropolitana también ofrecemos entrega a domicilio.",
+        "fuente_paa": "Local"
+      },
+      {
+        "pregunta": "¿Puedo retirar mi proteína en una sucursal?",
+        "respuesta": "Sí. Puedes comprar online y retirar gratis en la sucursal que elijas al finalizar la compra, en cualquiera de nuestras 6 ubicaciones en Panamá.",
+        "fuente_paa": "Autocomplete: 'proteina cerca de mi' / 'tienda de proteina cerca de mi'"
+      },
+      {
+        "pregunta": "¿Las proteínas son originales?",
+        "respuesta": "Todas nuestras proteínas son de marcas originales y se entregan selladas. Cada producto tiene su código de barras y su ficha con la información de la etiqueta.",
+        "fuente_paa": "Confianza / 'proteina original panama'"
+      },
+      {
+        "pregunta": "¿Tienen proteína vegana o proteína para mujer?",
+        "respuesta": "Sí. Contamos con una selección de proteína vegana y plant-based, y también opciones de proteína para mujer. Puedes verlas en sus categorías dentro de Proteínas.",
+        "fuente_paa": "Autocomplete: 'proteina vegana en panama' / 'proteinas veganas en panama'"
+      }
+    ],
+    "enlazado_interno": {
+      "salientes_on_page": [
+        { "anchor": "proteína de suero (whey protein)", "url": "/proteinas/proteina-de-suero-whey-protein/" },
+        { "anchor": "proteína aislada o isolate", "url": "/proteinas/proteina-aislada-isolate/" },
+        { "anchor": "proteína vegana", "url": "/proteinas/proteina-vegana/" },
+        { "anchor": "mass gainer o ganador de masa", "url": "/proteinas/ganadores-de-masa-mass-gainer/" },
+        { "anchor": "proteína para mujer", "url": "/proteinas/proteina-para-mujer/" },
+        { "anchor": "proteína RTD", "url": "/proteinas/proteina-rtd/" },
+        { "anchor": "creatina", "url": "/creatina/" },
+        { "anchor": "pre-entrenos", "url": "/pre-entrenos/" },
+        { "anchor": "aminoácidos", "url": "/aminoacidos/" },
+        { "anchor": "combos con descuento", "url": "/promociones/combos/" },
+        { "anchor": "proteína en oferta", "url": "/promociones/descuentos/" },
+        { "anchor": "marcas de suplementos", "url": "/marcas/" },
+        { "anchor": "retiro en 6 sucursales", "url": "/sucursales/" },
+        { "anchor": "cómo tomar batidos de proteína", "url": "/batidos-de-proteina-como-y-cuando-tomarlos-para-maximizar-resultados/" },
+        { "anchor": "beneficios de la proteína", "url": "/beneficios-de-la-proteina/" }
+      ],
+      "entrantes_desde": [
+        { "origen": "/ (home) - sección de categorías", "anchor_sugerido": "Proteínas en Panamá" },
+        { "origen": "Fichas de proteínas (sección relacionados)", "anchor_sugerido": "Ver toda la proteína en Panamá" },
+        { "origen": "Blog posts de proteína", "anchor_sugerido": "Comprar proteína en Panamá" },
+        { "origen": "Subcategorías (breadcrumb + bloque padre)", "anchor_sugerido": "Proteínas" }
+      ],
+      "nota": "No enlazar a /proteinas/snacks-proteicos/ hasta que tenga productos (hoy está noindex y vacía)."
+    }
+  },
+
+  "meta_seo": {
+    "seo_title": "Proteínas en Panamá | Whey, Isolate, Vegana y Gainer",
+    "seo_title_chars": 52,
+    "seo_title_alternativa_home_token": "%sitename% | Whey, Isolate, Vegana y Mass Gainer",
+    "meta_description": "Compra proteína en Panamá con entrega a todo el país: whey, isolate, vegana y mass gainer 100% originales. Envío gratis desde $150 y retiro en 6 sucursales.",
+    "meta_description_chars": 156,
+    "focus_keyword": "proteína en Panamá,proteínas en Panamá,comprar proteína en Panamá",
+    "og_title": "Proteínas en Panamá: Whey, Isolate y Mass Gainer",
+    "og_title_chars": 48,
+    "og_description": "Compra proteína original en Panamá: whey, isolate, vegana y mass gainer. Envío gratis desde $150 y retiro en 6 sucursales.",
+    "og_description_chars": 127,
+    "og_image_sugerida": "Imagen 1200x630 propia de la categoría Proteínas (no el logo). Usar un collage de whey/isolate/gainer con el logo y el texto 'Proteínas en Panamá'.",
+    "robots": "index, follow",
+    "canonical": "auto (autorreferencial a /proteinas/)",
+    "term_id": 18,
+    "title_candidatos": [
+      { "texto": "Proteínas en Panamá | Whey, Isolate, Vegana y Gainer", "chars": 52, "recomendado": true },
+      { "texto": "Proteína en Panamá | Whey, Isolate y Mass Gainer", "chars": 48, "recomendado": false, "nota": "singular exacto, pero cubre menos variantes" },
+      { "texto": "Proteínas en Panamá | Whey, Isolate, Vegana y Mass Gainer", "chars": 62, "recomendado": false, "nota": "se pasa de 60" }
+    ],
+    "wp_cli": {
+      "nota_importante": "Rank Math guarda los metadatos SEO de CATEGORÍAS como TERM META, no como post meta. El comando correcto para un término es 'wp term meta update <term_id> ...'. 'wp post meta update <term_id> ...' apunta a un POST con ese ID, no al término, y no actualiza la categoría. Los comandos de abajo usan la forma correcta (term_id 18).",
+      "comandos": [
+        "wp term meta update 18 rank_math_title 'Proteínas en Panamá | Whey, Isolate, Vegana y Gainer'",
+        "wp term meta update 18 rank_math_description 'Compra proteína en Panamá con entrega a todo el país: whey, isolate, vegana y mass gainer 100% originales. Envío gratis desde $150 y retiro en 6 sucursales.'",
+        "wp term meta update 18 rank_math_focus_keyword 'proteína en Panamá,proteínas en Panamá,comprar proteína en Panamá'",
+        "wp term meta update 18 rank_math_facebook_title 'Proteínas en Panamá: Whey, Isolate y Mass Gainer'",
+        "wp term meta update 18 rank_math_facebook_description 'Compra proteína original en Panamá: whey, isolate, vegana y mass gainer. Envío gratis desde $150 y retiro en 6 sucursales.'",
+        "wp term meta update 18 rank_math_twitter_use_facebook 'on'",
+        "wp term meta update 18 rank_math_robots '[\"index\",\"follow\"]' --format=json"
+      ],
+      "verificacion": [
+        "wp term meta get 18 rank_math_title",
+        "wp term meta get 18 rank_math_description",
+        "wp term meta get 18 rank_math_focus_keyword"
+      ],
+      "actualizar_term_description": [
+        "wp term update product_cat 18 --description='<p>En Suplementos Panamá encuentras proteína 100% original ...</p>'"
+      ]
+    }
+  },
+
+  "on_page": {
+    "imagenes_alts": [
+      { "imagen": "Banner/hero de la categoría", "alt_recomendado": "Proteínas en Panamá: whey, isolate y mass gainer originales | Suplementos Panamá" },
+      { "imagen": "Thumbnail producto ISO 100", "alt_recomendado": "Proteína ISO 100 Dymatize isolate en Panamá" },
+      { "imagen": "Thumbnail ON Gold Standard 100% Whey", "alt_recomendado": "Proteína 100% Whey Gold Standard Optimum Nutrition en Panamá" },
+      { "imagen": "Thumbnail Whey Nutrex", "alt_recomendado": "Proteína whey Nutrex en Panamá - recuperación y masa muscular" },
+      { "imagen": "Thumbnail mass gainer", "alt_recomendado": "Mass gainer / ganador de masa en Panamá" },
+      { "imagen": "Thumbnail proteína vegana", "alt_recomendado": "Proteína vegana plant-based en Panamá" }
+    ],
+    "nota_alts": "Los thumbnails de producto usan el alt de la biblioteca de medios; conviene revisar los de los top sellers (ON Gold Standard, ISO 100, IsoFit Nutrex, Prolive, Serious Mass). El alt de categoría debe incluir 'Panamá'.",
+    "anchors": {
+      "recomendacion": "Anchors descriptivos y variados; evitar 'clic aquí' / 'ver más'. Usar anchor = entidad del destino.",
+      "ejemplos": [
+        "proteína whey en Panamá -> /proteinas/proteina-de-suero-whey-protein/",
+        "proteína aislada isolate -> /proteinas/proteina-aislada-isolate/",
+        "proteína en oferta -> /promociones/descuentos/"
+      ]
+    },
+    "breadcrumbs": {
+      "actual": "BreadcrumbList presente (Inicio > Proteínas)",
+      "accion": "Mantener. Asegurar breadcrumb visible en la página (no solo schema). Si el tema no lo muestra, activarlo con Rank Math > Breadcrumbs."
+    },
+    "densidad": {
+      "keyword_principal": "proteína(s) en Panamá",
+      "objetivo": "1 a 3 menciones exactas en todo el on-page (H1 + intro + FAQ) y variantes naturales; evitar keyword stuffing.",
+      "semanticas": ["whey", "isolate", "aislada", "vegana", "plant-based", "mass gainer", "ganador de masa", "RTD", "caseína", "proteína por porción", "marcas originales", "envío gratis", "retiro en sucursal", "sucursales en Panamá"]
+    },
+    "contenido": {
+      "evitar_thin_content": "La categoría hoy tiene solo el listado + 44 palabras. Agregar intro (200 palabras), tablas/comparativa, marcas y FAQ.",
+      "formato": "Párrafos cortos, bullets, tabla comparativa (whey vs isolate vs mass gainer vs vegana) para featured snippets y GEO/IA."
+    },
+    "schema": {
+      "mantener": ["BreadcrumbList", "ItemList (Rank Math ya lo emite)"],
+      "agregar": ["FAQPage (bloque FAQ de Rank Math, para que el schema coincida con el FAQ visible)"],
+      "opcional": "Ampliar el ItemList a más de 10 items o reforzar con CollectionPage + areaServed 'Panamá'.",
+      "evitar": "No marcar Product/Offer en la categoría (competiría con las fichas y puede generar rich results inválidos)."
+    }
+  },
+
+  "canibalizacion": {
+    "pregunta": "¿Conviene rankear con el home y/o las fichas de las proteínas más vendidas para estas búsquedas?",
+    "analisis": [
+      "El home está en posición 5.7 y su title/meta hablan de 'suplementos Panamá' (no de proteína). Si se empuja el home por 'proteína en Panamá', competiría con /proteinas/ y diluiría ambas. El home debe ser el hub general.",
+      "Las fichas de las proteínas más vendidas (ON 100 Whey Gold ~81 clics, Prolive Bio5 ~60, ISO 100 Fudge Brownie ~47, Whey 10 lbs ~39, Serious Mass ~36, Nutrex 10 lbs ~28) ya rankean posición 5-10 por consultas de MARCA/FORMATO. Reposicionarlas por el genérico 'proteína en Panamá' no aporta: perderían coincidencia exacta de marca.",
+      "La categoría /proteinas/ es la única URL con formato e intención correctos para el head term local ('proteína(s) en Panamá', 'comprar proteína en Panamá'). Es la que debe optimizarse.",
+      "Las subcategorías deben quedarse con formato+local ('proteína aislada en Panamá', 'proteína whey en Panamá') para no competir con el padre por el genérico."
+    ],
+    "recomendacion": "NO canibalizar. Estrategia de propiedad de keyword por URL:",
+    "propiedad_keywords": [
+      { "url": "/", "keyword_principal": "suplementos Panamá / tienda de suplementos Panamá", "nota": "Enlazar al home con anchor 'suplementos Panamá'; NO pelear por 'proteína en Panamá'." },
+      { "url": "/proteinas/", "keyword_principal": "proteína en Panamá / proteínas en Panamá / comprar proteína en Panamá", "nota": "Dueña del head term genérico local." },
+      { "url": "/proteinas/proteina-de-suero-whey-protein/", "keyword_principal": "proteína whey en Panamá / proteína de suero Panamá" },
+      { "url": "/proteinas/proteina-aislada-isolate/", "keyword_principal": "proteína aislada / isolate en Panamá" },
+      { "url": "/proteinas/ganadores-de-masa-mass-gainer/", "keyword_principal": "mass gainer / ganador de masa en Panamá" },
+      { "url": "/proteinas/proteina-vegana/", "keyword_principal": "proteína vegana en Panamá" },
+      { "url": "/proteinas/proteina-para-mujer/", "keyword_principal": "proteína para mujer en Panamá" },
+      { "url": "/product/<top-seller>/", "keyword_principal": "marca + formato (ej. 'iso 100 Panamá', 'gold standard whey Panamá')", "nota": "Mantener title/meta de marca; NO poner 'proteína en Panamá' genérico." }
+    ],
+    "acciones_anti_canibalizacion": [
+      "Home: enlace contextual a /proteinas/ con anchor 'proteínas en Panamá'; no usar el genérico en su propio title.",
+      "Fichas: enlace 'ver toda la proteína en Panamá' hacia la categoría (refuerza al padre).",
+      "Resolver 404 antiguos con 301: /proteinas/mass-gainer/ -> /proteinas/ganadores-de-masa-mass-gainer/; /proteinas/aisladas-isolate/ -> /proteinas/proteina-aislada-isolate/; /proteinas/whey-suero-de-leche/ -> /proteinas/proteina-de-suero-whey-protein/; /proteinas/blend/ -> /proteinas/.",
+      "301 /product-category/proteinas/ -> /proteinas/ (hoy 200 con canonical; mejor 301 para no perder señales).",
+      "No indexar ni enlazar /proteinas/snacks-proteicos/ mientras esté vacía (ya está noindex)."
+    ]
+  },
+
+  "plan_priorizado": [
+    {
+      "id": 1,
+      "accion": "Definir title + meta description de la categoría y focus keyword en Rank Math (term 18)",
+      "area": "On-page",
+      "impacto": "Alto",
+      "esfuerzo": "Bajo",
+      "prioridad": "P0 - esta semana",
+      "detalle": "Aplicar los comandos wp term meta update 18 ... de la sección meta_seo. Ataca directamente el CTR de 1.14%.",
+      "kpi": "CTR de /proteinas/ de 1.14% a >4-6% en 30-45 días; clics +200%."
+    },
+    {
+      "id": 2,
+      "accion": "Crear el H1 de la categoría y reemplazar el term-description por la intro única de ~200 palabras",
+      "area": "On-page",
+      "impacto": "Alto",
+      "esfuerzo": "Medio",
+      "prioridad": "P0 - esta semana",
+      "detalle": "Hoy no hay H1. Insertar '<h1>Proteínas en Panamá: whey, isolate, vegana y mass gainer</h1>' antes del term-description y actualizar la descripción del término (wp term update product_cat 18 --description=...).",
+      "kpi": "Presencia de H1 con keyword; mejora de posición media hacia top 3-5."
+    },
+    {
+      "id": 3,
+      "accion": "Agregar bloque FAQ (7 preguntas PAA) + schema FAQPage con el bloque FAQ de Rank Math",
+      "area": "On-page + Schema",
+      "impacto": "Alto",
+      "esfuerzo": "Medio",
+      "prioridad": "P0 - esta semana",
+      "detalle": "Usar el bloque 'FAQ by Rank Math' para que el schema coincida con el HTML visible. Cubre 'cerca de mí', 'oferta', 'precio', 'dónde comprar'.",
+      "kpi": "Elegibilidad de rich result FAQ; más impresiones y cobertura de long-tail."
+    },
+    {
+      "id": 4,
+      "accion": "Redirects 301 de URLs antiguas y duplicadas de la categoría",
+      "area": "Técnico",
+      "impacto": "Alto",
+      "esfuerzo": "Bajo",
+      "prioridad": "P0 - esta semana",
+      "detalle": "/product-category/proteinas/ -> /proteinas/; y 301 de 404 con impresiones en GSC (mass-gainer, aisladas-isolate, whey-suero-de-leche, blend) a sus equivalentes actuales.",
+      "kpi": "0 duplicados indexados; recuperar las 3,150+ impresiones huérfanas hacia las URLs nuevas."
+    },
+    {
+      "id": 5,
+      "accion": "Reordenar el listado para que las proteínas puras aparezcan antes que los combos en la primera página",
+      "area": "UX + On-page",
+      "impacto": "Medio",
+      "esfuerzo": "Medio",
+      "prioridad": "P1 - este mes",
+      "detalle": "Hoy la página 1 la dominan combos (Elite Performance Stack, Evofusion+..., ISO 100+Creatina). Evaluar default order 'popularity' o fijar destacados. Mantener combos accesibles en /promociones/combos/.",
+      "kpi": "Mayor relevancia percibida; mejora de CTR y de conversión en la categoría."
+    },
+    {
+      "id": 6,
+      "accion": "Reforzar enlazado interno entrante hacia /proteinas/ (home, fichas, blog, subcategorías)",
+      "area": "Estratégico + On-page",
+      "impacto": "Alto",
+      "esfuerzo": "Medio",
+      "prioridad": "P1 - este mes",
+      "detalle": "Home -> categoría con anchor 'proteínas en Panamá'; fichas de proteínas -> categoría con 'ver toda la proteína en Panamá'; blog de proteína -> categoría con 'comprar proteína en Panamá'.",
+      "kpi": "Más autoridad interna de la categoría; subida de posición media."
+    },
+    {
+      "id": 7,
+      "accion": "Agregar tabla comparativa (whey vs isolate vs mass gainer vs vegana) y sección de marcas",
+      "area": "On-page + Contenido",
+      "impacto": "Medio",
+      "esfuerzo": "Medio",
+      "prioridad": "P1 - este mes",
+      "detalle": "Cubre intención comparativa, gana featured snippets y alimenta GEO/IA. Sin claims médicos.",
+      "kpi": "Más consultas long-tail; snippets ganados."
+    },
+    {
+      "id": 8,
+      "accion": "Optimizar Google Business Profile (6 fichas) y publicar ofertas de proteína",
+      "area": "SEO Local",
+      "impacto": "Alto",
+      "esfuerzo": "Medio",
+      "prioridad": "P1 - este mes",
+      "detalle": "Categorías correctas, productos 'proteína' cargados, NAP consistente, horarios, responder PAA/reseñas. GBP alimenta 'cerca de mí' y Maps.",
+      "kpi": "Impresiones/clics en Maps; llamadas y clics a direcciones."
+    },
+    {
+      "id": 9,
+      "accion": "Cluster de blog de proteína (5 guías) con enlaces a la categoría",
+      "area": "Estratégico + Contenido",
+      "impacto": "Medio",
+      "esfuerzo": "Alto",
+      "prioridad": "P2 - próximo trimestre",
+      "detalle": "Guías: 'mejor proteína en Panamá', 'dónde comprar proteína en Panamá', 'whey vs isolate vs mass gainer', 'proteína barata / precio en Panamá', 'cuánta proteína necesito'. Enlazar a /proteinas/.",
+      "kpi": "Tráfico informativo; autoridad temática; enlaces internos a la categoría."
+    },
+    {
+      "id": 10,
+      "accion": "Revisar/optimizar alts de imágenes de los top sellers de proteína y la meta OG 1200x630",
+      "area": "On-page + Técnico",
+      "impacto": "Bajo-Medio",
+      "esfuerzo": "Bajo",
+      "prioridad": "P2 - próximo trimestre",
+      "detalle": "Alt con marca + formato + 'Panamá'. Subir imagen OG dedicada de la categoría.",
+      "kpi": "SEO de imágenes; mejor CTR social/OG."
+    },
+    {
+      "id": 11,
+      "accion": "Monitoreo GSC: baseline y seguimiento de CTR/posición de /proteinas/",
+      "area": "Tracking",
+      "impacto": "Medio",
+      "esfuerzo": "Bajo",
+      "prioridad": "P1 - continuo",
+      "detalle": "Comparar 30/60/90 días vs baseline (114 clics, 10,003 imp, pos 6.1, CTR 1.14%). Revisar consultas nuevas (errores ortográficos, cerca de mí, oferta).",
+      "kpi": "Reporte mensual con ganancias/pérdidas y siguientes acciones."
+    },
+    {
+      "id": 12,
+      "accion": "Linkbuilding local (prensa fitness, gimnasios PowerCLUB, distribuidores oficiales)",
+      "area": "Off-page",
+      "impacto": "Medio",
+      "esfuerzo": "Alto",
+      "prioridad": "P2 - próximo trimestre",
+      "detalle": "Menciones y enlaces desde sitios fitness panameños y partnerships de sucursal.",
+      "kpi": "Dominios de referencia local; autoridad."
+    }
+  ],
+
+  "medicion": {
+    "baseline": {
+      "url": "/proteinas/",
+      "clicks": 114,
+      "impresiones": 10003,
+      "ctr": "1.14%",
+      "posicion_media": 6.1
+    },
+    "metas": [
+      { "plazo": "30-45 días", "meta": "CTR > 3%; posición media < 5" },
+      { "plazo": "90 días", "meta": "CTR > 5%; posición media 3-4; clics > 300/mes" },
+      { "plazo": "6 meses", "meta": "Top 3 estable; captura de 'cerca de mí' y 'oferta'; FAQ visibles" }
+    ],
+    "consultas_a_monitorear": [
+      "proteína en panamá",
+      "proteínas en panamá",
+      "comprar proteína en panamá",
+      "proteína cerca de mí",
+      "proteína en oferta",
+      "proteína whey en panamá",
+      "proteína isolate panamá",
+      "proteína vegana en panamá",
+      "proteína barata en panamá",
+      "dónde comprar proteína en panamá"
+    ],
+    "kpis": ["Clics orgánicos", "CTR", "Posición media", "Impresiones", "Conversiones (GA4)", "Acciones GBP (llamadas, rutas)"]
+  },
+
+  "restricciones_no_tocar": [
+    "NO tocar las funciones sp_* de sucursal/carrito/checkout en functions.php del child.",
+    "NO tocar el mu-plugin combo-price.php ni sp_sucursal_js() ni la meta _sucursales_disponibles.",
+    "Si algún cambio (H1, FAQ) requiere editar functions.php o templates: AVISAR, respaldar y validar los 4 flujos de retiro en sucursal (docs/RETIRO-SUCURSAL.md, sección 5).",
+    "No editar _elementor_data con update_post_meta (usar update_metadata + wp_slash).",
+    "Este entregable es solo análisis/plan: NO se modificó el sitio."
+  ]
+}

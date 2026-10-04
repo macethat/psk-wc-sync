@@ -1,0 +1,683 @@
+{
+  "meta": {
+    "generado": "2026-10-04",
+    "autor_agente": "seo-ecommerce",
+    "proyecto": "Suplementos Panamá",
+    "sitio": "https://suplementospanama.net",
+    "plataforma": "WooCommerce + Rank Math SEO (child theme nutritix-child)",
+    "tarea": "Entrar en el bloque 'Tiendas y opciones disponibles' (Local Pack / mapa) de Google para 'proteína en Panamá' y 'proteína cerca de mí'.",
+    "alcance": "Auditoría + diagnóstico + plan. NO se modifica el sitio ni las fichas GBP en este entregable.",
+    "idioma": "español de Panamá",
+    "restricciones": "Sin claims médicos ni terapéuticos. Sin inventar precios, ratings ni reseñas. Datos de sucursales tomados de psk-sucursales/src/theme/sucursales/data.php (fuente única).",
+    "fuentes": [
+      "psk-sucursales/src/theme/sucursales/data.php (6 sucursales: dirección, teléfono, WhatsApp, lat/lng, horarios, rating, review_count, Place ID, Maps URL)",
+      "psk-sucursales/docs/esquema-hub-sucursales.md (estructura hub /sucursales/ y schema WebPage+ItemList)",
+      "local/schema-proteinas.json (Store/SportingGoodsStore, 6 ramas Referenced, estado del schema en /proteinas/)",
+      "local/seo-proteinas.json (estado on-page de /proteinas/, GSC baseline, competencia, canibalización)",
+      "GSC export local (gsc_pages.json): home 5.714.177 pos / 65.020 imp; /proteinas/ 114 clics / 10.003 imp / pos 6.1 (según seo-proteinas.json)",
+      "KB SEO local del proyecto (seo-local.md) y metodología",
+      "GBP: datos observables en los Google Maps URL de data.php"
+    ],
+    "caveat": [
+      "No se pudo consultar GBP Insights ni el estado interno de las fichas (requiere acceso al panel con la cuenta propietaria). La auditoría de GBP es una lista de verificación accionable y una evaluación de riesgo, no una auditoría de panel.",
+      "La ubicación exacta del Local Pack depende del punto desde donde se busque. Un ranking observado en una ubicación no se reproduce en otra; por eso se recomienda el grid de Local Falcon (sección 7).",
+      "Los nombres de categorías de GBP pueden variar por país/idioma; validar en el selector en vivo."
+    ]
+  },
+
+  "resumen_ejecutivo": {
+    "situacion": "Suplementos Panamá tiene 6 sucursales con presencia en Google Maps (Place IDs y reviews reales: San Francisco 4.9/203, El Cangrejo 4.8/152, Megapolis 4.7/98, Metromall 4.7/88, Atrio Mall 4.6/75, Altos de Panamá 4.5/62). Pese a eso, no aparece en el Local Pack de 'proteína en Panamá', donde sí salen Vitamin Shoppe Panamá, Supermercados Rey, Fitness Game, etc.",
+    "por_que_no_aparece": "El Local Pack se decide por RELEVANCIA, DISTANCIA y PROMINENCIA. La hipótesis principal es un déficit combinado de (a) RELEVANCIA: categoría principal de GBP y catálogo de productos no alineados a la entidad 'proteína/suplemento deportivo', (b) PROMINENCIA: menos reseñas y menor velocidad/consistencia que los competidores y pocas citas locales, y (c) riesgo de inconsistencias NAP y posibles fichas duplicadas (Place ID viejo + nuevo).",
+    "ventaja_estructural": "6 sucursales cubren zonas de altísima densidad fitness (San Francisco dentro de PowerClub, Altos de Panamá dentro de Power Club Centennial, Megapolis/Atrio/Metromall frente a SmartFit, El Cangrejo en la zona con más gimnasios). Ningún competidor local cubre tan bien 'proteína cerca de mí' si las 6 fichas están optimizadas.",
+    "palanca_principal": "GBP por sucursal: categoría principal correcta + catálogo de Productos 'Proteínas' + reseñas (volumen y velocidad) + NAP impecable. En paralelo, señales on-site por sucursal (schema Store con geo/horarios, páginas de sucursal optimizadas) que refuerzan la entidad local.",
+    "meta": "Aparecer en el Local Pack (top 3) de 'proteína en Panamá' desde ubicaciones de la Ciudad de Panamá, y ganar 'proteína cerca de mí' dentro del radio de cada sucursal, en un horizonte de 90-180 días."
+  },
+
+  "seccion_1_como_se_entra_al_local_pack": {
+    "definicion": "El Local Pack (bloque 'Tiendas y opciones disponibles') es un resultado 100% de Google Maps/GBP. No se 'optimiza' con la página web: se entra con la ficha de Google Business Profile. La web solo ayuda indirectamente (autoridad de marca + señales locales + consistencia NAP).",
+    "los_3_factores": [
+      {
+        "factor": "RELEVANCIA",
+        "pregunta_google": "¿Esta ficha es un buen resultado para la consulta?",
+        "senales": [
+          "Categoría principal de la ficha (el factor más pesado de relevancia).",
+          "Categorías secundarias.",
+          "Nombre de la empresa (sin keyword stuffing).",
+          "Descripción, servicios y Productos del catálogo GBP.",
+          "Atributos (pickup, delivery, estacionamiento, etc.).",
+          "Señales on-site: la página del sitio que enlaza la ficha habla del mismo tema (proteínas/suplementos)."
+        ],
+        "aplicacion_proteina": "Una ficha con categoría principal 'Vitamin and supplements store' o 'Sports nutrition store' y catálogo de Productos 'Proteínas' es mucho más relevante para 'proteína en Panamá' que una ficha genérica de tienda de artículos deportivos."
+      },
+      {
+        "factor": "DISTANCIA",
+        "pregunta_google": "¿Qué tan cerca está la ficha de donde busca el usuario?",
+        "senales": [
+          "Geolocalización de la ficha vs ubicación del usuario (o centroide de la consulta si no hay señal de ubicación).",
+          "La distancia es blanda: no es solo 'el más cercano', pero pesa muchísimo en 'cerca de mí'."
+        ],
+        "aplicacion_proteina": "No se puede rankear una sola ficha para toda la ciudad. El objetivo es que CADA sucursal gane su propio radio. Con 6 puntos se cubre Ciudad de Panamá de forma competitiva; sin sucursal en una zona, Google no puede mostrarte ahí."
+      },
+      {
+        "factor": "PROMINENCIA",
+        "pregunta_google": "¿Qué tan conocido y confiable es este negocio?",
+        "senales": [
+          "Cantidad, calidad y velocidad de reseñas (y respuestas del dueño).",
+          "Cantidad y calidad de las citas locales / menciones NAP.",
+          "Artículos de prensa, premios, partnerships, enlaces locales.",
+          "Posicionamiento orgánico de la marca en la web.",
+          "Completitud y actividad de la ficha (fotos, posts, Q&A, mensajes, actualizaciones)."
+        ],
+        "aplicacion_proteina": "Vitamin Shoppe y Supermercados Rey ganan prominencia por marca y antigüedad; Fitness Game por actividad. Nuestra palanca es volumen de reseñas por sucursal + citas locales + frescura de ficha, no marca nacional."
+      }
+    ],
+    "specifics_gbp_que_empujan_el_pack": [
+      "Categoría principal exacta y categorías secundarias correctas (sin categorías que no se puedan sustentar).",
+      "Nombre real del negocio sin añadir keywords (añadir 'proteínas' al nombre puede suspender la ficha).",
+      "Catálogo de Productos GBP (con foto, categoría, descripción y enlace al producto).",
+      "Servicios (retiro en tienda, entrega, envío) y Atributos.",
+      "Horario exacto + horarios especiales (feriados panameños).",
+      "Fotos frescas (exterior, interior, producto, equipo) y video corto.",
+      "Posts/Publicaciones periódicas (ofertas, novedades) — señal de que la ficha está viva.",
+      "Reviews: volumen + rating + respuestas + recencia.",
+      "Q&A: sembrar y responder preguntas.",
+      "Mensajería activa (si hay staff que responda).",
+      "Enlace al sitio con UTMs (para medir) y página de destino coherente (sucursal/categoría).",
+      "Perfil completo al 100% y verificado (todas las fichas), sin suspensiones ni duplicados."
+    ],
+    "verdad_operativa": "Para 'proteína en Panamá' (consulta amplia con intención local) Google genera el pack según la ubicación del usuario. Aparecer 'de forma general en Panamá' es imposible: se aparece para el usuario que está en el radio de una sucursal. Por eso la estrategia es multicuenta: 6 fichas fuertes, no una."
+  },
+
+  "seccion_2_auditoria_gbp": {
+    "estado_de_partida": "Las 6 fichas existen en Maps (Place IDs en data.php) con reseñas reales. No se pudo verificar desde el panel si están completas, por lo que se asume el peor caso y se deja checklist. Hay indicios de problemas (fichas duplicadas/place_id viejo+nuevo, nombres y direcciones inconsistentes).",
+    "alcance_por_sucursal": "Aplicar este checklist a las 6 fichas. Priorizar por orden de la sección 6.3.",
+
+    "2_1_categorias": {
+      "nota": "En GBP solo UNA categoría principal define la entidad. Verificar nombres exactos en el selector en vivo (varían por país/idioma). Nunca añadir categorías que no se puedan sustentar con la operación real (riesgo de suspensión).",
+      "principal_recomendada": [
+        {
+          "categoria": "Sports nutrition store (tienda de nutrición deportiva)",
+          "usar_si_disponible": true,
+          "por_que": "Es la coincidencia semántica más directa con 'proteína', 'whey', 'suplemento deportivo'. Mejor match de relevancia para la consulta objetivo.",
+          "riesgo": "Si el selector en Panamá no la ofrece o Google la considera equivalente a otra, usar la siguiente."
+        },
+        {
+          "categoria": "Vitamin and supplements store (Vitaminas y suplementos)",
+          "usar_si_disponible": true,
+          "por_que": "Categoría de ecommerce de suplementos más reconocida y estable. Fuerte match para 'proteína' como producto de suplementación.",
+          "recomendacion": "Es la candidata segura si 'Sports nutrition store' no está disponible."
+        },
+        {
+          "categoria": "Sporting goods store (Artículos deportivos)",
+          "usar_si_disponible": true,
+          "por_que": "Categoría amplia; fue la usada en el schema actual. Sirve como secundaria, no como principal, porque diluye la relevancia de 'proteína'.",
+          "recomendacion": "No usar como principal si existe una más específica."
+        }
+      ],
+      "secundarias_recomendadas": [
+        "Health food store (Tienda de alimentos saludables)",
+        "Sporting goods store (Artículos deportivos)",
+        "Vitamin and supplements store (si no es la principal)",
+        "Health and beauty shop (Tienda de salud y belleza) — solo si aplica",
+        "Nutritionist (Nutricionista) — SOLO si hay un profesional que brinda el servicio en la sucursal; no marcarlo por marketing"
+      ],
+      "evitar": [
+        "Categorías de farmacia/droguería si no aplican.",
+        "Categorías médicas o clínicas (implican servicios de salud y claims).",
+        "Categorías de supermercado/grocery (diluyen el match de suplemento deportivo).",
+        "Keyword stuffing en el nombre (ej. 'Suplementos Panamá Proteínas Whey'): viola las políticas de nombre."
+      ],
+      "nombres_sugeridos_ficha": "Formato consistente: 'Suplementos Panamá [Sucursal]' (ej. 'Suplementos Panamá San Francisco'). Evitar variantes actuales detectadas en Maps: 'Suplementos Panamá MEGAPOLIS', 'Suplementos Panama atrio costa del este', 'Suplementos Panama Powerclub centanial' (typo), 'Suplementos Panamá MetroMall'. El nombre debe coincidir con la página web y las citas."
+    },
+
+    "2_2_descripcion": {
+      "estado": "Verificar en panel",
+      "que_poner": "Descripción de negocio (750 caracteres) por sucursal, mencionando: categoría (tienda de suplementos deportivos), productos (proteínas, creatina, pre-entrenos, aminoácidos), servicios (retiro en tienda, envío, asesoría), zona/landmark (SmartFit, PowerClub, mall) y que se aceptan tarjeta y Yappy. Sin claims médicos.",
+      "plantilla_segura": "Tienda de suplementos deportivos en [zona] con proteínas, creatina, pre-entrenos, aminoácidos y vitaminas de marcas originales. Compra online y retira gratis en tienda o recibe a domicilio. Aceptamos tarjeta y Yappy. Ubicados en [dirección / dentro de X mall, frente a SmartFit / dentro de PowerClub]. Horario: [horario].",
+      "advertencia": "No prometer resultados de salud ni usar 'cura', 'trata', 'adelgaza', 'aumenta testosterona', etc."
+    },
+
+    "2_3_servicios": {
+      "estado": "Verificar en panel",
+      "servicios_a_cargar": [
+        "In-store shopping (compra en tienda)",
+        "In-store pick-up (retiro en tienda)",
+        "Delivery / Delivery a domicilio",
+        "Same-day delivery (si aplica en la zona)",
+        "Asesoría de suplementación (servicio personalizado; describir sin claims)",
+        "Analizador de composición corporal (Megapolis, Atrio Mall, Altos de Panamá — cargar solo donde exista)"
+      ],
+      "nota": "No listar servicios que no se presten en la sucursal. La inconsistencia servicio-realidad erosiona relevancia y confianza."
+    },
+
+    "2_4_productos_catalogo_gbp": {
+      "estado": "Probablemente ausente o incompleto — es una de las mayores brechas de relevancia.",
+      "por_que_importa": "El catálogo de Productos de GBP es señal directa de relevancia y puede mostrarse como carrusel 'Products' en el perfil y en el Local Pack. Es de las palancas de relevancia más fuertes y de las más ignoradas por competidores.",
+      "que_cargar": "Crear categoría de producto 'Proteínas' y añadir los top sellers (mínimo 10-20 por sucursal, con prioridad en el catálogo global).",
+      "estructura_recomendada": [
+        "Categoría GBP: Proteínas",
+        "Producto: nombre real (ej. 'Proteína ISO 100 Dymatize – 5 lb')",
+        "Foto: la del producto (fondo limpio, cuadrada)",
+        "Descripción: formato, sabor, proteína por porción, que es 100% original y sellada. Sin claims.",
+        "Precio: usar precio real vigente o rango; no inventar (si cambia por sincronización, usar rango o dejar sin precio con CTA).",
+        "Enlace: URL del producto en suplementospanama.net con UTM (utm_source=gbp&utm_medium=producto&utm_campaign=local)."
+      ],
+      "top_sellers_sugeridos": [
+        "ON Gold Standard 100% Whey",
+        "Dymatize ISO 100",
+        "IsoFit / Prolive Bio (Nutrex)",
+        "Serious Mass / Mass Tech (MuscleTech)",
+        "Proteína vegana / plant-based",
+        "Proteína RTD (batidos listos)"
+      ],
+      "nota_combos": "Los combos pueden cargarse como producto GBP solo si el precio es estable; si el precio es dinámico, preferir la proteína pura. No exponer precios desactualizados.",
+      "wp_gbp": "Vincular la ficha con el sitio no sincroniza el catálogo automáticamente; el catálogo GBP se carga manualmente (o vía una herramienta de gestión de fichas)."
+    },
+
+    "2_5_fotos": {
+      "estado": "Hay fotos de fachada y locales en el repo (psk-sucursales/.../sucursal-*.jpg). Confirmar cuáles están publicadas en cada ficha.",
+      "minimo_por_ficha": 10,
+      "tipos": [
+        "Logo (cuadrado) y portada (foto del local o vitrina)",
+        "Exterior / fachada (para reconocimiento al llegar)",
+        "Interior / vitrina y estantería de productos",
+        "Producto (proteínas, whey, isolate, creatina) — 3-5",
+        "Equipo / asesores atendiendo",
+        "Servicios (analizador corporal en las sucursales que lo tienen)"
+      ],
+      "ritmo": "Subir 2-4 fotos nuevas por mes por ficha y un video corto (10-30 s) por sucursal.",
+      "nota": "Fotos reales y recientes. Evitar solo stock genérico. No incluir texto promocional sobreimpreso de más."
+    },
+
+    "2_6_horarios": {
+      "estado": "Los horarios varían por sucursal en data.php. Confirmar que GBP refleja EXACTAMENTE lo mismo, incluido 'cerrado el domingo' donde aplique.",
+      "detalle_por_sucursal": [
+        {"sucursal": "El Cangrejo", "lun_vie": "09:00-20:00", "sab": "09:00-17:30", "dom": "09:00-17:30"},
+        {"sucursal": "Megapolis", "lun_vie": "10:00-20:00", "sab": "10:30-19:00", "dom": "10:30-19:00"},
+        {"sucursal": "Atrio Mall", "lun_vie": "10:30-20:00", "sab": "11:00-19:00", "dom": "11:00-19:00"},
+        {"sucursal": "San Francisco", "lun_vie": "06:00-21:00", "sab": "07:00-17:00", "dom": "CERRADO"},
+        {"sucursal": "Altos de Panamá", "lun_vie": "06:00-21:00", "sab": "07:00-17:00", "dom": "CERRADO"},
+        {"sucursal": "Metromall", "lun_vie": "10:00-20:00", "sab": "10:30-20:00", "dom": "11:00-19:00"}
+      ],
+      "acciones": [
+        "Actualizar horarios especiales (feriados panameños: 3, 4, 5, 10, 28 de noviembre; Carnaval; Semana Santa; etc.).",
+        "En sucursales dentro de mall/gimnasio, el horario puede diferir del mall: aclarar en la ficha y en la web.",
+        "Revisar 'Abierto ahora' — los horarios mal cargados afectan 'cerca de mí abierto ahora'."
+      ]
+    },
+
+    "2_7_atributos": {
+      "a_marcar_cuando_aplique": [
+        "In-store pick-up / Retiro en tienda",
+        "Delivery",
+        "Wheelchair-accessible entrance (si aplica)",
+        "Wheelchair-accessible parking (si aplica)",
+        "Free Wi-Fi (si aplica)",
+        "Restroom (si aplica)",
+        "Credit cards / Debit cards / NFC mobile payments / Cash",
+        "Small business (si aplica)",
+        "LGBTQ+ friendly (Google suele agregarlo; dejar si aparece)"
+      ],
+      "cuidado": "No marcar accesibilidad ni servicios que no existan. Yappy no es un atributo estándar de GBP; mencionarlo en la descripción y en servicios personalizados."
+    },
+
+    "2_8_posts_publicaciones": {
+      "estado": "Probablemente sin actividad — señal de prominencia débil.",
+      "plan": "1-2 publicaciones por semana por ficha (o rotar entre sucursales y reflejar en todas las relevantes). Tipos: Oferta, Novedad, Evento.",
+      "temas_sin_claims": [
+        "Oferta de la semana en proteínas (con precio o % real).",
+        "Llegada de nuevo lote/marca (EVOGEN, RAW, MUTANT, LANDERFIT).",
+        "Retiro gratis en tienda y envío nacional.",
+        "Analizador de composición corporal disponible en la sucursal (sin promesas de resultados).",
+        "Combos ahorro."
+      ],
+      "regla": "Cada post con foto, CTA y enlace con UTM. No repetir el mismo texto en las 6 fichas (duplicación); adaptar a la zona/sucursal."
+    },
+
+    "2_9_qa_preguntas": {
+      "estado": "Verificar sección Preguntas y respuestas en cada ficha.",
+      "acciones": [
+        "Sembrar 5-8 preguntas reales por ficha y responderlas como propietario.",
+        "Monitorear y responder cualquier pregunta de usuarios rápido (<24 h).",
+        "No dejar preguntas sin responder (señal negativa y mala UX)."
+      ],
+      "preguntas_sugeridas": [
+        "¿Venden proteína original en [zona]?",
+        "¿Puedo comprar online y retirar en la tienda?",
+        "¿Hacen envíos a todo Panamá?",
+        "¿Aceptan Yappy y tarjeta?",
+        "¿Tienen proteína vegana?",
+        "¿Cuál es el horario de hoy?",
+        "¿Tienen estacionamiento?"
+      ]
+    },
+
+    "2_10_mensajes": {
+      "estado": "Verificar si está activado.",
+      "acciones": [
+        "Activar mensajería solo si hay quien responda en <24 h.",
+        "Responder con enlace al producto/categoría y ofrecer retiro en tienda.",
+        "Si no hay capacidad de respuesta, mantener desactivado (una bandeja abandonada perjudica)."
+      ]
+    },
+
+    "2_11_riesgos_de_ficha": [
+      "FICHAS DUPLICADAS: data.php guarda 'google_place_id' (legacy) y 'google_place_id_new' por sucursal. Verificar en el panel si existen dos fichas por sucursal y solicitar la fusión (marcar la duplicada como 'duplicado').",
+      "SUSPENSIÓN por nombre con keywords: no añadir 'proteína/suplementos' al nombre de la ficha.",
+      "DIRECCIÓN EN PIN EQUIVOCADO: mover el pin al punto exacto del local (especialmente locales dentro de mall/PowerClub). Un pin mal ubicado afecta distancia.",
+      "VERIFICACIÓN: confirmar que todas las 6 fichas están verificadas y activas."
+    ]
+  },
+
+  "seccion_3_senales_on_site_local": {
+    "principio": "La web no entra al pack, pero refuerza relevancia y prominencia: enlaza a la ficha correcta, declara NAP consistente y schema local por sucursal, y da contenido único por zona.",
+
+    "3_1_nap_consistente": {
+      "estado": "Riesgo medio. Hay indicios de inconsistencias detectables desde el repo.",
+      "problemas_detectados": [
+        {
+          "problema": "Teléfono de la Organización = teléfono de una sucursal",
+          "detalle": "schema-proteinas.json usa {{ORG_TELEPHONE}} = '6382-0672', que es el teléfono de San Francisco. La organización no debe compartir teléfono de sucursal como su teléfono principal.",
+          "accion": "Definir un teléfono central/WhatsApp de marca (ej. +507 6010-0948) para Organization y dejar el teléfono propio de cada sucursal en su ficha."
+        },
+        {
+          "problema": "Dirección de El Cangrejo inconsistente",
+          "detalle": "data.php: 'Av. Manuel Espinoza Batista, Plaza El Cangrejo L7'. Documentación antigua: 'Vía Argentina, Plaza el Cangrejo, Local 7'. Google Maps URL apunta a lat 8.9844695,-79.5299816 (data.php: 8.9842946,-79.5302391).",
+          "accion": "Fijar UNA dirección canónica (calle + plaza + local) y replicarla en web, GBP, redes y directorios. Verificar cuál es la correcta con la operación."
+        },
+        {
+          "problema": "URLs de Google Maps con datos cruzados",
+          "detalle": "El enlace de Atrio Mall incluye en su estructura el Place de Metromall; el de Altos de Panamá usa 'Powerclub centanial' con typo.",
+          "accion": "Regenerar los enlaces de Maps desde el panel de GBP (Compartir > Copiar enlace) y actualizar data.php. No editar a mano."
+        },
+        {
+          "problema": "Nombres de ficha inconsistentes",
+          "detalle": "Variantes de mayúsculas, typos y descriptores ('costa del este', 'Powerclub centanial', 'MEGAPOLIS', 'MetroMall').",
+          "accion": "Estandarizar 'Suplementos Panamá [Sucursal]' en GBP y en la web."
+        }
+      ],
+      "plan_nap": [
+        "Crear un 'NAP master' (una hoja): por sucursal, Nombre exacto | Dirección exacta | Teléfono local | WhatsApp | Horario | Place ID | URL Maps | URL de la página de sucursal.",
+        "Replicar el NAP master en: home, /sucursales/, cada página de sucursal, footer, redes (FB/IG), y todas las citas/directorios.",
+        "No usar teléfonos/formatos distintos (con/sin +507, guiones) entre canales.",
+        "Auditar trimestralmente y corregir desviaciones."
+      ]
+    },
+
+    "3_2_schema_local": {
+      "estado_actual": "En home y /sucursales/ hay entidad local (Organization/Store + 6 ramas con geo, dirección y horarios). En /proteinas/ el schema local está ausente (ver schema-proteinas.json).",
+      "acciones": [
+        "Mantener y validar Store/LocalBusiness por sucursal en cada página de sucursal: name, url, telephone, image, address (PostalAddress), geo (GeoCoordinates), openingHoursSpecification, areaServed, sameAs (URL de Maps/GBP), priceRange, hasMap.",
+        "Añadir 'sameAs' con la URL de GBP/Maps de cada sucursal (refuerza la relación entidad web <-> entidad ficha).",
+        "Añadir hasOfferCatalog con las categorías de producto (Proteínas, Creatina, etc.) por sucursal.",
+        "Emitir la entidad local (Organization + 6 subOrganization) también en la categoría /proteinas/ (según schema-proteinas.json, prioridad alta) con areaServed Panamá y subOrganization a las 6 ramas.",
+        "Un solo @id por entidad (reutilizar #organization, #website y .../sucursales/{slug}/#branch) para no duplicar entidades.",
+        "No emitir AggregateRating en las páginas locales con reseñas propias si no cumple las políticas de Google (riesgo de 'reseñas auto-servicio'). Usar testimonios visibles sin schema, o AggregateRating solo en fichas de producto con reseñas reales del producto.",
+        "Validar con Rich Results Test y Schema Markup Validator."
+      ]
+    },
+
+    "3_3_paginas_por_sucursal": {
+      "estado": "Existen /sucursales/ (hub) y /sucursales/{slug}/ (individuales), con contenido único en data.php (seo_content).",
+      "checklist_por_pagina": [
+        "H1 con sucursal + zona + 'tienda de suplementos' (ej. 'Suplementos Panamá San Francisco: tienda de suplementos en San Francisco, Ciudad de Panamá').",
+        "Title ~50-55: 'Suplementos Panamá [Sucursal] | Tienda de Suplementos en [Zona]'.",
+        "Meta description con zona, productos, retiro y horario.",
+        "Dirección, teléfono, WhatsApp, horario y mapa embebido (Google Maps).",
+        "Botón 'Cómo llegar' (enlace directo a Maps de la sucursal).",
+        "Sección 'Retiro en tienda' y 'Envío'.",
+        "Productos destacados de la sucursal (bloque) y enlace a /proteinas/ con anchor 'proteína en Panamá'.",
+        "FAQ local (¿dónde están?, ¿retiro online?, ¿envíos?, ¿estacionamiento?, ¿abierto ahora?).",
+        "Schema LocalBusiness/Store + BreadcrumbList.",
+        "Enlace desde el hub y desde el footer; enlaces cruzados entre sucursales cercanas."
+      ],
+      "contenido_unico": "No duplicar párrafos entre sucursales. Personalizar por zona/landmark (PowerClub, SmartFit, Metro, mall), público de la zona y accesos. El contenido duplicado resta relevancia.",
+      "blog_local": "Crear guías de apoyo tipo 'Dónde comprar proteína en San Francisco / Costa del Este / El Cangrejo' con enlace a la sucursal y a /proteinas/. Sin claims."
+    },
+
+    "3_4_resenas": {
+      "estado": "Volumen decente (total ~678 reseñas; promedio ~4.7). San Francisco (203) y El Cangrejo (152) destacan. Altos de Panamá (62) es la más débil.",
+      "acciones": [
+        "Solicitud post-compra por WhatsApp (el canal más usado en Panamá) y email, con enlace directo a 'Escribir reseña' de la sucursal correspondiente.",
+        "QR en caja/POS de cada sucursal con el enlace de reseña de ESA sucursal.",
+        "Mencionar en el mensaje el producto comprado y la sucursal para guiar la reseña temática (proteína, whey, asesoría).",
+        "Responder el 100% de reseñas en <48 h, con el nombre del local, agradeciendo y sin discutir. Las negativas: responder, ofrecer canal de contacto.",
+        "NUNCA comprar reseñas ni pedirlas a cambio de descuento (política de Google).",
+        "Meta de velocidad: +8 a +15 reseñas nuevas por sucursal por mes (ver sección 7)."
+      ],
+      "preguntas_en_resenas": "Naturalizar menciones de 'proteína', 'sucursal', 'retiro en tienda' en reseñas ayuda al análisis temático, pero no se debe condicionar la reseña."
+    },
+
+    "3_5_enlazado_interno": {
+      "acciones": [
+        "Home -> /sucursales/ y -> /proteinas/ con anchors locales.",
+        "/proteinas/ -> /sucursales/ con anchor 'retiro en 6 sucursales en Panamá'.",
+        "Cada página de sucursal -> /proteinas/ con anchor 'proteína en Panamá' y a las categorías de producto.",
+        "Cada página de sucursal -> Maps (Cómo llegar).",
+        "Fichas de proteína -> categoría y -> sucursales (para reforzar la red local)."
+      ]
+    },
+
+    "3_6_tecnico_local": [
+      "Asegurar que /sucursales/ y las 6 páginas de sucursal estén indexables y en el sitemap.",
+      "Core Web Vitals móviles en verde (el usuario local casi siempre busca en móvil).",
+      "Mapa embebido sin bloquear el render; lazy load del iframe de Maps.",
+      "Noindex en parámetros de geolocalización si los hubiera.",
+      "HTTPS y sin 404 en enlaces de sucursal."
+    ]
+  },
+
+  "seccion_4_citations_directorios_panama": {
+    "definicion": "Una cita local es una mención del NAP en un directorio, mapa, app o listado. Consistencia + cantidad + autoridad = prominencia. En Panamá el ecosistema es más pequeño que en EE. UU.; conviene cubrir todos los relevantes y los de nicho fitness.",
+    "regla_de_oro": "NAP idéntico en todos. Si un directorio no permite corregir, priorizar los que sí (Google, Apple, Bing, FB/IG).",
+
+    "4_1_prioridad_p0": [
+      {"directorio": "Google Business Profile (6 fichas)", "tipo": "Mapa / buscador", "accion": "Optimizar y completar las 6 fichas. Es la cita que decide el pack.", "url": "https://business.google.com"},
+      {"directorio": "Apple Business Connect (Apple Maps)", "tipo": "Mapa", "accion": "Reclamar/crear las 6 ubicaciones. Apple Maps alimenta Siri y búsquedas en iPhone.", "url": "https://businessconnect.apple.com"},
+      {"directorio": "Bing Places", "tipo": "Mapa/buscador", "accion": "Reclamar las 6. Alimenta Copilot/Bing y refuerza NAP.", "url": "https://www.bingplaces.com"},
+      {"directorio": "Facebook e Instagram (perfil de empresa)", "tipo": "Red social + mapa", "accion": "NAP consistente, categoría correcta, check-in por sucursal, enlace al sitio con UTM.", "url": "https://www.facebook.com"},
+      {"directorio": "Waze", "tipo": "Navegación", "accion": "Verificar/crear los 6 puntos con dirección y horario (mucha gente navega con Waze en Panamá).", "url": "https://www.waze.com"}
+    ],
+
+    "4_2_directorios_panama_generales": [
+      {"directorio": "Páginas Amarillas Panamá", "accion": "Alta en categoría 'Suplementos nutricionales' / 'Tiendas de artículos deportivos' con NAP y horario."},
+      {"directorio": "Encuentra24 Panamá", "accion": "Perfil de negocio / clasificados de productos; refuerza citas.", "url": "https://www.encuentra24.com/panama-es"},
+      {"directorio": "OLX Panamá", "accion": "Perfil/tienda si aplica; cita adicional.", "url": "https://www.olx.com.pa"},
+      {"directorio": "Cámara de Comercio, Industrias y Agricultura de Panamá (CCIAP)", "accion": "Directorio de miembros (si son miembros) — cita de alta autoridad."},
+      {"directorio": "Directorio de la empresa en Google Maps local (listas/mapas de zonas)", "accion": "Aparecer en listas curadas 'mejores tiendas de suplementos en Panamá' cuando existan."},
+      {"directorio": "Yelp Panamá (si tiene cobertura)", "accion": "Alta básica con NAP; responder reseñas."}
+    ],
+
+    "4_3_directorios_por_zona_mall": [
+      {"directorio": "Directorio de tiendas Megapolis Outlet", "accion": "Solicitar alta del local con enlace al sitio (cita + backlink)."},
+      {"directorio": "Directorio de tiendas Atrio Mall", "accion": "Solicitar alta del local (Costa del Este)."},
+      {"directorio": "Directorio de tiendas MetroMall", "accion": "Solicitar alta del local."},
+      {"directorio": "Directorio/centro comercial Centennial Plaza", "accion": "Solicitar alta (Altos de Panamá)."},
+      {"directorio": "Directorio Plaza El Cangrejo", "accion": "Solicitar alta (El Cangrejo)."}
+    ],
+
+    "4_4_directorios_nicho_fitness_salud": [
+      {"directorio": "Páginas de partners PowerClub / SmartFit", "accion": "Co-marketing y mención/backlink como tienda dentro del gimnasio (San Francisco y Altos de Panamá están dentro de PowerClub)."},
+      {"directorio": "Directorio de gimnasios de Panamá (listados locales de fitness)", "accion": "Aparecer junto a los gimnasios de la zona."},
+      {"directorio": "Blogs y medios fitness panameños", "accion": "Menciones y enlaces (no pagados de baja calidad)."},
+      {"directorio": "Asociaciones deportivas/federaciones de fisicoculturismo y fitness de Panamá", "accion": "Partnerships y menciones (sin claims)."},
+      {"directorio": "Eventos de fitness (ferias, competencias) en Panamá", "accion": "Patrocinio/mención con enlace."}
+    ],
+
+    "4_5_prensa_local_para_prominencia": [
+      "La Prensa, Panamá América, Mi Diario, Telemetro, TVN, La Estrella de Panamá: notas de marca (nuevas sucursales, aniversario, distribución oficial de marcas) con enlace.",
+      "Medios de negocios (Capital Financiero, Martes Financiero): apertura de sucursal o ampliación.",
+      "Nota: la prensa construye prominencia y autoridad de entidad; no necesita ser pagada si hay un ángulo noticioso."
+    ],
+
+    "4_6_gestion_nap_workflow": [
+      "1. Construir el NAP master por sucursal (sección 3.1).",
+      "2. Auditar qué existe ya en cada directorio (buscar 'Suplementos Panamá' en Google y ver duplicados/errores).",
+      "3. Corregir/crear en orden P0 -> P1 (generales) -> por zona -> nicho.",
+      "4. Registrar en la hoja: directorio | URL del perfil | estado | fecha de alta | NAP coincide (sí/no) | enlace (follow/nofollow).",
+      "5. Revisión trimestral y corrección de desviaciones.",
+      "6. Evitar directorios spam / granjas de enlaces: calidad > cantidad."
+    ]
+  },
+
+  "seccion_5_diagnostico_probable": {
+    "resumen": "No aparecer en el pack no es un solo problema; es un déficit combinado de relevancia y prominencia con problemas operativos de ficha que hay que resolver primero. Ordenados por probabilidad e impacto.",
+    "causas": [
+      {
+        "id": 1,
+        "causa": "Categoría principal de GBP no alineada a la entidad 'proteína/suplemento deportivo'",
+        "evidencia": "El schema del proyecto usa SportingGoodsStore, categoría amplia. No se confirmó 'Vitamin and supplements store' / 'Sports nutrition store' en las fichas.",
+        "impacto": "Alto",
+        "por_que": "La categoría principal es el factor de relevancia más fuerte. 'Sporting goods store' compite con tiendas de ropa/equipo, no con suplementos."
+      },
+      {
+        "id": 2,
+        "causa": "Falta de catálogo de Productos en GBP y baja actividad de la ficha",
+        "evidencia": "No hay indicios de catálogo 'Proteínas', posts ni Q&A activos.",
+        "impacto": "Alto",
+        "por_que": "El catálogo es relevancia directa y los posts/fotos/Q&A son frescura. Los competidores con ficha activa ganan prominencia."
+      },
+      {
+        "id": 3,
+        "causa": "Déficit de prominencia: volumen y velocidad de reseñas por debajo de lo necesario por sucursal",
+        "evidencia": "Total ~678 reseñas repartidas en 6; competidores con marca (Vitamin Shoppe, Rey) y especialistas (Fitness Game) acumulan más señales.",
+        "impacto": "Alto",
+        "por_que": "Las reseñas son el factor de prominencia con mayor ROI controlable. Sin solicitud sistemática, la velocidad cae."
+      },
+      {
+        "id": 4,
+        "causa": "Posibles fichas duplicadas (place_id legacy + place_id_new)",
+        "evidencia": "data.php tiene 'google_place_id' y 'google_place_id_new' por sucursal.",
+        "impacto": "Alto",
+        "por_que": "Un duplicado divide reseñas, confunde a Google y puede penalizar relevancia/prominencia."
+      },
+      {
+        "id": 5,
+        "causa": "Inconsistencias NAP (dirección de El Cangrejo, teléfono de organización = sucursal, URLs de Maps con datos cruzados, nombres de ficha variables)",
+        "evidencia": "Ver sección 3.1.",
+        "impacto": "Medio-Alto",
+        "por_que": "El NAP inconsistente debilita la confianza de Google en la entidad y resta prominencia."
+      },
+      {
+        "id": 6,
+        "causa": "Pocas citas locales y backlinks locales",
+        "evidencia": "No se detectó un plan de citas; fuerte dependencia de GBP.",
+        "impacto": "Medio",
+        "por_que": "La prominencia off-site (citas + prensa + partnerships) es lo que diferencia a los que ya rankean."
+      },
+      {
+        "id": 7,
+        "causa": "Señales on-site locales débiles en las páginas clave",
+        "evidencia": "/proteinas/ no emite entidad local; posible contenido delgado en páginas de sucursal; hub /sucursales/ con schema WebPage+ItemList sin Store completo.",
+        "impacto": "Medio",
+        "por_que": "Refuerzan la relevancia y ayudan a Google a conectar web <-> ficha."
+      },
+      {
+        "id": 8,
+        "causa": "Cobertura geográfica incompleta en ciertas zonas",
+        "evidencia": "Sin sucursal en Arraiján/La Chorrera (oeste) ni Colón.",
+        "impacto": "Medio",
+        "por_que": "Para 'cerca de mí' en esas zonas, Google no puede mostrarte. No es un error, es límite de cobertura."
+      },
+      {
+        "id": 9,
+        "causa": "Horarios/especiales desalineados entre web y GBP",
+        "evidencia": "San Francisco y Altos de Panamá cierran domingo; malls con horario distinto al de la ficha.",
+        "impacto": "Medio",
+        "por_que": "Afecta 'cerca de mí abierto ahora' y la confianza en la ficha."
+      },
+      {
+        "id": 10,
+        "causa": "Intención de la consulta: 'proteína en Panamá' es amplia y a veces Google prioriza resultados orgánicos/tiendas sin pack",
+        "evidencia": "Los packs aparecen más en consultas con señal local fuerte o 'cerca de mí'.",
+        "impacto": "Bajo (contexto)",
+        "por_que": "Aun así, si los competidores salen, hay intención local suficiente para competir."
+      }
+    ]
+  },
+
+  "seccion_6_plan_priorizado": {
+    "enfoque": "Primero arreglar lo que puede bloquear (duplicados, verificación, categoría), luego ganar relevancia (catálogo + schema + páginas), luego prominencia (reseñas + citas), y medir con grid.",
+    "fases": [
+      {
+        "fase": "P0 — Bloqueantes y fundación (semana 1-2)",
+        "acciones": [
+          "Auditar y resolver fichas duplicadas; confirmar verificación de las 6 fichas.",
+          "Corregir categoría principal (Sports nutrition store o Vitamin and supplements store) y secundarias en las 6.",
+          "Corregir NAP master y aplicarlo en web + GBP + redes (nombre estandarizado, dirección canónica, teléfono por sucursal, teléfono de marca separado).",
+          "Corregir horarios en GBP para que coincidan con data.php (incluido cerrado domingo en SF y Altos).",
+          "Mover pines al punto exacto del local.",
+          "Subir logo + portada y completar 10 fotos por ficha.",
+          "Implementar schema Store/LocalBusiness por sucursal con geo/horarios/sameAs (coordinar con structured-data-schema)."
+        ],
+        "kpi": "6 fichas completas, verificadas, sin duplicados y con NAP idéntico."
+      },
+      {
+        "fase": "P1 — Relevancia y prominencia (mes 1-2)",
+        "acciones": [
+          "Cargar catálogo de Productos 'Proteínas' (10-20 ítems por ficha) con foto, descripción y enlace con UTM.",
+          "Definir servicios y atributos por sucursal.",
+          "Lanzar sistema de reseñas post-compra (WhatsApp + QR en caja) por sucursal.",
+          "Empezar posts semanales por sucursal (rotando) y sembrar Q&A.",
+          "Actualizar/crear páginas de sucursal optimizadas (H1, meta, FAQ local, mapa, top productos).",
+          "Emitir entidad local en /proteinas/ (según schema-proteinas.json).",
+          "Alta en citas P0 (Apple Maps, Bing, Facebook/IG, Waze)."
+        ],
+        "kpi": "Impresiones de GBP suben; aparecer en pack en el radio inmediato de las sucursales top."
+      },
+      {
+        "fase": "P2 — Escala y autoridad local (mes 3-6)",
+        "acciones": [
+          "Citas P1/P2: directorios Panamá, directorios de mall, nicho fitness.",
+          "Partnerships con PowerClub/SmartFit y gimnasios de zona (menciones/backlinks).",
+          "Prensa local con ángulo noticioso.",
+          "Contenido local (guías por zona) con enlace a sucursal y a /proteinas/.",
+          "Mantener cadencia de reseñas, posts y fotos."
+        ],
+        "kpi": "Top 3 en pack en la mayoría de los puntos del grid de Ciudad de Panamá; crecimiento sostenido de acciones GBP."
+      }
+    ],
+
+    "6_3_priorizacion_sucursales": {
+      "criterio": "Priorizar por (a) reseñas existentes (prueba social y velocidad), (b) cercanía/adyacencia a gimnasios de alto tráfico, (c) densidad fitness de la zona, (d) cobertura de mercado.",
+      "orden_de_esfuerzo": [
+        {
+          "prioridad": 1,
+          "sucursal": "San Francisco",
+          "rating": 4.9,
+          "resenas": 203,
+          "ancla_gym": "Dentro de PowerClub SF (Plaza Arval, C. 72 Este)",
+          "horario": "6:00-21:00 L-V, 7:00-17:00 Sáb, domingo cerrado",
+          "por_que": "Mejor rating y mayor volumen de reseñas del grupo; ubicación DENTRO del gimnasio; horario amplio (6am-9pm). Es la ficha más fuerte y la que más rápido puede colarse en el pack de la zona."
+        },
+        {
+          "prioridad": 2,
+          "sucursal": "El Cangrejo",
+          "rating": 4.8,
+          "resenas": 152,
+          "ancla_gym": "Corazón de Ciudad de Panamá, zona bancaria/hoteles y alta densidad de gimnasios; cerca del Metro Vía Argentina",
+          "horario": "9:00-20:00 L-V, 9:00-17:30 fin de semana",
+          "por_que": "Segundo mayor volumen de reseñas, excelente rating y ubicación central que cubre mucha demanda. No está dentro de gym pero la zona es la de mayor flujo fitness y comercial."
+        },
+        {
+          "prioridad": 3,
+          "sucursal": "Megapolis",
+          "rating": 4.7,
+          "resenas": 98,
+          "ancla_gym": "3er nivel frente al SmartFit (Megapolis Outlet, Paitilla)",
+          "horario": "10:00-20:00 L-V, 10:30-19:00 fin de semana",
+          "por_que": "Frente a SmartFit, zona Paitilla; buen volumen de reseñas; tiene analizador corporal (servicio diferenciador)."
+        },
+        {
+          "prioridad": 4,
+          "sucursal": "Metromall",
+          "rating": 4.7,
+          "resenas": 88,
+          "ancla_gym": "Nivel 3 al lado del SmartFit; entrada por Metro Cerro Viento",
+          "horario": "10:00-20:00 L-V, 10:30-20:00 Sáb, 11:00-19:00 Dom",
+          "por_que": "Cubre el este (Pedregal, Tocumen, San Miguelito, Vía Tocumen); acceso por Metro. Único punto que cubre esa zona y compite con Rey/Fitness Game ahí."
+        },
+        {
+          "prioridad": 5,
+          "sucursal": "Atrio Mall",
+          "rating": 4.6,
+          "resenas": 75,
+          "ancla_gym": "2do piso frente al SmartFit (Atrio Mall, Costa del Este)",
+          "horario": "10:30-20:00 L-V, 11:00-19:00 fin de semana",
+          "por_que": "Costa del Este = zona de alto poder adquisitivo y alta densidad fitness/CrossFit. Reseñas medias; buen potencial de crecimiento."
+        },
+        {
+          "prioridad": 6,
+          "sucursal": "Altos de Panamá",
+          "rating": 4.5,
+          "resenas": 62,
+          "ancla_gym": "Dentro de Power Club (Plaza Caminos del Centennial, detrás del Centennial Mall)",
+          "horario": "6:00-21:00 L-V, 7:00-17:00 Sáb, domingo cerrado",
+          "por_que": "Dentro de gimnasio y horario amplio (ventaja), pero es la ficha con menos reseñas (62) y rating más bajo (4.5). Necesita el mayor esfuerzo de reseñas para ser competitiva en su radio."
+        }
+      ],
+      "nota_gimnasios": "Hay 4 anclas directas a gimnasio/SmartFit (San Francisco y Altos dentro de PowerClub; Megapolis, Atrio y Metromall frente a SmartFit). Eso da intención local de altísima calidad ('saliendo del gym'). Se debe aprovechar la co-ubicación con contenido y con las páginas de partner.",
+      "cobertura": "Las 6 sedes cubren: centro (El Cangrejo), Paitilla (Megapolis), este/litoral (Atrio/Costa del Este), norte-centro (San Francisco), noroeste (Altos de Panamá), noreste (Metromall). Quedan sin cobertura directa Arraiján/La Chorrera y Colón.",
+      "zonas_recomendadas_para_futuro": "Si se abre una séptima sucursal, priorizar Arraiján/La Chorrera (oeste, con crecimiento residencial) y una zona de San Miguelito/Tocumen ya cubierta parcialmente por Metromall."
+    },
+
+    "6_4_quick_wins": [
+      "Cambiar la categoría principal a 'Sports nutrition store' / 'Vitamin and supplements store' (relevancia inmediata).",
+      "Cargar el catálogo de Productos 'Proteínas' con los top sellers (relevancia inmediata).",
+      "Subir 10 fotos + video por ficha (frescura).",
+      "Corregir horarios y pines (distancia/confianza).",
+      "Backlink/mention desde los directorios de los malls donde están (citas fáciles).",
+      "Acelerar reseñas en Altos de Panamá (la ficha más débil)."
+    ]
+  },
+
+  "seccion_7_medicion": {
+    "principio": "El ranking local se mide por posiciones en un grid geográfico, no por una sola posición. GBP Insights da comportamiento de ficha; Local Falcon (o equivalente) da visibilidad en el mapa zona por zona.",
+    "7_1_gbp_insights": {
+      "metricas": [
+        "Búsquedas: cuántas veces apareció la ficha en resultados de Google/Maps (impresiones).",
+        "Vistas del perfil (Llamadas a la acción): cuántos vieron la ficha.",
+        "Interacciones del cliente: clics al sitio, llamadas, solicitudes de ruta, mensajes.",
+        "Llamadas (si hay número en la ficha).",
+        "Solicitudes de indicaciones (rutas a la sucursal).",
+        "Reservas / chat (si aplica).",
+        "Fotos: vistas de fotos."
+      ],
+      "frecuencia": "Semanal (operativo) y reporte mensual con tendencia por sucursal.",
+      "kpis_objetivo": [
+        "Impresiones de GBP +30% en 60 días.",
+        "Clics al sitio desde GBP con UTM medibles.",
+        "Solicitudes de ruta por sucursal (proxies de intención local)."
+      ],
+      "nota_utm": "Usar https://suplementospanama.net/sucursales/{slug}/?utm_source=gbp&utm_medium=organic&utm_campaign=local_pack en el enlace de la ficha, para separar el tráfico de GBP en GA4 (coordinar con analytics-ecommerce)."
+    },
+
+    "7_2_grid_rankings_locales": {
+      "herramienta": "Local Falcon (o equivalente: BrightLocal Local Search Grid, Places Scout).",
+      "configuracion": [
+        "Keyword principal: 'proteína en Panamá'.",
+        "Keyword secundaria: 'tienda de suplementos Panamá' y 'proteína cerca de mí'.",
+        "Grid: 7x7 o 9x9 sobre el área metropolitana de Ciudad de Panamá (cubriendo las 6 sucursales).",
+        "Escaneo inicial (baseline) antes de tocar fichas.",
+        "Escaneo mensual y comparativo.",
+        "Registrar Average Rank, ARP (Average Rank Position) y 'share of local voice' por punto."
+      ],
+      "meta": "Pasar de ausencia/posiciones bajas a top 3 (o al menos top 5) en los puntos del grid cercanos a cada sucursal. Objetivo realista: top 3 en el 60-70% de los puntos dentro de un radio de ~3-5 km de cada sucursal a 6 meses.",
+      "nota_busqueda_manual": "Complementar con búsquedas manuales desde ubicación simulada (Chrome DevTools > Sensors) en al menos 3 puntos: El Cangrejo, San Francisco y Costa del Este, y comparar en incógnito."
+    },
+
+    "7_3_revision_de_resenas": {
+      "que_monitorear": [
+        "Rating promedio por sucursal (evitar que caiga por debajo de 4.5).",
+        "Velocidad: reseñas nuevas por mes por sucursal (meta +8 a +15).",
+        "Tasa de respuesta: 100% de reseñas respondidas en <48 h.",
+        "Temas recurrentes (positivos y negativos): asesoría, disponibilidad de producto, atención, estacionamiento.",
+        "Reseñas con lenguaje de producto ('proteína', 'whey', 'retiro') — apoya el análisis temático."
+      ],
+      "tablero": "Hoja por sucursal: fecha | rating | reseñas nuevas | respondidas | temas | acción.",
+      "alertas": "Configurar alerta para reseñas de 1-2 estrellas y responder de inmediato. Nunca contenido comprado ni incentivado."
+    },
+
+    "7_4_otros": {
+      "gsc_local": "En Search Console, filtrar consultas con intención local ('panamá', 'cerca de mí', 'sucursal', nombres de zona) y medir impresiones/clics de /proteinas/ y /sucursales/.",
+      "ga4": "Segmentar por source=gbp (UTM) y medir sesiones, conversiones y revenue de las landings de sucursal y /proteinas/.",
+      "calls": "Si se usa número en la ficha, medir llamadas; idealmente con un número rastreable por sucursal (o al menos el enlace tel: con evento GA4).",
+      "baseline_recomendado": "Antes de tocar nada: capturar baseline de GBP Insights de las 6 fichas (últimos 30 días) y un escaneo de grid. Sin baseline no se puede atribuir mejora."
+    },
+
+    "7_5_cadencia_reportes": {
+      "semanal": "Reseñas nuevas, respuestas, posts publicados, alertas.",
+      "mensual": "GBP Insights por sucursal + grid de Local Falcon + reseñas + GSC local + GA4 (gbp).",
+      "trimestral": "Auditoría NAP y de citas; revisión de categorías y catálogo GBP; revisión de cobertura de sucursales."
+    }
+  },
+
+  "restricciones_no_tocar": [
+    "NO tocar las funciones sp_* de sucursal/carrito/checkout en functions.php del child.",
+    "NO tocar el mu-plugin combo-price.php, sp_sucursal_js() ni la meta _sucursales_disponibles.",
+    "Si un cambio de schema/página de sucursal requiere editar functions.php del child: AVISAR, respaldar y validar los 4 flujos de retiro en sucursal (docs/RETIRO-SUCURSAL.md, sección 5).",
+    "No editar _elementor_data con update_post_meta (usar update_metadata + wp_slash).",
+    "Este entregable es solo análisis/plan: NO se modificó el sitio ni las fichas GBP.",
+    "Sin claims médicos ni terapéuticos en ningún texto que se publique en GBP/web."
+  ]
+}

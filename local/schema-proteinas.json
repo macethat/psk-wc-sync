@@ -1,0 +1,381 @@
+{
+  "meta": {
+    "proyecto": "Suplementos Panamá",
+    "agente": "structured-data-schema",
+    "fecha": "2026-10-04",
+    "objetivo": "SEO + GEO local (Panamá) para la categoría Proteínas: 'proteína en Panamá', 'proteínas en Panamá', 'proteína cerca de mí', 'ofertas en proteína'.",
+    "pagina_objetivo": "https://suplementospanama.net/proteinas/",
+    "tipo_pagina": "product_cat (WooCommerce) — slug: proteinas (term padre; los hijos como proteinas/proteina-aislada-isolate NO se tocan)",
+    "estado": "PROPUESTA — no aplicado al sitio. Ver instrucciones de despliegue y rollback antes de tocar producción.",
+    "stack_detectado": {
+      "seo": "Rank Math (+ local SEO: Store/Organization/Place)",
+      "tema": "nutritix-child (functions.php + functions-additions.php)",
+      "mu_plugins_relevantes": ["rankmath-itemlist.php (ItemList de archivos)", "combo-price.php (combos grouped)", "sp-dev-nocache.php", "sp-i18n.php"],
+      "schema_inyectado_por_child": ["SiteNavigationElement (54 nodos, wp_head prio 1)", "sp_schema_breadcrumbs() (solo si Rank Math no lo emite)"],
+      "moneda": "USD",
+      "pais": "PA"
+    }
+  },
+
+  "diagnostico": {
+    "resumen": "En /proteinas/ Rank Math NO emite Organization, WebSite ni Product (solo en home, ficha de producto y /sucursales/). El único ItemList presente está MALFORMADO y los ítems van sin @type. Faltan CollectionPage, entity local (Store/LocalBusiness con areaServed Panamá y las 6 sucursales), WebSite/SearchAction y datos de oferta (precio/disponibilidad/marca/SKU). El BreadcrumbList de Rank Math sí existe y es correcto: NO hay que duplicarlo.",
+    "bloques_jsonld_en_vivo": [
+      {
+        "bloque": 1,
+        "fuente": "child theme — sp_emitir_schema_navegacion() (wp_head prio 1)",
+        "tipo": "SiteNavigationElement",
+        "estado": "OK",
+        "accion": "conservar"
+      },
+      {
+        "bloque": 2,
+        "fuente": "rankmath-itemlist.php (prio 20) deformado por functions.php del child (prio 98) y por el ensamblado de @graph de Rank Math",
+        "tipo": "ItemList (roto)",
+        "estado": "INVALIDO",
+        "salida_real_observada": {"@context": "https://schema.org", "@graph": ["https://schema.org", [{"@type": "ItemList", "name": "Proteínas", "url": "https://suplementospanama.net/proteinas/", "numberOfItems": "10", "itemListElement": "[... 10 items SIN @type, sin precio ni disponibilidad ...]" }]]},
+        "problemas": [
+          "@graph contiene un string ('https://schema.org') mezclado con un array anidado: estructura inválida.",
+          "Los 'item' de cada ListItem no tienen @type (functions.php del child los elimina): no son Product válidos.",
+          "numberOfItems y position son strings en vez de enteros.",
+          "Máximo 10 productos y solo de la página actual, sin precio, disponibilidad, marca ni SKU.",
+          "No declara CollectionPage ni mainEntity."
+        ],
+        "accion": "reemplazar por el ItemList limpio y rico de este entregable"
+      },
+      {
+        "bloque": 3,
+        "fuente": "Rank Math",
+        "tipo": "BreadcrumbList",
+        "estado": "OK",
+        "contenido": "Inicio > Proteínas",
+        "accion": "conservar — NO emitir otro BreadcrumbList (evita duplicado)"
+      }
+    ],
+    "ausente_en_proteinas": [
+      "CollectionPage / WebPage",
+      "Organization / Store / LocalBusiness (entity local)",
+      "WebSite + SearchAction (Sitelinks Searchbox)",
+      "Product + Offer dentro del listado (precio, priceCurrency USD, availability, brand, sku, gtin)",
+      "areaServed (Ciudad de Panamá / Panamá) y las 6 sucursales con geolocalización",
+      "FAQPage (no hay FAQ renderizada en la categoría)"
+    ],
+    "lo_que_no_hay_que_tocar": [
+      "Filtro rank_math/json_ld del child (local/functions_current.php líneas ~1136-1181): fuerza addressCountry=PA, quita richSnippet de combos, etc. Este mu-plugin solo AÑADE y LIMPIA ItemList; no lo modifica.",
+      "sp_emitir_schema_navegacion() (functions-additions.php sección 13): el SiteNavigationElement se conserva.",
+      "sp_schema_breadcrumbs(): se auto-desactiva si Rank Math ya emite breadcrumb (patrón a respetar).",
+      "combo-price.php y el schema de combos (sp_output_combo_structured_data): intactos.",
+      "Funciones sp_* de retiro en sucursal / carrito / checkout: NO TOCAR (ver AGENTS.md y docs/RETIRO-SUCURSAL.md)."
+    ]
+  },
+
+  "tipos_recomendados": [
+    {
+      "tipo": "CollectionPage",
+      "por_que": "Una categoría es una colección de productos. Declara url, name, description (descripción real del term), inLanguage es-PA y mainEntity -> ItemList. Da contexto semántico de 'página de listado' a los buscadores y a los motores generativos (GEO).",
+      "estado_actual": "ausente",
+      "prioridad": "alta"
+    },
+    {
+      "tipo": "ItemList + itemListElement (ListItem > Product > Offer)",
+      "por_que": "Es el corazón de la categoría. Permite que el listado se entienda como catálogo ordenado y habilita carruseles/rich results de listas. Incluir precio (USD), availability, brand, sku y gtin cuando existan mejora comprensión y elegibilidad.",
+      "estado_actual": "existe pero ROTO (sin @type, sin ofertas)",
+      "prioridad": "alta"
+    },
+    {
+      "tipo": "BreadcrumbList",
+      "por_que": "Refuerza jerarquía y muestra migas en SERP.",
+      "estado_actual": "Rank Math YA lo emite correctamente (Inicio > Proteínas)",
+      "accion": "NO duplicar. Solo validar.",
+      "prioridad": "media (ya cubierto)"
+    },
+    {
+      "tipo": "WebSite + SearchAction",
+      "por_que": "Habilita Sitelinks Searchbox y consolida la entidad del sitio. Se usa el MISMO @id que Rank Math (https://suplementospanama.net/#website) para no crear entidades duplicadas.",
+      "estado_actual": "ausente en /proteinas/ (Rank Math solo lo emite en home y páginas)",
+      "prioridad": "media"
+    },
+    {
+      "tipo": "Organization + Store/SportingGoodsStore (+ LocalBusiness por sucursal)",
+      "por_que": "GEO local: declara la marca, areaServed Ciudad de Panamá y Panamá, y las 6 sucursales con dirección, teléfono, horarios y geolocalización. Refuerza 'proteína cerca de mí' y el knowledge panel. Se usa el MISMO @id que Rank Math (#organization) y el de cada sucursal (.../sucursales/{slug}/#branch) para que no haya entidades duplicadas.",
+      "estado_actual": "ausente en /proteinas/; existe #organization en home y #branch en cada sucursal",
+      "prioridad": "alta"
+    },
+    {
+      "tipo": "Product + Offer (destacadas)",
+      "por_que": "Opcional. En una página de categoría Rank Math NO emite ningún Product, así que incluir Product+Offer dentro del ItemList NO duplica nada. No se deben añadir nodos Product sueltos adicionales.",
+      "estado_actual": "no aplica duplicación",
+      "prioridad": "alta (dentro del ItemList)"
+    },
+    {
+      "tipo": "FAQPage",
+      "por_que": "NO recomendado por ahora: la categoría no renderiza ninguna FAQ. Emitir FAQPage sin contenido visible incumple las políticas de Google. Si en el futuro se añade un bloque de preguntas real, se puede añadir.",
+      "estado_actual": "sin FAQ visible",
+      "prioridad": "baja (requiere contenido primero)"
+    }
+  ],
+
+  "arquitectura_del_grafo": {
+    "patron": "Un único <script class=\"sp-schema-proteinas\"> con @context + @graph. Se ELIMINA antes el ItemList roto vía filtro rank_math/json_ld (prio 999) para no dejar restos inválidos.",
+    "nodos": [
+      {"@type": ["Store", "SportingGoodsStore", "Organization"], "@id": "https://suplementospanama.net/#organization", "rol": "entidad local principal (fusiona con Rank Math)"},
+      {"@type": "WebSite", "@id": "https://suplementospanama.net/#website", "rol": "sitio + SearchAction"},
+      {"@type": "CollectionPage", "@id": ".../proteinas/#webpage", "rol": "página de listado; mainEntity -> #itemlist"},
+      {"@type": "ItemList", "@id": ".../proteinas/#itemlist", "rol": "catálogo; itemListElement -> ListItem -> Product -> Offer"},
+      {"@type": "SportingGoodsStore", "@id": ".../sucursales/{slug}/#branch", "rol": "6 nodos de sucursal (geo, dirección, horarios) referenciados desde subOrganization"},
+      {"@type": "BreadcrumbList", "@id": "(Rank Math, sin @id)", "rol": "YA emitido por Rank Math — no duplicar"}
+    ],
+    "ids_compartidos_con_rank_math": [
+      "https://suplementospanama.net/#organization",
+      "https://suplementospanama.net/#website",
+      "https://suplementospanama.net/sucursales/{slug}/#branch"
+    ],
+    "nota_product_id": "El Product del ItemList usa @id '{product_url}#product' (consistente con el schema propio de combos del child). Rank Math, en la ficha, usa @id '{product_url}#richSnippet'. Como están en PÁGINAS distintas no hay duplicado en la misma página; si se quiere unificar la entidad, se recomienda filtrar rank_math y usar '#product' también en la ficha (opcional, fuera de alcance)."
+  },
+
+  "jsonld_plantilla": {
+    "_nota": "Plantilla con placeholders dinámicos. Las 6 sucursales ya están pobladas con datos reales (estáticas). El bloque ItemList muestra un solo ítem con placeholders; repetir por cada producto de la página actual.",
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Store", "SportingGoodsStore", "Organization"],
+        "@id": "{{SITE_URL}}#organization",
+        "name": "Suplementos Panamá",
+        "url": "{{SITE_URL}}",
+        "logo": "{{SITE_LOGO_URL}}",
+        "telephone": "{{ORG_TELEPHONE}}",
+        "areaServed": [
+          {"@type": "City", "name": "Ciudad de Panamá"},
+          {"@type": "Country", "name": "Panamá"}
+        ],
+        "currenciesAccepted": "USD",
+        "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Yappy"],
+        "knowsAbout": ["Proteínas de suero", "Whey protein", "Proteína aislada", "Mass gainer", "Suplementos deportivos"],
+        "subOrganization": [
+          {"@id": "{{SITE_URL}}sucursales/el-cangrejo/#branch"},
+          {"@id": "{{SITE_URL}}sucursales/megapolis/#branch"},
+          {"@id": "{{SITE_URL}}sucursales/atrio-mall/#branch"},
+          {"@id": "{{SITE_URL}}sucursales/san-francisco/#branch"},
+          {"@id": "{{SITE_URL}}sucursales/altos-de-panama/#branch"},
+          {"@id": "{{SITE_URL}}sucursales/metromall/#branch"}
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{SITE_URL}}#website",
+        "url": "{{SITE_URL}}",
+        "name": "Suplementos Panamá",
+        "inLanguage": "es-PA",
+        "publisher": {"@id": "{{SITE_URL}}#organization"},
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {"@type": "EntryPoint", "urlTemplate": "{{SITE_URL}}?s={search_term_string}"},
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "{{PAGE_URL}}#webpage",
+        "url": "{{PAGE_URL}}",
+        "name": "{{CATEGORY_NAME}} en Panamá",
+        "description": "{{CATEGORY_DESCRIPTION}}",
+        "inLanguage": "es-PA",
+        "isPartOf": {"@id": "{{SITE_URL}}#website"},
+        "about": {"@type": "Thing", "name": "{{CATEGORY_NAME}}"},
+        "primaryImageOfPage": "{{SITE_LOGO_URL}}",
+        "mainEntity": {"@id": "{{PAGE_URL}}#itemlist"}
+      },
+      {
+        "@type": "ItemList",
+        "@id": "{{PAGE_URL}}#itemlist",
+        "name": "{{CATEGORY_NAME}}",
+        "numberOfItems": "{{ITEM_COUNT}}",
+        "itemListOrder": "https://schema.org/ItemListUnordered",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": "{{POSITION}}",
+            "item": {
+              "@type": "Product",
+              "@id": "{{PRODUCT_URL}}#product",
+              "name": "{{PRODUCT_NAME}}",
+              "url": "{{PRODUCT_URL}}",
+              "image": "{{PRODUCT_IMAGE}}",
+              "category": "{{CATEGORY_NAME}}",
+              "brand": {"@type": "Brand", "name": "{{PRODUCT_BRAND}}"},
+              "sku": "{{PRODUCT_SKU}}",
+              "gtin13": "{{PRODUCT_GTIN}}",
+              "offers": {
+                "@type": "Offer",
+                "url": "{{PRODUCT_URL}}",
+                "price": "{{PRODUCT_PRICE}}",
+                "priceCurrency": "{{CURRENCY}}",
+                "availability": "{{AVAILABILITY}}",
+                "itemCondition": "https://schema.org/NewCondition",
+                "seller": {"@id": "{{SITE_URL}}#organization"}
+              }
+            }
+          }
+        ]
+      },
+      {
+        "@type": "SportingGoodsStore",
+        "@id": "{{SITE_URL}}sucursales/el-cangrejo/#branch",
+        "name": "Suplementos Panamá El Cangrejo",
+        "url": "{{SITE_URL}}sucursales/el-cangrejo/",
+        "telephone": "+507 6818-2546",
+        "address": {"@type": "PostalAddress", "streetAddress": "Av. Manuel Espinoza Batista, Plaza El Cangrejo L7", "addressLocality": "Ciudad de Panamá", "addressRegion": "Panamá", "addressCountry": "PA"},
+        "geo": {"@type": "GeoCoordinates", "latitude": "8.9842946", "longitude": "-79.5302391"},
+        "openingHoursSpecification": [
+          {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "20:00"},
+          {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday", "Sunday"], "opens": "09:00", "closes": "17:30"}
+        ],
+        "parentOrganization": {"@id": "{{SITE_URL}}#organization"}
+      }
+    ]
+  },
+
+  "jsonld_ejemplo_real_pagina_1": {
+    "_nota": "ItemList real con los 10 productos que sirve /proteinas/ hoy (datos tomados de las fichas en vivo el 2026-10-04). Precios en USD, todos InStock. Dos productos (REFRI ON y combos) no exponen SKU en el HTML público; el PHP lo añadirá si existe en WooCommerce. Este objeto va dentro del @graph de la plantilla.",
+    "@type": "ItemList",
+    "@id": "https://suplementospanama.net/proteinas/#itemlist",
+    "name": "Proteínas",
+    "numberOfItems": 10,
+    "itemListOrder": "https://schema.org/ItemListUnordered",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/batido-de-proteinas-325-ml/#product", "name": "Batido de Proteínas - 325 ml - 12 Pack - Recuperación Muscular", "url": "https://suplementospanama.net/product/batido-de-proteinas-325-ml/", "image": "https://suplementospanama.net/wp-content/uploads/2026/01/Batido-de-Proteinas-Vainilla.webp", "category": "Proteínas", "brand": {"@type": "Brand", "name": "REFRI ON"}, "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/batido-de-proteinas-325-ml/", "price": "57.60", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 2, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/elite-performance-stack/#product", "name": "Elite Performance Stack", "url": "https://suplementospanama.net/product/elite-performance-stack/", "image": "https://suplementospanama.net/wp-content/uploads/2026/07/combo-elite-performance-stack.jpg", "category": "Proteínas", "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/elite-performance-stack/", "price": "115.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 3, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/evofusion-choc-pb-bcaa-vms-fruit-punch/#product", "name": "Evofusion + BCAA VMS 30 Serv", "url": "https://suplementospanama.net/product/evofusion-choc-pb-bcaa-vms-fruit-punch/", "image": "https://suplementospanama.net/wp-content/uploads/2026/07/combo-11-evo-bcaafp.jpg", "category": "Proteínas", "brand": {"@type": "Brand", "name": "EVOGEN"}, "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/evofusion-choc-pb-bcaa-vms-fruit-punch/", "price": "89.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 4, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms-bcaa-vms-fruit-punch/#product", "name": "Evofusion + Creatina VMS + BCAA VMS 30 Servings", "url": "https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms-bcaa-vms-fruit-punch/", "image": "https://suplementospanama.net/wp-content/uploads/2026/07/combo-17-evo-creatina-bcaafp.jpg", "category": "Proteínas", "brand": {"@type": "Brand", "name": "EVOGEN"}, "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms-bcaa-vms-fruit-punch/", "price": "98.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 5, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/evofusion-choc-pb-bum-pre-blue-raspberry/#product", "name": "Evofusion Choc PB + BUM Pre Blue Raspberry", "url": "https://suplementospanama.net/product/evofusion-choc-pb-bum-pre-blue-raspberry/", "image": "https://suplementospanama.net/wp-content/uploads/2026/07/combo-07-evo-bum.jpg", "category": "Proteínas", "brand": {"@type": "Brand", "name": "EVOGEN"}, "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/evofusion-choc-pb-bum-pre-blue-raspberry/", "price": "85.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 6, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms/#product", "name": "Evofusion Choc PB + Creatina VMS", "url": "https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms/", "image": "https://suplementospanama.net/wp-content/uploads/2026/07/combo-01-evo-creatina.jpg", "category": "Proteínas", "brand": {"@type": "Brand", "name": "EVOGEN"}, "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/evofusion-choc-pb-creatina-vms/", "price": "84.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 7, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/evofusion-chocolate-peanut-butter-4-78-lbs-evogen/#product", "name": "EVOFUSION CHOCOLATE PEANUT BUTTER 4.78 LBS EVOGEN", "url": "https://suplementospanama.net/product/evofusion-chocolate-peanut-butter-4-78-lbs-evogen/", "image": "https://suplementospanama.net/wp-content/uploads/2026/08/evofusion-chocolate-peanut-butter-4-78-lbs-evogen.jpeg", "category": "Proteínas", "brand": {"@type": "Brand", "name": "EVOGEN"}, "sku": "810121050286", "gtin12": "810121050286", "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/evofusion-chocolate-peanut-butter-4-78-lbs-evogen/", "price": "89.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 8, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/ganador-de-masa-muscular/#product", "name": "Ganador de Masa Muscular Mass Tech - MuscleTech – 12 LBS – Aumento de Peso y Músculo", "url": "https://suplementospanama.net/product/ganador-de-masa-muscular/", "image": "https://suplementospanama.net/wp-content/uploads/2026/01/Ganador-de-Masa-Muscular-Mass-Tech-MuscleTech-Sabor-Vainilla-Milkshake-12-LBS.webp", "category": "Proteínas", "brand": {"@type": "Brand", "name": "MUSCLETECH"}, "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/ganador-de-masa-muscular/", "price": "79.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 9, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/ganador-de-masa-muscular-2/#product", "name": "Ganador de Masa Muscular Mass Tech - MuscleTech – 6 LBS – Aumento de Peso y Músculo", "url": "https://suplementospanama.net/product/ganador-de-masa-muscular-2/", "image": "https://suplementospanama.net/wp-content/uploads/2026/01/Ganador-de-Masa-Muscular-Mass-Tech-MuscleTech-–-6-LBS-Sabor-Vainilla-Milshake.webp", "category": "Proteínas", "brand": {"@type": "Brand", "name": "MUSCLEOLOGY"}, "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/ganador-de-masa-muscular-2/", "price": "52.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}},
+      {"@type": "ListItem", "position": 10, "item": {"@type": "Product", "@id": "https://suplementospanama.net/product/combo-iso-100-fruity-pebbles-creatina-angry-supplements/#product", "name": "ISO 100 Fruity Pebbles + Creatina Angry Supplements", "url": "https://suplementospanama.net/product/combo-iso-100-fruity-pebbles-creatina-angry-supplements/", "image": "https://suplementospanama.net/wp-content/uploads/2026/08/ISO-100-Fruity-Pebbles-Creatina-Angry-Supplements.jpg", "category": "Proteínas", "offers": {"@type": "Offer", "url": "https://suplementospanama.net/product/combo-iso-100-fruity-pebbles-creatina-angry-supplements/", "price": "58.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": "https://suplementospanama.net/#organization"}}}}
+    ]
+  },
+
+  "mapeo_placeholders": [
+    {"placeholder": "{{SITE_URL}}", "fuente": "home_url('/')", "ejemplo": "https://suplementospanama.net/"},
+    {"placeholder": "{{SITE_LOGO_URL}}", "fuente": "logo de Rank Math / media", "ejemplo": "https://suplementospanama.net/wp-content/uploads/2022/05/sp_con-valor-negro.png"},
+    {"placeholder": "{{ORG_TELEPHONE}}", "fuente": "Rank Math Local SEO (Organization)", "ejemplo": "6382-0672"},
+    {"placeholder": "{{PAGE_URL}}", "fuente": "get_term_link($term) + '/page/N/' si es paginada", "ejemplo": "https://suplementospanama.net/proteinas/"},
+    {"placeholder": "{{CATEGORY_NAME}}", "fuente": "$term->name", "ejemplo": "Proteínas"},
+    {"placeholder": "{{CATEGORY_DESCRIPTION}}", "fuente": "wp_strip_all_tags($term->description)", "ejemplo": "Si tu objetivo es ganar masa muscular..."},
+    {"placeholder": "{{ITEM_COUNT}}", "fuente": "count($items) (productos de la página actual)", "ejemplo": "10"},
+    {"placeholder": "{{POSITION}}", "fuente": "índice incremental (1..N)", "ejemplo": "1"},
+    {"placeholder": "{{PRODUCT_URL}}", "fuente": "get_permalink($product_id)", "ejemplo": "https://suplementospanama.net/product/..."},
+    {"placeholder": "{{PRODUCT_NAME}}", "fuente": "$product->get_name()", "ejemplo": "Proteína ISO100 – Dymatize – 5 LBS"},
+    {"placeholder": "{{PRODUCT_IMAGE}}", "fuente": "wp_get_attachment_image_url($product->get_image_id(),'full') ?: wc_placeholder_img_src()", "ejemplo": "https://.../wc-uploads/...webp"},
+    {"placeholder": "{{PRODUCT_BRAND}}", "fuente": "product_brand | pa_brand | pa_marca", "ejemplo": "DYMATIZE"},
+    {"placeholder": "{{PRODUCT_SKU}}", "fuente": "$product->get_sku() (omitir si vacío)", "ejemplo": "810121050286"},
+    {"placeholder": "{{PRODUCT_GTIN}}", "fuente": "SKU numérico de 8/12/13/14 dígitos -> gtin8/gtin12/gtin13/gtin14", "ejemplo": "810121050286"},
+    {"placeholder": "{{PRODUCT_PRICE}}", "fuente": "$product->get_price(); si grouped -> _combo_price. Formato wc_format_decimal($p,2)", "ejemplo": "148.99"},
+    {"placeholder": "{{CURRENCY}}", "fuente": "get_woocommerce_currency()", "ejemplo": "USD"},
+    {"placeholder": "{{AVAILABILITY}}", "fuente": "$product->is_in_stock() ? InStock : OutOfStock", "ejemplo": "https://schema.org/InStock"}
+  ],
+
+  "implementacion": {
+    "tipo": "mu-plugin (carga automática, no requiere activación)",
+    "archivo": "sp-schema-proteinas.php",
+    "ubicacion_destino": "~/www/suplementospanama.net/public_html/wp-content/mu-plugins/sp-schema-proteinas.php",
+    "estrategia": [
+      "Filtro rank_math/json_ld (prio 999): elimina cualquier nodo ItemList previo (el roto de rankmath-itemlist.php) SOLO en is_product_category('proteinas'). No reestructura $data (evita el doble-wrap que causó el bug).",
+      "add_action('wp_head', ..., 99): emite UN bloque JSON-LD con el @graph limpio. Convive con el SiteNavigationElement (child) y el BreadcrumbList (Rank Math) SIN duplicarlos.",
+      "Usa los helpers existentes sp_branch_all() (functions-additions.php) para las 6 sucursales: una sola fuente de verdad.",
+      "No toca functions.php del child, ni combo-price.php, ni las funciones de retiro en sucursal."
+    ],
+    "dependencias": ["Rank Math activo", "WooCommerce activo", "child theme con sp_branch_all()"],
+    "comportamiento_paginacion": "ItemList lista los productos de la página actual; CollectionPage/ItemList usan @id con /page/N/ cuando aplica. El canonical sigue siendo /proteinas/ (Rank Math).",
+    "php": "<?php\n/**\n * Plugin Name: SP Schema — Categoría Proteínas\n * Description: Emite CollectionPage + ItemList (Product/Offer) + Organization/Store con 6 sucursales (areaServed Panamá) + WebSite/SearchAction en /proteinas/. Retira el ItemList roto de rankmath-itemlist.php y NO duplica el BreadcrumbList que ya emite Rank Math.\n * Version:     1.0.0\n * Author:      Suplementos Panamá\n */\n\ndefined('ABSPATH') || exit;\n\n/* =========================================================================\n * 1) LIMPIEZA — Quita cualquier nodo ItemList inyectado por otro mu-plugin.\n *    Corre al final (999) del filtro rank_math/json_ld, después de\n *    rankmath-itemlist.php (20) y del filtro del child theme (98).\n * ====================================================================== */\nadd_filter('rank_math/json_ld', 'sp_proteinas_strip_itemlist', 999, 1);\nfunction sp_proteinas_strip_itemlist($data) {\n    if (!function_exists('is_product_category') || !is_product_category('proteinas')) {\n        return $data;\n    }\n    $clean = sp_proteinas_drop_itemlist($data);\n    if (!is_array($clean)) {\n        return $data;\n    }\n    if (isset($clean['@graph']) && is_array($clean['@graph'])) {\n        $clean['@graph'] = array_values($clean['@graph']);\n        if (empty($clean['@graph'])) {\n            unset($clean['@graph']);\n        }\n    }\n    return $clean;\n}\n\nfunction sp_proteinas_drop_itemlist($node) {\n    if (!is_array($node)) {\n        return $node;\n    }\n    if (isset($node['@type'])) {\n        $types = (array) $node['@type'];\n        if (in_array('ItemList', $types, true)) {\n            return null;\n        }\n    }\n    foreach ($node as $k => $v) {\n        $node[$k] = sp_proteinas_drop_itemlist($v);\n        if ($node[$k] === null) {\n            unset($node[$k]);\n        }\n    }\n    return $node;\n}\n\n/* =========================================================================\n * 2) EMISIÓN — Un único bloque JSON-LD limpio en <head>.\n * ====================================================================== */\nadd_action('wp_head', 'sp_proteinas_emit_schema', 99);\nfunction sp_proteinas_emit_schema() {\n    if (!function_exists('is_product_category') || !is_product_category('proteinas')) {\n        return;\n    }\n    $term = get_queried_object();\n    if (!$term || empty($term->term_id)) {\n        return;\n    }\n\n    $home      = home_url('/');\n    $org_id    = $home . '#organization';\n    $site_id   = $home . '#website';\n    $site_name = get_bloginfo('name');\n    $currency  = function_exists('get_woocommerce_currency') ? get_woocommerce_currency() : 'USD';\n    $logo      = 'https://suplementospanama.net/wp-content/uploads/2022/05/sp_con-valor-negro.png';\n\n    $term_url = get_term_link($term);\n    if (is_wp_error($term_url)) {\n        $term_url = $home . 'proteinas/';\n    }\n    $term_base = trailingslashit($term_url);\n    $paged     = max(1, (int) get_query_var('paged'));\n    $page_url  = $paged > 1 ? $term_base . 'page/' . $paged . '/' : $term_base;\n\n    $description = $term->description\n        ? wp_strip_all_tags($term->description)\n        : 'Compra proteínas en Panamá: whey protein, proteína aislada, vegana y mass gainers de las mejores marcas, con envío a todo el país y retiro en 6 sucursales.';\n\n    $graph = array();\n\n    /* 2.1 Organization / Store + 6 sucursales (@id compartido con Rank Math) */\n    $branches     = function_exists('sp_branch_all') ? sp_branch_all() : array();\n    $dias_map     = array('lunes' => 'Monday', 'martes' => 'Tuesday', 'miercoles' => 'Wednesday', 'jueves' => 'Thursday', 'viernes' => 'Friday', 'sabado' => 'Saturday', 'domingo' => 'Sunday');\n    $sub_orgs     = array();\n    $branch_nodes = array();\n\n    foreach ($branches as $b) {\n        $burl = $home . 'sucursales/' . $b['id'] . '/';\n        $bid  = $burl . '#branch';\n        $sub_orgs[] = array('@id' => $bid);\n\n        $hours = array();\n        if (!empty($b['horarios']) && is_array($b['horarios'])) {\n            foreach ($b['horarios'] as $dk => $dh) {\n                if (!isset($dias_map[$dk]) || !isset($dh[0], $dh[1])) {\n                    continue;\n                }\n                $hours[] = array(\n                    '@type'     => 'OpeningHoursSpecification',\n                    'dayOfWeek' => $dias_map[$dk],\n                    'opens'     => $dh[0],\n                    'closes'    => $dh[1],\n                );\n            }\n        }\n\n        $branch_nodes[] = array(\n            '@type'     => 'SportingGoodsStore',\n            '@id'       => $bid,\n            'name'      => isset($b['nombre_completo']) ? $b['nombre_completo'] : $b['nombre'],\n            'url'       => $burl,\n            'telephone' => $b['telefono'],\n            'image'     => get_stylesheet_directory_uri() . '/sucursales/' . $b['id'] . '/images/hero-' . $b['id'] . '.jpg',\n            'address'   => array(\n                '@type'           => 'PostalAddress',\n                'streetAddress'   => $b['direccion'],\n                'addressLocality' => 'Ciudad de Panamá',\n                'addressRegion'   => 'Panamá',\n                'addressCountry'  => 'PA',\n            ),\n            'geo'       => array(\n                '@type'     => 'GeoCoordinates',\n                'latitude'  => (string) $b['lat'],\n                'longitude' => (string) $b['lng'],\n            ),\n            'openingHoursSpecification' => $hours,\n            'parentOrganization'        => array('@id' => $org_id),\n            'sameAs'                    => $b['google_maps_url'],\n        );\n    }\n\n    $graph[] = array(\n        '@type'              => array('Store', 'SportingGoodsStore', 'Organization'),\n        '@id'                => $org_id,\n        'name'               => 'Suplementos Panamá',\n        'url'                => $home,\n        'logo'               => $logo,\n        'telephone'          => '6382-0672',\n        'areaServed'         => array(\n            array('@type' => 'City', 'name' => 'Ciudad de Panamá'),\n            array('@type' => 'Country', 'name' => 'Panamá'),\n        ),\n        'currenciesAccepted' => 'USD',\n        'paymentAccepted'    => array('Cash', 'Credit Card', 'Debit Card', 'Yappy'),\n        'knowsAbout'         => array('Proteínas de suero', 'Whey protein', 'Proteína aislada', 'Mass gainer', 'Suplementos deportivos'),\n        'subOrganization'    => $sub_orgs,\n    );\n\n    /* 2.2 WebSite + SearchAction (@id compartido con Rank Math) */\n    $graph[] = array(\n        '@type'      => 'WebSite',\n        '@id'        => $site_id,\n        'url'        => $home,\n        'name'       => $site_name,\n        'inLanguage' => 'es-PA',\n        'publisher'  => array('@id' => $org_id),\n        'potentialAction' => array(\n            '@type'       => 'SearchAction',\n            'target'      => array(\n                '@type'       => 'EntryPoint',\n                'urlTemplate' => $home . '?s={search_term_string}',\n            ),\n            'query-input' => 'required name=search_term_string',\n        ),\n    );\n\n    /* 2.3 CollectionPage */\n    $graph[] = array(\n        '@type'       => 'CollectionPage',\n        '@id'         => $page_url . '#webpage',\n        'url'         => $page_url,\n        'name'        => $term->name . ' en Panamá',\n        'description' => $description,\n        'inLanguage'  => 'es-PA',\n        'isPartOf'    => array('@id' => $site_id),\n        'about'       => array('@type' => 'Thing', 'name' => $term->name),\n        'primaryImageOfPage' => $logo,\n        'mainEntity'  => array('@id' => $page_url . '#itemlist'),\n    );\n\n    /* 2.4 ItemList con Product + Offer (productos de la página actual) */\n    $items    = array();\n    $position = 0;\n    $posts    = isset($GLOBALS['wp_query']->posts) ? $GLOBALS['wp_query']->posts : array();\n\n    foreach ($posts as $post_obj) {\n        if (!isset($post_obj->post_type) || 'product' !== $post_obj->post_type) {\n            continue;\n        }\n        $product = function_exists('wc_get_product') ? wc_get_product($post_obj->ID) : null;\n        if (!$product) {\n            continue;\n        }\n        $position++;\n\n        $img_id = $product->get_image_id();\n        $img    = $img_id ? (wp_get_attachment_image_url($img_id, 'full') ?: wc_placeholder_img_src('full')) : wc_placeholder_img_src('full');\n        $perm   = get_permalink($post_obj->ID);\n\n        $price = '';\n        if ($product->is_type('grouped')) {\n            $combo = get_post_meta($post_obj->ID, '_combo_price', true);\n            if ($combo !== '' && $combo !== false) {\n                $price = (float) $combo;\n            }\n        }\n        if ($price === '') {\n            $raw = $product->get_price();\n            if ($raw !== '' && $raw !== null) {\n                $price = (float) $raw;\n            }\n        }\n\n        $availability = $product->is_in_stock() ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';\n\n        $item = array(\n            '@type'    => 'ListItem',\n            'position' => $position,\n            'item'     => array(\n                '@type'    => 'Product',\n                '@id'      => $perm . '#product',\n                'name'     => $product->get_name(),\n                'url'      => $perm,\n                'image'    => $img,\n                'category' => $term->name,\n            ),\n        );\n\n        $brand = '';\n        foreach (array('product_brand', 'pa_brand', 'pa_marca') as $tax) {\n            if (taxonomy_exists($tax)) {\n                $terms = wp_get_post_terms($post_obj->ID, $tax);\n                if (!is_wp_error($terms) && !empty($terms)) {\n                    $brand = $terms[0]->name;\n                    break;\n                }\n            }\n        }\n        if ($brand !== '') {\n            $item['item']['brand'] = array('@type' => 'Brand', 'name' => $brand);\n        }\n\n        $sku = $product->get_sku();\n        if ($sku !== '') {\n            $item['item']['sku'] = $sku;\n            $digits = preg_replace('/[^0-9]/', '', $sku);\n            $len = is_string($digits) ? strlen($digits) : 0;\n            if (in_array($len, array(8, 12, 13, 14), true)) {\n                $item['item']['gtin' . $len] = $digits;\n            }\n        }\n\n        $offers = array(\n            '@type'         => 'Offer',\n            'url'           => $perm,\n            'priceCurrency' => $currency,\n            'availability'  => $availability,\n            'itemCondition' => 'https://schema.org/NewCondition',\n            'seller'        => array('@id' => $org_id),\n        );\n        if ($price !== '') {\n            $offers['price'] = function_exists('wc_format_decimal') ? wc_format_decimal($price, 2) : number_format($price, 2, '.', '');\n        }\n        $item['item']['offers'] = $offers;\n\n        $items[] = $item;\n    }\n\n    $graph[] = array(\n        '@type'           => 'ItemList',\n        '@id'             => $page_url . '#itemlist',\n        'name'            => $term->name,\n        'numberOfItems'   => count($items),\n        'itemListOrder'   => 'https://schema.org/ItemListUnordered',\n        'itemListElement' => $items,\n    );\n\n    /* 2.5 Nodos de sucursal */\n    foreach ($branch_nodes as $node) {\n        $graph[] = $node;\n    }\n\n    echo PHP_EOL . '<script type=\"application/ld+json\" class=\"sp-schema-proteinas\">' . PHP_EOL;\n    echo wp_json_encode(array('@context' => 'https://schema.org', '@graph' => $graph), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);\n    echo PHP_EOL . '</script>' . PHP_EOL;\n}\n"
+  },
+
+  "buenas_practicas": {
+    "moneda": "USD fijo (get_woocommerce_currency()); nunca inventar moneda.",
+    "disponibilidad": "Mapear is_in_stock() -> https://schema.org/InStock | OutOfStock. Para combos grouped, is_in_stock() ya refleja los hijos (combo-price.php/combo-debug.php).",
+    "precio": "Solo emitir 'price' si existe (>= 0). Para combos usar _combo_price; para simples get_price(). Usar wc_format_decimal($p, 2) para string con punto decimal.",
+    "imagenes": "URL absoluta, HTTPS, preferible >= 1000px. Fallback a wc_placeholder_img_src(). No usar imágenes de OG genéricas si el producto tiene la suya.",
+    "url": "get_permalink() exacto y canónico. @id = URL + '#product'.",
+    "marca_sku_gtin": "No inventar. Si no hay marca/SKU/GTIN, omitir la propiedad (mejor omitir que falsear).",
+    "ids_estables": "Reutilizar los @id de Rank Math (#organization, #website) y de las sucursales (.../#branch) para consolidar entidades.",
+    "no_duplicar": "No emitir BreadcrumbList propio (Rank Math ya lo hace) ni Product sueltos fuera del ItemList.",
+    "contenido_visible": "El schema debe corresponder a contenido visible: descripción del term, productos listados, sucursales reales.",
+    "una_fuente_de_verdad": "Los datos de sucursales salen de psk-sucursales/src/theme/sucursales/data.php vía sp_branch_all()."
+  },
+
+  "checklist_validacion": {
+    "herramientas": [
+      {"nombre": "Google Rich Results Test", "url": "https://search.google.com/test/rich-results", "uso": "Pegar https://suplementospanama.net/proteinas/ o el código. Debe detectar: Breadcrumb, Product snippets (de los ítems), Organization/Sitelinks searchbox. Sin errores ni advertencias críticas."},
+      {"nombre": "Schema Markup Validator", "url": "https://validator.schema.org/", "uso": "Verificar CollectionPage, ItemList, Product, Offer, SportingGoodsStore, Organization, WebSite, BreadcrumbList sin errores."},
+      {"nombre": "Google Search Console", "url": "https://search.google.com/search-console", "uso": "URL Inspection -> /proteinas/ -> Ver página rastreada -> Datos estructurados."},
+      {"nombre": "JSON syntax", "url": "local", "uso": "El bloque emitido debe parsear con JSON.parse (sin NaN, sin trailing commas)."}
+    ],
+    "pasos_rich_results_test": [
+      "1. Abrir Rich Results Test y analizar https://suplementospanama.net/proteinas/",
+      "2. Confirmar detección de 'Breadcrumbs' (Inicio > Proteínas) = 1, sin errores.",
+      "3. Confirmar 'Product snippets' para los ítems del listado (nombre, image, offers.price, offers.priceCurrency, offers.availability).",
+      "4. Confirmar que no aparecen ItemList inválidos con @graph corrupto.",
+      "5. Confirmar que hay exactamente UN BreadcrumbList (no duplicado)."
+    ],
+    "pasos_schema_validator": [
+      "1. Verter el contenido del <script class=\"sp-schema-proteinas\"> en validator.schema.org.",
+      "2. Revisar: CollectionPage.mainEntity -> ItemList; ItemList.itemListElement -> ListItem -> Product -> Offer.",
+      "3. Revisar: Organization.areaServed [City, Country]; Organization.subOrganization -> 6 SportingGoodsStore con geo/address/openingHoursSpecification.",
+      "4. Revisar: WebSite.potentialAction = SearchAction con urlTemplate y query-input correctos.",
+      "5. Cero errores; advertencias opcionales aceptables (p. ej. gtin ausente)."
+    ],
+    "verificacion_produccion": [
+      "1. Subir el mu-plugin (ver comandos) y ejecutar 'php -l' en el servidor.",
+      "2. Purgar cachés: SiteGround Optimizer + caché de página/WP Rocket si aplica + CDN.",
+      "3. curl -s https://suplementospanama.net/proteinas/ | grep -c 'sp-schema-proteinas'  -> debe ser 1.",
+      "4. Extraer el JSON-LD y validarlo: pegar en Rich Results Test y Schema Markup Validator.",
+      "5. Confirmar que ya NO existe el ItemList roto: curl -s ... | grep -c '\"@graph\":\\[\"https://schema.org\"' -> 0.",
+      "6. Confirmar que sigue habiendo 1 BreadcrumbList de Rank Math y 1 SiteNavigationElement del child.",
+      "7. Revisar una ficha de producto y la home para asegurar que NO se rompió su schema (este plugin solo corre en is_product_category('proteinas')).",
+      "8. GSC -> URL Inspection -> Solicitar indexación de /proteinas/.",
+      "9. A los 3-7 días revisar en GSC: Mejoras -> Breadcrumbs / Product snippets, y Rich Results."
+    ],
+    "comandos_ssh": {
+      "subir": "scp -F .ssh-config sp-schema-proteinas.php suplementospanama:~/www/suplementospanama.net/public_html/wp-content/mu-plugins/",
+      "lint": "ssh -F .ssh-config suplementospanama \"php -l ~/www/suplementospanama.net/public_html/wp-content/mu-plugins/sp-schema-proteinas.php\"",
+      "wp_cli_purge": "ssh -F .ssh-config suplementospanama \"cd ~/www/suplementospanama.net/public_html && wp cache flush && wp sg purge 2>/dev/null || true\"",
+      "curl_check": "curl -s https://suplementospanama.net/proteinas/ | grep -o 'class=\"sp-schema-proteinas\"' | wc -l",
+      "rollback": "ssh -F .ssh-config suplementospanama \"rm ~/www/suplementospanama.net/public_html/wp-content/mu-plugins/sp-schema-proteinas.php\" && curl -s https://suplementospanama.net/proteinas/ >/dev/null"
+    }
+  },
+
+  "prioridades_seo_geo": [
+    {"prioridad": 1, "accion": "Reemplazar el ItemList roto por el ItemList rico (Product+Offer). Es el mayor impacto: Google hoy no puede leer las ofertas del listado.", "impacto": "alto", "esfuerzo": "bajo"},
+    {"prioridad": 2, "accion": "Inyectar Organization/Store + 6 SportingGoodsStore con areaServed Panamá y geo. Refuerza GEO local y 'proteína cerca de mí'.", "impacto": "alto", "esfuerzo": "medio"},
+    {"prioridad": 3, "accion": "Añadir CollectionPage con mainEntity->ItemList y description real del term.", "impacto": "medio-alto", "esfuerzo": "bajo"},
+    {"prioridad": 4, "accion": "Añadir WebSite + SearchAction (Sitelinks Searchbox).", "impacto": "medio", "esfuerzo": "bajo"},
+    {"prioridad": 5, "accion": "Conservar/validar BreadcrumbList de Rank Math (no duplicar).", "impacto": "medio", "esfuerzo": "nulo"},
+    {"prioridad": 6, "accion": "Considerar FAQPage SOLO si se añade un bloque de FAQ visible con contenido real.", "impacto": "medio", "esfuerzo": "medio"},
+    {"prioridad": 7, "accion": "Opcional: unificar @id de Product (#product) entre categoría y ficha (hoy Rank Math usa #richSnippet).", "impacto": "bajo", "esfuerzo": "bajo"}
+  ],
+
+  "riesgos_y_rollback": {
+    "riesgos": [
+      "Duplicar schema si otra fuente (otro mu-plugin o Rank Math) emitiera lo mismo: mitigado con los @id compartidos y la eliminación del ItemList previo.",
+      "Conflicto con el filtro rank_math/json_ld del child (prio 98): nuestro filtro corre en 999 y solo elimina ItemList; no reestructura $data.",
+      "Datos de sucursal desactualizados: se leen de data.php (fuente única). Si cambia una dirección, el schema se actualiza solo.",
+      "Caché: un schema viejo puede quedar cacheado; purgar tras desplegar.",
+      "Combo sin _combo_price: se omitirá 'price' (solo availability). Es intencional: no inventar precios."
+    ],
+    "rollback": "Eliminar el archivo wp-content/mu-plugins/sp-schema-proteinas.php. Efecto inmediato (sin desactivación) y se restaura el estado previo (incluido el ItemList anterior, que sigue emitido por rankmath-itemlist.php). Purgar caché.",
+    "backup_recomendado": "Si se decide además editar rankmath-itemlist.php, respaldar antes en el servidor (p. ej. ~/backups_schema_proteinas_YYYYMMDD.php)."
+  },
+
+  "fuentes_verificadas": [
+    "HTML en vivo de https://suplementospanama.net/proteinas/ (2026-10-04): 3 bloques JSON-LD analizados.",
+    "HTML en vivo de ficha de producto /product/proteina-iso100-dymatize-5-lbs/ (Product, brand, offers).",
+    "HTML en vivo de home y /sucursales/ (Organization #organization, WebSite #website, Place #place, BreadcrumbList).",
+    "Datos reales de las 10 fichas listadas en /proteinas/ (nombre, imagen, marca, precio, disponibilidad) vía sus JSON-LD / schema de combos.",
+    "psk-sucursales/src/theme/sucursales/data.php: 6 sucursales (dirección, teléfono, lat/lng, horarios, Google Maps).",
+    "local/functions_current.php: filtro rank_math/json_ld del child (prio 98) y schema de combos.",
+    "rankmath-itemlist.php: ItemList genérico (prio 20) que genera el bloque roto.",
+    "AGENTS.md: funcionalidad protegida de retiro en sucursal."
+  ],
+
+  "nota_final": "Este archivo es una propuesta técnica. No se aplicó ningún cambio al sitio. El JSON-LD usa datos verificados en vivo el 2026-10-04 y placeholders dinámicos de WooCommerce; al desplegar, el PHP toma los valores reales en cada request."
+}
