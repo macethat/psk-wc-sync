@@ -280,7 +280,7 @@
         {
           "problema": "Teléfono de la Organización = teléfono de una sucursal",
           "detalle": "schema-proteinas.json usa {{ORG_TELEPHONE}} = '6382-0672', que es el teléfono de San Francisco. La organización no debe compartir teléfono de sucursal como su teléfono principal.",
-          "accion": "Definir un teléfono central/WhatsApp de marca (ej. +507 6010-0948) para Organization y dejar el teléfono propio de cada sucursal en su ficha."
+          "accion": "Definir un teléfono central/WhatsApp de marca (ej. +507 6380-5669) para Organization y dejar el teléfono propio de cada sucursal en su ficha."
         },
         {
           "problema": "Dirección de El Cangrejo inconsistente",

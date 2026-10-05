@@ -21,7 +21,7 @@ Convertir el **body del home** en una **vitrina de ventas** que:
   - Primario: `#E20613` (rojo) · Texto: `#464646` · Texto claro: `#888888`
   - Acento: `#151515` · Fondo claro: `#F4F4F4` · Borde: `#E8E8E8`
 - **Fuentes**: Plus Jakarta Sans (headings, "Nutritix-Heading") · Roboto / Open Sans (body).
-- **Contacto/CTA**: WhatsApp `wa.me/50760100948` · sitio `suplementospanama.net`.
+- **Contacto/CTA**: WhatsApp `wa.me/50763805669` · sitio `suplementospanama.net`.
 
 ## 4. Insumos a recolectar (pendientes)
 - [ ] Lista de **combos activos** con `_combo_price` y ahorro (se obtiene de WooCommerce).
