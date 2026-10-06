@@ -1,0 +1,316 @@
+{
+  "meta": {
+    "titulo": "Impacto en GEO (IA) y lead gen TikTok de la propuesta de cumplimiento TikTok - Suplementos Panama",
+    "fecha": "2026-10-05",
+    "tipo": "analisis y recomendaciones (NO se ejecutaron cambios en el sitio)",
+    "ambito": ["GEO / AEO (ChatGPT, Gemini, Perplexity, Google AI Overviews)", "TikTok Ads + Lead Gen (pixel, eventos, mensajes, formularios)"],
+    "entregable_pedido": [
+      "1. Impacto en GEO al renombrar/limpiar claims",
+      "2. Separacion contenido para IA vs contenido TikTok",
+      "3. Que exige TikTok realmente (obligatorio vs marketing)",
+      "4. Estructura de datos (schema)",
+      "5. Cambios minimos y plan priorizado"
+    ]
+  },
+
+  "resumen_ejecutivo": {
+    "pregunta_del_cliente": "Son necesarios los cambios y cuales son los minimos?",
+    "veredicto_corto": "La propuesta mezcla 3 cosas distintas: (a) requisitos reales de TikTok, (b) limpieza de claims que conviene hacer igual por riesgo legal/GBP, y (c) un renombrado masivo de 35 productos que es EXCESIVO para TikTok y CARO para GEO. Solo un subconjunto es obligatorio; el resto es marketing/mitigacion.",
+    "hallazgos_clave": [
+      "La politica de privacidad YA tiene la seccion de TikTok (mensajes/pixel/formularios) y YA incluye los dos numeros: tiendas +507 6380-5669 y CRM +507 6015-3257 (commit 2cb8599). El punto 5 de la propuesta esta esencialmente HECHO: no es necesario rehacerlo, solo verificar.",
+      "El footer YA enlaza TikTok (https://www.tiktok.com/@suplementospanama) y YA enlaza la categoria QUEMADORES. No hay que desmontar nada; solo anadir el aviso legal si se quiere.",
+      "El home NO tiene el tile 'Quemadores de grasa' hardcodeado como texto de venta: los tiles de categoria son dinamicos (slug 'quemadores-de-grasa'). Cambiar el rotulo no es un bloqueante tecnico.",
+      "Las ofertas del home son dinamicas (categoria 'descuento-online'); Testolander aparece ahi si esta en esa categoria. Sacarlo es configuracion, no codigo.",
+      "El sitio NO tiene TikTok Pixel instalado (no hay ttq/base code). Lo unico de medicion hoy es Meta Pixel (PixelYourSite) y GTM.",
+      "Hay 28 lineas de producto con terminos de claim en products_export.csv (20 publicados, 8 en draft). La propuesta habla de ~35: el numero es del mismo orden de magnitud.",
+      "El schema actual (sp-schema-proteinas.php) emite CollectionPage + ItemList(Product/Offer) + Organization/Store SOLO para /proteinas/. Quemadores, Apoyo Metabolico, Salud Hormonal/Testosterona, Detox y Diureticos NO tienen schema propio.",
+      "El feed GMC (sp-google-merchant-feed.php) usa un unico google_product_category = 'Sports Nutrition' y no marca bandera de restriccion. Las restricciones de suplementos se manejan a nivel de cuenta/feed, no con schema."
+    ]
+  },
+
+  "diagnostico_presencia_actual": {
+    "geo_ia": {
+      "señal_principal_hoy": "Los nombres de producto incluyen el termino semantico (quemador de grasa, testosterona, detox, diuretico, apoyo metabolico). Ese texto aparece en H1/title, en el schema name, en el feed GMC y en GBP: es la señal de relevancia mas fuerte para que una IA responda 'quemador de grasa en Panama'.",
+      "riesgo_actual": "No hay contenido editorial/FAQ estructurado que sostenga los terminos si se quitan de los titulos. Si se renombra a marca+producto sin compensar, la categoria queda sin 'dueño' semantico y las IA citarian a competidores.",
+      "activos_geo_existentes_aprovechables": [
+        "Blog 'Power Rack' (docs/pseudo-template-blog-power-rack.md).",
+        "Contenido largo por producto (local/content_*.html) con secciones Caracteristicas, Perfil, Modo de uso, FAQ, Stack, Autoridad y Advertencia legal: ya es formato extraible por IA.",
+        "Schema ItemList/Product/Offer para /proteinas/ (patron replicable a otras categorias).",
+        "6 landings de sucursal + schema Store/LocalBusiness (SEO local).",
+        "GBP por sucursal con sync de productos."
+      ]
+    },
+    "tiktok_lead_gen": {
+      "estado_pixel": "No instalado (no existe base code ttq).",
+      "estado_privacidad": "Cumple: seccion 6 'Mensajes por TikTok, WhatsApp y redes sociales', TikTok listado en terceros, consentimiento y derechos. Numeros: tiendas +507 6380-5669 y CRM +507 6015-3257.",
+      "estado_landings": "Las fichas usan lenguaje de beneficio ('quemador de grasa', 'energia y enfoque', 'apoyo hormonal'). Si una ficha con claims fuertes se usa como landing de anuncio, TikTok puede rechazar el anuncio. La solucion correcta es elegir landing neutral por campana, no reescribir todo el catalogo.",
+      "estado_catalogo": "No hay catalog TikTok. Solo habria que 'limpiar' titulos si se sube catalogo a TikTok (Commercial Content / Product Links)."
+    }
+  },
+
+  "1_impacto_en_geo": {
+    "pregunta": "Al renombrar productos/categorias y quitar claims, se pierde señal semantica que las IA usan para responder 'quemador de grasa en Panama', 'testosterona en Panama', etc.?",
+    "respuesta_corta": "SI, se pierde, y bastante, si se ejecuta como esta propuesta (titulo = solo marca+producto). La perdida es mayor en el titulo de producto (el campo con mas peso y mas reutilizado en schema, feed y GBP) y menor en descripciones. PERO es recuperable: la relevancia se puede sostener en otros campos sin usar 'promesas'.",
+    "escala_de_impacto": [
+      {
+        "cambio_propuesto": "Renombrar 35 productos quitando el descriptor de categoria ('Quemador de Grasa', 'Aumento de Testosterona', 'Detox', 'Diuretico')",
+        "impacto_geo": "ALTO",
+        "por_que": "El titulo alimenta: <title>/H1, schema Product.name, g:title del feed GMC, productName de GBP y anchors internos. Es la señal mas reutilizada. 'Lipocide IR - Evogen' ya no contiene 'quemador de grasa' ni 'termogenico'.",
+        "necesidad_tiktok": "BAJA / PARCIAL. TikTok solo necesita que el CREATIVO del anuncio y, si usas catalogo, el TITULO ENVIADO A TIKTOK no prometan resultados. No exige renombrar el titulo de tu web.",
+        "recomendacion": "NO renombrar globalmente. Quitar solo la PROMESA ('Quema de Grasa', 'Perdida Extrema', 'Aumento de Testosterona') y CONSERVAR el descriptor de tipo de producto ('Termogenico', 'Quemador', 'Testo Booster', 'Diuretico', 'Apoyo Hormonal'). Ej.: 'Lipocide IR - Evogen - Termogenico 60 Caps' en vez de 'Lipocide IR - Evogen'."
+      },
+      {
+        "cambio_propuesto": "Reescribir 5 descripciones de categoria (Quemadores, Apoyo Metabolico, Salud Hormonal/Testosterona, Detox, Diureticos)",
+        "impacto_geo": "MEDIO",
+        "por_que": "La descripcion de categoria es la que 'posee' el head term y la que una IA cita para 'quemadores de grasa en Panama'. Si se vacia, la categoria pierde entidad.",
+        "necesidad_tiktok": "BAJA. La descripcion de categoria de la web no es creativo de anuncio.",
+        "recomendacion": "Mantener el termino como CATEGORIA y como topico informativo; suavizar solo la promesa. En vez de quitarlo, reformular: 'Categoria de termogenicos y quemadores: productos de suplementacion deportiva para usar junto a dieta y entrenamiento'. Conserva el head term y elimina la promesa de resultado."
+      },
+      {
+        "cambio_propuesto": "Quitar/cambiar tile 'Quemadores de grasa' del home",
+        "impacto_geo": "BAJO",
+        "por_que": "El home no es la pagina que las IA citan para esa consulta; el peso esta en categoria y producto.",
+        "necesidad_tiktok": "MUY BAJA. El home del sitio no es el creativo.",
+        "recomendacion": "Se puede mantener el tile pero con rotulo neutro ('Termogenicos' o 'Definicion') si se quiere coherencia visual; no es bloqueante."
+      },
+      {
+        "cambio_propuesto": "Sacar Testolander de ofertas del home",
+        "impacto_geo": "MUY BAJO",
+        "por_que": "Las ofertas del home son dinamicas y no generan entidad semantica duradera.",
+        "necesidad_tiktok": "SOLO si esa categoria/producto alimenta un anuncio/catalogo. No es obligatorio.",
+        "recomendacion": "Accion de marketing de campana, no cambio permanente de catalogo."
+      },
+      {
+        "cambio_propuesto": "Etiquetar DHEA y Yohimbine como prohibidos en anuncios (siguen en tienda)",
+        "impacto_geo": "NINGUNO (positivo leve)",
+        "por_que": "No cambia la ficha publica.",
+        "necesidad_tiktok": "ALTA (correcto): estan en las listas de ingredientes restringidos/prohibidos para ads.",
+        "recomendacion": "Excluirlos de campanas y del feed de catalogo de TikTok; mantenerlos en tienda. Documentar la exclusion."
+      },
+      {
+        "cambio_propuesto": "Aviso legal general en footer",
+        "impacto_geo": "POSITIVO (E-E-A-T)",
+        "por_que": "Refuerza confianza/transparencia, señal de autoridad que las IA valoran.",
+        "necesidad_tiktok": "RECOMENDADO, no siempre bloqueante.",
+        "recomendacion": "Aviso corto sin claims + enlace a Politica de Privacidad. Bajo costo, alto valor."
+      }
+    ],
+    "como_mantener_entidad_y_relevancia_para_IA_sin_claims_en_titulos": [
+      "Regla de oro: CONSERVAR el sustantivo de categoria/ingrediente (termogenico, quemador, testosterona, detox, diuretico, carnitina, CLA, TUDCA, ashwagandha) y ELIMINAR solo la PROMESA de resultado (quema grasa, pierde peso, sube testosterona, desintoxica).",
+      "Titulo GEO-safe por patron: [Marca] + [Producto/Linea] + [Tipo de producto] + [Formato]. Ej.: 'Lipocide IR - Evogen - Termogenico - 60 Capsulas'.",
+      "Poner el termino semantico en la pagina de CATEGORIA (H1, title, meta, intro, FAQ) que es la que compite por el head term.",
+      "Usar ATRIBUTOS de producto (product_cat, product_tag, pa_*) con valores neutrales: 'Tipo: Termogenico', 'Contiene estimulantes: Si/No', 'Capsulas por envase', 'Ingredientes declarados'. Los atributos y tags son texto indexable/citable.",
+      "Anadir FAQ visible + FAQPage en categoria y ficha: 'Que es un quemador de grasa?', 'Funciona sin dieta ni ejercicio?' (respuesta: no), 'Que contiene X?'.",
+      "Contenido editorial en el blog Power Rack con el termino en lenguaje informativo (NO promesa), enlazando a la categoria/producto. Esto es lo que las IA citan.",
+      "Schema: Product con category/additionalProperty neutrales + ItemList de categoria + FAQPage. Mantener el descriptor en 'category'.",
+      "Evitar NO seguir el consejo de renombrar 'a lo bruto' (solo marca) porque rompe tambien anchors internos y coincidencia con GBP/feed."
+    ]
+  },
+
+  "2_contenido_para_ia_vs_tiktok": {
+    "pregunta": "Se puede mantener el lenguaje 'de beneficio' en contenido editorial/blog (que las IA indexan) mientras se limpia la ficha de producto?",
+    "respuesta": "SI, y es exactamente la separacion recomendada. TikTok regula el CONTENIDO PUBLICITARIO y (si aplica) el catalogo, no el contenido editorial informativo de tu web.",
+    "principio_de_separacion": {
+      "superficie_publicitaria_tiktok": "Creativo del anuncio + copy del anuncio + landing solo si la eliges para la campana + catalogo TikTok si lo subes. Aqui: cero promesas de resultado, disclaimers, 18+.",
+      "superficie_editorial_web": "Blog Power Rack, guias, FAQ informativas, paginas de categoria con framing informativo. Aqui el termino 'quemador de grasa'/'testosterona' vive como TOPICO, no como promesa. Las IA indexan esto.",
+      "superficie_ficha_de_producto": "Punto intermedio. La descripcion CORTA va al feed/schema/GBP (debe ser neutra y factual). La descripcion LARGA puede ser informativa y educativa (que hacer, como usar, que ingredientes) sin prometer resultados.",
+      "superficie_legal": "Politica de privacidad, terminos, aviso legal footer: ya cubierto."
+    },
+    "regla_de_redaccion": {
+      "permitido_en_todo": ["descripcion del ingrediente", "formato y presentacion", "modo de uso", "advertencias", "que es un termogenico", "apoyo dentro de dieta y entrenamiento", "energia y enfoque", "transparencia de dosis"],
+      "prohibido_en_publicidad_tiktok_y_preferible_no_prometer_en_ningun_lado": ["quema grasa / pierde peso / adelgaza", "aumenta/subir testosterona", "desintoxica / detoxifica (como promesa de salud)", "elimina liquidos / pierde hinchazon como resultado", "perdida extrema de grasa", "resultados garantizados", "curar/tratar/prevenir"],
+      "nota_importante": "'Termogenico', 'quemador', 'diuretico', 'apoyo hormonal' son categorias/nombres de producto: se pueden conservar como sustantivo. Lo que se elimina es la FRASE DE PROMESA."
+    },
+    "implementacion_sin_perder_geo": [
+      "No borrar el contenido largo educativo existente (content_*.html): es activo GEO. Solo revisar que no afirme resultados garantizados.",
+      "Anadir en cada ficha un bloque FAQ informativo con el termino (ya existe en varias fichas: mantener y estandarizar).",
+      "Publicar/!reforzar en el blog 1-2 piezas por cluster ('Que es un termogenico', 'Apoyo hormonal masculino: que dice la evidencia', 'Carnitina y CLA: para que se usan') enlazando a las categorias. Estas piezas sostienen la relevancia para IA aunque el titulo de producto se acorte.",
+      "Separar el copy por canal: crear un campo/plantilla 'descripcion de campana' neutral, sin tocar la ficha publica, para TikTok Ads."
+    ]
+  },
+
+  "3_lead_gen_tiktok": {
+    "pregunta": "Que requiere TikTok realmente para la conexion (pixel, eventos, mensajes/formularios, privacidad); que de la propuesta es obligatorio vs marketing?",
+    "obligatorio_para_conectar_y_anunciar": [
+      {
+        "requisito": "Cuenta de empresa TikTok Ads + verificacion de negocio",
+        "estado_sp": "por verificar",
+        "nota": "TikTok for Business; para Panama revisar si el pais es soportado para la modalidad elegida."
+      },
+      {
+        "requisito": "Verificacion de dominio",
+        "estado_sp": "PENDIENTE",
+        "nota": "Se hace en TikTok Ads Manager (DNS TXT, meta-tag o archivo). Necesario para Pixel, catalogo y eventos."
+      },
+      {
+        "requisito": "TikTok Pixel (base code) en el sitio",
+        "estado_sp": "NO INSTALADO",
+        "nota": "Instalar via GTM (existe GTM-PR4ZSMC7) o PixelYourSite si soporta TikTok. Eventos minimos: PageView, ViewContent, AddToCart, InitiateCheckout, CompletePayment y Lead (si hay formulario/mensaje)."
+      },
+      {
+        "requisito": "TikTok Events API (servidor) - recomendado para iOS/atribucion",
+        "estado_sp": "PENDIENTE",
+        "nota": "Opcional pero muy recomendado. Se puede reutilizar el patron del playbook Meta CAPI (docs/playbook-meta-pixel-capi-whaticket.md) para mandar eventos del CRM (la venta cerrada) a TikTok Events API."
+      },
+      {
+        "requisito": "Politica de privacidad que declare el uso de TikTok (pixel/mensajes/formularios) y datos de contacto",
+        "estado_sp": "HECHO",
+        "nota": "La seccion 6 de la politica ya lo cubre; confirmar que sigue publicada en /politica-de-privacidad/."
+      },
+      {
+        "requisito": "Lead Generation / Instant Forms: enlace a politica de privacidad + casilla de consentimiento en el formulario",
+        "estado_sp": "PENDIENTE (al crear la campana)",
+        "nota": "Se configura en el formulario nativo de TikTok; no requiere cambios de sitio."
+      },
+      {
+        "requisito": "TikTok DM / mensajes para leads (si se usa mensajeria)",
+        "estado_sp": "Numeros listos",
+        "nota": "El numero de CRM +507 6015-3257 ya esta declarado para redes sociales. Registrar la cuenta/conexion en TikTok Business Messaging."
+      },
+      {
+        "requisito": "Cumplimiento de politicas de contenido restringido (suplementos)",
+        "estado_sp": "PARCIAL",
+        "nota": "Suplementos = categoria RESTRINGIDA (no prohibida): sin claims de salud, sin antes/despues, publico 18+, disclaimers. DHEA y Yohimbine: excluir de ads (correcto en la propuesta). No usar quemadores/testosterona como producto principal de un anuncio (correcto)."
+      }
+    ],
+    "obligatorio_real_vs_marketing": [
+      { "punto_propuesta": "Politica de privacidad con TikTok + 2 numeros", "clasificacion": "OBLIGATORIO (ya hecho)" },
+      { "punto_propuesta": "DHEA/Yohimbine fuera de anuncios", "clasificacion": "OBLIGATORIO de politica (correcto)" },
+      { "punto_propuesta": "No usar quemadores/testosterona como producto principal del ad", "clasificacion": "BUENA PRACTICA / mitiga rechazo (correcto, no es ley)" },
+      { "punto_propuesta": "Aviso legal general en footer", "clasificacion": "RECOMENDADO (no bloqueante)" },
+      { "punto_propuesta": "Quitar claims de names de 35 productos", "clasificacion": "MAYORMENTE MARKETING; solo obligatorio para el catalogo TikTok si se sube" },
+      { "punto_propuesta": "Reescribir 5 descripciones de categoria", "clasificacion": "MARKETING / mitigacion (no lo pide TikTok)" },
+      { "punto_propuesta": "Quitar tile Quemadores del home / sacar Testolander de ofertas", "clasificacion": "MARKETING de campana (no obligatorio)" }
+    ],
+    "flujo_lead_gen_recomendado": [
+      "TikTok Ads -> (a) Instant Form con consentimiento + privacidad, o (b) DM / Click-to-Message al CRM +507 6015-3257.",
+      "Formulario/DM -> CRM (Whaticket u otro) con estado del lead.",
+      "Eventos: Lead (formulario/mensaje) -> LeadCalificado -> Purchase (valor). Reusar el modelo de eventos del playbook Meta, adaptado a TikTok Events API.",
+      "Atribucion: guardar click ids de TikTok y mandarlos en eventos de servidor.",
+      "No prometer resultados en el creativo: mostrar producto, marca, formato, disponibilidad y retiro en sucursal."
+    ]
+  },
+
+  "4_estructura_de_datos": {
+    "pregunta": "Conviene marcar productos/categorias con schema (Product/Offer/FAQ/ItemList) para compensar? Alguna bandera de 'supplement' o restriccion?",
+    "respuesta": "SI conviene compensar con schema; NO existe una bandera schema.org de 'restringido para TikTok' y no hay que inventarla.",
+    "recomendaciones_schema": [
+      {
+        "tipo": "Product + Offer",
+        "uso": "Mantener en fichas. Anadir/adornar con category neutral ('Termogenico', 'Sports Nutrition'), brand, sku/gtin (ya se hace), availability y price. Clave: el schema debe COINCIDIR con el contenido visible.",
+        "nota": "No usar Product.name 'solo marca' si el H1 visible conserva el descriptor: schema y contenido visible deben ser consistentes."
+      },
+      {
+        "tipo": "additionalProperty (PropertyValue)",
+        "uso": "Declarar atributos neutrales usables por IA: tipo de producto, capsulas/servicios, contiene estimulantes (si/no), sabor, ingredientes declarados. Es la forma correcta de 'compensar' sin claims.",
+        "ejemplo": "additionalProperty: [{name:'Tipo de producto', value:'Termogenico'}, {name:'Contiene estimulantes', value:'Si'}, {name:'Capsulas por envase', value:'60'}]"
+      },
+      {
+        "tipo": "CollectionPage + ItemList (Product/Offer)",
+        "uso": "Replicar el patron ya probado de /proteinas/ (local/mu-plugins/sp-schema-proteinas.php) en las categorias: Quemadores, Apoyo Metabolico, Salud Hormonal/Testosterona, Detox, Diureticos.",
+        "nota": "Esto es la mejor compensacion GEO: la categoria emite su entidad y su lista de productos con precios y disponibilidad, sin depender de claims en el titulo."
+      },
+      {
+        "tipo": "FAQPage",
+        "uso": "En categoria y fichas (las fichas ya tienen FAQ visible; marcarla). Contenido informativo con el termino semantico ('Que es un termogenico', 'Funciona sin dieta?').",
+        "nota": "Google recorto los rich results de FAQ (2023) pero los LLM/AI siguen parseando FAQPage; aporta a GEO."
+      },
+      {
+        "tipo": "Article / BlogPosting (blog Power Rack)",
+        "uso": "Marcar las piezas editoriales con author/datePublished para E-E-A-T y citabilidad por IA."
+      }
+    ],
+    "bandera_supplement_restriccion": {
+      "existe_en_schema_org": "No existe un flag estandar de 'prohibido para anuncios'. schema.org tiene el tipo 'DietarySupplement' (extension health-lifesci), pero es para modelar la SUSTANCIA, no el anuncio; NO reemplazar Product por DietarySupplement porque rompe rich results y coherencia.",
+      "como_se_maneja_la_restriccion": "A nivel de cuenta/feed publicitario: (a) feed GMC/TikTok con categoria 'Health & Beauty > Health Care > Fitness & Nutrition > Sports Nutrition' (ya en el feed), (b) exclusion de SKUs DHEA/Yohimbine, (c) politicas de creativo y publico 18+, (d) disclaimers. Nada de esto se expresa con schema.",
+      "accion_concreta": "No marcar products con banderas inventadas. Si se arma catalogo TikTok, generar un feed SEPARADO (o campos de override) con titulo/descripcion neutros y excluir SKUs restringidos."
+    },
+    "estado_actual_schema": {
+      "proteinas": "CollectionPage + ItemList(Product/Offer) + Organization/Store + 6 sucursales (OK).",
+      "otras_categorias": "Sin schema propio de categoria (solo lo generico de Rank Math).",
+      "feed_gmc": "Existente en /google-feed.xml/ con google_product_category unico y identifier_exists=no cuando falta GTIN.",
+      "gbp_productos": "Sync solo de top Proteinas (SP_GBP_PRODUCT_CATEGORY='Proteinas')."
+    }
+  },
+
+  "5_cambios_minimos_y_plan": {
+    "principio": "Minimizar cambios en campos de alto valor GEO (titulos, categorias) y concentrar el esfuerzo en (a) lo que TikTok realmente exige y (b) contenido informativo que compense.",
+    "cambios_minimos_geo_tiktok": {
+      "bloqueantes_tiktok": [
+        "1. Verificar dominio en TikTok Ads Manager.",
+        "2. Instalar TikTok Pixel base (GTM) + eventos clave.",
+        "3. Confirmar politica de privacidad publicada con la seccion TikTok y ambos numeros (ya existe).",
+        "4. Configurar Lead Form con enlace a privacidad + consentimiento (o registrar mensajeria con el +507 6015-3257).",
+        "5. Politica de campana: excluir DHEA/Yohimbine; no usar quemadores/testosterona como producto principal; disclaimers y 18+ en creativos."
+      ],
+      "recomendados_bajo_costo_alto_valor": [
+        "6. Reetiquetar SOLO la promesa en titulos (quitar 'Quema de Grasa', 'Aumento de Testosterona', 'Perdida Extrema', 'Detoxificacion'); conservar el tipo de producto ('Termogenico', 'Quemador', 'Testo Booster', 'Diuretico', 'Apoyo Hormonal').",
+        "7. Reformular descripciones de categoria conservando el termino y quitando promesa.",
+        "8. Anadir schema de categoria (CollectionPage+ItemList+FAQ) a las 5 categorias, replicando sp-schema-proteinas.php.",
+        "9. Estandarizar FAQPage en fichas (ya hay FAQ visible).",
+        "10. Aviso legal corto en footer (sin claims) + enlace a privacidad.",
+        "11. 1-2 piezas de blog por cluster para sostener la relevancia semantica ante IA."
+      ],
+      "opcional_solo_si_catalogo_tiktok": [
+        "12. Feed/override neutral para TikTok: titulos y descripciones de campana sin promesas, excluyendo SKUs restringidos. NO tocar el catalogo de la web."
+      ],
+      "no_hacer": [
+        "Renombrar los 35 productos globalmente a 'Marca - Producto' solos (perdida GEO alta, beneficio TikTok nulo si no hay catalogo).",
+        "Borrar contenido largo educativo de fichas.",
+        "Quitar la categoria/termino 'quemadores-de-grasa' de la navegacion y del footer (es la URL que posee el head term).",
+        "Inventar flags schema de restriccion.",
+        "Publicar cambios en functions.php del child sin aviso (hay funcionalidad protegida: retiro en sucursal)."
+      ]
+    },
+    "plan_priorizado": [
+      {
+        "fase": 0,
+        "nombre": "Desbloqueo TikTok (obligatorio)",
+        "acciones": ["Verificar dominio", "Instalar Pixel + eventos", "Verificar privacidad publicada", "Configurar Lead Form/DM", "Runbook de exclusiones DHEA/Yohimbine"],
+        "responsable_sugerido": "analytics-ecommerce + TikTok Ads",
+        "impacto_geo": "neutro"
+      },
+      {
+        "fase": 1,
+        "nombre": "Minimos de contenido sin perder GEO",
+        "acciones": ["Quitar promesas de titulos conservando descriptor", "Reformular descripciones de categoria", "Aviso legal footer"],
+        "responsable_sugerido": "marketing-descriptions + SEO",
+        "impacto_geo": "controlado (bajo si se conserva descriptor)"
+      },
+      {
+        "fase": 2,
+        "nombre": "Compensacion GEO",
+        "acciones": ["Schema CollectionPage+ItemList+FAQ en 5 categorias", "FAQPage en fichas", "additionalProperty neutral", "Blog por cluster"],
+        "responsable_sugerido": "structured-data-schema + contenidos",
+        "impacto_geo": "positivo"
+      },
+      {
+        "fase": 3,
+        "nombre": "Escala (si aplica)",
+        "acciones": ["Catalogo TikTok con feed neutral/override", "Events API de servidor (CRM -> TikTok)", "Monitoreo de menciones IA"],
+        "responsable_sugerido": "analytics + GEO",
+        "impacto_geo": "positivo/neutro"
+      }
+    ],
+    "monitoreo_recomendado": [
+      "GEO: medir menciones de marca en ChatGPT/Gemini/Perplexity/AI Overviews para 'quemador de grasa Panama', 'testosterona Panama', 'suplementos Panama' antes y despues de Fase 1 (baseline obligatorio).",
+      "TikTok: CPL/CPQL/CPA desde Ads Manager + CRM; eventos deduplicados; calidad de coincidencia.",
+      "GSC: impresiones/clics de las categorias y fichas afectadas antes/despues para detectar caida de relevancia."
+    ]
+  },
+
+  "nexo_con_recursos_existentes": {
+    "playbook_meta": "docs/playbook-meta-pixel-capi-whaticket.md - reutilizar el modelo de eventos (Contact/Lead/LeadCalificado/Purchase) y el patron CAPI para construir TikTok Events API.",
+    "schema_categoria": "local/mu-plugins/sp-schema-proteinas.php - plantilla a replicar para las 5 categorias.",
+    "footer": "local/footer/footer414_backup.json - ya tiene TikTok (red social) y QUEMADORES; aqui iria el aviso legal.",
+    "politica_privacidad": "local/legal/politica-privacidad.html - seccion 6 ya cubre TikTok y ambos numeros.",
+    "home": "local/home-nuevo/home-nuevo.php - tiles de categoria dinamicos (incluye quemadores-de-grasa); ofertas dinamicas de 'descuento-online'.",
+    "feed": "local/mu-plugins/sp-google-merchant-feed.php - base para un feed TikTok neutral si se necesita."
+  },
+
+  "supuestos_y_limitaciones": [
+    "No se accedio a la base de datos ni al TikTok Ads Manager: el estado 'PENDIENTE' del pixel debe confirmarse en el sitio en produccion y en GTM.",
+    "Las descripciones de las 5 categorias no estan en el repo (viven en la DB de WooCommerce); el analisis se basa en el patron observado en productos y en el plan SEO local.",
+    "No se ejecuto ningun cambio en el sitio, fichas GBP ni campanas."
+  ]
+}

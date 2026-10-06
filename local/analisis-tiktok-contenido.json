@@ -1,0 +1,327 @@
+{
+  "meta": {
+    "titulo": "Análisis de cumplimiento TikTok: cambios de contenido/copy propuestos por 'Marco TikTok'",
+    "proyecto": "Suplementos Panamá (WooCommerce)",
+    "fecha": "2026-10-05",
+    "tipo": "ANÁLISIS Y RECOMENDACIONES — NO EJECUTADO",
+    "alcance": "Contenido, copy, títulos, categorías, home/footer y compliance. No incluye cambios técnicos ni de checkout.",
+    "nota": "Ninguna recomendación de este documento implica ejecutar cambios. Es insumo para decidir el alcance mínimo."
+  },
+
+  "resumen_ejecutivo": {
+    "veredicto": "La DIRECCIÓN del consultor es correcta (los claims de salud/pérdida de peso SÍ chocan con las políticas de TikTok), pero el ALCANCE está sobre-dimensionado. No es necesario renombrar los ~35 productos ni reescribir las 5 descripciones de categoría para 'aprobar la conexión'.",
+    "por_que": [
+      "La 'conexión' (Business Center, píxel, verificación de dominio) es un proceso TÉCNICO: se aprueba con verificación de dominio (DNS o archivo HTML), estado de cuenta y método de pago. No se aprueba ni se rechaza por el copy del catálogo.",
+      "Lo que TikTok revisa por contenido es: (a) los CREATIVOS de cada anuncio y (b) la LANDING PAGE del anuncio (la URL destino), no todo el sitio web.",
+      "Excepción real: si se usa TikTok Shop / catálogo de productos (feed), entonces TikTok SÍ revisa título, imagen y descripción de cada producto ENVIADO en el feed — pero solo los que se carguen, no los 35 por defecto."
+    ],
+    "minimo_viable": [
+      "No usar 'antes y después' ni cifras de kilos en creativos y banners (prohibición explícita de TikTok).",
+      "Landing pages activas (home y productos promocionados) sin claims de pérdida de peso, testosterona o detox visibles above-the-fold.",
+      "Gating 18+ y disclaimer de suplemento en las landing pages promocionadas.",
+      "Títulos/descripciones SOLO de los productos que se carguen a TikTok Shop o se promocionen en ads."
+    ],
+    "excesivo_del_consultor": [
+      "Renombrar los ~35 productos del catálogo completo.",
+      "Reescribir por completo las 5 descripciones de categoría.",
+      "Reescribir title/meta SEO de todos los productos.",
+      "Footer legal general (útil y recomendable, pero NO es requisito de aprobación)."
+    ]
+  },
+
+  "1_necesidad_tiktok": {
+    "titulo": "¿Son estos cambios realmente necesarios para TikTok?",
+    "que_exige_realmente_tiktok": [
+      "Políticas de PUBLICIDAD (Ads): prohíben afirmaciones de salud no comprobadas y afirman que un producto cura/trata/preventa enfermedades. La sección de 'Weight Management / Body Image' restringe la promoción de productos de pérdida de peso y PROHÍBE imágenes de 'antes y después' y promesas concretas de kilos o plazos.",
+      "Políticas de COMUNIDAD (orgánico): aplican a los videos/subtítulos, no al copy del sitio. Un video con 'pierde 5 kilos en una semana' se elimina aunque la web esté perfecta.",
+      "TikTok Shop / Catálogo: si se vende dentro de la app, el FEED de productos se revisa a nivel de título, imágenes y descripción. Aquí sí importa el copy, pero únicamente de los productos listados.",
+      "Los claims de 'detox/desintoxicación' y 'aumento de testosterona' son considerados afirmaciones de salud de alto riesgo (algunos mercados restringen suplementos hormonales y oftalmológicos por completo).",
+      "TikTok exige que los anuncios de suplementos no impliquen resultados garantizados y que el producto cumpla la ley local (Panamá: MINSA)."
+    ],
+    "distincion_clave_integraciones": [
+      {
+        "tipo": "Conexión Business Center / Píxel / dominio",
+        "requiere_cambios_de_copy": false,
+        "explicacion": "Aprobación técnica: verificación de dominio, estado de cuenta, método de pago. El copy no se evalúa aquí."
+      },
+      {
+        "tipo": "Anuncios (Ads) apuntando al sitio",
+        "requiere_cambios_de_copy": "parcial (solo creativo + landing page)",
+        "explicacion": "Se revisa cada anuncio y su URL destino. No se audita el resto del catálogo."
+      },
+      {
+        "tipo": "TikTok Shop / Catálogo de productos",
+        "requiere_cambios_de_copy": "sí, por producto listado",
+        "explicacion": "El feed sí se revisa: título, imagen principal y descripción. Solo de los productos cargados."
+      },
+      {
+        "tipo": "Publicación orgánica",
+        "requiere_cambios_de_copy": "no (web), sí (guiones/subtítulos)",
+        "explicacion": "El riesgo está en el video, no en el sitio."
+      }
+    ],
+    "obligatorio_riesgo_rechazo": [
+      "Eliminar 'antes y después' y cifras de kilos/promesas de plazo en banners y creativos de ads.",
+      "Quitar claims de 'quema grasa', 'pierde peso', 'aumenta testosterona', 'elimina toxinas' de la landing page que se use en anuncios (home y/o producto promocionado).",
+      "No prometer resultados garantizados ni 'sin efectos secundarios'.",
+      "Disponer de disclaimer de suplemento y gating 18+ en las landing pages de productos de peso/hormonales.",
+      "Si se usa TikTok Shop: título + imagen + descripción de cada producto del feed sin claims."
+    ],
+    "opcional_nice_to_have": [
+      "Renombrar todo el catálogo (solo aporta si se cargan a catálogo o si se teme enforcement a nivel de cuenta).",
+      "Reescribir las 5 descripciones de categoría.",
+      "Actualizar meta SEO (title/description) de productos no promocionados.",
+      "Footer legal general (buena práctica global; útil también para Google y otras plataformas).",
+      "Homologar tono neutro en FAQ y contenido largo."
+    ],
+    "recomendacion_final": "Hacer PRIMERO el set obligatorio (creativos + landing pages + 18+/disclaimer). Luego, en una segunda fase, homogeneizar títulos y descripciones de los productos de las 5 categorías sensibles como medida preventiva multi-plataforma (no solo TikTok). No reescribir el SEO de todo el catálogo de una sola vez."
+  },
+
+  "2_alcance_titulo_vs_descripcion": {
+    "titulo": "¿Basta con quitar el claim del TÍTULO?",
+    "respuesta_corta": "No basta solo el título. Depende del canal.",
+    "detalle_por_canal": [
+      {
+        "canal": "TikTok Shop / Catálogo",
+        "campos_que_importan": ["título", "imagen principal (textos dentro de la imagen)", "descripción corta", "categoría"],
+        "minimo": "Título + imagen + descripción corta sin claims. La descripción larga es secundaria."
+      },
+      {
+        "canal": "Ads al sitio",
+        "campos_que_importan": ["H1/título visible", "primeras líneas above-the-fold", "banners e imágenes", "og:title/og:description (preview social)"],
+        "minimo": "Que en la landing page NO aparezca el claim en lo visible sin scroll. El título es el disparador #1, pero un banner con 'Quemadores de grasa' lo delata igual."
+      },
+      {
+        "canal": "SEO/Google",
+        "campos_que_importan": ["title SEO", "meta description", "H1", "descripción"],
+        "minimo": "No es requisito de TikTok. Sí importa para no perder tráfico de búsqueda con keywords de claim."
+      }
+    ],
+    "minimo_absoluto": [
+      "1. Creativos de ads: rehacer guion/on-screen text sin claims.",
+      "2. Landing page activa: título + primeros 2 párrafos + banner sin claims.",
+      "3. Imágenes con texto: revisar que no digan 'quema grasa' ni 'antes/después'.",
+      "4. Productos cargados a TikTok Shop: título + descripción corta.",
+      "5. Disclaimer + 18+ en las páginas promocionadas."
+    ],
+    "donde_priorizar_esfuerzo": "Título y descripción CORTA primero (son los que se ven y se indexan en preview). La descripción LARGA y el FAQ son de menor prioridad para TikTok, pero conviene limpiarlos después (riesgo de crawler y coherencia de marca). El meta SEO es lo ÚLTIMO."
+  },
+
+  "3_lista_priorizada": {
+    "titulo": "Lista priorizada de cambios de copy",
+    "P0_obligatorio": [
+      {
+        "item": "Creativos de anuncios (video/imagen)",
+        "accion": "Eliminar 'antes y después', kilos, plazos, 'quema grasa', 'más testosterona', 'detox'.",
+        "sugerencia_neutra": "Enfocar en producto, ingrediente y dosis: 'Fórmula con cafeína y extractos, dosis declaradas, sin estimulantes'."
+      },
+      {
+        "item": "Banners de home / promociones",
+        "accion": "Reemplazar por mensajes de marca/servicio.",
+        "sugerencia_neutra": " 'Asesoría y evaluación corporal en sucursal', 'Envío a todo Panamá', 'Retiro en sucursal'."
+      },
+      {
+        "item": "Tile/categoría visible 'Quemadores de grasa'",
+        "accion": "Renombrar el tile (y de ser posible la categoría) a un término neutro.",
+        "sugerencia_neutra": "Tile: 'Metabolismo y Definición' o 'Termogénicos y CLA'."
+      },
+      {
+        "item": "Título de productos promocionados",
+        "accion": "Quitar el beneficio tras el guion. Mantener Nombre – Marca – Presentación.",
+        "sugerencia_neutra": "Ver bloque 'titulos_sugeridos'."
+      },
+      {
+        "item": "Páginas de producto promocionadas",
+        "accion": "Quitar claim del primer párrafo; añadir disclaimer + 18+.",
+        "sugerencia_neutra": "'LanderFit CLA 2000 es un complemento con 2000 mg de CLA por porción, dentro de una alimentación equilibrada y un plan de entrenamiento'."
+      },
+      {
+        "item": "Testolander / productos hormonales en ofertas",
+        "accion": "No destacar 'más testosterona'; sacarlo de tiles de oferta si el creativo implica claim.",
+        "sugerencia_neutra": "'Apoyo nutricional para el hombre activo'."
+      }
+    ],
+    "P1_recomendable": [
+      {
+        "item": "Títulos de TODOS los productos de las 5 categorías sensibles",
+        "accion": "Estandarizar 'Nombre – Marca – Presentación'.",
+        "sugerencia_neutra": "Ver bloque 'titulos_sugeridos' (30+ casos)."
+      },
+      {
+        "item": "Descripción corta de productos sensibles",
+        "accion": "Primera línea sin claim; describir fórmula/ingredientes en vez de resultado.",
+        "sugerencia_neutra": "'Complemento en cápsulas con [ingrediente] y dosis declaradas por porción. Para adultos activos.'"
+      },
+      {
+        "item": "Descripciones de las 5 categorías",
+        "accion": "Reemplazar por texto neutro + 18+ + consultar médico.",
+        "sugerencia_neutra": "Ver bloque 'categorias_sugeridas'."
+      },
+      {
+        "item": "Imágenes de producto con texto",
+        "accion": "Revisar que no incluyan claims ni before/after.",
+        "sugerencia_neutra": "Usar foto de producto + panel de ingredientes; lifestyle sin claims."
+      },
+      {
+        "item": "Términos en FAQ que afirmen resultado",
+        "accion": "Reformular a modo informativo.",
+        "sugerencia_neutra": "'¿Cómo se usa?', '¿Qué contiene?', '¿Quién debe consultar a su médico?'"
+      }
+    ],
+    "P2_opcional": [
+      {
+        "item": "Meta title / meta description SEO del catálogo",
+        "accion": "Quitar keywords de claim y reemplazar por sinónimos neutros + nombre de marca + Panamá.",
+        "sugerencia_neutra": "'CLA 2000 LanderFit 120 Cápsulas | Comprar en Panamá'."
+      },
+      {
+        "item": "Footer legal general",
+        "accion": "Añadir aviso único.",
+        "sugerencia_neutra": "Ver bloque 'disclaimers'."
+      },
+      {
+        "item": "Contenido largo / blog",
+        "accion": "Mantener tono educativo, sin claims terapéuticos.",
+        "sugerencia_neutra": "Artículos tipo 'mitos vs realidad' sin prometer resultados."
+      }
+    ],
+    "titulos_sugeridos": [
+      {"id": 9190, "actual": "CLA 2000 - Landerfit - 120 Cápsulas - Apoyo para Reducción de Grasa Corporal", "sugerido": "CLA 2000 – LanderFit – 120 Cápsulas", "riesgo_actual": "alto", "nota": "'reducción de grasa corporal' = claim de peso."},
+      {"id": 19734, "actual": "Quemador de Grasa - Lipocide IR - Evogen - Apoyo Metabólico y Definición Corporal", "sugerido": "Lipocide IR – Evogen Nutrition – 30 Servicios", "riesgo_actual": "alto", "nota": "Quitar 'Quemador de Grasa' del prefijo y 'Apoyo Metabólico'."},
+      {"id": 19354, "actual": "L-Carnitina Líquida - Carnigen Premium - Evogen - Definición y Energía", "sugerido": "L-Carnitina Líquida Carnigen Premium – Evogen – 16 oz", "riesgo_actual": "medio", "nota": "'Definición' es borderline; preferible quitarlo."},
+      {"id": 18869, "actual": "L-Carnitina Impulse 3500 - Suplemento para Quema de Grasa", "sugerido": "L-Carnitina Impulse 3500 – Impulse – 16 oz", "riesgo_actual": "alto", "nota": "Eliminar 'Quema de Grasa'."},
+      {"id": 9723, "actual": "Super Fat Burner - MHP - Quemador de Grasa Avanzado para Pérdida de Peso, Energía y Definición Muscular", "sugerido": "Super Burner – MHP – 90 Cápsulas", "riesgo_actual": "alto", "nota": "El nombre 'Fat Burner' es claim intrínseco; evaluar rebrand a 'Super Burner'."},
+      {"id": 8901, "actual": "Essential Burner - RAW - Acelerador del Metabolismo y Reducción de Peso", "sugerido": "Essential Burner – RAW – 60 Cápsulas", "riesgo_actual": "alto", "nota": "Quitar 'Reducción de Peso' y 'Acelerador del Metabolismo'."},
+      {"id": 8690, "actual": "Lipo-6 CLA - Nutrex - 45 Cápsulas - Reducción de Grasa Corporal y Control del Peso", "sugerido": "Lipo-6 CLA – Nutrex – 45 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 94, "actual": "Thermoblast H2 - Impulse - 120 Cápsulas - Quemador de Grasa para Mujer", "sugerido": "Thermoblast H2 – Impulse – 120 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 93, "actual": "Thermoblast M5 - Impulse - 120 Cápsulas - Quemador de Grasa para Hombre", "sugerido": "Thermoblast M5 – Impulse – 120 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 13391, "actual": "Yohimbine - Nutricost - 120 Cápsulas - Apoyo a la Quema de Grasa y Energía", "sugerido": "Yohimbine – Nutricost – 120 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 10709, "actual": "RAW TEST - Aumento de Testosterona y Rendimiento Deportivo", "sugerido": "RAW Test – RAW Nutrition – 90 Cápsulas", "riesgo_actual": "alto", "nota": "Verificar marca real (RAW Nutrition) y presentación."},
+      {"id": 8556, "actual": "Testosterona booster Six Star - MuscleTech - Aumento de Testosterona y Energía Física", "sugerido": "Six Star Test Booster – MuscleTech – 60 Cápsulas", "riesgo_actual": "alto", "nota": "'Test Booster' sigue siendo sensitivo; alternativa: 'Six Star Apoyo Masculino – MuscleTech'."},
+      {"id": 9546, "actual": "Tribulus 1400 - Nutrex - 90 Cápsulas - Aumento de Testosterona y Energía Física", "sugerido": "Tribulus 1400 – Nutrex – 90 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 9208, "actual": "Tribulus Terrestris – LanderFit – 90 cápsulas – Potencia, Vitalidad y Equilibrio Hormonal", "sugerido": "Tribulus Terrestris – LanderFit – 90 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 14439, "actual": "Saw Palmetto 500 mg – LanderFit – 100 cápsulas – Salud Prostática y Equilibrio Hormonal", "sugerido": "Saw Palmetto 500 mg – LanderFit – 100 Cápsulas", "riesgo_actual": "alto", "nota": "'Salud prostática' roza claim médico."},
+      {"id": 14422, "actual": "Hormonal Balance – LanderFit – 90 cápsulas – Equilibrio Hormonal y Bienestar Femenino", "sugerido": "Hormonal Balance – LanderFit – 90 Cápsulas", "riesgo_actual": "medio"},
+      {"id": 13393, "actual": "ZMA PrimaForce - Nutricost - 180 Cápsulas - Apoyo Hormonal y Mejora del Sueño", "sugerido": "ZMA PrimaForce – Nutricost – 180 Cápsulas", "riesgo_actual": "medio"},
+      {"id": 13375, "actual": "DHEA 100mg - Nutricost - 180 Cápsulas - Equilibrio Hormonal y Vitalidad", "sugerido": "DHEA 100 mg – Nutricost – 180 Cápsulas", "riesgo_actual": "muy alto", "nota": "DHEA es precursor hormonal; producto de máxima sensibilidad."},
+      {"id": 13379, "actual": "Milk Thistle - Nutricost - 120 Cápsulas - Apoyo Hepático y Detoxificación Natural", "sugerido": "Milk Thistle – Nutricost – 120 Cápsulas", "riesgo_actual": "alto", "nota": "Quitar 'Detoxificación'."},
+      {"id": 13381, "actual": "NAC - Nutricost - 120 Cápsulas - Apoyo Respiratorio y Desintoxicación Hepática", "sugerido": "NAC – Nutricost – 120 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 13382, "actual": "NAC - Nutricost - 30 Cápsulas - Apoyo Respiratorio y Desintoxicación Hepática", "sugerido": "NAC – Nutricost – 30 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 13383, "actual": "R-Alpha Lipoic Acid - Nutricost - 120 Cápsulas - Antioxidante Potente y Apoyo Metabólico", "sugerido": "R-Alpha Lipoic Acid – Nutricost – 120 Cápsulas", "riesgo_actual": "medio", "nota": "'Antioxidante' es aceptable como descriptor, pero se puede quitar."},
+      {"id": 13368, "actual": "Alpha Lipoic Acid 600 mg - Nutricost - 120 Cápsulas - Antioxidante Potente y Mejora del Metabolismo", "sugerido": "Alpha Lipoic Acid 600 mg – Nutricost – 120 Cápsulas", "riesgo_actual": "medio"},
+      {"id": 13372, "actual": "Picolinato de Cromo 1000 mg - Primaforce - 240 Cápsulas - Control de Azúcar en Sangre y Apoyo Metabólico", "sugerido": "Picolinato de Cromo 1000 mg – Primaforce – 240 Cápsulas", "riesgo_actual": "muy alto", "nota": "'Control de azúcar en sangre' es claim médico explícito; eliminar siempre."},
+      {"id": 11230, "actual": "Suplemento para Salud del Hígado - Revive - Salud Hepática y Detoxificación", "sugerido": "Revive Liver Support – Revive MD – 60 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 11154, "actual": "Dtox Desintoxicante Renal – Muscleology – 90 Cápsulas – Apoyo natural para hígado y riñones", "sugerido": "DTox – Muscleology – 90 Cápsulas", "riesgo_actual": "alto", "nota": "'Renal' implica órgano/claim."},
+      {"id": 19963, "actual": "Suplemento Reds & Greens – LanderFit – Energía Natural y Detoxificación", "sugerido": "Reds & Greens – LanderFit – 30 Servicios", "riesgo_actual": "medio"},
+      {"id": 9215, "actual": "Diurético – LanderFit – 40 cápsulas – Eliminación de Líquidos y Reducción de Hinchazón", "sugerido": "Diurético – LanderFit – 40 Cápsulas", "riesgo_actual": "alto", "nota": "'Diurético' es término farmacológico; alternativa más segura: 'Drenante Natural – LanderFit – 40 Cápsulas'."},
+      {"id": 8555, "actual": "Diurético XPEL MHP 80 Cápsulas – Eliminación de Líquidos, Definición y Control de Retención", "sugerido": "XPEL – MHP – 80 Cápsulas", "riesgo_actual": "alto"},
+      {"id": 18963, "actual": "Proteína Nitro Tech Ripped - MuscleTech - 4 LBS - Quema de Grasa y Aumento de Masa Muscular", "sugerido": "Nitro Tech Ripped – MuscleTech – 4 lbs", "riesgo_actual": "alto", "nota": "'Ripped' puede ser borderline; el claim explícito es lo grave."},
+      {"id": 18955, "actual": "Ganador de Masa Muscular Mass Tech - MuscleTech – 6 LBS – Aumento de Peso y Músculo", "sugerido": "Mass Tech – MuscleTech – 6 lbs", "riesgo_actual": "bajo/medio", "nota": "Aumento de peso no es tan restringido como pérdida, pero conviene neutralizar."},
+      {"id": 18960, "actual": "Ganador de Masa Muscular Mass Tech - MuscleTech – 12 LBS – Aumento de Peso y Músculo", "sugerido": "Mass Tech – MuscleTech – 12 lbs", "riesgo_actual": "bajo/medio"}
+    ],
+    "categorias_sugeridas": [
+      {"actual": "Quemadores de Grasa", "sugerido": "Termogénicos y CLA / Metabolismo y Definición", "riesgo": "alto", "nota": "El NOMBRE de la categoría es en sí un claim. Renombrar tile y, si es viable, el slug."},
+      {"actual": "Apoyo Metabólico y Control de Peso", "sugerido": "Metabolismo y Bienestar", "riesgo": "medio", "nota": "'Control de Peso' es restrictivo."},
+      {"actual": "Salud Hormonal y Testosterona", "sugerido": "Bienestar Hormonal Masculino / Apoyo Masculino", "riesgo": "alto", "nota": "'Testosterona' es de alto riesgo."},
+      {"actual": "Detox y Salud Hepática", "sugerido": "Salud Hepática", "riesgo": "alto", "nota": "'Detox' es claim no reconocido."},
+      {"actual": "Diuréticos", "sugerido": "Balance de Líquidos / Drenaje Natural", "riesgo": "alto", "nota": "'Diurético' es término farmacológico."}
+    ],
+    "texto_categoria_neutro_sugerido": "Productos para complementar tu alimentación dentro de una rutina de entrenamiento y un estilo de vida activo. Nuestro catálogo incluye fórmulas con ingredientes y dosis declaradas por porción. Estos productos son suplementos dietéticos: no son medicamentos, no diagnostican, tratan, curan ni previenen ninguna enfermedad y no sustituyen una dieta variada y equilibrada. Dirigido a personas mayores de 18 años. Consulta a tu médico antes de comenzar cualquier programa de suplementación, especialmente si estás embarazada, en lactancia, tomas medicamentos o padeces alguna condición médica. Los resultados varían según la persona."
+  },
+
+  "4_compliance": {
+    "titulo": "Compliance: palabras gatillo vs alternativas",
+    "palabras_gatillo_riesgo_alto": [
+      "quema grasa", "quemador de grasa", "quema de grasa", "fat burner", "incinera grasa",
+      "pierde peso", "pérdida de peso", "bajar de peso", "adelgazar", "reduce grasa corporal", "elimina grasa", "reducción de grasa",
+      "aumenta testosterona", "sube testosterona", "más testosterona", "booster de testosterona", "testosterone booster",
+      "detox", "detoxificación", "desintoxicación", "desintoxicante", "elimina toxinas", "limpia el organismo",
+      "diurético", "elimina líquidos", "reduce hinchazón", "control de retención de líquidos",
+      "antes y después", "transformación", "pierde X kilos", "garantizado", "milagroso", "sin efectos secundarios",
+      "cura", "trata", "previene", "combate (enfermedad)", "control de azúcar en sangre", "acelera el metabolismo", "suprime el apetito", "bloquea carbohidratos"
+    ],
+    "palabras_borderline": [
+      "apoyo metabólico", "termogénico", "definición", "control de peso", "apoyo hormonal", "salud prostática", "antioxidante potente", "apoyo hepático", "energía", "composición corporal"
+    ],
+    "alternativas_permitidas_o_mas_seguras": [
+      "complemento alimenticio / suplemento dietético",
+      "fórmula con [ingrediente] en dosis declaradas por porción",
+      "para personas activas / adultos que entrenan",
+      "ideal dentro de un plan de alimentación equilibrado y un programa de entrenamiento",
+      "sin cafeína / sin estimulantes",
+      "formato softgel / cápsulas de fácil deglución",
+      "sabor, mixabilidad, pureza, trazabilidad de lote",
+      "certificado GMP / fabricado bajo buenas prácticas de manufactura",
+      "con zinc, magnesio y vitaminas del complejo B (describir aporte nutricional, no resultado)"
+    ],
+    "evaluacion_de_terminos_consultados": [
+      {"termino": "apoyo metabólico", "veredicto": "usable con cuidado", "comentario": "Genérico y aceptable en web, pero TikTok puede asociarlo a control de peso. Preferible quitarlo del título y dejarlo solo en descripción neutra."},
+      {"termino": "complemento / suplemento", "veredicto": "seguro", "comentario": "Es la denominación correcta del producto."},
+      {"termino": "para personas activas", "veredicto": "seguro", "comentario": "Descriptor de audiencia, sin claim de resultado."}
+    ],
+    "panama": {
+      "marco": "Los suplementos dietéticos en Panamá están bajo la órbita del MINSA (alimentos / productos de uso especial). La publicidad no puede atribuir efectos terapéuticos ni prometer curación, tratamiento o prevención de enfermedades.",
+      "implicaciones": [
+        "'Detox/desintoxicación' no es una función reconocida: alto riesgo publicitario.",
+        "'Diurético' y 'control de azúcar en sangre' son términos farmacológicos/médicos: evitar en venta de suplementos.",
+        "'Aumenta la testosterona' implica efecto fisiológico/terapéutico: evitar.",
+        "El etiquetado y la publicidad deben ser coherentes; conviene validar los textos con asesoría legal local antes de publicar."
+      ],
+      "nota_legal": "Recomendación: validar la redacción final con asesoría regulatoria local (MINSA). Este documento es una guía de marketing/compliance, no un dictamen legal."
+    },
+    "disclaimers": {
+      "producto": "Este producto es un suplemento dietético. No es un medicamento y no está destinado a diagnosticar, tratar, curar ni prevenir ninguna enfermedad. No excedas la dosis recomendada. No sustituye una alimentación variada y equilibrada. Dirigido a mayores de 18 años. Consulta a un profesional de la salud antes de iniciar cualquier programa de suplementación, especialmente si estás embarazada, en lactancia, padeces alguna condición médica o estás bajo tratamiento farmacológico. Los resultados pueden variar según la persona, su entrenamiento, dieta y metabolismo.",
+      "footer_general": "Suplementos Panamá comercializa suplementos dietéticos, no medicamentos. Nuestros productos no diagnostican, tratan, curan ni previenen ninguna enfermedad y no sustituyen una dieta variada y equilibrada. No se recomienda su uso a menores de 18 años. Los resultados varían de una persona a otra. Consulta siempre a tu médico antes de consumir cualquier suplemento.",
+      "nota": "El disclaimer es recomendable/usar en footer, pero por sí solo NO desbloquea claims prohibidos: si el claim está presente, el aviso no lo legitima."
+    }
+  },
+
+  "5_conversion": {
+    "titulo": "Riesgo de perder conversión y cómo compensar",
+    "riesgo": [
+      "Los títulos genéricos ('CLA 2000 – LanderFit – 120 Cápsulas') pierden la keyword que el usuario busca y reduce CTR en Google y en previews sociales.",
+      "Palabras como 'quemador de grasa' o 'testosterona' mueven tráfico de búsqueda informacional/transaccional; quitarlas del todo reduce ese descubrimiento.",
+      "Banners de resultado suelen convertir más; reemplazarlos por banners de marca puede bajar el CTR puntual."
+    ],
+    "mitigacion": [
+      {"palanca": "Bullets de beneficio compliant", "detalle": "Traducir el atributo, no el resultado: 'Fórmula con cafeína y extractos, sin azúcar', 'Dosis declaradas por porción', 'Sin estimulantes, no interfiere con el sueño'."},
+      {"palanca": "Atributos y filtros", "detalle": "Mover el beneficio de la taxonomía visible a atributos de filtrado: 'Objetivo: definición', 'Uso: pre-entreno', 'Sin cafeína'."},
+      {"palanca": "Imágenes", "detalle": "Fotos de producto, panel de ingredientes, lifestyle de personas entrenando SIN claims ni antes/después. Añadir sellos GMP/trazabilidad."},
+      {"palanca": "FAQ educativo", "detalle": "Responder '¿cómo se usa?', '¿qué contiene?', '¿quién debe consultar a su médico?'. Bueno para conversión, confianza y GEO (citabilidad por IAs)."},
+      {"palanca": "Reseñas y prueba social", "detalle": "Fotos de clientes usando el producto, valoraciones, sin prometer resultados. El análisis competitivo muestra que solo BodyBuildingLatino tiene reseñas robustas; es una ventaja."},
+      {"palanca": "Contenido de blog", "detalle": "Capturar tráfico de keywords de claim fuera de la ficha del producto (artículos educativos 'mitos vs realidad'), manteniendo la ficha 100% limpia."},
+      {"palanca": "Título con keyword neutra + marca", "detalle": "Conservar volumen SEO con sinónimos: 'soporte metabólico', 'fase de definición', 'composición corporal', 'CLA Panamá', 'L-carnitina Panamá'."},
+      {"palanca": "Diferenciales que no son claim", "detalle": "Evaluación corporal, asesoría en sucursal, retiro en tienda, envío nacional, combos. Son los diferenciadores del análisis competitivo."},
+      {"palanca": "Medición", "detalle": "Registrar posición en Search Console antes/después; esperar caída transitoria en queries de claim y compensar con contenido. A/B test de títulos con tráfico pagado."}
+    ],
+    "recomendacion_de_secuencia": [
+      "1) Proteger la cuenta de ads: creativos + landing pages + 18+/disclaimer.",
+      "2) Homogeneizar títulos y descripciones cortas de los productos de las 5 categorías.",
+      "3) Reescribir descripciones de categoría y renombrar tiles.",
+      "4) Ajustar meta SEO por última (con seguimiento en GSC).",
+      "5) Validar legalmente con MINSA antes de publicar."
+    ]
+  },
+
+  "fuentes_usadas": [
+    "C:\\suplementos\\stock-suplementos\\local\\seo_landerfit_cla.txt",
+    "C:\\suplementos\\stock-suplementos\\local\\seo_landerfit_testolander.txt",
+    "C:\\suplementos\\stock-suplementos\\local\\seo_landerfit_lipo_thermogenic.txt",
+    "C:\\suplementos\\stock-suplementos\\local\\seo_landerfit_lipo_stimfree.txt",
+    "C:\\suplementos\\stock-suplementos\\local\\seo_evogen_xtreme.txt",
+    "C:\\suplementos\\stock-suplementos\\local\\content_landerfit_cla.html",
+    "C:\\suplementos\\stock-suplementos\\local\\content_landerfit_testolander.html",
+    "C:\\suplementos\\stock-suplementos\\products.json (catálogo y categorías reales)",
+    "C:\\suplementos\\base agentes\\agents\\contenidos-ecommerce\\habi.md",
+    "C:\\suplementos\\base agentes\\agents\\contenidos-ecommerce\\skills\\skills-especificos-suplementacion.md",
+    "C:\\suplementos\\base agentes\\agents\\contenidos-ecommerce\\sp\\competidores\\analisis-competidores-suplementos-panama.md"
+  ],
+
+  "siguientes_pasos_opcionales": [
+    "Confirmar con TikTok Business Center qué integración se conectará: solo ads al sitio o TikTok Shop/catálogo. Eso define el alcance real.",
+    "Auditar las landing pages de los anuncios activos (no todo el catálogo) con un checklist de claims.",
+    "Validar la redacción final de disclaimers y categorías con asesoría legal/MINSA.",
+    "Opcional (Apify): scrapear las landing pages de Power Lab y World Fit en TikTok para ver cómo formulan catálogos sin claims y tomar referencias.",
+    "Definir política de contenido orgánico (guiones de video) alineada a las Community Guidelines."
+  ]
+}

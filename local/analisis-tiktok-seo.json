@@ -1,0 +1,292 @@
+{
+  "meta": {
+    "titulo": "Impacto SEO de la propuesta de cumplimiento TikTok — Suplementos Panamá",
+    "proyecto": "Suplementos Panamá (WooCommerce + Rank Math)",
+    "fecha": "2026-10-05",
+    "tipo": "ANÁLISIS Y RECOMENDACIONES — NO se ejecutó ningún cambio en el sitio",
+    "alcance": ["SEO on-page (títulos, metas, H1, descripciones, imágenes, enlazado)", "SEO técnico (links, indexación)", "SEO estratégico (categorías, canibalización, tráfico)", "Medición GSC"],
+    "fuente_principal": "gsc_pages.json (Search Console, 818 páginas con datos), products.json (catálogo), local/seo_*.txt (titles/metas Rank Math), local/footer/footer414_backup.json, local/legal/politica-privacidad.html",
+    "relacionado": ["local/analisis-tiktok-contenido.json (compliance/copy)", "local/analisis-tiktok-geo.json (GEO/IA)"]
+  },
+
+  "resumen_ejecutivo": {
+    "veredicto": "Desde SEO, el 80% de la propuesta NO es necesaria y parte de ella SÍ tiene riesgo. La conexión con TikTok (Business Center, píxel, verificación de dominio) es un proceso técnico que no se aprueba ni rechaza por el copy del catálogo. TikTok solo audita (a) los CREATIVOS de cada anuncio, (b) la LANDING PAGE elegida por campaña y (c) el catálogo/Shop SOLO si lo cargas. No audita las 27-35 fichas del sitio por defecto.",
+    "regla_de_oro_seo": "CONSERVAR el sustantivo de tipo de producto o ingrediente (termogénico, CLA, L-carnitina, testosterona, detox, diurético, apoyo hepático) y ELIMINAR solo la FRASE DE PROMESA de resultado (quema grasa, pierde peso, aumenta testosterona, desintoxica, elimina líquidos). Un nombre de categoría es permitido; una promesa de resultado es lo restringido.",
+    "cambios_que_NO_afectan_seo_y_conviene_hacer": [
+      "Corregir el link del copyright (typo supementospanama.net) — no es SEO, es higiene de marca/trust.",
+      "Corregir el link roto de Atrio Mall (t/sucursales/atrio-mall/) — sí es SEO local: enlace interno roto que desperdicia rastreo y oculta la landing de sucursal.",
+      "Aviso legal en footer (no es medicamento, no diagnostica/trata/cura/prevenir, +18, consultar médico) — positivo para E-E-A-T, coste SEO nulo.",
+      "Política de privacidad con sección TikTok + 2 números — YA está hecha (verificado en local/legal/politica-privacidad.html, sección 6 y ambos teléfonos). Solo verificar que sigue publicada.",
+      "Excluir DHEA y Yohimbina de anuncios/feed (siguen en tienda) — config de campaña, impacto SEO nulo."
+    ],
+    "cambios_con_riesgo_seo": [
+      "Renombrar los ~27-35 productos quitando el descriptor: ALTO riesgo si se hace a lo bruto (solo Marca – Producto). No cambia URL, pero borra la entidad semántica del <title>, H1, schema Product.name, feed GMC y anchors internos.",
+      "Renombrar la etiqueta visible de las 5 categorías: riesgo MEDIO. El H1 de categoría es la página que 'posee' el head term. Además 3 de los 5 nombres nuevos COLISIONAN con subcategorías que ya existen (ver sección 2).",
+      "Reescribir las 5 descripciones de categoría: riesgo MEDIO-BAJO. Si se vacían, la categoría pierde entidad; si se reformulan conservando el término, el riesgo es bajo."
+    ],
+    "minimo_viable_seo": "No tocar el catálogo completo. Limpiar SOLO las superficies publicitarias (creativos + landings promocionadas) y, en los productos que se promocionen, quitar la promesa del H1 + title Rank Math + meta + primer párrafo, conservando el tipo de producto. El resto del catálogo se homogeneiza por fases, midiendo en GSC."
+  },
+
+  "1_necesidad_seo": {
+    "pregunta": "¿Son necesarios estos cambios desde el SEO?",
+    "distincion": {
+      "a_no_afectan_seo_conviene_hacer": [
+        {"punto": "4. Home: quitar/cambiar tile 'Quemadores de grasa · Explorar' y sacar Testolander de ofertas", "efecto_seo": "NULO/BAJO", "detalle": "Las tiles y ofertas del home son dinámicas (config, no código). El home no es la página que rankea por 'quemador de grasa'; esa es /quemadores-de-grasa/. Cambiar el rótulo no mueve rankings. Sacar Testolander de ofertas no afecta su ficha."},
+        {"punto": "4. Revisar banners/slider (sin 'antes y después' ni kilos)", "efecto_seo": "NULO (positivo de marca)", "detalle": "Riesgo de rechazo de TikTok si se usa el home como landing. Hacerlo. No afecta rankings."},
+        {"punto": "5. Corregir link copyright y link roto Atrio Mall", "efecto_seo": "NULO / POSITIVO", "detalle": "El link a supementospanama.net (dominio con typo) es un enlace externo equivocado; conviene revisar si ese dominio resuelve (typo-squatting). El link t/sucursales/atrio-mall/ es un enlace interno roto: corregirlo ayuda al rastreo y al SEO local de la sucursal. Quick win técnico."},
+        {"punto": "6. Aviso legal en footer", "efecto_seo": "POSITIVO (E-E-A-T)", "detalle": "Transparencia que refuerza autoridad/confianza en un nicho YMYL (salud). Coste cero en rankings."},
+        {"punto": "7. Política de privacidad + 2 números", "efecto_seo": "NULO (ya hecho)", "detalle": "Verificado: la sección 6 'Mensajes por TikTok, WhatsApp y redes sociales' y los números +507 6380-5669 / +507 6015-3257 ya están publicados. No rehacer."},
+        {"punto": "3. No anunciar DHEA/Yohimbina; no usar quemadores/testosterona como producto principal de Ads", "efecto_seo": "NULO", "detalle": "Decisión de campaña. Mantener los productos en tienda no cambia su indexación. Ojo: Yohimbine rankea (16 clics, 413 imp, pos 10.1) y DHEA (1 clic, 101 imp); si se excluyen de ads NO se deben despublicar del sitio."}
+      ],
+      "b_afectan_seo_requieren_mitigacion": [
+        {"punto": "2. Renombrar ~27-35 productos", "riesgo": "ALTO", "detalle": "El nombre del producto es el string más reutilizado: <title> Rank Math, H1 (post_title), schema Product.name, breadcrumbs, alt de imágenes, anchors internos, g:title del feed de Google Merchant y productName de GBP. Cambiarlo a 'Marca – Producto' borra la relevancia por 'quemador de grasa', 'testosterona', 'detox', 'diurético'."},
+        {"punto": "1. Renombrar etiquetas visibles de categoría", "riesgo": "MEDIO", "detalle": "El H1/nombre de categoría posee el head term. Además 3 de los 5 nombres nuevos colisionan con categorías existentes (sección 2). El slug no cambia, por lo que no hay pérdida por redirección, pero sí por H1/title/breadcrumb/anchor."},
+        {"punto": "1. Reemplazar descripciones de categoría", "riesgo": "MEDIO-BAJO", "detalle": "La descripción de categoría es texto que sostiene la entidad. Si se reemplaza por texto genérico idéntico en las 5, se pierde señal temática. Mitigable conservando el término en contexto informativo + FAQ."}
+      ]
+    }
+  },
+
+  "2_riesgo_renombrar": {
+    "productos": {
+      "impacto_por_campo": [
+        {"campo": "URL / slug", "cambia": false, "consecuencia": "Slug intacto => NO se requieren redirecciones 301 y no se pierde autoridad por URL. El consultor acierta en no tocar slugs."},
+        {"campo": "<title> Rank Math", "cambia": true, "consecuencia": "Hoy el título SEO incluye el claim en el sufijo (ej.: 'LanderFit CLA 2000 – 120 Cápsulas | Quemador de Grasa | Suplementos Panamá'). Quitarlo reduce coincidencia con la query y puede bajar CTR. Es el campo con más peso de ranking/CTR afectado."},
+        {"campo": "H1 visible = post_title", "cambia": true, "consecuencia": "El H1 es el nombre del producto y también incluye el claim ('...Apoyo para Reducción de Grasa Corporal'). Es lo que ve TikTok en la landing. Debe ir alineado con el title SEO para no generar inconsistencia."},
+        {"campo": "Meta description", "cambia": true, "consecuencia": "No es factor de ranking directo, pero sí de CTR. Debe actualizarse en coherencia con el nuevo título."},
+        {"campo": "Schema Product.name / breadcrumb / Offer", "cambia": true, "consecuencia": "El KB exige 'consistencia total' entre schema y contenido visible. Si el H1 cambia y el schema no (o viceversa), se genera desalineación y posible pérdida de elegibilidad a rich results."},
+        {"campo": "Feed Google Merchant (g:title) y GBP productName", "cambia": true, "consecuencia": "Si se cambia el título en la web pero no en el feed/GBP, hay mismatch => desaprobación de productos en GMC y señales de marca inconsistentes. Hay que sincronizar."},
+        {"campo": "Anchors internos y alt de imágenes", "cambia": true, "consecuencia": "Enlaces internos que usan el nombre del producto con el claim pierden texto ancla relevante; los alt con 'quemador de grasa' dejan de coincidir."}
+      ],
+      "impacto_keywords": "Las keywords de categoría ('quemador de grasa Panamá', 'testosterona Panamá', 'detox Panamá', 'diurético Panamá', 'CLA Panamá', 'L-carnitina Panamá') se debilitan en la ficha porque el título/H1 deja de contenerlas. No desaparecen de inmediato (Google las puede seguir asociando por historial/enlaces), pero la relevancia cae con el tiempo si no se compensa.",
+      "posiciones_y_ctr": "Riesgo de descenso de CTR en SERP (el claim atrae clics) y de posición en queries de exact-match. Impacto cuantificado abajo (sección 4): el bloque sensible pesa ~3% de los clics y ~4% de las impresiones del sitio, pero está concentrado justo en los head terms que se quieren limpiar.",
+      "rich_results": "No se 'rompen' los rich results de Product/Offer por renombrar (siguen siendo válidos), PERO sí hay riesgo de: (a) desalineación schema vs. contenido visible si no se sincroniza; (b) mismatch con el feed GMC; (c) el breadcrumb muestra el nuevo nombre de categoría. Recomendación: cambiar title + H1 + meta + schema.name + feed en el mismo lote.",
+      "rank_math": "Rank Math permite título y meta personalizados por producto. Hoy hay títulos SEO propios con el claim en el sufijo. La ruta de mínimo impacto es editar el title/meta de Rank Math y el post_title (H1) JUNTOS, y dejar el slug intacto. No hace falta tocar plantillas ni functions.php.",
+      "h1": "Debe seguir habiendo UN H1 por página. Si se conserva el tipo de producto neutro en el H1, se mantiene la entidad y no se pierde estructura.",
+      "urls": "Slugs intactos => sin redirecciones. Si en algún caso se decidiera renombrar un producto por otro motivo, ahí sí habría que evaluar 301, pero NO es el caso de esta propuesta."
+    },
+    "categorias": {
+      "impacto": "El nombre visible de la categoría se usa en: H1, <title> Rank Math, breadcrumbs, menú y footer (anchor 'QUEMADORES'). Cambiarlo quita el término del H1/title que hoy compite por el head term. El slug se mantiene (/quemadores-de-grasa/), así que no hay pérdida por redirección ni pérdida de la URL posicionada.",
+      "colisiones_detectadas": [
+        {"propuesta": "Quemadores → 'Termogénicos y L-Carnitina'", "problema": "YA EXISTE la subcategoría 'Termogénicos y CLA' (usada por Lipocide, CLA 2000, etc.) y 'L-Carnitina Líquida'. El nombre propuesto solapa dos categorías existentes => riesgo de canibalización/duplicación de intención."},
+        {"propuesta": "Detox y Salud Hepática → 'Bienestar y Antioxidantes'", "problema": "Ya existe la categoría padre 'Salud y Bienestar' y 'Salud Cardiovascular y Omega 3'. 'Bienestar y Antioxidantes' se solaparía con el padre y diluye la entidad 'salud hepática'."},
+        {"propuesta": "Salud Hormonal y Testosterona → 'Salud Masculina y Femenina'", "problema": "Cambia la intención (hormonal/testosterona) por una de género, que ya se cubre con 'Proteína para Mujer'. Riesgo de desalinear la intención de búsqueda de la página."},
+        {"propuesta": "Apoyo Metabólico y Control de Peso → 'Apoyo Metabólico'", "problema": "Leve. Mantiene 'apoyo metabólico', que es borderline para TikTok; no resuelve del todo el claim si se deja en el H1."}
+      ],
+      "alternativa_seo": "Mantener el nombre de categoría (o mover el claim solo al copy), y limpiar la PROMESA en el texto visible y en la meta. Si se renombra, conservar el término neutro real de la categoría (Termogénicos, L-Carnitina, Salud Hepática, Balance de Líquidos) sin crear nombres que choquen con subcategorías existentes."
+    }
+  },
+
+  "3_cambios_minimos": {
+    "pregunta": "¿Basta con quitar el beneficio SOLO del título? ¿Solo de la meta? ¿De la descripción larga?",
+    "respuesta_corta": "Para SEO, el campo más sensible es el título (title tag + H1). Quitar la promesa solo de la META no basta para TikTok (la landing sigue mostrando el H1) y quitar solo del H1 sin tocar el title/meta genera inconsistencia en Google. La ruta de mínimo impacto es tocar TÍTULO + H1 + META + PRIMER PÁRRAFO en los productos que se promocionen, conservando el tipo de producto; y dejar el resto del catálogo para una fase 2.",
+    "comparativa_por_campo": [
+      {"campo": "Creativos de Ads (video/imagen)", "necesario_tiktok": "OBLIGATORIO", "impacto_seo": "Ninguno (no es web)", "accion": "Rehacer guion/on-screen sin 'antes y después', kilos, 'quema grasa', 'más testosterona', 'detox'."},
+      {"campo": "Landing page promocionada (home o ficha)", "necesario_tiktok": "OBLIGATORIO", "impacto_seo": "Depende de la página elegida", "accion": "Elegir landing neutral por campaña. No reescribir el catálogo entero."},
+      {"campo": "Title SEO Rank Math + H1 (post_title) de productos promocionados", "necesario_tiktok": "Solo si la ficha es landing", "impacto_seo": "ALTO (quitar la promesa; conservar el tipo de producto)", "accion": "Editar ambos juntos y sincronizar meta."},
+      {"campo": "Meta description del producto", "necesario_tiktok": "No (no se ve en la web)", "impacto_seo": "MEDIO (solo CTR)", "accion": "Actualizar para coherencia con el nuevo title. No hace falta reescribirla en todo el catálogo."},
+      {"campo": "Descripción CORTA (short description)", "necesario_tiktok": "Parcial (feed/schema/GBP si se usa catálogo)", "impacto_seo": "MEDIO", "accion": "Quitar promesa; describir fórmula/dosis."},
+      {"campo": "Descripción LARGA + FAQ", "necesario_tiktok": "No (contenido editorial de la web)", "impacto_seo": "BAJO (aporta semántica)", "accion": "Mantener contenido educativo; reformular solo si afirma resultados garantizados. Es activo GEO."},
+      {"campo": "Título de categoría / H1 de categoría", "necesario_tiktok": "No (no es creativo)", "impacto_seo": "MEDIO", "accion": "Mantener el término; suavizar el copy."},
+      {"campo": "Descripción de categoría", "necesario_tiktok": "No", "impacto_seo": "MEDIO-BAJO", "accion": "Reformular conservando el head term + FAQ."},
+      {"campo": "Aviso legal / 18+ en landings", "necesario_tiktok": "RECOMENDADO", "impacto_seo": "Positivo", "accion": "Añadir bloque corto."}
+    ],
+    "minimo_absoluto": [
+      "1) Creativos sin claims.",
+      "2) Landing neutral por campaña: título visible + primeros 2 párrafos + banners sin 'quemador/quema grasa/testosterona/detox'.",
+      "3) Imágenes con texto revisadas (sin 'antes/después').",
+      "4) Si se carga catálogo TikTok: título + descripción corta del feed neutros (feed/override aparte, sin tocar la web).",
+      "5) Disclaimer + 18+ en landings promocionadas."
+    ],
+    "ruta_de_minimo_impacto_seo": [
+      "FASE A (0 días): No tocar web. Hacer creativos + elegir landings + disclaimer.",
+      "FASE B (productos promocionados): Editar title Rank Math + H1 + meta + first paragraph, conservando el tipo de producto ('Termogénico', 'CLA', 'L-Carnitina', 'Testo Booster', 'Salud Hepática', 'Balance de Líquidos'). Ej.: 'Thermoblast H2 – Impulse – 120 Cápsulas' (quita 'Quemador de Grasa para Mujer') en vez de dejar solo 'Thermoblast H2 – Impulse'.",
+      "FASE C (catálogo, por fases): Homogeneizar el resto de productos de las 5 categorías, midiendo GSC antes/después por categoría.",
+      "NUNCA: vaciar las descripciones de categoría, borrar contenido largo, ni crear nombres de categoría que colisionen con subcategorías existentes."
+    ],
+    "regla_de_redaccion_seo_safe": {
+      "conservar": ["termogénico", "CLA", "L-carnitina", "testo booster / apoyo hormonal", "salud hepática", "drenante / balance de líquidos", "capsulas/servicios", "dosis declaradas", "sin estimulantes", "fase de definición", "composición corporal"],
+      "eliminar": ["quemador de grasa", "quema de grasa", "pierde peso / pérdida de peso", "adelgazar", "reduce grasa corporal", "elimina grasa", "aumento/subir testosterona", "testosterona booster", "detox / detoxificación / desintoxicación", "elimina líquidos", "reduce hinchazón", "control de azúcar en sangre", "salud prostática", "antes y después", "resultados garantizados", "cura/trata/previene"]
+    }
+  },
+
+  "4_trafico_en_riesgo": {
+    "periodo_datos": "GSC gsc_pages.json — 818 páginas con datos; totales del sitio: 12,221 clics y 307,394 impresiones.",
+    "categorias_sensibles": {
+      "total": {"clicks": 214, "impresiones": 5725, "pct_clicks_sitio": "1.8%", "pct_impr_sitio": "1.9%"},
+      "detalle": [
+        {"url": "/salud-y-bienestar/salud-hormonal-y-testosterona/", "clicks": 68, "impresiones": 1573, "ctr": "4.3%", "pos": 14.8},
+        {"url": "/quemadores-de-grasa/", "clicks": 43, "impresiones": 1017, "ctr": "4.2%", "pos": 20.6},
+        {"url": "/diureticos/", "clicks": 25, "impresiones": 570, "ctr": "4.4%", "pos": 4.4},
+        {"url": "/salud-y-bienestar/detox-y-salud-hepatica/", "clicks": 24, "impresiones": 694, "ctr": "3.5%", "pos": 10.5},
+        {"url": "/precursores-de-testosterona/", "clicks": 12, "impresiones": 182, "ctr": "6.6%", "pos": 8.6},
+        {"url": "/diureticos/diureticos-naturales/", "clicks": 10, "impresiones": 220, "ctr": "4.5%", "pos": 6.4},
+        {"url": "/quemadores-de-grasa/apoyo-metabolico-y-control-de-peso/", "clicks": 6, "impresiones": 421, "ctr": "1.4%", "pos": 41.5},
+        {"url": "/quemadores-de-grasa/l-carnitina-liquida/", "clicks": 6, "impresiones": 301, "ctr": "2.0%", "pos": 15.9},
+        {"url": "/quemadores-termogenicos/", "clicks": 6, "impresiones": 104, "ctr": "5.8%", "pos": 14.1},
+        {"url": "/product-category/quemadores-termogenicos/", "clicks": 5, "impresiones": 59, "ctr": "8.5%", "pos": 16.1},
+        {"url": "otras subcategorías (precursores, diureticos-electrolitos, termogenicos-cla, libres-estimulantes)", "clicks": 9, "impresiones": 584}
+      ],
+      "lectura": "La categoría con mejor posición es /diureticos/ (pos 4.4) — la más expuesta si se renombra el H1 a 'Balance de Líquidos'. /quemadores-de-grasa/ ya está en página 2 (pos 20.6), por lo que su pérdida SEO relativa es menor; su valor es de entidad y de enlazado, no de tráfico directo."
+    },
+    "fichas_de_producto_sensibles": {
+      "total_core": {"productos_con_claim": 27, "fichas_con_datos_gsc": 31, "clicks": 151, "impresiones": 6092},
+      "top_fichas": [
+        {"url": "/product/zma-primaforce-nutricost/", "clicks": 18, "impresiones": 182, "pos": 7.6},
+        {"url": "/product/yohimbine-nutricost-120-capsulas/", "clicks": 16, "impresiones": 413, "pos": 10.1},
+        {"url": "/product/tribulus-terrestris-landerfit/", "clicks": 13, "impresiones": 222, "pos": 12.2},
+        {"url": "/product/picolinato-de-cromo-1000-mg/", "clicks": 12, "impresiones": 733, "pos": 7.6},
+        {"url": "/product/milk-thistle-nutricost-120-capsulas/", "clicks": 9, "impresiones": 390, "pos": 8.7},
+        {"url": "/product/tribulus-1400-nutrex/", "clicks": 8, "impresiones": 342, "pos": 8.4},
+        {"url": "/product/diuretico-xpel-mhp/", "clicks": 7, "impresiones": 584, "pos": 11.3},
+        {"url": "/product/testosterona-booster-six-star/", "clicks": 7, "impresiones": 254, "pos": 7.7},
+        {"url": "/product/raw-test/", "clicks": 6, "impresiones": 294, "pos": 11.2},
+        {"url": "/product/thermoblast-m5-impulse/", "clicks": 6, "impresiones": 180, "pos": 4.7},
+        {"url": "/product/l-carnitina-impulse-3500/", "clicks": 6, "impresiones": 127, "pos": 13.5},
+        {"url": "/product/super-fat-burner-quemador-de-grasa/", "clicks": 5, "impresiones": 133, "pos": 32.3},
+        {"url": "/product/cla-2000-landerfit-120-capsulas/", "clicks": 2, "impresiones": 197, "pos": 7.5},
+        {"url": "/product/quemador-de-grasa-lipocide-ir-evogen/", "clicks": 2, "impresiones": 321, "pos": 8.1},
+        {"url": "/product/dhea-100mg-nutricost-180-capsulas/", "clicks": 1, "impresiones": 101, "pos": 11.6}
+      ]
+    },
+    "total_combinado_en_riesgo": {"clicks": 365, "impresiones": 11817, "pct_clicks": "3.0%", "pct_impresiones": "3.8%"},
+    "interpretacion": "El tráfico directamente en riesgo es MODERADO (~3% de clics, ~4% de impresiones), pero está concentrado en los head terms que se quieren limpiar y en páginas que ya rankean en posiciones 4-15 (quick wins). No es un riesgo de colapso de tráfico, SÍ de pérdida de entidad semántica y de CTR si se ejecuta el renombrado a lo bruto. El grueso del negocio SEO (creatinas, proteínas, pre-entrenos) queda intacto.",
+    "canibalizacion": {
+      "por_renombrar": "No genera canibalización nueva (no se crean URLs). Genera CONSOLIDACIÓN: varios productos distintos dejan de diferenciarse por su descriptor, lo que puede diluir la cobertura de long-tail.",
+      "por_renombrar_categorias": "SÍ hay riesgo real: 3 de los 5 nombres propuestos colisionan con categorías que ya existen ('Termogénicos y CLA', 'L-Carnitina Líquida', 'Salud y Bienestar'). Eso sí puede crear canibalización entre categorías.",
+      "por_faq_meta_nueva": "Ninguna. Añadir FAQ/schema no canibaliza."
+    }
+  },
+
+  "5_recomendaciones_compensar": {
+    "redirects": "No se necesitan: los slugs de productos y categorías se mantienen. Si en algún caso excepcional se cambiara un slug, aplicar 301 a la URL antigua y verificar en GSC.",
+    "keywords_secundarias_neutras": [
+      "termogénico / termogénicos Panamá",
+      "CLA 2000 Panamá",
+      "L-carnitina Panamá / carnitina líquida",
+      "apoyo hormonal masculino Panamá",
+      "salud hepática / soporte hepático",
+      "drenante natural / balance de líquidos",
+      "fase de definición / composición corporal",
+      "suplementos Panamá / tienda de suplementos Panamá"
+    ],
+    "contenido": [
+      "Reformular las 5 descripciones de categoría conservando el head term en contexto informativo (no vaciarlas).",
+      "Estandarizar un bloque FAQ visible en fichas y categorías ('¿Qué es?', '¿Qué contiene?', '¿Cómo se usa?', '¿Quién debe consultar a su médico?') y marcarlo con FAQPage.",
+      "Publicar 1-2 piezas por clúster en el blog Power Rack ('Qué es un termogénico', 'Apoyo hormonal masculino: qué dice la evidencia', 'Carnitina y CLA: para qué se usan', 'Salud hepática y suplementación'), enlazando a las categorías. Sostiene la relevancia informativa aunque el título de producto se acorte."
+    ],
+    "schema": [
+      "Replicar el patrón ya probado de /proteinas/ (local/mu-plugins/sp-schema-proteinas.php) en las 5 categorías: CollectionPage + ItemList(Product/Offer) + FAQPage. Es la mejor compensación: la categoría emite su entidad y lista de productos sin depender de claims en el título.",
+      "Mantener Product + Offer en fichas; sincronizar schema.name con el H1 visible tras cualquier renombrado.",
+      "Añadir additionalProperty neutro: 'Tipo de producto', 'Contiene estimulantes: Si/No', 'Cápsulas/servicios por envase', 'Ingredientes declarados'.",
+      "No inventar flags de 'restringido para TikTok' en schema: no existe estándar y no es cómo se manejan las restricciones (se gestionan a nivel de cuenta/feed)."
+    ],
+    "enlazado_interno": [
+      "Corregir el enlace roto de Atrio Mall (t/sucursales/atrio-mall/ -> /sucursales/atrio-mall/) para no perder la landing de sucursal.",
+      "Actualizar el anchor 'QUEMADORES' del footer/menú si se cambia el nombre de la categoría; mantener anchor descriptivo hacia la URL (que no cambia).",
+      "Enlazar categorías <-> blog <-> productos con anchors neutros que conserven el término ('termogénicos', 'salud hepática', 'apoyo hormonal')."
+    ],
+    "medicion": [
+      "Baseline obligatorio en GSC (por categoría y por producto) ANTES de tocar títulos/categorías.",
+      "Monitorear posiciones/CTR de los head terms ('quemador de grasa Panamá', 'testosterona Panamá', 'detox Panamá', 'diurético Panamá') 2-4 semanas después.",
+      "Si se usa catálogo TikTok: feed/override aparte con título y descripción neutros y SKUs restringidos (DHEA, Yohimbina) excluidos, sin tocar la web."
+    ],
+    "tecnico_extra": [
+      "Verificar si el dominio del link del copyright (supementospanama.net) resuelve y quién lo posee; corregirlo a https://suplementospanama.net.",
+      "Recordatorio AGENTS.md: no tocar functions.php del child ni las funciones sp_* de retiro en sucursal. Estos cambios son de contenido/DB (post_title, meta Rank Math, términos de categoría), no de código de checkout."
+    ]
+  },
+
+  "6_plan_priorizado": {
+    "criterio": "Ordenado por impacto (SEO/TikTok) vs. riesgo y esfuerzo.",
+    "fases": [
+      {
+        "fase": 0,
+        "nombre": "Desbloqueo TikTok (obligatorio, cero SEO)",
+        "riesgo_seo": "nulo",
+        "acciones": [
+          "Creativos de Ads sin claims ni 'antes/después'.",
+          "Elegir landing neutral por campaña + disclaimer 18+.",
+          "Excluir DHEA y Yohimbina de anuncios/feed (mantener publicados).",
+          "Verificar dominio, instalar TikTok Pixel (GTM) y eventos.",
+          "Confirmar privacidad publicada con sección TikTok y ambos números (ya hecha)."
+        ]
+      },
+      {
+        "fase": 1,
+        "nombre": "Quick wins técnicos sin riesgo",
+        "riesgo_seo": "nulo / positivo",
+        "acciones": [
+          "Corregir link copyright (supementospanama.net).",
+          "Corregir link roto Atrio Mall.",
+          "Aviso legal en footer.",
+          "Revisar banners/slider del home (sin claims)."
+        ]
+      },
+      {
+        "fase": 2,
+        "nombre": "Mínimos on-page SEO-safe (solo productos promocionados)",
+        "riesgo_seo": "bajo si se conserva el tipo de producto",
+        "acciones": [
+          "Quitar la PROMESA (no el sustantivo) del title Rank Math + H1 + meta + primer párrafo de los productos usados como landing.",
+          "Sincronizar schema.name con el H1 y el feed GMC.",
+          "Registrar baseline GSC por URL antes del cambio."
+        ]
+      },
+      {
+        "fase": 3,
+        "nombre": "Homogeneización progresiva del catálogo sensible",
+        "riesgo_seo": "medio controlado",
+        "acciones": [
+          "Estandarizar títulos de los 27 productos (Nombre – Marca – Presentación – tipo de producto neutro), LOTE POR CATEGORÍA.",
+          "Actualizar meta descriptions y descripciones cortas.",
+          "Medir GSC 2-4 semanas por lote; revertir títulos con caída fuerte."
+        ]
+      },
+      {
+        "fase": 4,
+        "nombre": "Categorías y compensación",
+        "riesgo_seo": "medio",
+        "acciones": [
+          "Reformular (no vaciar) las 5 descripciones de categoría conservando el head term.",
+          "Evaluar renombre visible de categoría SIN colisionar con subcategorías existentes; si se hace, mantener slug y actualizar H1/title/anchor.",
+          "Implementar schema CollectionPage+ItemList+FAQPage en las 5 categorías.",
+          "Publicar 1-2 piezas de blog por clúster."
+        ]
+      },
+      {
+        "fase": 5,
+        "nombre": "Solo si se carga catálogo TikTok",
+        "riesgo_seo": "nulo (no toca la web)",
+        "acciones": [
+          "Feed/override neutral para TikTok (título + descripción), excluyendo SKUs restringidos."
+        ]
+      }
+    ],
+    "no_hacer": [
+      "Renombrar los 27-35 productos globalmente a 'Marca – Producto' solos (pérdida de entidad y de long-tail; beneficio TikTok nulo si no hay catálogo).",
+      "Vaciar las 5 descripciones de categoría.",
+      "Crear nombres de categoría que colisionen con subcategorías existentes ('Termogénicos y CLA', 'L-Carnitina Líquida', 'Salud y Bienestar').",
+      "Quitar la categoría /quemadores-de-grasa/ de la navegación o del footer (es la URL que posee el head term).",
+      "Borrar el contenido largo educativo de las fichas (es activo GEO y de conversión).",
+      "Generar redirecciones 301 sin cambio de slug.",
+      "Tocar functions.php del child o las funciones sp_* de retiro en sucursal (funcionalidad protegida)."
+    ]
+  },
+
+  "datos_usados": {
+    "gsc": "C:\\suplementos\\stock-suplementos\\gsc_pages.json (12,221 clics / 307,394 impresiones / 818 páginas)",
+    "catalogo": "C:\\suplementos\\stock-suplementos\\products.json (27 productos con claim en las 5 categorías sensibles; 39 en el filtro amplio)",
+    "titles_metas": "local/seo_landerfit_cla.txt, seo_landerfit_testolander.txt, seo_landerfit_lipo_thermogenic.txt, seo_landerfit_lipo_stimfree.txt, seo_evogen_xtreme.txt",
+    "footer": "local/footer/footer414_backup.json (typo copyright + link roto Atrio Mall + TikTok + anchor QUEMADORES)",
+    "privacidad": "local/legal/politica-privacidad.html (sección 6 TikTok + números ya presentes)",
+    "kb": "base agentes/agents/seo-ecommerce/* (metodologia, on-page, tecnico, estrategico, tracking) + sp/contexto-suplementos-panama.md",
+    "analisis_previos": ["local/analisis-tiktok-contenido.json", "local/analisis-tiktok-geo.json"]
+  },
+
+  "supuestos_y_limitaciones": [
+    "No se accedió a la base de datos ni a TikTok Ads Manager: el estado del píxel y del catálogo debe confirmarse en producción/GTM.",
+    "No se pudo leer reporte_gsc.pdf (formato no soportado); los números provienen de gsc_pages.json (página, no consulta). El conteo de keywords es una estimación basada en impresiones y URLs con datos.",
+    "Las descripciones de las 5 categorías viven en la DB de WooCommerce (no en el repo); el análisis se apoya en el patrón observado en productos y en el plan SEO.",
+    "No se ejecutó ningún cambio en el sitio, fichas GBP ni campañas."
+  ]
+}
