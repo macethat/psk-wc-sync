@@ -14,7 +14,16 @@ $sp_hero_ids = array(
 $sp_combos = array();
 foreach ($sp_hero_ids as $spid) {
     $pp = get_post($spid);
-    if ($pp && $pp->post_status === 'publish') $sp_combos[] = $pp;
+    if (!$pp || $pp->post_status !== 'publish') continue;
+    $sc = wc_get_product($spid);
+    if (!$sc || !$sc->is_in_stock()) continue; // combo sin stock -> fuera del carrusel
+    $agotado = false;
+    foreach ($sc->get_children() as $scid) { // y si algun producto hijo esta agotado
+        $scc = wc_get_product($scid);
+        if (!$scc || !$scc->is_in_stock()) { $agotado = true; break; }
+    }
+    if ($agotado) continue;
+    $sp_combos[] = $pp;
 }
 
 function sp_combo_regular_total($pid) {
