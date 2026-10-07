@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "generado": "2026-10-07",
+    "agente": "seo-ecommerce",
+    "proyecto": "Suplementos Panamá",
+    "sitio": "https://suplementospanama.net",
+    "plataforma": "WooCommerce + Rank Math SEO (child theme nutritix-child)",
+    "tarea": "SEO on-page de ficha de producto NUEVA (propuesta, sin publicar)",
+    "sku": "811662020172",
+    "imagen": "C:\\suplementos\\productos-nuevos\\fotos07102026\\811662020172.jpg",
+    "idioma": "español de Panamá",
+    "restricciones": "Sin claims médicos ni de rendimiento garantizado. No se publicó nada. Valores listos para cargar en Rank Math.",
+    "alcance": "Propuesta on-page (title, meta, focus keyword, slug, categorías, enlazado interno). NO se modificó el sitio."
+  },
+
+  "producto": {
+    "nombre_base": "CREAKONG CREATINA 75 SERVING",
+    "marca": "Mutant",
+    "tipo": "Creatina (Creakong)",
+    "servings": "75",
+    "precio_usd": 25.99,
+    "categoria_principal_nombre": "Creatinas"
+  },
+
+  "rank_math_title": "Creakong Creatina Mutant 75 Serv | Creatinas Panamá",
+  "rank_math_title_chars": 51,
+  "rank_math_description": "Creatina Creakong de Mutant, 75 servings. Fórmula en polvo de la línea Mutant. Cómprala 100% original en Panamá con envío nacional o retiro en 6 sucursales.",
+  "rank_math_description_chars": 156,
+
+  "focus_keyword": "creakong creatina mutant",
+  "keywords_secundarias": [
+    "creatina creakong 75 servings",
+    "creakong creatina Panamá",
+    "creatina Mutant en polvo",
+    "creatina Mutant Panamá",
+    "creakong 75 serving"
+  ],
+
+  "slug": "creakong-creatina-mutant-75-serv",
+  "slug_alternativos": [
+    "creakong-creatine-mutant-75-serving",
+    "creatina-creakong-mutant-75-serv"
+  ],
+
+  "categoria_principal": {
+    "nombre": "Creatinas",
+    "slug": "creatina",
+    "url": "https://suplementospanama.net/creatina/",
+    "razon": "Categoría padre del silo de creatinas. Creakong es una fórmula de creatina y pertenece al padre para no competir con las subcategorías por su genérico."
+  },
+
+  "categorias_secundarias": [
+    {
+      "nombre": "Creatina Monohidratada",
+      "slug": "creatina/creatina-monohidratada",
+      "url": "https://suplementospanama.net/creatina/creatina-monohidratada/",
+      "razon": "Subcategoría más cercana si la etiqueta confirma monohidrato como base de la fórmula Creakong."
+    }
+  ],
+
+  "internal_links": [
+    {
+      "anchor": "creatinas en Panamá",
+      "url": "https://suplementospanama.net/creatina/",
+      "tipo": "categoría padre",
+      "ubicacion": "intro / breadcrumb contextual de la ficha"
+    },
+    {
+      "anchor": "creatina monohidratada",
+      "url": "https://suplementospanama.net/creatina/creatina-monohidratada/",
+      "tipo": "subcategoría",
+      "ubicacion": "sección de composición / descripción"
+    },
+    {
+      "anchor": "combos de creatina con descuento",
+      "url": "https://suplementospanama.net/promociones/combos/",
+      "tipo": "combos",
+      "ubicacion": "bloque de complementos / relacionados"
+    },
+    {
+      "anchor": "retiro gratis en 6 sucursales",
+      "url": "https://suplementospanama.net/sucursales/",
+      "tipo": "sucursales",
+      "ubicacion": "bloque de envío y retiro de la ficha"
+    }
+  ],
+
+  "internal_links_opcionales": [
+    {
+      "anchor": "Mutant",
+      "url": "https://suplementospanama.net/mutant/",
+      "tipo": "marca (archivo de marca)",
+      "razon": "Existe la página de marca /mutant/ (200). Enlazarla refuerza la entidad de marca y aporta una ruta de navegación útil."
+    }
+  ],
+
+  "notas_seo": {
+    "h1_recomendado": "Creakong Creatina Mutant 75 Servings – Mutant",
+    "h1_nota": "Un solo H1 con la entidad Creakong, la marca Mutant y el formato (75 servings). No duplicar literal el title.",
+    "canibalizacion": "La categoría /creatina/ debe ser dueña de 'creatina en Panamá' y 'creatinas Panamá'; las subcategorías se quedan con 'creatina monohidratada' y 'creatina micronizada'; la marca /mutant/ con 'Mutant'. Esta ficha debe posicionar por el nombre de producto ('creakong' y 'creakong creatina mutant'), NO por 'creatina Panamá' a secas. Evitar el genérico de la categoría en el title.",
+    "slug_nota": "Slug neutro sin claims ni stopwords. El sitio usa slugs en español (ej. 'creatina-monohidratada-nutrex', 'creatina-super-atp-impulse'); 'slug_alternativos' deja la variante alineada a esa convención por si se prioriza consistencia interna.",
+    "title_alternativas": [
+      "Creakong Creatina Mutant 75 Serv | Mutant Panamá",
+      "Creakong Creatina Mutant 75 Servings | Panamá"
+    ],
+    "alt_imagen_recomendado": "Creatina Creakong Mutant 75 servings en Panamá",
+    "nombre_archivo_imagen": "creakong-creatina-mutant-75-serv.webp",
+    "og_title": "Creakong Creatina Mutant 75 Serv",
+    "schema": "Product + Offer (precio USD 25.99, availability según _stock_status) + Brand (Mutant) + BreadcrumbList. Coordinar con structured-data-schema. No marcar AggregateRating sin reseñas reales del producto.",
+    "rank_math_keys": [
+      "rank_math_title",
+      "rank_math_description",
+      "rank_math_focus_keyword (creakong creatina mutant)",
+      "rank_math_robots (index, follow)"
+    ],
+    "categoria_seo_note": "Rank Math guarda SEO de productos como POST meta: wp post meta update <ID> rank_math_title/description/focus_keyword.",
+    "categoria_cuidado": "Si Creakong no es estrictamente monohidratada (es una fórmula/blend), dejarla solo en el padre /creatina/ y NO forzar 'creatina monohidratada' ni 'con estimulantes' hasta confirmar la etiqueta. Así se evita diluir la relevancia de las subcategorías.",
+    "claims": "Sin claims médicos ni de rendimiento garantizado. Descripción basada en marca, formato y presentación en polvo. No prometer fuerza/energía como efecto garantizado.",
+    "keyword_densidad": "Usar 'Creakong Creatina Mutant' 2-3 veces (title/meta + H1 + primer párrafo) y variar con sinónimos (creatina, Mutant, 75 servings, polvo)."
+  }
+}

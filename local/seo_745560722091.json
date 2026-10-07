@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "generado": "2026-10-07",
+    "agente": "seo-ecommerce",
+    "proyecto": "Suplementos Panamá",
+    "sitio": "https://suplementospanama.net",
+    "plataforma": "WooCommerce + Rank Math SEO (child theme nutritix-child)",
+    "tarea": "SEO on-page de ficha de producto NUEVA (propuesta, sin publicar)",
+    "sku": "745560722091",
+    "imagen": "C:\\suplementos\\productos-nuevos\\fotos07102026\\745560722091.jpg",
+    "idioma": "español de Panamá",
+    "restricciones": "Sin claims médicos ni de rendimiento garantizado. No se publicó nada. Valores listos para cargar en Rank Math.",
+    "alcance": "Propuesta on-page (title, meta, focus keyword, slug, categorías, enlazado interno). NO se modificó el sitio."
+  },
+
+  "producto": {
+    "nombre_base": "BCAA + GLUTAMINA 30 SERV PIÑA COLADA",
+    "marca": "Impulse Suplement",
+    "tipo": "Aminoácido (BCAA + L-Glutamina)",
+    "sabor": "Piña Colada",
+    "servicios": "30",
+    "precio_usd": 29.99,
+    "categoria_principal_nombre": "Aminoácidos"
+  },
+
+  "rank_math_title": "BCAA + Glutamina 30 Serv Piña Colada | Impulse Panamá",
+  "rank_math_title_chars": 53,
+  "rank_math_description": "Aminoácidos BCAA con L-Glutamina sabor Piña Colada, 30 servicios. Compra 100% original en Panamá: envío a todo el país o retiro gratis en 6 sucursales.",
+  "rank_math_description_chars": 151,
+
+  "focus_keyword": "bcaa con glutamina",
+  "keywords_secundarias": [
+    "bcaa glutamina piña colada",
+    "bcaa con glutamina Panamá",
+    "aminoácidos bcaa glutamina",
+    "bcaa glutamina Impulse",
+    "glutamina bcaa 30 servicios"
+  ],
+
+  "slug": "bcaa-glutamina-pina-colada-30-serv",
+  "slug_alternativos": [
+    "bcaa-glutamine-pina-colada-30-serv",
+    "bcaa-glutamina-30-serv-pina-colada"
+  ],
+
+  "categoria_principal": {
+    "nombre": "Aminoácidos",
+    "slug": "aminoacidos",
+    "url": "https://suplementospanama.net/aminoacidos/",
+    "razon": "Categoría padre del silo de aminoácidos. El producto combina BCAA + L-Glutamina, por lo que el padre es el encaje correcto y evita forzar una sola subcategoría."
+  },
+
+  "categorias_secundarias": [
+    {
+      "nombre": "BCAA",
+      "slug": "aminoacidos/bcaa",
+      "url": "https://suplementospanama.net/aminoacidos/bcaa/",
+      "razon": "El BCAA es la mitad del producto y su subcategoría específica."
+    },
+    {
+      "nombre": "Glutamina",
+      "slug": "aminoacidos/glutamina",
+      "url": "https://suplementospanama.net/aminoacidos/glutamina/",
+      "razon": "La L-Glutamina es la otra mitad del producto; la subcategoría existe y refuerza la entidad."
+    }
+  ],
+
+  "internal_links": [
+    {
+      "anchor": "aminoácidos en Panamá",
+      "url": "https://suplementospanama.net/aminoacidos/",
+      "tipo": "categoría padre",
+      "ubicacion": "intro / breadcrumb contextual de la ficha"
+    },
+    {
+      "anchor": "BCAA",
+      "url": "https://suplementospanama.net/aminoacidos/bcaa/",
+      "tipo": "subcategoría",
+      "ubicacion": "sección de composición / descripción"
+    },
+    {
+      "anchor": "combos con descuento",
+      "url": "https://suplementospanama.net/promociones/combos/",
+      "tipo": "combos",
+      "ubicacion": "bloque de complementos / relacionados"
+    },
+    {
+      "anchor": "retiro gratis en 6 sucursales",
+      "url": "https://suplementospanama.net/sucursales/",
+      "tipo": "sucursales",
+      "ubicacion": "bloque de envío y retiro de la ficha"
+    }
+  ],
+
+  "internal_links_opcionales": [
+    {
+      "anchor": "glutamina",
+      "url": "https://suplementospanama.net/aminoacidos/glutamina/",
+      "tipo": "subcategoría",
+      "razon": "Quinto enlace recomendado en el cuerpo (la glutamina es parte del nombre)."
+    }
+  ],
+
+  "notas_seo": {
+    "h1_recomendado": "BCAA + Glutamina Impulse Suplement 30 Servicios – Piña Colada",
+    "h1_nota": "Un solo H1, con la entidad (BCAA + Glutamina), la marca y el formato. No duplicar el title exacto.",
+    "canibalizacion": "La categoría /aminoacidos/ debe ser dueña de 'aminoácidos en Panamá'; las subcategorías /aminoacidos/bcaa/ y /aminoacidos/glutamina/ se quedan con 'BCAA' y 'glutamina' genéricos. Esta ficha debe posicionar por la cola larga de marca+sabor ('bcaa glutamina impulse piña colada'), NO por 'BCAA Panamá' a secas ni por 'aminoácidos Panamá'. No meter el genérico de la categoría en el title.",
+    "slug_nota": "Slug neutro sin claims ni stopwords. Se prefirió token neutro/inglés según lo pedido; el sitio usa slugs en español (ej. 'amino-esencial-impulse-52-serv'), por lo que 'slug_alternativos' deja una variante alineada a la convención si se prefiere consistencia interna.",
+    "title_alternativas": [
+      "BCAA + Glutamina Impulse 30 Serv Piña Colada | Panamá",
+      "BCAA con Glutamina Piña Colada 30 Serv | Impulse Panamá"
+    ],
+    "alt_imagen_recomendado": "BCAA con glutamina Impulse Suplement sabor Piña Colada, 30 servicios",
+    "nombre_archivo_imagen": "bcaa-glutamina-pina-colada-30-serv-impulse.webp",
+    "og_title": "BCAA + Glutamina Impulse Piña Colada 30 Serv",
+    "schema": "Product + Offer (precio USD 29.99, availability según _stock_status) + BreadcrumbList. Coordinar con structured-data-schema. No marcar AggregateRating si no hay reseñas reales del producto.",
+    "rank_math_keys": [
+      "rank_math_title",
+      "rank_math_description",
+      "rank_math_focus_keyword (bcaa con glutamina)",
+      "rank_math_robots (index, follow)"
+    ],
+    "categoria_seo_note": "Rank Math guarda SEO de productos como POST meta: wp post meta update <ID> rank_math_title/description/focus_keyword. (Para categorías sería 'wp term meta', pero aquí es ficha de producto.)",
+    "claims": "Sin claims médicos ni fisiológicos. Descripción basada en formato, composición (BCAA + L-Glutamina), sabor y disponibilidad. No prometer recuperación/resultados garantizados.",
+    "keyword_densidad": "Usar 'BCAA con glutamina' 2-3 veces en la ficha (title/meta + H1 + primer párrafo) y variar el resto con sinónimos (aminoácidos, L-glutamina, 30 servicios, Piña Colada)."
+  }
+}
