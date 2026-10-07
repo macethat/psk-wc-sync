@@ -75,8 +75,8 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec">
     <div class="sp-wrap">
       <div class="sp-bw-head">
-        <span class="badge">Solo 3 días</span>
-        <h1>Black Weekend Sale</h1>
+        <span class="badge">Fácil, Rápido y pagas menos</span>
+        <h1>DESCUENTOS EXCLUSIVOS SI COMPRAS AQUI</h1>
         <p>Descuentos exclusivos únicamente si compras en este website, no aplica para sucursales ni por contacto x whatsapp,</p>
       </div>
 
