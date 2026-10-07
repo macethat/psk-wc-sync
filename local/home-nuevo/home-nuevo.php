@@ -74,8 +74,13 @@ $sp_best = array_values(array_filter(
     wc_get_products(array('limit' => 24, 'status' => 'publish', 'orderby' => 'popularity', 'order' => 'DESC')),
     'sp_disponible'
 ));
+// NUEVOS primero (productos recién subidos) — visibilidad garantizada en el reel
+$sp_nuevos = function_exists('sp_es_nuevo') ? array_values(array_filter(
+    wc_get_products(array('limit' => 6, 'status' => 'publish', 'orderby' => 'date', 'order' => 'DESC')),
+    function ($p) { return sp_disponible($p) && sp_es_nuevo($p); }
+)) : array();
 shuffle($sp_best);
-$sp_best = array_slice($sp_best, 0, 12);
+$sp_best = array_slice(array_merge($sp_nuevos, $sp_best), 0, 12);
 
 // Reseñas reales de Google (Google Places API por sucursal) — solo 4★+ con texto
 $sp_reviews = array();
@@ -389,6 +394,7 @@ body .breadcrumb-wrap{display:none !important}
         ?>
           <div class="sp-card"<?php echo $sp_dup ? ' aria-hidden="true"' : ''; ?>>
             <?php if ($ahorro>0): ?><div class="sp-card__sticker">Ahorra $<?php echo number_format($ahorro,2); ?></div><?php endif; ?>
+            <?php if (function_exists('sp_es_nuevo') && sp_es_nuevo($prod)): ?><span class="sp-nuevo-badge">NUEVO</span><?php endif; ?>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($img_alt); ?>" loading="lazy"></div>
             <div class="sp-card__body">
               <span class="tag">Combos Online</span>
@@ -447,6 +453,7 @@ body .breadcrumb-wrap{display:none !important}
         ?>
           <div class="sp-card">
             <div class="sp-card__sticker">Ahorras <?php echo $sp_pct; ?>%</div>
+            <?php if (function_exists('sp_es_nuevo') && sp_es_nuevo($p)): ?><span class="sp-nuevo-badge">NUEVO</span><?php endif; ?>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($p->get_name()); ?>" loading="lazy"></div>
             <div class="sp-card__body">
               <h3><?php echo esc_html($p->get_name()); ?></h3>
@@ -476,6 +483,7 @@ body .breadcrumb-wrap{display:none !important}
             $img = get_the_post_thumbnail_url($p->get_id(), 'medium') ?: wc_placeholder_img_src();
             $sp_dup = ($sp_pass === 1); ?>
           <div class="sp-card"<?php echo $sp_dup ? ' aria-hidden="true"' : ''; ?>>
+            <?php if (function_exists('sp_es_nuevo') && sp_es_nuevo($p)): ?><span class="sp-nuevo-badge">NUEVO</span><?php endif; ?>
             <div class="sp-card__img"><img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($p->get_name()); ?>" loading="lazy"></div>
             <div class="sp-card__body">
               <h3><?php echo esc_html($p->get_name()); ?></h3>
