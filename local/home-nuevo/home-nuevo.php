@@ -290,7 +290,7 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-hero__in">
         <div>
-          <a class="sp-hero__badge" href="/promociones/combos/">BLACK WEEKEND MODE</a>
+          <a class="sp-hero__badge" href="/promociones/combos/">MÁS POWER SIN EXCUSAS &gt;&gt;</a>
           <h1><span class="sp-h1l">BEAST MODE ON.</span> <span class="sp-h1l red">COMBOS ONLINE,</span> <span class="sp-h1l">SIN PAGAR DE MÁS.</span></h1>
           <p class="lead">Ahorra comprando en combo. Stacks diseñados para volumen, definición y fuerza. Ofertas válidas solo para compras en línea.</p>
           <div class="sp-chips">
@@ -410,14 +410,14 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 5. BLACK WEEKEND BANNER -->
   <section class="sp-sec--tight">
     <div class="sp-wrap">
-      <a class="sp-bw__box" href="/black-weekend/">
+      <a class="sp-bw__box" href="/online-sale-sp/">
         <picture>
           <source media="(max-width:700px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1080x720.webp">
           <source media="(max-width:700px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1080x720.jpg">
           <source media="(max-width:1200px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1200x480.webp">
           <source media="(max-width:1200px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1200x480.jpg">
           <source type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.webp">
-          <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.jpg" alt="Black Weekend: descuentos exclusivos en suplementos comprando online" loading="lazy">
+          <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.jpg" alt="Online Sale: descuentos exclusivos en suplementos comprando online" loading="lazy">
         </picture>
       </a>
     </div>
@@ -429,7 +429,7 @@ body .breadcrumb-wrap{display:none !important}
       <span class="sp-eyebrow sp-eyebrow--lg">RETIRA POR SUCURSAL/DELIVERY, COMO QUIERAS</span>
       <div class="sp-sec__head">
         <h2>Ofertas Exclusivas Online</h2>
-        <a class="sp-btn sp-btn--primary" href="/black-weekend/" style="font-size:12px">VER TODO</a>
+        <a class="sp-btn sp-btn--primary" href="/online-sale-sp/" style="font-size:12px">VER TODO</a>
       </div>
       <div class="sp-combos sp-combos--4">
         <?php if ($sp_onsale):
