@@ -7,6 +7,54 @@
 
 defined('ABSPATH') || exit;
 
+/* FAQ compartido (visible + schema) */
+function sp_creatinas_faqs() {
+    return array(
+        array(
+            'q' => '¿Dónde comprar creatina en Panamá?',
+            'a' => 'Puedes comprar creatina en Panamá online en suplementospanama.net y recibirla en todo el país, o retirarla gratis en cualquiera de nuestras 6 sucursales: El Cangrejo, Megapolis, Atrio Mall, San Francisco, Altos de Panamá y Metromall.',
+        ),
+        array(
+            'q' => '¿Qué diferencia hay entre la creatina monohidratada y la micronizada?',
+            'a' => 'La diferencia está en el formato: la creatina monohidratada es la presentación más conocida y comercializada, mientras que la micronizada se muele más fina para facilitar su mezcla. Ambas están disponibles en nuestra categoría de creatina en Panamá.',
+        ),
+        array(
+            'q' => '¿Cuánto cuesta la creatina en Panamá?',
+            'a' => 'El precio depende de la marca, el tamaño y la cantidad de porciones. En cada ficha de producto ves el precio actualizado y las ofertas vigentes.',
+        ),
+        array(
+            'q' => '¿Hacen envíos de creatina a todo Panamá y puedo retirar en sucursal?',
+            'a' => 'Sí. Enviamos a todo Panamá y el envío es gratis en compras desde $150. También puedes comprar online y retirar gratis en la sucursal que elijas al finalizar la compra, en cualquiera de nuestras 6 ubicaciones.',
+        ),
+    );
+}
+
+/* H1 real (el tema no emite ninguno) */
+add_action('woocommerce_shop_loop_header', 'sp_creatinas_h1', 5);
+function sp_creatinas_h1() {
+    if (!function_exists('is_product_category') || !is_product_category('creatina') || is_paged()) {
+        return;
+    }
+    echo '<h1 class="sp-cat-h1" style="font-size:34px;text-transform:uppercase;margin:0 0 10px;">Creatina en Panamá: monohidratada, micronizada y más</h1>';
+}
+
+/* FAQ visible (respalda el FAQPage) */
+add_action('woocommerce_after_shop_loop', 'sp_creatinas_faq_block', 30);
+function sp_creatinas_faq_block() {
+    if (!function_exists('is_product_category') || !is_product_category('creatina') || is_paged()) {
+        return;
+    }
+    echo '<section class="sp-cat-faq" style="max-width:900px;margin:44px auto 0;padding:0 16px;">';
+    echo '<h2 style="font-size:22px;margin:0 0 16px;">Preguntas frecuentes sobre la creatina</h2>';
+    foreach (sp_creatinas_faqs() as $f) {
+        echo '<details style="border:1px solid #e8e8e8;padding:12px 16px;margin-bottom:10px;">'
+           . '<summary style="font-weight:700;cursor:pointer;font-size:16px;">' . esc_html($f['q']) . '</summary>'
+           . '<div style="padding-top:10px;color:#464646;line-height:1.6;">' . esc_html($f['a']) . '</div>'
+           . '</details>';
+    }
+    echo '</section>';
+}
+
 /* 1) Limpieza: quita cualquier nodo ItemList inyectado por otros mu-plugins */
 add_filter('rank_math/json_ld', 'sp_creatinas_strip_itemlist', 999, 1);
 function sp_creatinas_strip_itemlist($data) {
@@ -272,6 +320,19 @@ function sp_creatinas_emit_schema() {
         'numberOfItems'   => count($items),
         'itemListOrder'   => 'https://schema.org/ItemListUnordered',
         'itemListElement' => $items,
+    );
+
+    /* 2.4b FAQPage (coincide con el FAQ visible que se inyecta en el loop) */
+    $graph[] = array(
+        '@type'      => 'FAQPage',
+        '@id'        => $page_url . '#faq',
+        'mainEntity' => array_map(function ($f) {
+            return array(
+                '@type'          => 'Question',
+                'name'           => $f['q'],
+                'acceptedAnswer' => array('@type' => 'Answer', 'text' => $f['a']),
+            );
+        }, sp_creatinas_faqs()),
     );
 
     /* 2.5 Nodos de sucursal */
