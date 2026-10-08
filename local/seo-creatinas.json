@@ -1,0 +1,419 @@
+{
+  "meta": {
+    "generado": "2026-10-08",
+    "sitio": "https://suplementospanama.net",
+    "plataforma": "WooCommerce + Rank Math SEO (child theme nutritix-child)",
+    "tarea": "Optimizacion SEO on-page de la categoria /creatina/ para posicionar por 'creatina en Panamá' (y variante sin tilde 'creatina en panama')",
+    "url_objetivo": "https://suplementospanama.net/creatina/",
+    "term": { "taxonomia": "product_cat", "term_id": 258, "nombre": "Creatina", "slug": "creatina", "parent": 0 },
+    "hijos": [
+      { "nombre": "Creatina Monohidratada", "slug": "creatina-monohidratada", "term_id": 259, "url": "/creatina/creatina-monohidratada/" },
+      { "nombre": "Creatina Micronizada", "slug": "creatina-micronizada", "term_id": 260, "url": "/creatina/creatina-micronizada/" },
+      { "nombre": "Creatina con Estimulantes", "slug": "creatina-con-estimulantes", "term_id": 288, "url": "/creatina/creatina-con-estimulantes/" }
+    ],
+    "alcance": "Entrega de JSON + resumen. NO se modifico el sitio (solo lectura HTTP de /creatina/ el 2026-10-08).",
+    "idioma": "español de Panamá (acentos correctos)",
+    "compliance": "SIN claims de salud/rendimiento. No se promete 'aumenta la fuerza', 'resultados garantizados', 'quema grasa', etc. Solo formato, originalidad, logística (envío/retiro) e informacion descriptiva.",
+    "referencia_patron": "local/seo-proteinas.json + local/schema-proteinas.json + mu-plugin local/mu-plugins/sp-schema-proteinas.php (term 18)",
+    "fuentes": [
+      "HTML en vivo de https://suplementospanama.net/creatina/ (title, meta, H1, ItemList roto, productos y enlaces, 2026-10-08)",
+      "REST API: /wp-json/wp/v2/product_cat/258",
+      "KB SEO ecommerce (metodologia, on-page, local) + contexto-suplementos-panama",
+      "mu-plugin sp-schema-proteinas.php (patron a replicar)",
+      "local/seo-proteinas.json y local/schema-proteinas.json (patron on-page y schema)"
+    ]
+  },
+
+  "diagnostico_actual": {
+    "h1_actual": null,
+    "h1_actual_nota": "0 etiquetas <h1> en todo el documento de /creatina/. El header solo imprime el term-description. Hay que crear un H1 real.",
+    "itemlist_actual": "ROTO. Rank Math emite un @graph con un string 'https://schema.org' mezclado con un array anidado y los item sin @type, sin precio ni disponibilidad (mismo bug que en /proteinas/).",
+    "count_productos": 27,
+    "paginacion": "3 paginas (/creatina/page/2/, /creatina/page/3/).",
+    "title_actual": "Creatina En Panamá | Monohidrato, Creapure Y Más | Suplementos Panamá",
+    "meta_actual": "La creatina que aumenta tu fuerza, masa muscular y rendimiento. Ideal para entrenar más fuerte y lograr resultados más rápidos. (CON CLAIMS)",
+    "focus_keyword_actual": "Creatina (demasiado corta)",
+    "og_description_actual": "CON CLAIMS (menciona aumentar fuerza, ganar masa muscular, mejorar potencia/resistencia).",
+    "intro_actual": "CON CLAIMS ('aumentar tu fuerza, ganar masa muscular y rendir mejor...').",
+    "canonical": "https://suplementospanama.net/creatina/ (autorreferencial correcto)",
+    "robots": "follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"
+  },
+
+  "1_rank_math_title": {
+    "recomendado": "Creatina en Panamá | Monohidratada, Micronizada y Creapure",
+    "chars": 58,
+    "keyword_al_inicio": true,
+    "claims": false,
+    "profundidad": "Head term local al inicio + enumeracion de formatos (cubre 'creatina monohidratada', 'creatina micronizada') + Creapure (termino de ingrediente con busqueda; mantiene continuidad con el title actual).",
+    "alternativas": [
+      { "texto": "Creatina en Panamá | Monohidratada, Micronizada y Sin Sabor", "chars": 60 },
+      { "texto": "Creatina en Panamá | Monohidratada y Micronizada", "chars": 49 },
+      { "texto": "Creatina en Panamá | Monohidratada, Micronizada y Más", "chars": 55 }
+    ]
+  },
+
+  "2_rank_math_description": {
+    "recomendado": "Compra creatina en Panamá 100% original: monohidratada, micronizada, sin sabor o saborizada. Envío nacional gratis desde $150 y retiro gratis en 6 sucursales.",
+    "chars": 158,
+    "claims": false,
+    "diferenciadores_incluidos": ["100% original", "envío nacional", "envío gratis desde $150", "retiro gratis en 6 sucursales", "formatos monohidratada/micronizada", "sin sabor o saborizada"],
+    "no_repite_el_title": true
+  },
+
+  "3_focus_keyword_y_secundarias": {
+    "focus_keyword": "creatina en Panamá",
+    "rank_math_focus_keyword_aplicar": "creatina en Panamá",
+    "rank_math_focus_keyword_alternativo_con_variantes": "creatina en Panamá,creatinas en Panamá,comprar creatina en Panamá",
+    "keywords_secundarias": [
+      "creatina en panama",
+      "creatinas en Panamá",
+      "comprar creatina en Panamá",
+      "creatina monohidratada Panamá",
+      "creatina micronizada Panamá",
+      "creatina original Panamá",
+      "creatina Panamá precio"
+    ],
+    "intencion": "Transaccional + local (comprar / dónde comprar / retirar cerca)",
+    "nota_acentos": "Google normaliza tildes, pero conviene cubrir la forma sin tilde 'creatina en panama' en el copy/H1 en texto plano (se incluye en secundarias)."
+  },
+
+  "4_term_description": {
+    "uso": "Reemplaza el term-description actual (con claims) del term 258. Es el intro visible + contenido unico on-page (~198 palabras). Incluye enlaces a subcategorias, sucursales, proteinas y combos.",
+    "palabras_aprox": 198,
+    "claims": false,
+    "html": "<p>En <strong>Suplementos Panamá</strong> encuentras creatina 100% original para tu rutina de entrenamiento. Si buscas <strong>creatina en Panamá</strong>, compra online y recíbela en todo el país, o retírala gratis en nuestras 6 sucursales: El Cangrejo, Megapolis, Atrio Mall, San Francisco, Altos de Panamá y Metromall.</p>\n<p>Trabajamos las principales formas de creatina: la <a href=\"/creatina/creatina-monohidratada/\">creatina monohidratada</a>, la más conocida y comercializada; y la <a href=\"/creatina/creatina-micronizada/\">creatina micronizada</a>, molida más fina para mezclarse con facilidad. También hay opciones <a href=\"/creatina/creatina-con-estimulantes/\">con y sin estimulantes</a>, en versiones sin sabor y saborizadas, de marcas como Nutrex, Optimum Nutrition, Evogen, Mutant, BPI Sports y Forzagen.</p>\n<p>La creatina es un suplemento de uso habitual entre quienes entrenan en gimnasio, practican deportes de fuerza o buscan completar su rutina de suplementación. En cada ficha ves tamaño, porciones, sabor y disponibilidad actualizada.</p>\n<p>Compra creatina en Panamá con envío a todo el país, envío gratis desde $150 y pago con tarjeta o Yappy. Todos los productos son sellados y originales. Nuestros asesores en sucursal te orientan si tienes dudas. Pide online y retira en la sucursal más cercana o recibe en tu casa. Si quieres complementar tu rutina, revisa también <a href=\"/proteinas/\">proteínas en Panamá</a> y los <a href=\"/promociones/combos/\">combos con descuento</a>.</p>",
+    "h1_sugerido": {
+      "texto": "Creatina en Panamá: monohidratada, micronizada y más",
+      "chars": 55,
+      "nota": "Hoy no existe H1. Insertar UN solo H1 antes del term-description (editar template de categoria del child). Requiere AVISAR + backup + validar los 4 flujos de retiro en sucursal (docs/RETIRO-SUCURSAL.md, seccion 5). Alternativa sin tocar template: bloque de titulo (Elementor/HTML) inmediatamente antes del term-description."
+    }
+  },
+
+  "5_internal_links": {
+    "parent": { "anchor": "Creatina", "url": "/creatina/" },
+    "hijos": [
+      { "anchor": "creatina monohidratada", "url": "/creatina/creatina-monohidratada/" },
+      { "anchor": "creatina micronizada", "url": "/creatina/creatina-micronizada/" },
+      { "anchor": "creatina con estimulantes", "url": "/creatina/creatina-con-estimulantes/" }
+    ],
+    "salientes_en_term_description": [
+      { "anchor": "creatina monohidratada", "url": "/creatina/creatina-monohidratada/" },
+      { "anchor": "creatina micronizada", "url": "/creatina/creatina-micronizada/" },
+      { "anchor": "con y sin estimulantes", "url": "/creatina/creatina-con-estimulantes/" },
+      { "anchor": "proteínas en Panamá", "url": "/proteinas/" },
+      { "anchor": "combos con descuento", "url": "/promociones/combos/" }
+    ],
+    "relacionadas": [
+      { "anchor": "pre-entrenos en Panamá", "url": "/pre-entrenos/" },
+      { "anchor": "aminoácidos", "url": "/aminoacidos/" },
+      { "anchor": "creatina en oferta", "url": "/promociones/descuentos/" },
+      { "anchor": "marcas de suplementos", "url": "/marcas/" },
+      { "anchor": "retiro en 6 sucursales", "url": "/sucursales/" }
+    ],
+    "productos_creatina_relevantes": [
+      { "anchor": "Creatina Monohidratada Nutrex 200 Serv", "url": "/product/creatina-monohidratada-nutrex-2/" },
+      { "anchor": "Creatina Monohidratada Nutrex 60 Serv", "url": "/product/creatina-monohidratada-nutrex/" },
+      { "anchor": "Creatina Monohidratada Forzagen 72 Serv", "url": "/product/creatina-monohidratada-forzagen/" },
+      { "anchor": "Creatina Micronizada Monohidratada Evogen 60 Serv", "url": "/product/creatina-micronizada-monohidratada/" },
+      { "anchor": "Creatina Micronizada en Polvo Optimum Nutrition", "url": "/product/creatina-micronizada-en-polvo/" },
+      { "anchor": "Creatina Micronizada BPI Sports 600g", "url": "/product/creatina-micronizada-bpi/" },
+      { "anchor": "Creakong Creatina Mutant 75 Serv", "url": "/product/creakong-creatina-mutant-75-serv/" },
+      { "anchor": "Creatina 80 Serving Unflavored", "url": "/product/creatina-80-serving-unflavored/" },
+      { "anchor": "Creatina Sin Estimulantes Muscleology", "url": "/product/creatina-sin-estimulantes/" },
+      { "anchor": "Creatina Angry Supplements 300 mg", "url": "/product/angry-supplements-creatina-300-mg/" },
+      { "anchor": "Combo ISO 100 Fruity Pebbles + Creatina Angry Supplements", "url": "/product/combo-iso-100-fruity-pebbles-creatina-angry-supplements/" }
+    ],
+    "entrantes_sugeridos": [
+      { "origen": "/ (home) - seccion de categorias", "anchor": "Creatina en Panamá" },
+      { "origen": "/proteinas/ (categoria)", "anchor": "creatina en Panamá" },
+      { "origen": "/pre-entrenos/ y /aminoacidos/", "anchor": "creatina en Panamá" },
+      { "origen": "/sucursales/{slug}/ (6 landings)", "anchor": "creatina en Panamá" },
+      { "origen": "Fichas de creatina (bloque relacionados)", "anchor": "Ver toda la creatina en Panamá" },
+      { "origen": "Blog de creatina (post 'Creatina para mujeres...')", "anchor": "comprar creatina en Panamá" }
+    ],
+    "anchor_objetivo_entrante": "creatina en Panamá",
+    "nota": "Anchors descriptivos y variados; evitar 'clic aquí'. No enlazar a subcategorias vacias si las hubiera (revisar count de cada hijo)."
+  },
+
+  "6_schema": {
+    "tipo": "JSON-LD en un unico @graph (mirroring sp-schema-proteinas.php)",
+    "replicar_mu_plugin": {
+      "origen": "local/mu-plugins/sp-schema-proteinas.php",
+      "destino_sugerido": "wp-content/mu-plugins/sp-schema-creatinas.php",
+      "condicion": "is_product_category('creatina')",
+      "prefijo_funciones": "sp_creatinas_",
+      "acciones": [
+        "Filtro rank_math/json_ld (prio 999): elimina el ItemList roto SOLO en is_product_category('creatina') (mismo helper sp_creatinas_drop_itemlist).",
+        "add_action('wp_head', ..., 99): emite UN bloque <script class=\"sp-schema-creatinas\"> con el @graph limpio.",
+        "Usa sp_branch_all() para las 6 sucursales (fuente unica).",
+        "NO emite BreadcrumbList propio (Rank Math ya lo emite) ni toca functions.php del child, combo-price.php ni las funciones sp_* de retiro en sucursal."
+      ]
+    },
+    "nodos_del_grafo": [
+      { "@type": ["Store", "SportingGoodsStore", "Organization"], "@id": "https://suplementospanama.net/#organization", "rol": "entidad local (fusiona con Rank Math); knowsAbout con creatina" },
+      { "@type": "WebSite", "@id": "https://suplementospanama.net/#website", "rol": "sitio + SearchAction (Sitelinks Searchbox)" },
+      { "@type": "CollectionPage", "@id": "https://suplementospanama.net/creatina/#webpage", "rol": "pagina de listado; mainEntity -> #itemlist" },
+      { "@type": "ItemList", "@id": "https://suplementospanama.net/creatina/#itemlist", "rol": "catalogo; ListItem -> Product -> Offer (precio USD, availability, brand, sku, gtin)" },
+      { "@type": "FAQPage", "@id": "https://suplementospanama.net/creatina/#faq", "rol": "preguntas frecuentes (debe coincidir con el FAQ visible)" },
+      { "@type": "SportingGoodsStore", "@id": "https://suplementospanama.net/sucursales/{slug}/#branch", "rol": "6 nodos de sucursal (geo, direccion, horarios) referenciados desde subOrganization" },
+      { "@type": "BreadcrumbList", "@id": "(Rank Math, sin @id)", "rol": "YA emitido por Rank Math — NO duplicar" }
+    ],
+    "ids_compartidos_con_rank_math": [
+      "https://suplementospanama.net/#organization",
+      "https://suplementospanama.net/#website",
+      "https://suplementospanama.net/sucursales/{slug}/#branch"
+    ],
+    "jsonld_plantilla": {
+      "_nota": "Placeholders dinamicos. El PHP toma los valores reales en cada request. ItemList = productos de la pagina actual (con paginacion /page/N/).",
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["Store", "SportingGoodsStore", "Organization"],
+          "@id": "{{SITE_URL}}#organization",
+          "name": "Suplementos Panamá",
+          "url": "{{SITE_URL}}",
+          "logo": "{{SITE_LOGO_URL}}",
+          "telephone": "{{ORG_TELEPHONE}}",
+          "areaServed": [
+            { "@type": "City", "name": "Ciudad de Panamá" },
+            { "@type": "Country", "name": "Panamá" }
+          ],
+          "currenciesAccepted": "USD",
+          "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Yappy"],
+          "knowsAbout": ["Creatina", "Creatina monohidratada", "Creatina micronizada", "Creapure", "Suplementos deportivos"],
+          "subOrganization": [
+            { "@id": "{{SITE_URL}}sucursales/el-cangrejo/#branch" },
+            { "@id": "{{SITE_URL}}sucursales/megapolis/#branch" },
+            { "@id": "{{SITE_URL}}sucursales/atrio-mall/#branch" },
+            { "@id": "{{SITE_URL}}sucursales/san-francisco/#branch" },
+            { "@id": "{{SITE_URL}}sucursales/altos-de-panama/#branch" },
+            { "@id": "{{SITE_URL}}sucursales/metromall/#branch" }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "{{SITE_URL}}#website",
+          "url": "{{SITE_URL}}",
+          "name": "Suplementos Panamá",
+          "inLanguage": "es-PA",
+          "publisher": { "@id": "{{SITE_URL}}#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": { "@type": "EntryPoint", "urlTemplate": "{{SITE_URL}}?s={search_term_string}" },
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "CollectionPage",
+          "@id": "{{PAGE_URL}}#webpage",
+          "url": "{{PAGE_URL}}",
+          "name": "Creatina en Panamá",
+          "description": "{{CATEGORY_DESCRIPTION}}",
+          "inLanguage": "es-PA",
+          "isPartOf": { "@id": "{{SITE_URL}}#website" },
+          "about": { "@type": "Thing", "name": "Creatina" },
+          "primaryImageOfPage": "{{SITE_LOGO_URL}}",
+          "mainEntity": { "@id": "{{PAGE_URL}}#itemlist" }
+        },
+        {
+          "@type": "ItemList",
+          "@id": "{{PAGE_URL}}#itemlist",
+          "name": "Creatina",
+          "numberOfItems": "{{ITEM_COUNT}}",
+          "itemListOrder": "https://schema.org/ItemListUnordered",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": "{{POSITION}}",
+              "item": {
+                "@type": "Product",
+                "@id": "{{PRODUCT_URL}}#product",
+                "name": "{{PRODUCT_NAME}}",
+                "url": "{{PRODUCT_URL}}",
+                "image": "{{PRODUCT_IMAGE}}",
+                "category": "Creatina",
+                "brand": { "@type": "Brand", "name": "{{PRODUCT_BRAND}}" },
+                "sku": "{{PRODUCT_SKU}}",
+                "gtin13": "{{PRODUCT_GTIN}}",
+                "offers": {
+                  "@type": "Offer",
+                  "url": "{{PRODUCT_URL}}",
+                  "price": "{{PRODUCT_PRICE}}",
+                  "priceCurrency": "{{CURRENCY}}",
+                  "availability": "{{AVAILABILITY}}",
+                  "itemCondition": "https://schema.org/NewCondition",
+                  "seller": { "@id": "{{SITE_URL}}#organization" }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "{{PAGE_URL}}#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "¿Dónde comprar creatina en Panamá?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Puedes comprar creatina en Panamá online en suplementospanama.net y recibirla en todo el país, o retirarla gratis en cualquiera de nuestras 6 sucursales: El Cangrejo, Megapolis, Atrio Mall, San Francisco, Altos de Panamá y Metromall."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Qué diferencia hay entre la creatina monohidratada y la micronizada?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "La diferencia está en el formato: la creatina monohidratada es la presentación más conocida y comercializada, mientras que la micronizada se muele más fina para facilitar su mezcla. Ambas están disponibles en nuestra categoría de creatina en Panamá."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Cuánto cuesta la creatina en Panamá?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "El precio depende de la marca, el tamaño y la cantidad de porciones. En cada ficha de producto ves el precio actualizado y las ofertas vigentes."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Hacen envíos de creatina a todo Panamá y puedo retirar en sucursal?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sí. Enviamos a todo Panamá y el envío es gratis en compras desde $150. También puedes comprar online y retirar gratis en la sucursal que elijas al finalizar la compra, en cualquiera de nuestras 6 ubicaciones."
+              }
+            }
+          ]
+        },
+        {
+          "@type": "SportingGoodsStore",
+          "@id": "{{SITE_URL}}sucursales/el-cangrejo/#branch",
+          "name": "Suplementos Panamá El Cangrejo",
+          "url": "{{SITE_URL}}sucursales/el-cangrejo/",
+          "telephone": "+507 6818-2546",
+          "address": { "@type": "PostalAddress", "streetAddress": "Av. Manuel Espinoza Batista, Plaza El Cangrejo L7", "addressLocality": "Ciudad de Panamá", "addressRegion": "Panamá", "addressCountry": "PA" },
+          "geo": { "@type": "GeoCoordinates", "latitude": "8.9842946", "longitude": "-79.5302391" },
+          "openingHoursSpecification": [
+            { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "20:00" },
+            { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday", "Sunday"], "opens": "09:00", "closes": "17:30" }
+          ],
+          "parentOrganization": { "@id": "{{SITE_URL}}#organization" }
+        }
+      ]
+    },
+    "mapeo_placeholders": [
+      { "placeholder": "{{SITE_URL}}", "fuente": "home_url('/')" },
+      { "placeholder": "{{SITE_LOGO_URL}}", "fuente": "logo Rank Math / media (sp_con-valor-negro.png)" },
+      { "placeholder": "{{ORG_TELEPHONE}}", "fuente": "Rank Math Local SEO Organization" },
+      { "placeholder": "{{PAGE_URL}}", "fuente": "get_term_link($term) + '/page/N/' si paginada" },
+      { "placeholder": "{{CATEGORY_DESCRIPTION}}", "fuente": "wp_strip_all_tags($term->description)" },
+      { "placeholder": "{{ITEM_COUNT}}", "fuente": "count($items) (productos de la pagina actual)" },
+      { "placeholder": "{{POSITION}}", "fuente": "indice incremental 1..N (entero)" },
+      { "placeholder": "{{PRODUCT_URL}}", "fuente": "get_permalink($id)" },
+      { "placeholder": "{{PRODUCT_NAME}}", "fuente": "$product->get_name()" },
+      { "placeholder": "{{PRODUCT_IMAGE}}", "fuente": "wp_get_attachment_image_url($product->get_image_id(),'full') ?: wc_placeholder_img_src()" },
+      { "placeholder": "{{PRODUCT_BRAND}}", "fuente": "product_brand | pa_brand | pa_marca (omitir si vacio)" },
+      { "placeholder": "{{PRODUCT_SKU}}", "fuente": "$product->get_sku() (omitir si vacio)" },
+      { "placeholder": "{{PRODUCT_GTIN}}", "fuente": "SKU numerico 8/12/13/14 -> gtin8/12/13/14 (omitir si no aplica)" },
+      { "placeholder": "{{PRODUCT_PRICE}}", "fuente": "$product->get_price(); si grouped -> _combo_price. wc_format_decimal($p,2)" },
+      { "placeholder": "{{CURRENCY}}", "fuente": "get_woocommerce_currency() = USD" },
+      { "placeholder": "{{AVAILABILITY}}", "fuente": "$product->is_in_stock() ? InStock : OutOfStock" }
+    ],
+    "itemlist_pagina_1_productos_reales": [
+      { "position": 1, "name": "ANGRY SUPPLEMENTS CREATINA 300 MG", "url": "https://suplementospanama.net/product/angry-supplements-creatina-300-mg/", "image": "https://suplementospanama.net/wp-content/uploads/2026/07/810069201535.jpg" },
+      { "position": 2, "name": "Creakong Creatina - Mutant - 75 Servings", "url": "https://suplementospanama.net/product/creakong-creatina-mutant-75-serv/", "image": "https://suplementospanama.net/wp-content/uploads/2026/10/creakong-creatina-mutant-75-serv.jpg" },
+      { "position": 3, "name": "CREATINA 80 SERVING UNFLAVORED", "url": "https://suplementospanama.net/product/creatina-80-serving-unflavored/", "image": "https://suplementospanama.net/wp-content/uploads/2026/07/650076635219.jpg" },
+      { "position": 4, "name": "Creatina Micronizada BPI Sports 600g - 120 Serv - Sin Sabor", "url": "https://suplementospanama.net/product/creatina-micronizada-bpi/", "image": "https://suplementospanama.net/wp-content/uploads/2024/06/Creatina-Micronizada-BPI-Sports-120-Serv-Sin-Sabor.webp" },
+      { "position": 5, "name": "Creatina Micronizada en Polvo - Optimum Nutrition", "url": "https://suplementospanama.net/product/creatina-micronizada-en-polvo/", "image": "https://suplementospanama.net/wp-content/uploads/2025/03/ON-Creatina-Micronizada-en-Polvo-60-Serv.webp" },
+      { "position": 6, "name": "Creatina Micronizada Monohidratada - Evogen - 60 Serv", "url": "https://suplementospanama.net/product/creatina-micronizada-monohidratada/", "image": "https://suplementospanama.net/wp-content/uploads/2025/03/Creatina-Micronizada-Monohidratada-Evogen-60-Serv.webp" },
+      { "position": 7, "name": "Creatina Monohidratada - Forzagen - 72 Srv", "url": "https://suplementospanama.net/product/creatina-monohidratada-forzagen/", "image": "https://suplementospanama.net/wp-content/uploads/2025/05/Creatina-Monohidratada-Forzagen-72-Serv-2.webp" },
+      { "position": 8, "name": "Creatina Monohidratada - Nutrex - 200 Serv", "url": "https://suplementospanama.net/product/creatina-monohidratada-nutrex-2/", "image": "https://suplementospanama.net/wp-content/uploads/2025/05/Creatina-Monohidratada-Nutrex-200-Serv.webp" },
+      { "position": 9, "name": "Creatina Monohidratada 60 serv - Nutrex", "url": "https://suplementospanama.net/product/creatina-monohidratada-nutrex/", "image": "https://suplementospanama.net/wp-content/uploads/2024/06/Creatina-Monohidratada-Nutrex-60-Serv.webp" },
+      { "position": 10, "name": "Creatina Sin Estimulantes - Categoría 5 - Muscleology - Sabor StrawBurst", "url": "https://suplementospanama.net/product/creatina-sin-estimulantes/", "image": "https://suplementospanama.net/wp-content/uploads/2024/12/Polvo-de-Creatina-Sin-Estimulantes-Categoria-5-Muscleology-Sabor-StrawBurst.webp" }
+    ],
+    "notas_implementacion": [
+      "El PHP debe calcular precio/marca/SKU/GTIN en vivo; NO inventar datos. Omitir la propiedad si no existe.",
+      "El FAQPage SOLO es valido si en la pagina hay un FAQ visible con ese mismo contenido (bloque 'FAQ by Rank Math' o el bloque de preguntas). Si no se agrega FAQ visible, NO emitir FAQPage.",
+      "No duplicar BreadcrumbList (Rank Math ya lo emite) ni Product sueltos fuera del ItemList.",
+      "Validar con Rich Results Test y Schema Markup Validator; purgar cache SiteGround tras desplegar.",
+      "Paginacion: CollectionPage/ItemList usan @id con /page/N/ cuando aplica; el canonical sigue siendo /creatina/."
+    ]
+  },
+
+  "7_notas_seo": {
+    "canibalizacion": {
+      "problema": "La categoria padre /creatina/ y sus subcategorias pueden competir por el mismo termino generico si todas se optimizan por 'creatina en Panamá'.",
+      "regla": "Propiedad de keyword por URL (una intencion por pagina).",
+      "propiedad_keywords": [
+        { "url": "/", "keyword": "suplementos Panamá / tienda de suplementos Panamá", "nota": "El home NO pelea por 'creatina en Panamá'; enlaza a la categoria con anchor 'creatina en Panamá'." },
+        { "url": "/creatina/", "keyword": "creatina en Panamá / creatinas en Panamá / comprar creatina en Panamá / creatina original Panamá", "nota": "DUENA del generico local. Aqui va title/meta/H1/FAQ con el head term." },
+        { "url": "/creatina/creatina-monohidratada/", "keyword": "creatina monohidratada Panamá / creatina monohidratada precio Panamá", "nota": "Formato + local. NO usar el generico." },
+        { "url": "/creatina/creatina-micronizada/", "keyword": "creatina micronizada Panamá", "nota": "Formato + local." },
+        { "url": "/creatina/creatina-con-estimulantes/", "keyword": "creatina con estimulantes / sin estimulantes Panamá", "nota": "Formato + local. Revisar naming (el slug dice 'con estimulantes' y hay producto 'sin estimulantes')." },
+        { "url": "/product/<ficha>/", "keyword": "marca + formato (ej. 'creatina nutrex Panamá', 'creatina on Panamá')", "nota": "Mantener title/meta de marca; NO poner 'creatina en Panamá' generico." }
+      ],
+      "acciones_anti_canibalizacion": [
+        "Padre /creatina/ dueña del generico; hijas con formato+local; fichas con marca+formato.",
+        "Home y /proteinas/ enlazan a /creatina/ con anchor 'creatina en Panamá' (refuerzo entrante).",
+        "No repetir 'creatina en Panamá' en el title de las subcategorias.",
+        "Revisar que las 3 subcategorias tengan productos suficientes (revisar count); si alguna esta vacia, no enlazarla desde el intro."
+      ]
+    },
+    "h1": {
+      "estado_actual": "0 H1 en /creatina/.",
+      "recomendado": "Creatina en Panamá: monohidratada, micronizada y más",
+      "reglas": ["Un solo H1 por pagina.", "Keyword local al inicio.", "Alineado con la intencion transaccional local."],
+      "implementacion": "Agregar H1 antes del term-description en el template de categoria del child. AVISAR antes (AGENTS.md): backup en servidor y validar los 4 flujos de retiro en sucursal (docs/RETIRO-SUCURSAL.md, seccion 5) al terminar. Alternativa sin tocar template: bloque de titulo (Elementor/HTML) inmediatamente antes del intro."
+    },
+    "metas_de_term_a_escribir_wp_cli": {
+      "nota": "Rank Math guarda el SEO de CATEGORIAS en TERM META. Usar 'wp term meta update <term_id> ...' (NO 'wp post meta update', que apunta a un POST). term_id = 258.",
+      "comandos": [
+        "wp term meta update 258 rank_math_title 'Creatina en Panamá | Monohidratada, Micronizada y Creapure'",
+        "wp term meta update 258 rank_math_description 'Compra creatina en Panamá 100% original: monohidratada, micronizada, sin sabor o saborizada. Envío nacional gratis desde $150 y retiro gratis en 6 sucursales.'",
+        "wp term meta update 258 rank_math_focus_keyword 'creatina en Panamá'",
+        "wp term meta update 258 rank_math_facebook_title 'Creatina en Panamá: monohidratada, micronizada y más'",
+        "wp term meta update 258 rank_math_facebook_description 'Encuentra creatina 100% original en Panamá: monohidratada, micronizada y con o sin estimulantes. Envío a todo el país y retiro gratis en 6 sucursales.'",
+        "wp term meta update 258 rank_math_twitter_use_facebook 'on'",
+        "wp term meta update 258 rank_math_robots '[\"index\",\"follow\"]' --format=json"
+      ],
+      "verificacion": [
+        "wp term meta get 258 rank_math_title",
+        "wp term meta get 258 rank_math_description",
+        "wp term meta get 258 rank_math_focus_keyword"
+      ],
+      "actualizar_term_description": [
+        "wp term update product_cat 258 --description='<p>En Suplementos Panamá encuentras creatina 100% original ...</p>'"
+      ]
+    },
+    "faq_sugerido": [
+      { "pregunta": "¿Dónde comprar creatina en Panamá?", "respuesta": "Puedes comprar creatina en Panamá online en suplementospanama.net y recibirla en todo el país, o retirarla gratis en cualquiera de nuestras 6 sucursales: El Cangrejo, Megapolis, Atrio Mall, San Francisco, Altos de Panamá y Metromall.", "fuente": "Autocomplete + local" },
+      { "pregunta": "¿Qué diferencia hay entre la creatina monohidratada y la micronizada?", "respuesta": "La diferencia está en el formato: la creatina monohidratada es la presentación más conocida y comercializada, mientras que la micronizada se muele más fina para facilitar su mezcla. Ambas están disponibles en nuestra categoría de creatina en Panamá.", "fuente": "Informativa / formatos" },
+      { "pregunta": "¿Cuánto cuesta la creatina en Panamá?", "respuesta": "El precio depende de la marca, el tamaño y la cantidad de porciones. En cada ficha de producto ves el precio actualizado y las ofertas vigentes.", "fuente": "Autocomplete 'creatina panama precio'", "nota": "No inventar precios; dirigir a la ficha y a /promociones/descuentos/." },
+      { "pregunta": "¿Hacen envíos de creatina a todo Panamá y puedo retirar en sucursal?", "respuesta": "Sí. Enviamos a todo Panamá y el envío es gratis en compras desde $150. También puedes comprar online y retirar gratis en la sucursal que elijas al finalizar la compra, en cualquiera de nuestras 6 ubicaciones.", "fuente": "Local / logística" }
+    ],
+    "observaciones_adicionales": [
+      "Muchos NOMBRES de producto de la categoria incluyen claims ('Aumenta Fuerza y Rendimiento'). No es parte de esta tarea (on-page de la categoria), pero conviene revisarlos por compliance en una tarea aparte.",
+      "El og:image actual es el logo del sitio; idealmente subir una imagen OG 1200x630 propia de la categoria Creatina (no bloqueante).",
+      "Recomendado agregar el bloque FAQ visible (Rank Math 'FAQ by Rank Math') para que el FAQPage coincida con contenido visible.",
+      "Monitorear en GSC: impresiones/clics/posicion de /creatina/ por 'creatina en panamá' antes y despues (30/60/90 dias)."
+    ]
+  },
+
+  "plan_implementacion_sugerido": [
+    { "id": 1, "accion": "Aplicar title, meta, focus keyword y OG reformulados (wp term meta update 258) + actualizar term description", "area": "On-page", "impacto": "Alto", "esfuerzo": "Bajo", "prioridad": "P0" },
+    { "id": 2, "accion": "Crear H1 real de la categoria e insertar bloque FAQ visible (4 preguntas)", "area": "On-page", "impacto": "Alto", "esfuerzo": "Medio", "prioridad": "P0 (avisar por edit de template)" },
+    { "id": 3, "accion": "Desplegar mu-plugin sp-schema-creatinas.php (CollectionPage+ItemList bonito+FAQPage+Store/branches) y retirar el ItemList roto", "area": "Tecnico/Schema", "impacto": "Alto", "esfuerzo": "Medio", "prioridad": "P0" },
+    { "id": 4, "accion": "Reforzar enlazado interno entrante a /creatina/ (home, /proteinas/, /sucursales/, fichas, blog) con anchor 'creatina en Panamá'", "area": "Estrategico/On-page", "impacto": "Alto", "esfuerzo": "Bajo-Medio", "prioridad": "P1" },
+    { "id": 5, "accion": "Revisar/corregir titles de subcategorias para que no canibalicen el generico (formato+local)", "area": "On-page", "impacto": "Medio", "esfuerzo": "Bajo", "prioridad": "P1" },
+    { "id": 6, "accion": "Validar con Rich Results Test + Schema Validator; purgar cache; solicitar indexacion en GSC; medir 30/60/90 dias", "area": "Tracking", "impacto": "Medio", "esfuerzo": "Bajo", "prioridad": "P1 continua" }
+  ],
+
+  "restricciones_no_tocar": [
+    "NO tocar las funciones sp_* de sucursal/carrito/checkout en functions.php del child.",
+    "NO tocar el mu-plugin combo-price.php, ni sp_sucursal_js(), ni la meta _sucursales_disponibles.",
+    "Si el H1/FAQ requiere editar functions.php o templates: AVISAR, respaldar y validar los 4 flujos de retiro en sucursal (docs/RETIRO-SUCURSAL.md, seccion 5).",
+    "No editar _elementor_data con update_post_meta (usar update_metadata + wp_slash).",
+    "Este entregable NO modifico el sitio."
+  ]
+}
