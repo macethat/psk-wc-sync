@@ -535,3 +535,44 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Metas de sucursal OK: simples (9190, 21456, 21457, 22135) con `_sucursales_disponibles`; variaciones (p.ej. 22159) con meta. Combos grouped usan hijos via `sp_get_cart_item_ids()`.
 - Simulacion de carrito (`wp eval-file`): simple 9190, combo 21516, combo 21961 y variable 19364 -> `sp_get_valid_sucursales_for_cart()` = `[1,5,6,7,8,10]` y `sp_cart_sucursal_field()` SI renderiza el `<select id="sp_sucursal_retiro_cart">` (oculto por defecto; el JS lo muestra al marcar "Recoger en local").
 - Conclusion: el retiro en sucursal NO esta roto. El select aparece al seleccionar "Recoger en local" en el carrito. Verificado simple/combo/variable (flujo carrito). Codigo del repo = codigo desplegado.
+
+## 2026-10-06 a 2026-10-10 - Sesion: Online Sale + productos nuevos + NUEVO + footer + SEO creatina + fixes sucursales
+
+### Online Sale (home / campana)
+- Pagina "Black Weekend" renombrada a **Online Sale SP** (slug `online-sale-sp`, titulo "Online Sale SP"); **301** de `/black-weekend/` -> `/online-sale-sp/` (mu-plugin `sp-redirect-black-weekend.php`).
+- Menu principal: item **ONLINE SALE** -> `/online-sale-sp/` (antes BLACK WEEKEND); item **INICIO** arreglado (apuntaba a la pagina vieja 18625 en borrador -> 404) ahora -> home y en primera posicion.
+- Hero del home: badge/subtitulo naranja cambiado a **"MAS POWER SIN EXCUSAS >>"**.
+- Header de la pagina Online Sale: titulo **"DESCUENTOS EXCLUSIVOS SI COMPRAS AQUI"** y badge (arriba) **"Facil, Rapido y pagas menos"**.
+- Banners sustituidos por los de `C:\suplementos\home_nuevo\banner-online-sale` optimizados (JPG q82 + WebP q80, 3 medidas 1920x500 / 1200x480 / 1080x720) sobre `assets/banner-bw/`. Alt actualizado. `sp-dev-nocache.php` actualizado al slug nuevo.
+
+### Productos nuevos (2) creados
+- `745560722091` -> **BCAA + Glutamina Pina Colada - Impulse Suplement - 30 Serv** (ID 22273, $29.99).
+- `811662020172` -> **Creakong Creatina - Mutant - 75 Servings** (ID 22275, $25.99).
+- Cada uno: ficha (contenido del template), excerpt, imagen en Media (SEO alt/slug), categorias, marca (product_brand), metas Rank Math, stock global + por sucursal (`_sucursal_*`, `_sucursales_disponibles`). Entregables de agentes en `local/content_*|excerpt_*|marketing_*|seo_*|schema_*`.
+
+### Badge NUEVO
+- mu-plugin **`sp-nuevo-badge.php`**: marca con "NUEVO" (fondo naranja `#F65000`) los productos creados en los ultimos **14 dias**, en home (tarjetas + reel "Lo que mas nos piden"), ficha y grid de tienda/categoria (via clase `sp-es-nuevo` en el `<li>` y `woocommerce_post_class`).
+- Los productos nuevos se fuerzan al inicio del reel "Lo que mas nos piden".
+
+### Sync / combos
+- `daily_stock_update.py`: **excluidos de precio** los SKUs `842595106619`, `842595121650` (C4 Ultimate Energy Carb WWP Pack 12) y precio corregido a **$58.99**.
+- mu-plugin **`sp-combo-stock-sync.php`**: mantiene el `_stock_status` de los combos (grouped) alineado con sus hijos; integrado al sync diario (`run_sync.sh`). Home y `/promociones/combos/` ya no muestran combos agotados (IsoJect).
+
+### Footer
+- mu-plugin **`sp-footer-form-css.php`**: formulario de suscripcion MC4WP full-width y centrado en movil (el widget Elementor tenia `__width-auto`).
+
+### SEO - categoria /creatina/
+- Optimizada para **"creatina en Panama"**: Rank Math title/description/focus/OG, intro (~204 palabras) en el term description, H1 real + FAQ visible, schema `sp-schema-creatinas.php` (CollectionPage + ItemList + Store + 6 sucursales; elimina el ItemList roto de Rank Math).
+- Subcategorias (259/260/288) con metas formato+local (sin canibalizar el generico). Enlaces internos: `/proteinas/` -> `/creatina/`.
+- (Pendiente sugerido: medir en GSC 30/60/90 dias.)
+
+### Sucursales (hub y ficha)
+- Reel **"Suplementos recomendados para ti"** homologado: renderizado en **servidor** en hub (`page-sucursales.php`) y ficha (`page-sucursal-single.php`) con productos/precios/imagenes reales; se elimino el array hardcodeado del JS (`PRODUCTS`) y `initProductReel()` ahora solo muestra/oculta por filtro.
+- Hub **"Encuentra tu sucursal"**: miniatura (imagen hero) por sucursal dentro de la tarjeta, alineada con la linea de estado en desktop (CSS grid `#sp-branch-list`); movil apilado.
+- Ficha **"Otras sucursales cercanas"**: renderizada en servidor (3 mas cercanas a la sucursal) para que no quede vacia sin geolocalizacion; hint + boton **"Ordenar por mi ubicacion"** y mensajes de ayuda.
+- Fix puntual: imagen (miniatura) del combo "ISO 100 Fruity Pebbles + Creatina Angry" en el reel (URL 404 -> correcta) — luego reemplazado por el render en servidor.
+- Versiones: CSS `1.26`, JS `1.17`.
+
+### Commits / repos
+- Submodulo `psk-sucursales` (rama `master`) y repo principal `psk-wc-sync` (rama `feature/retiro-sucursal`): al dia con `origin`. Funcionalidad de retiro en sucursal NO tocada (`functions.php` md5 `ed6779fdc763209f7e5adfb54668b4a3`).
+
