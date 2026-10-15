@@ -576,3 +576,14 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 ### Commits / repos
 - Submodulo `psk-sucursales` (rama `master`) y repo principal `psk-wc-sync` (rama `feature/retiro-sucursal`): al dia con `origin`. Funcionalidad de retiro en sucursal NO tocada (`functions.php` md5 `ed6779fdc763209f7e5adfb54668b4a3`).
 
+## 2026-10-15 - Perfil "Encargado de Sucursal" para la App WooCommerce
+
+- **Motivo**: la app movil de WooCommerce solo acepta los roles `administrator` o `shop_manager`. Las cuentas de sucursal tenian el rol custom `branch_manager` -> la app las rechazaba.
+- **Solucion**: usar el rol **`shop_manager` recortado** para las sucursales.
+- **Backup del rol original** (93 permisos): `/tmp/shop_manager_caps_backup_20261015_163128.json` en el servidor.
+- **Permisos finales de `shop_manager` (12)**: `read`, `manage_woocommerce`, `edit_shop_order`, `edit_shop_orders`, `edit_others_shop_orders`, `edit_published_shop_orders`, `read_shop_order`, `read_private_shop_orders`, `view_woocommerce_reports` (estadisticas, solo lectura), `edit_products`, `read_product`, `read_private_products` (catalogo, solo lectura).
+- **Catalogo SOLO LECTURA**: mu-plugin `sp-shop-manager-menu.php` filtra `user_has_cap` y niega `edit_product`, `publish_products`, `delete_*`, `create_products` y terminos de producto -> pueden VER pero no crear/editar/borrar.
+- **Menu wp-admin**: solo WooCommerce -> Pedidos, Productos, Informes. Guard que redirige/bloquea Escritorio, Ajustes (WC y WP), Home/Analytics, Plugins, Usuarios, etc. Oculta el boton "Anadir pedido/producto" y bloquea `post-new.php` (pedidos y productos).
+- **Cuentas migradas** de `branch_manager` a `shop_manager` (6): cangrejosp (242), megapolissp (243), atriomallsp (244), centennialsp (245), sanfranciscosp (246), metromallsp (247).
+- **Pendiente/verificar**: que las 6 conecten en la app (Pedidos + Productos lectura + Estadisticas). El rol `branch_manager` queda sin uso.
+
