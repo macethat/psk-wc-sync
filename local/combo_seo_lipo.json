@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "generado": "2026-10-21",
+    "agente": "seo-ecommerce",
+    "proyecto": "Suplementos Panamá",
+    "sitio": "https://suplementospanama.net",
+    "plataforma": "WooCommerce + Rank Math SEO (child theme nutritix-child)",
+    "tarea": "SEO on-page de combo NUEVO tipo grouped (propuesta, sin publicar)",
+    "idioma": "español de Panamá",
+    "moneda": "USD",
+    "restricciones": "Sin claims médicos ni de resultados garantizados. No se publicó nada. Valores listos para cargar en Rank Math.",
+    "alcance": "Propuesta on-page (nombre, title, meta, focus keyword, slug, categorías, enlazado interno y notas). NO se modificó el sitio.",
+    "datos_verificados": "IDs, SKUs, URLs y categorías leídos desde la Store API pública de WooCommerce el 2026-10-21."
+  },
+
+  "producto": {
+    "tipo": "grouped",
+    "categoria_tipo": "Combos",
+    "marca": "LanderFit",
+    "precio_componentes_usd": 35.98,
+    "precio_componentes_detalle": "17.99 + 17.99 (precios vigentes con descuento al 2026-10-21)",
+    "imagen_local": "C:\\suplementos\\combos\\combos-nuevos\\lipo-revolution-landerfit-lipo-revolution-stim-free-landerfit.jpg",
+    "componentes": [
+      {
+        "id": 9186,
+        "nombre_actual": "LIPO REVOLUTION LANDERFIT 60 CAPS",
+        "nombre_sugerido": "Lipo Revolution Thermogenic – LanderFit 60 Caps",
+        "sku": "612590416439",
+        "url": "https://suplementospanama.net/product/lipo-revolution-landerfit-60-caps/",
+        "precio_usd": 17.99,
+        "categorias": ["Quemadores de Grasa", "Termogénicos y CLA", "Descuento Online"]
+      },
+      {
+        "id": 9175,
+        "nombre_actual": "LIPO REVOLUTION STIM FREE LANDERFIT 60 CAPS",
+        "nombre_sugerido": "Lipo Revolution Stim Free – LanderFit 60 Caps",
+        "sku": "612590416064",
+        "url": "https://suplementospanama.net/product/lipo-revolution-stim-free-landerfit-60-caps/",
+        "precio_usd": 17.99,
+        "categorias": ["Quemadores de Grasa", "Termogénicos y CLA", "Descuento Online"]
+      }
+    ]
+  },
+
+  "titulo_final": "Lipo Revolution Thermogenic + Lipo Revolution Stim Free – LanderFit",
+  "titulo_final_nota": "Evita repetir 'LANDERFIT' (una sola vez al final, como marca). Se mantiene 'Lipo Revolution' en ambos componentes porque así se llaman los dos productos y así busca la gente; el guion largo '–' separa la marca del stack.",
+
+  "rank_math_title": "Combo Lipo Revolution Thermogenic + Stim Free | Panamá",
+  "rank_math_title_chars": 54,
+  "rank_math_description": "Combo Lipo Revolution Thermogenic + Stim Free de LanderFit: 60 cápsulas de cada uno. Compra original en Panamá con envío o retiro gratis en 6 sucursales.",
+  "rank_math_description_chars": 153,
+
+  "focus_keyword": "combo lipo revolution",
+  "keywords_secundarias": [
+    "lipo revolution thermogenic + stim free",
+    "combo quemador de grasa LanderFit",
+    "combo lipo revolution Panamá",
+    "pack lipo revolution 60 cápsulas",
+    "thermogenic y stim free juntos"
+  ],
+
+  "slug": "combo-lipo-revolution-thermogenic-stim-free-landerfit",
+  "slug_alternativos": [
+    "lipo-revolution-thermogenic-stim-free-landerfit",
+    "combo-lipo-revolution-landerfit"
+  ],
+  "slug_nota": "Sigue la convención del sitio para combos ('combo-<producto>-<producto>', ej. 'combo-iso-100-fruity-pebbles-creatina-angry-supplements'). Sin mayúsculas, sin tildes, sin stopwords.",
+
+  "categoria_principal": {
+    "nombre": "Combos",
+    "slug": "combos",
+    "term_id": 284,
+    "url": "https://suplementospanama.net/promociones/combos/",
+    "razon": "Categoría del silo de promociones donde viven todos los grouped con _combo_price (27 productos hoy). Es el encaje correcto y ya está enlazada desde el menú de promociones."
+  },
+
+  "categorias_secundarias": [
+    {
+      "nombre": "Promociones",
+      "slug": "promociones",
+      "term_id": 219,
+      "url": "https://suplementospanama.net/promociones/",
+      "razon": "Padre de Combos. Todos los combos existentes la llevan; refuerza el silo y el breadcrumb."
+    },
+    {
+      "nombre": "Termogénicos y CLA",
+      "slug": "quemadores-de-grasa/termogenicos-y-cla",
+      "term_id": 267,
+      "url": "https://suplementospanama.net/quemadores-de-grasa/termogenicos-y-cla/",
+      "razon": "Categoría de ambos componentes (coincidencia exacta con los hijos).",
+      "condicional": true,
+      "nota": "Opcional. La convención del sitio agrega las categorías de los hijos, pero eso mete combos en el listado de categoría y desplaza producto individual (problema ya detectado en /proteinas/). Si se agrega, vigilar que /quemadores-de-grasa/termogenicos-y-cla/ no quede dominada por combos."
+    }
+  ],
+
+  "internal_links": [
+    {
+      "anchor": "combos de suplementos con descuento",
+      "url": "https://suplementospanama.net/promociones/combos/",
+      "tipo": "categoría",
+      "ubicacion": "breadcrumb y bloque de cierre de la ficha"
+    },
+    {
+      "anchor": "Lipo Revolution Thermogenic 60 cápsulas",
+      "url": "https://suplementospanama.net/product/lipo-revolution-landerfit-60-caps/",
+      "tipo": "ficha de componente",
+      "ubicacion": "tabla de contenido del combo (qué incluye)"
+    },
+    {
+      "anchor": "Lipo Revolution Stim Free 60 cápsulas",
+      "url": "https://suplementospanama.net/product/lipo-revolution-stim-free-landerfit-60-caps/",
+      "tipo": "ficha de componente",
+      "ubicacion": "tabla de contenido del combo (qué incluye)"
+    },
+    {
+      "anchor": "retiro gratis en 6 sucursales",
+      "url": "https://suplementospanama.net/sucursales/",
+      "tipo": "local",
+      "ubicacion": "bloque de envío y retiro"
+    }
+  ],
+
+  "internal_links_opcionales": [
+    {
+      "anchor": "termogénicos y CLA",
+      "url": "https://suplementospanama.net/quemadores-de-grasa/termogenicos-y-cla/",
+      "razon": "Refuerza el silo de quemadores solo si se decide categorizar el combo ahí."
+    },
+    {
+      "anchor": "toda la línea LanderFit",
+      "url": "https://suplementospanama.net/product-brand/suplementos-landerfit/",
+      "razon": "Enlace de marca; útil si se arma un bloque 'más de LanderFit'."
+    }
+  ],
+
+  "enlaces_entrantes_recomendados": [
+    {
+      "origen": "Ficha 9186 (Lipo Revolution Thermogenic)",
+      "anchor": "llévate Thermogenic + Stim Free en combo",
+      "nota": "Bloque 'completa tu stack' al final de la ficha. No cambiar el H1/title de la ficha individual."
+    },
+    {
+      "origen": "Ficha 9175 (Lipo Revolution Stim Free)",
+      "anchor": "compra el combo con la versión Thermogenic",
+      "nota": "Mismo bloque, anchor distinto para no repetir texto exacto."
+    }
+  ],
+
+  "notas_seo": {
+    "h1_recomendado": "Lipo Revolution Thermogenic + Lipo Revolution Stim Free – LanderFit",
+    "h1_nota": "En WooCommerce el H1 de la ficha es el nombre del producto: usar el mismo titulo_final para evitar duplicar señales con distinto texto. Un solo H1. El Rank Math title sí lleva 'Combo' al inicio para diferenciar la intención; no repetir el title exacto en el H1.",
+    "canibalizacion": "Tres URLs compiten por la misma familia de términos y hay que repartir la propiedad: (1) /product/lipo-revolution-landerfit-60-caps/ debe seguir siendo dueña de 'lipo revolution thermogenic' y 'lipo revolution landerfit'; (2) /product/lipo-revolution-stim-free-landerfit-60-caps/ de 'lipo revolution stim free'; (3) este combo debe ser dueño de 'combo lipo revolution', 'pack lipo revolution' y 'thermogenic + stim free juntos'. Por eso el title arranca con 'Combo' y la meta habla del par, no de un solo producto. No usar 'quemador de grasa' a secas ni 'termogénico Panamá' (los pelea la categoría /quemadores-de-grasa/). Tampoco repetir 'combos de suplementos' (lo posee /promociones/combos/).",
+    "riesgo_nombre_componente": "El producto 9186 se llama hoy 'LIPO REVOLUTION LANDERFIT 60 CAPS' (sin 'Thermogenic'), aunque su short description sí lo menciona. El combo usará 'Thermogenic' en el nombre: conviene agregarlo también al nombre del componente para que la entidad sea consistente y el enlace interno tenga coincidencia exacta. Renombrar NO cambia el slug (/product/lipo-revolution-landerfit-60-caps/), así que no requiere redirección.",
+    "terminos_ingles": "Mantener en inglés los términos de marca y fórmula: 'Thermogenic', 'Stim Free', 'LanderFit'. No traducir a 'termogénico' ni 'sin estimulantes' en el nombre del producto; esas traducciones van en el copy (ayudan a la búsqueda en español sin ensuciar el nombre). 'LanderFit' va una sola vez y en esa grafía (no LANDERFIT, no Landerfit en el title si ya está en el nombre).",
+    "estructura_ficha": [
+      "H2 'Qué incluye este combo': los dos frascos con enlace a cada ficha, 60 cápsulas c/u (30 servicios c/u).",
+      "H2 'Cuándo elegir Thermogenic y cuándo Stim Free': tabla simple con y sin estimulantes; sin prometer resultados.",
+      "H2 'Cómo usarlo en tu plan': remite a la dosis de cada etiqueta y a la advertencia de no duplicar estimulantes.",
+      "H2 'Envío y retiro en Panamá': envío gratis desde $150 y retiro en 6 sucursales.",
+      "H2 'Preguntas frecuentes': 3-4 preguntas (¿se pueden tomar juntos?, ¿cuál elegir si soy sensible a la cafeína?, ¿cuánto dura?, ¿puedo retirarlo hoy?)."
+    ],
+    "claims": "Sin claims médicos ni de resultados. Hablar de formato, composición y momento de uso. El Thermogenic contiene cafeína y estimulantes: mantener la advertencia de no combinar con otras fuentes de cafeína y de no usarlo de noche.",
+    "precios_en_texto": "No hardcodear el precio del combo ni el ahorro en la descripción. Si se pone 'por separado $35.98', verificar que coincida con la suma de precios vigentes: sp_auditar_combos.php marca desvíos automáticamente. El bloque de ahorro lo calcula _combo_price.",
+    "alt_imagen": "Combo Lipo Revolution Thermogenic + Stim Free de LanderFit, 60 cápsulas cada uno",
+    "nombre_archivo_imagen": "combo-lipo-revolution-thermogenic-stim-free-landerfit.webp",
+    "schema": "Product (grouped) + Offer de cada hijo + BreadcrumbList. No marcar AggregateRating sin reseñas reales. Coordinar con structured-data-schema.",
+    "rank_math_keys": [
+      "rank_math_title",
+      "rank_math_description",
+      "rank_math_focus_keyword (combo lipo revolution)",
+      "rank_math_robots (index, follow)"
+    ],
+    "wp_cli": {
+      "nota": "Los combos son productos (post_type=product), por lo que el SEO va como POST meta, no term meta. Reemplazar <ID> por el ID del combo ya creado.",
+      "comandos": [
+        "wp post meta update <ID> rank_math_title 'Combo Lipo Revolution Thermogenic + Stim Free | Panamá'",
+        "wp post meta update <ID> rank_math_description 'Combo Lipo Revolution Thermogenic + Stim Free de LanderFit: 60 cápsulas de cada uno. Compra original en Panamá con envío o retiro gratis en 6 sucursales.'",
+        "wp post meta update <ID> rank_math_focus_keyword 'combo lipo revolution'",
+        "wp post meta update <ID> rank_math_robots '[\"index\",\"follow\"]' --format=json"
+      ]
+    },
+    "no_tocar": "No tocar functions.php del child, combo-price.php, sp_sucursal_js() ni _sucursales_disponibles. El precio del combo se define en _combo_price (regla de oro)."
+  }
+}

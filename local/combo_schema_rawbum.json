@@ -1,0 +1,146 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      "@id": "{{URL_COMBO}}#product",
+      "name": "RAW Essential Orange + BUM Essential Performance No-Stim Blue Raspberry",
+      "description": "Combo RAW + BUM: un pre-entreno RAW Essential sabor Orange y un pre-entreno sin estimulantes BUM Essential Performance sabor Blue Raspberry. Reúne en un mismo paquete una opción de RAW junto a la versión sin estimulantes de BUM, para elegir según la rutina del día. Ahorras ${{AHORRO_USD}} al comprar el combo vs. comprar los productos por separado.",
+      "url": "{{URL_COMBO}}",
+      "image": [
+        "{{URL_IMAGEN_COMBO}}"
+      ],
+      "sku": "{{SKU_COMBO}}",
+      "mpn": "SP-COMBO-{{ID_COMBO}}",
+      "category": "Combos",
+      "brand": {
+        "@type": "Brand",
+        "name": "Suplementos Panamá"
+      },
+      "offers": {
+        "@type": "Offer",
+        "@id": "{{URL_COMBO}}#offer",
+        "url": "{{URL_COMBO}}",
+        "price": "{{PRECIO_COMBO}}",
+        "priceCurrency": "USD",
+        "priceValidUntil": "{{PRICE_VALID_UNTIL}}",
+        "availability": "{{AVAILABILITY}}",
+        "validFrom": "{{VALID_FROM}}",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@type": "Organization",
+          "@id": "https://suplementospanama.net#organization",
+          "name": "Suplementos Panamá",
+          "url": "https://suplementospanama.net"
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "PA",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30,
+          "returnMethod": "https://schema.org/ReturnInStore",
+          "returnFees": "https://schema.org/FreeReturn",
+          "refundType": "https://schema.org/FullRefund"
+        },
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "PA"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 1,
+              "unitCode": "DAY"
+            },
+            "transitTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 1,
+              "maxValue": 5,
+              "unitCode": "DAY"
+            }
+          }
+        }
+      },
+      "hasPart": [
+        {
+          "@type": "Product",
+          "@id": "{{URL_COMPONENTE_1}}#product",
+          "name": "RAW-ESSENTIAL - ORANGE",
+          "sku": "850039445668",
+          "url": "{{URL_COMPONENTE_1}}",
+          "image": "{{URL_IMAGEN_COMPONENTE_1}}",
+          "brand": {
+            "@type": "Brand",
+            "name": "RAW"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "{{URL_COMPONENTE_1}}",
+            "price": "{{PRECIO_COMPONENTE_1}}",
+            "priceCurrency": "USD",
+            "availability": "{{AVAILABILITY_COMPONENTE_1}}",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        },
+        {
+          "@type": "Product",
+          "@id": "{{URL_COMPONENTE_2}}#product",
+          "name": "BUM Essential Performance No-Stim Blue Raspberry",
+          "sku": "850057175646",
+          "url": "{{URL_COMPONENTE_2}}",
+          "image": "{{URL_IMAGEN_COMPONENTE_2}}",
+          "brand": {
+            "@type": "Brand",
+            "name": "BUM"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "{{URL_COMPONENTE_2}}",
+            "price": "{{PRECIO_COMPONENTE_2}}",
+            "priceCurrency": "USD",
+            "availability": "{{AVAILABILITY_COMPONENTE_2}}",
+            "itemCondition": "https://schema.org/NewCondition"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "{{URL_COMBO}}#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://suplementospanama.net/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Promociones",
+          "item": "https://suplementospanama.net/promociones/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Combos",
+          "item": "https://suplementospanama.net/promociones/combos/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "RAW Essential Orange + BUM Essential Performance No-Stim Blue Raspberry"
+        }
+      ]
+    }
+  ]
+}

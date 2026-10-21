@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "generado": "2026-10-21",
+    "agente": "seo-ecommerce",
+    "proyecto": "Suplementos Panamá",
+    "sitio": "https://suplementospanama.net",
+    "plataforma": "WooCommerce + Rank Math SEO (child theme nutritix-child)",
+    "tarea": "SEO on-page de combo NUEVO tipo grouped (propuesta, sin publicar)",
+    "idioma": "español de Panamá",
+    "moneda": "USD",
+    "restricciones": "Sin claims médicos ni de resultados garantizados. No se publicó nada. Valores listos para cargar en Rank Math.",
+    "alcance": "Propuesta on-page (nombre, title, meta, focus keyword, slug, categorías, enlazado interno y notas). NO se modificó el sitio.",
+    "datos_verificados": "IDs, SKUs, URLs y categorías leídos desde la Store API pública de WooCommerce el 2026-10-21."
+  },
+
+  "producto": {
+    "tipo": "grouped",
+    "categoria_tipo": "Combos",
+    "marcas": ["RAW", "BUM"],
+    "precio_componentes_usd": 49.98,
+    "precio_componentes_detalle": "24.99 + 24.99 (precios vigentes con descuento al 2026-10-21)",
+    "imagen_local": "C:\\suplementos\\combos\\combos-nuevos\\raw-essential-orange-cbum-essential-performance-no-stim-blue-raspberry.jpg",
+    "componentes": [
+      {
+        "id": 9602,
+        "nombre_actual": "RAW-ESSENTIAL – ORANGE",
+        "nombre_sugerido": "RAW Essential – Orange",
+        "sku": "850039445668",
+        "url": "https://suplementospanama.net/product/raw-essential-orange/",
+        "precio_usd": 24.99,
+        "categorias_actuales": ["Descuento Online"],
+        "marca": "RAW (/product-brand/suplementos-raw/)"
+      },
+      {
+        "id": 21457,
+        "nombre_actual": "BUM ESENCIAL PERFORMANCE NO-STIM BLUE RASPBERRY",
+        "nombre_sugerido": "BUM Essential Performance No-Stim – Blue Raspberry",
+        "sku": "850057175646",
+        "url": "https://suplementospanama.net/product/bum-esencial-performance-no-stim-blue-raspberry/",
+        "precio_usd": 24.99,
+        "categorias_actuales": ["Pre-Entrenamientos Sin Estimulantes", "Descuento Online"],
+        "marca": "BUM (/product-brand/bum/)"
+      }
+    ]
+  },
+
+  "titulo_final": "RAW Essential Orange + BUM Essential Performance No-Stim Blue Raspberry",
+  "titulo_final_nota": "Términos en inglés correctos: 'Essential' (no 'Esencial'), 'No-Stim', 'Blue Raspberry'. Se elimina el guion de 'RAW-ESSENTIAL' y los caracteres raros del nombre actual. 'RAW' y 'BUM' aparecen una sola vez cada uno. Si se necesita un nombre más corto, usar 'RAW Essential + BUM Essential Performance No-Stim' (perdiendo el sabor).",
+
+  "rank_math_title": "Combo RAW Essential Orange + BUM Essential No-Stim | Panamá",
+  "rank_math_title_chars": 59,
+  "rank_math_description": "Combo RAW Essential Orange + BUM Essential Performance No-Stim: pre-entrenos con y sin estimulantes. Originales en Panamá con envío o retiro en 6 sucursales.",
+  "rank_math_description_chars": 157,
+
+  "focus_keyword": "combo raw essential bum",
+  "keywords_secundarias": [
+    "combo pre-entreno RAW BUM",
+    "RAW Essential Orange Panamá",
+    "BUM Essential Performance No-Stim",
+    "pre-entrenos con y sin estimulantes",
+    "combo pre-entrenos Panamá"
+  ],
+
+  "slug": "combo-raw-essential-orange-bum-essential-performance-no-stim",
+  "slug_alternativos": [
+    "combo-raw-essential-bum-essential-no-stim",
+    "raw-essential-orange-bum-essential-no-stim"
+  ],
+  "slug_nota": "Convención 'combo-<producto>-<producto>'. Sin 'esencial': el slug nuevo debe nacer con el término correcto. Largo pero explícito; el slug de la ficha de BUM conserva 'esencial' (ver nota de URL).",
+
+  "categoria_principal": {
+    "nombre": "Combos",
+    "slug": "combos",
+    "term_id": 284,
+    "url": "https://suplementospanama.net/promociones/combos/",
+    "razon": "Categoría del silo de promociones donde viven los grouped con _combo_price. Enlace directo desde el menú de promociones."
+  },
+
+  "categorias_secundarias": [
+    {
+      "nombre": "Promociones",
+      "slug": "promociones",
+      "term_id": 219,
+      "url": "https://suplementospanama.net/promociones/",
+      "razon": "Padre de Combos; lo llevan todos los combos existentes y refuerza el breadcrumb."
+    },
+    {
+      "nombre": "Pre-Entrenos",
+      "slug": "pre-entrenos",
+      "term_id": 22,
+      "url": "https://suplementospanama.net/pre-entrenos/",
+      "razon": "El combo es 100% pre-entreno. Se usa el PADRE y no una subcategoría porque mezcla uno con estimulantes (RAW Essential) y uno sin estimulantes (BUM No-Stim).",
+      "condicional": true,
+      "nota": "Opcional y con cautela: agrega el combo al listado /pre-entrenos/ (hoy 16 productos) y puede desplazar producto individual. La categoría del hijo RAW está vacía (ver hallazgo): sin corregirla, el enlace a /pre-entrenos/ queda poco relevante."
+    }
+  ],
+
+  "internal_links": [
+    {
+      "anchor": "combos de suplementos con descuento",
+      "url": "https://suplementospanama.net/promociones/combos/",
+      "tipo": "categoría",
+      "ubicacion": "breadcrumb y bloque de cierre de la ficha"
+    },
+    {
+      "anchor": "RAW Essential Orange",
+      "url": "https://suplementospanama.net/product/raw-essential-orange/",
+      "tipo": "ficha de componente",
+      "ubicacion": "tabla de contenido del combo (qué incluye)"
+    },
+    {
+      "anchor": "BUM Essential Performance No-Stim Blue Raspberry",
+      "url": "https://suplementospanama.net/product/bum-esencial-performance-no-stim-blue-raspberry/",
+      "tipo": "ficha de componente",
+      "ubicacion": "tabla de contenido del combo (qué incluye)"
+    },
+    {
+      "anchor": "retiro gratis en 6 sucursales",
+      "url": "https://suplementospanama.net/sucursales/",
+      "tipo": "local",
+      "ubicacion": "bloque de envío y retiro"
+    }
+  ],
+
+  "internal_links_opcionales": [
+    {
+      "anchor": "pre-entrenos",
+      "url": "https://suplementospanama.net/pre-entrenos/",
+      "razon": "Solo después de asignar categoría real al producto RAW (hoy no tiene)."
+    },
+    {
+      "anchor": "más de BUM",
+      "url": "https://suplementospanama.net/product-brand/bum/",
+      "razon": "Enlace de marca para bloque de relacionados."
+    },
+    {
+      "anchor": "más de RAW",
+      "url": "https://suplementospanama.net/product-brand/suplementos-raw/",
+      "razon": "Enlace de marca para bloque de relacionados."
+    }
+  ],
+
+  "enlaces_entrantes_recomendados": [
+    {
+      "origen": "Ficha 9602 (RAW Essential Orange)",
+      "anchor": "compra el combo RAW + BUM sin estimulantes",
+      "nota": "Bloque 'completa tu stack'. No cambiar H1/title de la ficha individual."
+    },
+    {
+      "origen": "Ficha 21457 (BUM Essential Performance No-Stim)",
+      "anchor": "llévate BUM No-Stim + RAW Essential en combo",
+      "nota": "Anchor distinto para no repetir texto exacto."
+    }
+  ],
+
+  "notas_seo": {
+    "h1_recomendado": "RAW Essential Orange + BUM Essential Performance No-Stim Blue Raspberry",
+    "h1_nota": "El H1 de WooCommerce es el nombre del producto: usar el titulo_final tal cual. Un solo H1. El Rank Math title agrega 'Combo' y 'Panamá'; no duplicar ese texto en el H1.",
+    "canibalizacion": "Este combo compite en dos frentes. (1) Contra las fichas 9602 y 21457: ellas deben seguir siendo dueñas de 'raw essential orange' y 'bum essential performance no-stim'; el combo es dueño de 'combo raw essential bum' y 'pre-entrenos con y sin estimulantes'. Por eso el title y el nombre llevan los productos en orden pero el title arranca con 'Combo'. (2) Contra el combo existente 21982 'Proteína Primeval Labs 4.8 lb + BUM Esencial No-Stim Blue Raspberry': ese debe quedarse con 'proteína primeval bum' y este nuevo NO debe usar la palabra 'proteína' en ningún campo (no es un combo de proteína). Además existen 21515 y 21516 ('+ BUM Pre Blue Raspberry'), que es otro producto (con estimulantes): el término 'No-Stim' es el diferenciador y debe estar siempre visible.",
+    "canibalizacion_categoria": "No usar 'combos de suplementos' ni 'combos de pre-entreno Panamá' a secas en title/H1: /promociones/combos/ ya posiciona ese head term ('Combos De Suplementos | Ahorra Hasta $84.98 | Panamá'). Tampoco 'pre-entrenos Panamá' (lo pelea /pre-entrenos/).",
+    "terminos_ingles": "Corrección obligatoria: 'ESENCIAL' → 'Essential' (nombre del producto, H1, title, meta y slug nuevo). También 'No-Stim' con guion y 'Blue Raspberry' en dos palabras. En el componente RAW, normalizar 'RAW-ESSENTIAL – ORANGE' a 'RAW Essential – Orange' (sin guion entre RAW y Essential, sin entidad HTML &#8211; y con guion simple). Ojo: la marca es 'RAW' y la línea es 'RAW Essential'; no escribir 'RAW-ESSENTIAL' como si fuera una sola palabra.",
+    "correccion_pendiente_en_otros_registros": [
+      "Producto 21457: renombrar 'BUM ESENCIAL PERFORMANCE NO-STIM BLUE RASPBERRY' → 'BUM Essential Performance No-Stim – Blue Raspberry'. Renombrar NO cambia el slug; la URL /product/bum-esencial-performance-no-stim-blue-raspberry/ puede quedarse (recomendado) para no generar redirecciones.",
+      "Combo 21982: su nombre visible dice 'BUM Esencial No-Stim' y su slug es 'proteina-primeval-labs-4-8-lb-bum-esencial-no-stim-blue-raspberry'. Corregir al menos el NOMBRE a 'Essential'. Si además se cambia el slug, crear 301 de la URL vieja a la nueva (es un combo con tráfico y enlaces internos)."
+    ],
+    "variante_esencial": "Si GSC muestra búsquedas reales por 'bum esencial', cubrirlas con una mención natural en el cuerpo ('también conocida como BUM Esencial') sin tocar title, H1 ni slug. La forma correcta manda en los campos que Rank Math usa para el snippet.",
+    "hallazgo_categorias_raw": "El producto RAW Essential Orange (ID 9602, SKU 850039445668) solo está en 'Descuento Online': no tiene categoría de producto. Eso lo deja fuera de /pre-entrenos/ y de cualquier listado navegable, y debilita la relevancia del enlace interno. Asignarle 'Pre-Entrenos' (22) + 'Pre-Entrenamientos Estimulantes' (262) antes de publicar el combo. Es un cambio de categorías, no de precio ni de stock.",
+    "estructura_ficha": [
+      "H2 'Qué incluye este combo': los dos pre-entrenos con enlace a cada ficha y su sabor.",
+      "H2 'Uno con estimulantes y uno sin estimulantes': explicar la diferencia de uso (días de entreno fuerte vs. tardes/noches o sensibilidad a la cafeína). Sin prometer resultados.",
+      "H2 'Cómo combinarlos': no duplicar estimulantes el mismo día; remitir a la etiqueta de cada producto.",
+      "H2 'Envío y retiro en Panamá': envío gratis desde $150 y retiro en 6 sucursales.",
+      "H2 'Preguntas frecuentes': 3-4 preguntas (¿puedo tomar los dos el mismo día?, ¿el BUM tiene cafeína?, ¿cuál elijo si entreno de noche?, ¿puedo retirarlo hoy?)."
+    ],
+    "claims": "Sin claims médicos ni de rendimiento garantizado. Describir formato, sabores y presencia/ausencia de estimulantes. No afirmar 'más energía garantizada' ni efectos sobre el rendimiento.",
+    "precios_en_texto": "No hardcodear precio del combo ni ahorro. Si se menciona 'por separado $49.98', validar con sp_auditar_combos.php (compara la suma de precios vigentes con lo que dice la ficha). El precio real lo pone _combo_price.",
+    "alt_imagen": "Combo RAW Essential Orange + BUM Essential Performance No-Stim Blue Raspberry",
+    "nombre_archivo_imagen": "combo-raw-essential-bum-essential-no-stim.webp",
+    "schema": "Product (grouped) + Offer por hijo + BreadcrumbList. No marcar AggregateRating sin reseñas. Coordinar con structured-data-schema.",
+    "rank_math_keys": [
+      "rank_math_title",
+      "rank_math_description",
+      "rank_math_focus_keyword (combo raw essential bum)",
+      "rank_math_robots (index, follow)"
+    ],
+    "wp_cli": {
+      "nota": "Producto = POST meta (no term meta). Reemplazar <ID> por el ID del combo ya creado. El rename de productos se hace con wp post update y NO cambia el slug si se omite --post_name.",
+      "comandos": [
+        "wp post meta update <ID> rank_math_title 'Combo RAW Essential Orange + BUM Essential No-Stim | Panamá'",
+        "wp post meta update <ID> rank_math_description 'Combo RAW Essential Orange + BUM Essential Performance No-Stim: pre-entrenos con y sin estimulantes. Originales en Panamá con envío o retiro en 6 sucursales.'",
+        "wp post meta update <ID> rank_math_focus_keyword 'combo raw essential bum'",
+        "wp post meta update <ID> rank_math_robots '[\"index\",\"follow\"]' --format=json",
+        "wp post update 21457 --post_title='BUM Essential Performance No-Stim – Blue Raspberry'"
+      ]
+    },
+    "no_tocar": "No tocar functions.php del child, combo-price.php, sp_sucursal_js() ni _sucursales_disponibles. El precio del combo se define en _combo_price."
+  }
+}
