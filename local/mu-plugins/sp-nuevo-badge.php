@@ -31,7 +31,7 @@ add_action('wp_head', function () {
        . '.sp-nuevo-badge{position:absolute;top:12px;right:12px;z-index:6;background:#F65000;color:#fff;font-family:inherit;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;line-height:1;pointer-events:none}'
        . '.woocommerce ul.products li.product,.woocommerce-page ul.products li.product{position:relative}'
        . '.woocommerce ul.products li.product .product-inner,.woocommerce ul.products li.product .product-thumb,.product-inner{position:relative}'
-       . '.sp-nuevo-badge--single{top:14px;right:14px;font-size:13px}'
+       . '.sp-nuevo-badge--single{top:14px;left:14px;right:auto;font-size:13px}'
        . 'li.product.sp-es-nuevo .product-transition{position:relative}'
        . 'li.product.sp-es-nuevo .product-transition::after{content:"NUEVO";position:absolute;top:12px;right:12px;z-index:6;background:#F65000;color:#fff;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;line-height:1}'
        . '</style>';
