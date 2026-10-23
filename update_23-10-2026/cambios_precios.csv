@@ -1,0 +1,4 @@
+id,parent,tipo,sku,nombre,old_stock,new_stock,new_status,old_status,manage,old_price,new_price
+19228,19225,variation,705016353415,ISO 100 FRUITY PEBBLES 3 LBS DYMATIZE,18,18,instock,instock,True,99.99,115.99
+19229,19225,variation,705016353422,ISO 100 COCOA PEBBLES 3 LBS DYMATIZE,12,12,instock,instock,True,99.99,115.99
+19227,19225,variation,705016353231,ISO 100 FUDGE BROWNIE 3 LIBRAS DYMATIZE,5,5,outofstock,outofstock,True,99.99,115.99
