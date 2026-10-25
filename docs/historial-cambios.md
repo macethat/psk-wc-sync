@@ -587,3 +587,31 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - **Cuentas migradas** de `branch_manager` a `shop_manager` (6): cangrejosp (242), megapolissp (243), atriomallsp (244), centennialsp (245), sanfranciscosp (246), metromallsp (247).
 - **Pendiente/verificar**: que las 6 conecten en la app (Pedidos + Productos lectura + Estadisticas). El rol `branch_manager` queda sin uso.
 
+## 2026-10-25 - GBP API: solicitud enviada + avance combos/resenas
+
+### GBP API (Google Business Profile)
+- Se envio la **"Application for Basic API Access"** para el proyecto `suplementos-panama-gbp` (**project number 531692178989**, email owner `suplementospanamashop@gmail.com`, sitio `https://suplementospanama.net`).
+- Caso abierto: **9-3202000042136**. Tiempo de revision estimado: **7-10 dias habiles**.
+- **Seguimiento**: entre el **30-oct-2026** y el **4-nov-2026**; si no hay respuesta, reenviar citando el numero de caso.
+- Motivo declarado: monitorear/responder resenas de las 6 sucursales verificadas y medir actividad por sucursal en panel interno (sin redistribuir datos).
+- Requisitos cumplidos: perfil El Cangrejo verificado y activo desde 2024 (>60 dias); proyecto GCP activo (no estaba en allowlist).
+
+### Resenas por sucursal (octubre 2026)
+- Consulta via **Places API (New)** por Place ID (la GBP API sigue en cuota 0). Solo devuelve las **5 mas recientes** por ficha.
+- Conteo verificado en octubre 2026: **Metromall 5, Atrio/Costa del Este 4, San Francisco 3, Megapolis 3, Altos 3, El Cangrejo 1** (total 19). Con el listado completo del panel, octubre ronda **~34**.
+- Ranking de efectividad pidiendo resenas: **Metromall y Atrio** lideran; **El Cangrejo** el mas flojo en momentum (1 en el mes pese a 57 historicas). Personal mencionado: Mirelis, Zamary, Mariangel, Fabiola, Nicole.
+- Limite: el API mezcla/limita; para el detalle completo por dia hace falta la GBP API aprobada.
+
+### Combos nuevos y precios
+- **22306** Lipo Revolution Thermogenic + Stim Free - LanderFit: `_combo_price` **$27.99** (regular $40.49, ahorra $12.50 / 31%).
+- **22308** RAW Essential Orange + BUM Essential No-Stim Blue Raspberry: `_combo_price` **$49.99** (regular $97.98, ahorra $47.99 / 49%).
+- Descripciones actualizadas con precio y ahorro reales (commit `e6c047f`). Ambos fuera del hero del home (`$sp_hero_ids` intacto).
+- Componentes: **9186** -> "LIPO REVOLUTION THERMOGENIC LANDERFIT 60 CAPS"; **21457** -> "BUM ESSENTIAL PERFORMANCE NO-STIM BLUE RASPBERRY" (slugs sin cambio). **9602** agregado a categoria Pre-Entrenos (22).
+- Precio de oferta web de los componentes del combo 2 (9602 y 21457) subido de **$24.99 a $35.99** (regular igual).
+- El "Ahorra" del tema sigue calculandose contra **precio full** (decision del negocio).
+
+### Badge NUEVO / ISO Surge
+- `sp-nuevo-badge.php`: badge de ficha movido a **arriba-izquierda** (`left:14px`) para no chocar con Prev/Next (commit `0daf760`).
+- ISO Surge (22136, atts 22304/22305): las imagenes nuevas estaban en servidor pero el navegador mostraba las viejas por `Cache-Control` de 1 ano. Solucion: mu-plugin `sp-img-cache-bust-iso.php` agrega `?ver=20261021` (commit `b26e9fe`).
+- `combo-price.php` y `functions.php` del child **NO** se tocaron (retiro en sucursal intacto).
+
