@@ -691,3 +691,9 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Se agrego capa `.sp-hero__shade` (gradiente horizontal) para proteger la legibilidad del H1 sobre la bestia; vertical en movil.
 - URLs con `?ver=20261026` para romper la cache de 1 ano de las imagenes anteriores.
 - Pendiente: versiones movil (1080x1920) y square (2048x2048) siguen con el fondo abstracto anterior hasta generar los nuevos artes.
+
+### Hero: fondos movil y tablet (bestia)
+- Nuevos artes: `halloween-hero-back-sp-ver-1-mobil.jpeg` (768x1376) y `halloween-hero-back-sp-ver-1-square.jpeg` (1024x1024).
+- Optimizados: `hero-bg-mobile` 118 KB jpg / 74 KB webp; `hero-bg-square` 126 KB jpg / 81 KB webp.
+- CSS: movil (<=900px) usa `hero-bg-mobile` con opacidad 1 (antes 0.15); se agrego rango tablet (901-1200px) con `hero-bg-square`. Desktop mantiene `hero-bg-desktop`.
+- Todas las URLs con `?ver=20261026b`. Mojeado de la BD corregido en 28 registros (26 captions/contenidos + 2 alt de 22244/22245); backup `/tmp/sp_mojibake_backup_20261026_191414.json`.
