@@ -302,7 +302,7 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-hero__in">
         <div>
-          <a class="sp-hero__badge" href="/promociones/combos/">MÁS SCARY POWER &gt;&gt;</a>
+          <a class="sp-hero__badge" href="/promociones/combos/">SCARY POWER MODE &gt;&gt;</a>
           <h1><span class="sp-h1l orange">TRICK OR TRAIN:</span> <span class="sp-h1l">SUPLEMENTOS EN PANAMÁ,</span> <span class="sp-h1l">SIN TRUCOS.</span></h1>
           <p class="lead">Tienda de suplementos deportivos en Panamá. Combos solo online para volumen, definición y fuerza, con retiro en 6 sucursales y envío nacional.</p>
           <div class="sp-chips">
