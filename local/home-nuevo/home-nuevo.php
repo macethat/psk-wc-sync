@@ -249,10 +249,20 @@ body .breadcrumb-wrap{display:none !important}
 /* BLACK WEEKEND BANNER */
 .sp-bw{margin:0 auto}
 .sp-bw__box{position:relative;display:block;border-radius:0;overflow:hidden;text-decoration:none;background:var(--sp-accent)}
-.sp-bw__box img{width:100%;height:auto;display:block}
+.sp-bw__box img{width:100%;height:auto;display:block;aspect-ratio:1920/500}
 .sp-bw__ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff;text-align:center;padding:30px}
 .sp-bw__ph span{font-size:13px;color:#bbb}
+@media(max-width:1200px){.sp-bw__box img{aspect-ratio:1200/480}}
 @media(max-width:768px){.sp-bw__box{border-radius:0}}
+@media(max-width:700px){.sp-bw__box img{aspect-ratio:1080/720}}
+/* HALLOWEEN */
+.sp-hw{background:#070707;border:1px solid #262626;padding:28px 0 24px}
+.sp-hw__copy{text-align:center;padding:0 20px 20px;max-width:900px;margin:0 auto}
+.sp-hw__eyebrow{display:inline-block;font-family:var(--sp-heading);font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F65000;margin-bottom:6px}
+.sp-hw__copy h2{color:#fff;font-size:30px;line-height:1.15;text-transform:uppercase;margin:10px 0 8px}
+.sp-hw__copy p{color:#D9D9D9;font-size:15px;line-height:1.55;margin:0 auto;max-width:780px}
+.sp-hw__cta{text-align:center;padding:20px 20px 0}
+@media(max-width:700px){.sp-hw{padding:22px 0 20px}.sp-hw__copy{padding:0 16px 16px}.sp-hw__copy h2{font-size:22px}.sp-hw__copy p{font-size:14px}}
 
 /* VIDEOS MARCAS */
 .sp-videos{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
@@ -414,19 +424,29 @@ body .breadcrumb-wrap{display:none !important}
     </div>
   </section>
 
-  <!-- 5. BLACK WEEKEND BANNER -->
+  <!-- 5. BANNER HALLOWEEN -->
   <section class="sp-sec--tight">
     <div class="sp-wrap">
-      <a class="sp-bw__box" href="/online-sale-sp/">
-        <picture>
-          <source media="(max-width:700px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1080x720.webp">
-          <source media="(max-width:700px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1080x720.jpg">
-          <source media="(max-width:1200px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1200x480.webp">
-          <source media="(max-width:1200px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1200x480.jpg">
-          <source type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.webp">
-          <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-bw/banner-bw-1920x500.jpg" alt="Online Sale: descuentos exclusivos en suplementos comprando online" loading="lazy">
-        </picture>
-      </a>
+      <div class="sp-hw">
+        <div class="sp-hw__copy">
+          <span class="sp-hw__eyebrow">Halloween Sale · Solo comprando online</span>
+          <h2>Trick or Train: Halloween Sale en Suplementos Panamá</h2>
+          <p>Descuentos online en proteína isolate, creatina y glutamina de VMS Nutrition, y en productos Evogen. Compra en suplementospanama.net y retira en 6 sucursales o recibe en todo Panamá según disponibilidad.</p>
+        </div>
+        <a class="sp-bw__box" href="/online-sale-sp/">
+          <picture>
+            <source media="(max-width:700px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1080x720.webp">
+            <source media="(max-width:700px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1080x720.jpg">
+            <source media="(max-width:1200px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1200x480.webp">
+            <source media="(max-width:1200px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1200x480.jpg">
+            <source type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1920x500.webp">
+            <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1920x500.jpg" alt="Banner de Halloween Sale con proteína isolate, creatina y glutamina VMS Nutrition y Evogen" width="1920" height="500" loading="lazy" decoding="async">
+          </picture>
+        </a>
+        <div class="sp-hw__cta">
+          <a class="sp-btn sp-btn--primary" href="/online-sale-sp/">Ver la Halloween Sale</a>
+        </div>
+      </div>
     </div>
   </section>
 

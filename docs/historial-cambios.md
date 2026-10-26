@@ -640,3 +640,38 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Checkout: 22 campos, 17 requeridos. `billing_doc_identificacion` **se mantiene** (necesario para reclamos). Candidatos a relajar: `shipping_postcode` y datos de envio cuando es retiro en sucursal.
 - CSV de recuperacion: `local/recuperacion-ordenes-oct-2026.csv` (16 ordenes con PII, excluido de git via `.gitignore`).
 - **Sin cambios de checkout aplicados** a la espera de definir con el negocio.
+
+## 2026-10-26 - Banner Halloween Sale en el home (reemplaza Online Sale)
+
+### Arte y optimizacion
+- Fuentes en `C:\suplementos\home_nuevo\banner-halloween` (3840x1000 / 2400x960 / 2160x1440, 2-2,7 MB cada una).
+- Optimizadas a los 3 tamanos del sitio en `local/home-nuevo/assets/banner-halloween/`:
+  - `banner-halloween-1920x500.jpg` 248 KB + `.webp` 195 KB
+  - `banner-halloween-1200x480.jpg` 172 KB + `.webp` 143 KB
+  - `banner-halloween-1080x720.jpg` 206 KB + `.webp` 164 KB
+- JPG q82 progressive + WebP q80. Subidas al child theme en `assets/banner-halloween/`.
+
+### Cambios en la plantilla (`page-templates/home-nuevo.php`)
+- Seccion 5: el bloque "BLACK WEEKEND BANNER" pasa a **BANNER HALLOWEEN**.
+- Se conserva el enlace exacto: `href="/online-sale-sp/"` (imagen + CTA). No se toco la URL ni el 301 de `/black-weekend/`.
+- Se agrego copy HTML real (indexable) segun recomendaciones de los agentes SEO y GEO:
+  - eyebrow: `Halloween Sale · Solo comprando online`
+  - H2: `Trick or Train: Halloween Sale en Suplementos Panama`
+  - parrafo: descuentos online en proteina isolate, creatina y glutamina de VMS Nutrition y productos Evogen; retiro en 6 sucursales o entrega nacional.
+  - CTA: `Ver la Halloween Sale`.
+- Imagen: `alt="Banner de Halloween Sale con proteina isolate, creatina y glutamina VMS Nutrition y Evogen"`, `width="1920" height="500"`, `loading="lazy"`, `decoding="async"`.
+- CSS: `aspect-ratio` por breakpoint (1920/500, 1200/480, 1080/720) para evitar CLS; modulo `.sp-hw` con fondo #070707 y eyebrow #F65000 (contraste AA 5.82:1).
+- Sin schema nuevo (decision SEO/GEO: no inventar Event/Offer sin fechas ni porcentajes verificables).
+
+### Verificacion en produccion
+- Home: 6 variantes de imagen referenciadas, 0 referencias a `banner-bw`.
+- `href` a `/online-sale-sp/`: wrapper de imagen + CTA.
+- Imagenes HTTP 200 (JPG y WebP, 3 tamanos).
+- `php -l` OK; cache SG purgada.
+
+### Pendientes detectados por los agentes (NO aplicados)
+1. `/online-sale-sp/` sigue con Rank Math en **"Black Weekend"** (title, description, focus keyword y OG). Contradice la campana de Halloween.
+2. `/online-sale-sp/` **no aparece en `page-sitemap.xml`** (revisar su exclusion y regenerar sitemap).
+3. `sp-dev-nocache.php` sigue activo para `/online-sale-sp/`.
+4. El isolate VMS que muestra el arte no esta listado hoy en la landing.
+5. Plan de reversion sugerido: 1-nov-2026 (volver a banner neutro/Black Friday manteniendo la misma URL).
