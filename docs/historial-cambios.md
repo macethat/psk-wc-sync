@@ -654,14 +654,17 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 ### Cambios en la plantilla (`page-templates/home-nuevo.php`)
 - Seccion 5: el bloque "BLACK WEEKEND BANNER" pasa a **BANNER HALLOWEEN**.
 - Se conserva el enlace exacto: `href="/online-sale-sp/"` (imagen + CTA). No se toco la URL ni el 301 de `/black-weekend/`.
-- Se agrego copy HTML real (indexable) segun recomendaciones de los agentes SEO y GEO:
-  - eyebrow: `Halloween Sale · Solo comprando online`
-  - H2: `Trick or Train: Halloween Sale en Suplementos Panama`
-  - parrafo: descuentos online en proteina isolate, creatina y glutamina de VMS Nutrition y productos Evogen; retiro en 6 sucursales o entrega nacional.
-  - CTA: `Ver la Halloween Sale`.
+- **Sin copy visible** (decision del negocio): la imagen funciona sola y enlazada. Se conserva unicamente un boton CTA con el texto `MONSTER SALE`.
+- Los metadatos SEO/GEO se concentran en el `alt` de la imagen; no se agregan H2 ni parrafos al contenedor.
 - Imagen: `alt="Banner de Halloween Sale con proteina isolate, creatina y glutamina VMS Nutrition y Evogen"`, `width="1920" height="500"`, `loading="lazy"`, `decoding="async"`.
-- CSS: `aspect-ratio` por breakpoint (1920/500, 1200/480, 1080/720) para evitar CLS; modulo `.sp-hw` con fondo #070707 y eyebrow #F65000 (contraste AA 5.82:1).
+- CSS: `aspect-ratio` por breakpoint (1920/500, 1200/480, 1080/720) para evitar CLS; modulo `.sp-hw` con fondo #070707 y CTA centrado.
 - Sin schema nuevo (decision SEO/GEO: no inventar Event/Offer sin fechas ni porcentajes verificables).
+
+### Metadata de la landing `/online-sale-sp/`
+- Rank Math actualizado (antes decia "Black Weekend"): title `Halloween Sale Panama | Descuentos Online en Suplementos`, description, focus keyword `halloween sale panama`, OG title y OG description.
+- Imagen OG nueva 1200x630 (`banner-halloween-og-1200x630.jpg`, attachment **22328**) asignada como **featured image** de la pagina: el modulo Social de Rank Math no esta activo, por lo que el meta `rank_math_facebook_image` no se aplicaba y `og:image` seguia saliendo con el logo.
+- Backup de la metadata anterior: `/tmp/backup_rankmath_22216.json` (servidor).
+- **Sitemap regenerado**: se borro la cache de `uploads/rank-math/*.xml` (generada el 12-ago, antes de existir la pagina) y `online-sale-sp` ya aparece en `page-sitemap.xml`.
 
 ### Verificacion en produccion
 - Home: 6 variantes de imagen referenciadas, 0 referencias a `banner-bw`.
@@ -669,9 +672,7 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Imagenes HTTP 200 (JPG y WebP, 3 tamanos).
 - `php -l` OK; cache SG purgada.
 
-### Pendientes detectados por los agentes (NO aplicados)
-1. `/online-sale-sp/` sigue con Rank Math en **"Black Weekend"** (title, description, focus keyword y OG). Contradice la campana de Halloween.
-2. `/online-sale-sp/` **no aparece en `page-sitemap.xml`** (revisar su exclusion y regenerar sitemap).
-3. `sp-dev-nocache.php` sigue activo para `/online-sale-sp/`.
-4. El isolate VMS que muestra el arte no esta listado hoy en la landing.
-5. Plan de reversion sugerido: 1-nov-2026 (volver a banner neutro/Black Friday manteniendo la misma URL).
+### Pendientes detectados por los agentes
+1. `sp-dev-nocache.php` sigue activo para `/online-sale-sp/`.
+2. El isolate VMS que muestra el arte no esta listado hoy en la landing.
+3. Plan de reversion sugerido: 1-nov-2026 (volver a banner neutro/Black Friday manteniendo la misma URL).

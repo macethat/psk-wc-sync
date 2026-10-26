@@ -256,13 +256,8 @@ body .breadcrumb-wrap{display:none !important}
 @media(max-width:768px){.sp-bw__box{border-radius:0}}
 @media(max-width:700px){.sp-bw__box img{aspect-ratio:1080/720}}
 /* HALLOWEEN */
-.sp-hw{background:#070707;border:1px solid #262626;padding:28px 0 24px}
-.sp-hw__copy{text-align:center;padding:0 20px 20px;max-width:900px;margin:0 auto}
-.sp-hw__eyebrow{display:inline-block;font-family:var(--sp-heading);font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F65000;margin-bottom:6px}
-.sp-hw__copy h2{color:#fff;font-size:30px;line-height:1.15;text-transform:uppercase;margin:10px 0 8px}
-.sp-hw__copy p{color:#D9D9D9;font-size:15px;line-height:1.55;margin:0 auto;max-width:780px}
-.sp-hw__cta{text-align:center;padding:20px 20px 0}
-@media(max-width:700px){.sp-hw{padding:22px 0 20px}.sp-hw__copy{padding:0 16px 16px}.sp-hw__copy h2{font-size:22px}.sp-hw__copy p{font-size:14px}}
+.sp-hw{background:#070707;border:1px solid #262626;padding:0 0 22px}
+.sp-hw__cta{text-align:center;padding:18px 20px 0}
 
 /* VIDEOS MARCAS */
 .sp-videos{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
@@ -428,11 +423,6 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec--tight">
     <div class="sp-wrap">
       <div class="sp-hw">
-        <div class="sp-hw__copy">
-          <span class="sp-hw__eyebrow">Halloween Sale · Solo comprando online</span>
-          <h2>Trick or Train: Halloween Sale en Suplementos Panamá</h2>
-          <p>Descuentos online en proteína isolate, creatina y glutamina de VMS Nutrition, y en productos Evogen. Compra en suplementospanama.net y retira en 6 sucursales o recibe en todo Panamá según disponibilidad.</p>
-        </div>
         <a class="sp-bw__box" href="/online-sale-sp/">
           <picture>
             <source media="(max-width:700px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1080x720.webp">
@@ -444,7 +434,7 @@ body .breadcrumb-wrap{display:none !important}
           </picture>
         </a>
         <div class="sp-hw__cta">
-          <a class="sp-btn sp-btn--primary" href="/online-sale-sp/">Ver la Halloween Sale</a>
+          <a class="sp-btn sp-btn--primary" href="/online-sale-sp/">MONSTER SALE</a>
         </div>
       </div>
     </div>
