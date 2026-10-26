@@ -683,3 +683,11 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Lead actualizado para sostener la entidad y el canal: "Tienda de suplementos deportivos en Panama. Combos solo online para volumen, definicion y fuerza, con retiro en 6 sucursales y envio nacional."
 - Badge superior: `MAS POWER SIN EXCUSAS >>` -> **`MAS SCARY POWER >>`** (mismo enlace a `/promociones/combos/`).
 - Verificado en produccion: H1, lead y badge nuevos; 0 restos de "BEAST MODE" / "MAS POWER SIN EXCUSAS".
+
+### Hero: fondo de terror (bestia)
+- Arte generado en Nano Banana a partir de la webp de referencia `Hero_All-In_Character_1920x1360_*.webp`; archivo fuente nuevo: `imagenes-hero/BACKGROUND/halloween-hero-back-sp-ver-1-desktop.jpeg`.
+- Optimizado a `assets/hero-bg/hero-bg-desktop.jpg` (129 KB, q82) y `.webp` (83 KB, q80), 1376x768.
+- CSS: `mix-blend-mode:screen` y `opacity:.12` sustituidos por render normal con **opacity .55** y filtro suave (brightness .9 / contrast 1.05).
+- Se agrego capa `.sp-hero__shade` (gradiente horizontal) para proteger la legibilidad del H1 sobre la bestia; vertical en movil.
+- URLs con `?ver=20261026` para romper la cache de 1 ano de las imagenes anteriores.
+- Pendiente: versiones movil (1080x1920) y square (2048x2048) siguen con el fondo abstracto anterior hasta generar los nuevos artes.

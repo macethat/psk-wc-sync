@@ -157,7 +157,9 @@ body .breadcrumb-wrap{display:none !important}
 
 /* HERO */
 .sp-hero{background:#070707;color:#fff;position:relative;overflow:hidden;border-bottom:1px solid #2a2a2a}
-.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg') type('image/jpeg'));background-size:cover;background-position:center;background-repeat:no-repeat;mix-blend-mode:screen;opacity:.12;filter:brightness(.7) contrast(1.7) saturate(1.15)}
+.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.webp?ver=20261026') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg?ver=20261026') type('image/jpeg'));background-size:cover;background-position:center;background-repeat:no-repeat;opacity:.55;filter:brightness(.9) contrast(1.05) saturate(1.05)}
+.sp-hero__shade{position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(90deg,rgba(7,7,7,.94) 0%,rgba(7,7,7,.72) 32%,rgba(7,7,7,.28) 58%,rgba(7,7,7,0) 78%);}
+@media(max-width:900px){.sp-hero__shade{background:linear-gradient(180deg,rgba(7,7,7,.92) 0%,rgba(7,7,7,.55) 42%,rgba(7,7,7,.75) 100%)}}
 @media(max-width:900px){.sp-hero__bg{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg') type('image/jpeg'));background-position:center top;opacity:.15}}
 .sp-hero__in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,620px) minmax(0,720px);gap:24px;justify-content:center;align-items:center;padding:64px 0}
 @media(max-width:900px){.sp-hero__in{grid-template-columns:minmax(0,1fr);justify-content:stretch;padding:44px 0}.sp-hero__in > div:first-child{order:2}.sp-slider{order:1}}
@@ -299,6 +301,7 @@ body .breadcrumb-wrap{display:none !important}
   <!-- 1. HERO (combos, slider automático) -->
   <section class="sp-hero" id="combos">
     <div class="sp-hero__bg"></div>
+    <div class="sp-hero__shade"></div>
     <div class="sp-wrap">
       <div class="sp-hero__in">
         <div>
