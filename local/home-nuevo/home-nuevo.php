@@ -53,11 +53,11 @@ function sp_combo_ahorro($pid) {
     return $ahorro > 0 ? $ahorro : 0;
 }
 
-// Categorías principales (con icono)
+// CategorÃ­as principales (con icono)
 $sp_cats = get_terms(array('taxonomy' => 'product_cat', 'hide_empty' => true, 'include' => array(18, 258, 22, 253, 265, 269), 'orderby' => 'include'));
 $sp_cat_icons = array('proteinas' => 'proteina', 'creatina' => 'creatina', 'pre-entrenos' => 'pre-entreno', 'aminoacidos' => 'aminoacidos', 'quemadores-de-grasa' => 'quemadores');
 
-// Productos en oferta (categoría "Descuento Online") — solo disponibles, on-sale y sin combos
+// Productos en oferta (categorÃ­a "Descuento Online") â€” solo disponibles, on-sale y sin combos
 function sp_es_oferta_web($p) {
     if (!$p) return false;
     if ($p->get_type() !== 'simple') return false;
@@ -70,12 +70,12 @@ $sp_onsale = array_values(array_filter(
 ));
 $sp_onsale = array_slice($sp_onsale, 0, 8);
 
-// Más vendidos — solo disponibles; rotan (orden/subconjunto aleatorio en cada carga)
+// MÃ¡s vendidos â€” solo disponibles; rotan (orden/subconjunto aleatorio en cada carga)
 $sp_best = array_values(array_filter(
     wc_get_products(array('limit' => 24, 'status' => 'publish', 'orderby' => 'popularity', 'order' => 'DESC')),
     'sp_disponible'
 ));
-// NUEVOS primero (productos recién subidos) — visibilidad garantizada en el reel
+// NUEVOS primero (productos reciÃ©n subidos) â€” visibilidad garantizada en el reel
 $sp_nuevos = function_exists('sp_es_nuevo') ? array_values(array_filter(
     wc_get_products(array('limit' => 6, 'status' => 'publish', 'orderby' => 'date', 'order' => 'DESC')),
     function ($p) { return sp_disponible($p) && sp_es_nuevo($p); }
@@ -83,7 +83,7 @@ $sp_nuevos = function_exists('sp_es_nuevo') ? array_values(array_filter(
 shuffle($sp_best);
 $sp_best = array_slice(array_merge($sp_nuevos, $sp_best), 0, 12);
 
-// Reseñas reales de Google (Google Places API por sucursal) — solo 4★+ con texto
+// ReseÃ±as reales de Google (Google Places API por sucursal) â€” solo 4â˜…+ con texto
 $sp_reviews = array();
 if (function_exists('sp_fetch_google_reviews')) {
     $sp_suc_data = @include get_stylesheet_directory() . '/sucursales/data.php';
@@ -102,7 +102,7 @@ if (function_exists('sp_fetch_google_reviews')) {
     if ($sp_reviews) { shuffle($sp_reviews); $sp_reviews = array_slice($sp_reviews, 0, 4); }
 }
 
-// Videos (Cloudinary) + enlace a la página de marca
+// Videos (Cloudinary) + enlace a la pÃ¡gina de marca
 $sp_videos = array(
     array('marca' => 'EVOGEN',            'url' => 'https://res.cloudinary.com/jrm5xhxt/video/upload/v1790785479/u0wc07yncqaiun9uqmat.mp4', 'link' => '/product-brand/suplementos-evogen/'),
     array('marca' => 'LANDERFIT',          'url' => 'https://res.cloudinary.com/jrm5xhxt/video/upload/v1790785485/tvobqmrpxt4jw29oodjt.mp4', 'link' => '/product-brand/suplementos-landerfit/'),
@@ -157,7 +157,7 @@ body .breadcrumb-wrap{display:none !important}
 
 /* HERO */
 .sp-hero{background:#070707;color:#fff;position:relative;overflow:hidden;border-bottom:1px solid #2a2a2a}
-.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.webp?ver=20261026') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg?ver=20261026') type('image/jpeg'));background-size:cover;background-position:left center;background-repeat:no-repeat;opacity:1;filter:brightness(1) contrast(1.02) saturate(1.05)}
+.sp-hero__bg{position:absolute;inset:0;pointer-events:none;background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.webp?ver=20261026b') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-desktop.jpg?ver=20261026b') type('image/jpeg'));background-size:cover;background-position:left center;background-repeat:no-repeat;opacity:1;filter:brightness(1) contrast(1.02) saturate(1.05)}
 .sp-hero__shade{position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(120% 130% at 20% 45%,rgba(7,7,7,.94) 0%,rgba(7,7,7,.72) 26%,rgba(7,7,7,.30) 50%,rgba(7,7,7,0) 70%)}
 @media(max-width:900px){.sp-hero__shade{background:linear-gradient(180deg,rgba(7,7,7,.92) 0%,rgba(7,7,7,.55) 42%,rgba(7,7,7,.75) 100%)}}
 @media(max-width:900px){.sp-hero__bg{background-image:image-set(url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.webp') type('image/webp'),url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/hero-bg/hero-bg-mobile.jpg') type('image/jpeg'));background-position:center top;opacity:.15}}
@@ -204,7 +204,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-trust span{font-size:13px;color:#fff}
 @media(max-width:900px){.sp-hide-mobile{display:none}}
 
-/* CATEGORÍAS */
+/* CATEGORÃAS */
 .sp-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
 @media(max-width:900px){.sp-cats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.sp-cats{grid-template-columns:1fr}}
@@ -298,7 +298,7 @@ body .breadcrumb-wrap{display:none !important}
 
 <main class="sp-home">
 
-  <!-- 1. HERO (combos, slider automático) -->
+  <!-- 1. HERO (combos, slider automÃ¡tico) -->
   <section class="sp-hero" id="combos">
     <div class="sp-hero__bg"></div>
     <div class="sp-hero__shade"></div>
@@ -306,10 +306,10 @@ body .breadcrumb-wrap{display:none !important}
       <div class="sp-hero__in">
         <div>
           <a class="sp-hero__badge" href="/promociones/combos/">SCARY POWER MODE &gt;&gt;</a>
-          <h1><span class="sp-h1l orange">TRICK OR TRAIN:</span> <span class="sp-h1l">SUPLEMENTOS EN PANAMÁ,</span> <span class="sp-h1l">SIN TRUCOS.</span></h1>
-          <p class="lead">Tienda de suplementos deportivos en Panamá. Combos solo online para volumen, definición y fuerza, con retiro en 6 sucursales y envío nacional.</p>
+          <h1><span class="sp-h1l orange">TRICK OR TRAIN:</span> <span class="sp-h1l">SUPLEMENTOS EN PANAMÃ,</span> <span class="sp-h1l">SIN TRUCOS.</span></h1>
+          <p class="lead">Tienda de suplementos deportivos en PanamÃ¡. Combos solo online para volumen, definiciÃ³n y fuerza, con retiro en 6 sucursales y envÃ­o nacional.</p>
           <div class="sp-chips">
-            <span class="sp-chip">Envíos a todo Panamá</span>
+            <span class="sp-chip">EnvÃ­os a todo PanamÃ¡</span>
             <span class="sp-chip">Retiras en 6 sucursales</span>
             <span class="sp-chip">Pagos Yappy / Tarjeta</span>
           </div>
@@ -352,19 +352,19 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-trust">
     <div class="sp-wrap">
       <div class="sp-trust__in">
-        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/envio-gratis.webp" alt="Envío gratis a todo Panamá" loading="lazy"></div><div><h3>Envío Gratis</h3><span>En compras desde $150<span class="sp-hide-mobile"> a todo Panamá</span></span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/envio-gratis.webp" alt="EnvÃ­o gratis a todo PanamÃ¡" loading="lazy"></div><div><h3>EnvÃ­o Gratis</h3><span>En compras desde $150<span class="sp-hide-mobile"> a todo PanamÃ¡</span></span></div></div>
         <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/retiro-sucursal.webp" alt="Retira por sucursal" loading="lazy"></div><div><h3>Retira por Sucursal</h3><span>En nuestras 6 sucursales</span></div></div>
-        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/originales.webp" alt="Productos 100% originales" loading="lazy"></div><div><h3>100% Originales</h3><span>Directo de fábrica, lote trazable</span></div></div>
-        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/asesoria-whatsapp.webp" alt="Asesoría por WhatsApp" loading="lazy"></div><div><h3>Asesoría WhatsApp</h3><span>Expertos en suplementación</span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/originales.webp" alt="Productos 100% originales" loading="lazy"></div><div><h3>100% Originales</h3><span>Directo de fÃ¡brica, lote trazable</span></div></div>
+        <div class="sp-trust__it"><div class="sp-trust__ic"><img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/iconos/asesoria-whatsapp.webp" alt="AsesorÃ­a por WhatsApp" loading="lazy"></div><div><h3>AsesorÃ­a WhatsApp</h3><span>Expertos en suplementaciÃ³n</span></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. CATEGORÍAS -->
+  <!-- 3. CATEGORÃAS -->
   <section class="sp-sec">
     <div class="sp-wrap">
       <div style="text-align:center">
-        <span class="sp-eyebrow sp-eyebrow--lg">Suplementos Deportivos en Panamá</span>
+        <span class="sp-eyebrow sp-eyebrow--lg">Suplementos Deportivos en PanamÃ¡</span>
         <h2>Encuentra el suplemento exacto para tus objetivos.</h2>
       </div>
       <div class="sp-cats">
@@ -374,7 +374,7 @@ body .breadcrumb-wrap{display:none !important}
             $count = $cat->count; ?>
           <a class="sp-cat" href="<?php echo esc_url($link); ?>">
             <h3><?php echo esc_html($cat->name); ?></h3>
-            <span class="go">Explorar →</span>
+            <span class="go">Explorar â†’</span>
           </a>
         <?php endforeach; endif; ?>
       </div>
@@ -434,7 +434,7 @@ body .breadcrumb-wrap{display:none !important}
             <source media="(max-width:1200px)" type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1200x480.webp">
             <source media="(max-width:1200px)" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1200x480.jpg">
             <source type="image/webp" srcset="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1920x500.webp">
-            <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1920x500.jpg" alt="Banner de Halloween Sale con proteína isolate, creatina y glutamina VMS Nutrition y Evogen" width="1920" height="500" loading="lazy" decoding="async">
+            <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/banner-halloween/banner-halloween-1920x500.jpg" alt="Banner de Halloween Sale con proteÃ­na isolate, creatina y glutamina VMS Nutrition y Evogen" width="1920" height="500" loading="lazy" decoding="async">
           </picture>
         </a>
         <div class="sp-hw__cta">
@@ -481,17 +481,17 @@ body .breadcrumb-wrap{display:none !important}
             </div>
           </div>
         <?php endforeach; else: ?>
-          <p class="sp-sub">(Sección reservada: aquí irán los productos con descuento web-only.)</p>
+          <p class="sp-sub">(SecciÃ³n reservada: aquÃ­ irÃ¡n los productos con descuento web-only.)</p>
         <?php endif; ?>
       </div>
     </div>
   </section>
 
-  <!-- 7. MÁS VENDIDOS -->
+  <!-- 7. MÃS VENDIDOS -->
   <section class="sp-sec" style="background:var(--sp-light);border-top:1px solid var(--sp-border)">
     <div class="sp-wrap sp-wrap--boxed">
       <span class="sp-eyebrow sp-eyebrow--lg">Si entrenas fuerte, sabes donde comprar</span>
-      <h2>Lo que más nos piden</h2>
+      <h2>Lo que mÃ¡s nos piden</h2>
       <div class="sp-reel">
         <div class="sp-reel__track">
         <?php if ($sp_best): foreach (array(0, 1) as $sp_pass): foreach ($sp_best as $p):
@@ -516,7 +516,7 @@ body .breadcrumb-wrap{display:none !important}
   <section class="sp-sec" style="padding-top:84px">
     <div class="sp-wrap">
       <div style="text-align:center">
-        <span class="sp-eyebrow sp-eyebrow--lg">La casa oficial de suplementos <br class="sp-br-mobile">nutricionales en Panamá</span>
+        <span class="sp-eyebrow sp-eyebrow--lg">La casa oficial de suplementos <br class="sp-br-mobile">nutricionales en PanamÃ¡</span>
         <h2>No vendemos marcas, las marcas nos eligen</h2>
       </div>
       <div class="sp-videos" id="sp-videos">
@@ -547,13 +547,13 @@ body .breadcrumb-wrap{display:none !important}
             $suc = $rev['_suc'] ?? '';
         ?>
           <div class="sp-test">
-            <div class="stars"><?php echo str_repeat('★', $rating) . str_repeat('☆', 5 - $rating); ?></div>
-            <p>“<?php echo esc_html(wp_trim_words($rtxt, 38, '…')); ?>”</p>
-            <div class="who"><?php echo esc_html($autor); ?><?php if ($suc): ?> — <?php if (!empty($rev['_suc_url'])): ?><a href="<?php echo esc_url($rev['_suc_url']); ?>" target="_blank" rel="noopener"><?php echo esc_html($suc); ?></a><?php else: ?><?php echo esc_html($suc); ?><?php endif; ?><?php endif; ?></div>
-            <div class="src">Reseña de Google</div>
+            <div class="stars"><?php echo str_repeat('â˜…', $rating) . str_repeat('â˜†', 5 - $rating); ?></div>
+            <p>â€œ<?php echo esc_html(wp_trim_words($rtxt, 38, 'â€¦')); ?>â€</p>
+            <div class="who"><?php echo esc_html($autor); ?><?php if ($suc): ?> â€” <?php if (!empty($rev['_suc_url'])): ?><a href="<?php echo esc_url($rev['_suc_url']); ?>" target="_blank" rel="noopener"><?php echo esc_html($suc); ?></a><?php else: ?><?php echo esc_html($suc); ?><?php endif; ?><?php endif; ?></div>
+            <div class="src">ReseÃ±a de Google</div>
           </div>
         <?php endforeach; else: ?>
-          <div class="sp-test"><div class="stars">★★★★★</div><p>“Productos originales y excelente asesoría.”</p><div class="who">Cliente — Panamá</div></div>
+          <div class="sp-test"><div class="stars">â˜…â˜…â˜…â˜…â˜…</div><p>â€œProductos originales y excelente asesorÃ­a.â€</p><div class="who">Cliente â€” PanamÃ¡</div></div>
         <?php endif; ?>
       </div>
     </div>
@@ -565,10 +565,10 @@ body .breadcrumb-wrap{display:none !important}
       <div class="sp-cta">
         <div class="sp-cta__bg"></div>
         <div class="sp-cta__in">
-          <h2>¿No sabes cuál suplemento elegir?</h2>
+          <h2>Â¿No sabes cuÃ¡l suplemento elegir?</h2>
           <p>Chatea con nuestros asesores y recibe un plan personalizado de acuerdo a tus necesidades.</p>
         </div>
-        <a class="sp-btn sp-btn--wa" href="https://wa.me/50763805669?text=Hola%20Suplementos%20Panam%C3%A1,%20deseo%20asesor%C3%ADa" target="_blank" rel="noopener">Asesoría por WhatsApp: +507 6380-5669</a>
+        <a class="sp-btn sp-btn--wa" href="https://wa.me/50763805669?text=Hola%20Suplementos%20Panam%C3%A1,%20deseo%20asesor%C3%ADa" target="_blank" rel="noopener">AsesorÃ­a por WhatsApp: +507 6380-5669</a>
       </div>
     </div>
   </section>
@@ -620,7 +620,7 @@ body .breadcrumb-wrap{display:none !important}
     render();
   }
 
-  /* --- Videos de marca: botón play/pause independiente por video --- */
+  /* --- Videos de marca: botÃ³n play/pause independiente por video --- */
   var vids = document.querySelectorAll('#sp-videos video');
   function loadVid(v){ if(v.dataset.loaded) return; v.dataset.loaded=1; var s=document.createElement('source'); s.src=v.dataset.src; s.type='video/mp4'; v.appendChild(s); v.load(); }
   function syncBtn(v){ var b=v.parentNode.querySelector('.sp-vid__btn'); if(b) b.classList.toggle('is-playing', !v.paused); }
