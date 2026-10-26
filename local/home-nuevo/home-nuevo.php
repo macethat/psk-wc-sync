@@ -167,6 +167,7 @@ body .breadcrumb-wrap{display:none !important}
 .sp-hero h1{color:#fff;font-size:44px;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em;max-width:620px}
 @media(max-width:900px){.sp-hero h1{font-size:32px;max-width:100%}.sp-hero h1 .sp-h1l{display:block}}
 .sp-hero h1 .red{color:var(--sp-primary)}
+.sp-hero h1 .orange{color:#F65000}
 .sp-hero p.lead{color:#E4E2E2;font-size:17px;max-width:560px}
 @media(max-width:900px){.sp-hero p.lead{font-size:15px;max-width:100%}}
 .sp-chips{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
@@ -301,9 +302,9 @@ body .breadcrumb-wrap{display:none !important}
     <div class="sp-wrap">
       <div class="sp-hero__in">
         <div>
-          <a class="sp-hero__badge" href="/promociones/combos/">MÁS POWER SIN EXCUSAS &gt;&gt;</a>
-          <h1><span class="sp-h1l">BEAST MODE ON.</span> <span class="sp-h1l red">COMBOS ONLINE,</span> <span class="sp-h1l">SIN PAGAR DE MÁS.</span></h1>
-          <p class="lead">Ahorra comprando en combo. Stacks diseñados para volumen, definición y fuerza. Ofertas válidas solo para compras en línea.</p>
+          <a class="sp-hero__badge" href="/promociones/combos/">MÁS SCARY POWER &gt;&gt;</a>
+          <h1><span class="sp-h1l orange">TRICK OR TRAIN:</span> <span class="sp-h1l">SUPLEMENTOS EN PANAMÁ,</span> <span class="sp-h1l">SIN TRUCOS.</span></h1>
+          <p class="lead">Tienda de suplementos deportivos en Panamá. Combos solo online para volumen, definición y fuerza, con retiro en 6 sucursales y envío nacional.</p>
           <div class="sp-chips">
             <span class="sp-chip">Envíos a todo Panamá</span>
             <span class="sp-chip">Retiras en 6 sucursales</span>

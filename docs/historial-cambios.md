@@ -676,3 +676,10 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 1. `sp-dev-nocache.php` sigue activo para `/online-sale-sp/`.
 2. El isolate VMS que muestra el arte no esta listado hoy en la landing.
 3. Plan de reversion sugerido: 1-nov-2026 (volver a banner neutro/Black Friday manteniendo la misma URL).
+
+### Hero: nuevo H1 y badge (campana Halloween)
+- H1 anterior `BEAST MODE ON. COMBOS ONLINE, SIN PAGAR DE MAS.` reemplazado por **`TRICK OR TRAIN: SUPLEMENTOS EN PANAMA, SIN TRUCOS.`** (50 caracteres), con `TRICK OR TRAIN:` en naranja `#F65000` (nueva clase `.sp-hero h1 .orange`) y el resto en blanco.
+- Motivo (agentes SEO + GEO): el H1 anterior no aportaba entidades, duplicaba el H2 "Combos Online" y canibalizaba `/promociones/combos/`. El nuevo refuerza "suplementos en Panama" (termino que debe poseer el home) sin invadir la landing de combos ni la de Halloween.
+- Lead actualizado para sostener la entidad y el canal: "Tienda de suplementos deportivos en Panama. Combos solo online para volumen, definicion y fuerza, con retiro en 6 sucursales y envio nacional."
+- Badge superior: `MAS POWER SIN EXCUSAS >>` -> **`MAS SCARY POWER >>`** (mismo enlace a `/promociones/combos/`).
+- Verificado en produccion: H1, lead y badge nuevos; 0 restos de "BEAST MODE" / "MAS POWER SIN EXCUSAS".
