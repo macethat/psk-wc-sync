@@ -615,3 +615,11 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - ISO Surge (22136, atts 22304/22305): las imagenes nuevas estaban en servidor pero el navegador mostraba las viejas por `Cache-Control` de 1 ano. Solucion: mu-plugin `sp-img-cache-bust-iso.php` agrega `?ver=20261021` (commit `b26e9fe`).
 - `combo-price.php` y `functions.php` del child **NO** se tocaron (retiro en sucursal intacto).
 
+### Fix imagenes padre (productos variables)
+- **Sintoma**: en `proteina-blend-vms-nutrition-5-lb` (19061) el sabor seleccionado mostraba la imagen nueva, pero al cargar la ficha y en las miniaturas seguian las viejas.
+- **Causa raiz**: un reemplazo anterior de imagenes actualizo solo las **variaciones** y no el **padre**. El padre conservaba `_thumbnail_id=15924` (2025/10) y `_product_image_gallery=15922,17137` (antiguas), mientras las variaciones ya apuntaban a 21465 (Vainilla), 21463 (Chocolate) y 21987 (Strawberry).
+- **Fix 19061**: thumb -> `21465`, galeria -> `21463,21987`. Verificado en vivo: 0 apariciones de la imagen vieja, las 3 nuevas presentes.
+- **Auditoria** (`local/sp_audit_parent_imgs.php`): recorre los variables y alerta cuando el padre tiene imagenes mas antiguas que la variacion mas vieja. Detecto ademas **9171** (Amino Revolution): el padre mostraba Grape (imagen 2024, sabor sin variacion). Fix: thumb -> `16432` (Coconut), galeria -> `15668` (Raspberry Lemonade).
+- **18917** (C4 Original) revisado: padre = Fruit Punch (sabor valido) y galeria con Ice Blue Razz + Pink Lemonde; sin cambios.
+- **Regla para futuros reemplazos**: al cambiar imagenes de un variable, actualizar SIEMPRE variaciones **y** padre (`_thumbnail_id` + `_product_image_gallery`), luego `wc_delete_product_transients()`. El script original era ad-hoc (`wp eval-file`, no versionado); la auditoria queda versionada para detectar el patron.
+
