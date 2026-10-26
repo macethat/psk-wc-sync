@@ -623,3 +623,20 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - **18917** (C4 Original) revisado: padre = Fruit Punch (sabor valido) y galeria con Ice Blue Razz + Pink Lemonde; sin cambios.
 - **Regla para futuros reemplazos**: al cambiar imagenes de un variable, actualizar SIEMPRE variaciones **y** padre (`_thumbnail_id` + `_product_image_gallery`), luego `wc_delete_product_transients()`. El script original era ad-hoc (`wp eval-file`, no versionado); la auditoria queda versionada para detectar el patron.
 
+
+## 2026-10-26 - Hero: imagenes de los 2 combos nuevos + analisis de checkout
+
+### Hero combos 22306 / 22308
+- Imagenes recibidas en `C:\suplementos\home_nuevo\imagenes-hero\new261026` (1672x941). Normalizadas a **1698x926** (estandar del hero, recorte centrado minimo) con JPG quality 85 (~240 KB).
+- Subidas a Media como attachments **22326** (Lipo) y **22327** (RAW+BUM), con title/alt/caption/description SEO. Se renombraron a sufijo `-hero` para no chocar con la imagen de ficha del combo.
+- Meta `_combo_hero_image_id` asignada a 22306 -> 22326 y 22308 -> 22327.
+- `local/home-nuevo/home-nuevo.php`: agregados **22306, 22308** a `$sp_hero_ids`. Desplegado al child theme.
+- Verificado: home con **25 slides** (antes 23), imagenes nuevas HTTP 200 y enlaces a `/product/combo-lipo-revolution-thermogenic-stim-free-landerfit/` y `/product/combo-raw-essential-orange-bum-essential-performance-no-stim/`.
+- `local/home-nuevo/hero-combos/map.json` actualizado (29 entradas). La carpeta de imagenes hero sigue **sin versionar** (22,6 MB) por convencion del repo.
+
+### Analisis de compras no completadas
+- Documento `docs/ANALISIS-CHECKOUT-ABANDONO.md` (60 dias, ago-oct 2026): 76 ordenes, 21% no finalizadas (12 canceladas + 4 fallidas), $902,81 en riesgo.
+- Principal causal: abandono en el paso de pago (10 de 12 canceladas por timeout de 60 min). Fallidas: 1 solo cliente con fondos insuficientes.
+- Checkout: 22 campos, 17 requeridos. `billing_doc_identificacion` **se mantiene** (necesario para reclamos). Candidatos a relajar: `shipping_postcode` y datos de envio cuando es retiro en sucursal.
+- CSV de recuperacion: `local/recuperacion-ordenes-oct-2026.csv` (16 ordenes con PII, excluido de git via `.gitignore`).
+- **Sin cambios de checkout aplicados** a la espera de definir con el negocio.

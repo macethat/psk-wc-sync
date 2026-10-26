@@ -46,3 +46,6 @@ solo_en_*.csv
 solo_en_*.xls
 actualizacion_stock.csv
 Nuevo documento de texto.txt
+
+# Datos personales de clientes (campanas de recuperacion)
+local/recuperacion-ordenes-*.csv
