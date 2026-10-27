@@ -308,7 +308,7 @@ body .breadcrumb-wrap{display:none !important}
         <div>
           <a class="sp-hero__badge" href="/promociones/combos/">SCARY POWER MODE &gt;&gt;</a>
           <h1><span class="sp-h1l orange">TRICK OR TRAIN:</span> <span class="sp-h1l">SUPLEMENTOS EN PANAMÁ,</span> <span class="sp-h1l">SIN TRUCOS.</span></h1>
-          <p class="lead">Somos tu proveedor de suplementos deportivos en Panamá. 6 sucursales en la City y envíos a todo el país; combos online, diseñados para volumen, definición y fuerza.</p>
+          <p class="lead">Somos tu proveedor de suplementos deportivos en Panamá. 6 sucursales disponibles en la City y envíos a todo el país; combos online, diseñados para volumen, definición y fuerza.</p>
           <div class="sp-chips">
             <span class="sp-chip">Envío gratis desde $150</span>
             <span class="sp-chip">Retiro en tienda</span>
