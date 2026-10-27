@@ -310,8 +310,8 @@ body .breadcrumb-wrap{display:none !important}
           <h1><span class="sp-h1l orange">TRICK OR TRAIN:</span> <span class="sp-h1l">SUPLEMENTOS EN PANAMÁ,</span> <span class="sp-h1l">SIN TRUCOS.</span></h1>
           <p class="lead">Somos tu proveedor de suplementos deportivos en Panamá. Vendemos en 6 sucursales y enviamos a todo el país; los combos son solo online, pensados para volumen, definición y fuerza.</p>
           <div class="sp-chips">
-            <span class="sp-chip">Envíos a todo Panamá</span>
-            <span class="sp-chip">Retiras en 6 sucursales</span>
+            <span class="sp-chip">Envío gratis desde $150</span>
+            <span class="sp-chip">Retiro en tienda</span>
             <span class="sp-chip">Pagos Yappy / Tarjeta</span>
           </div>
           <div class="sp-hero__cta">
