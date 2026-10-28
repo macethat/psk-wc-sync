@@ -703,3 +703,8 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Tamanos: carrito desktop 21px -> **28px**; favoritos 20px -> **26px**; carrito movil 20px -> **26px**.
 - Contadores (badge 10px) reubicados: `left:14px`, `bottom:-6px/-7px/-8px` segun el caso.
 - Solo CSS en `wp_head`; no se toco el tema padre ni `functions.php`.
+- Tamanos finales: carrito desktop 21px -> **28px**; favoritos 20px -> **26px**; carrito movil 20px -> **24px**.
+- Contadores (badge 10px) reubicados: `left:14px`, `bottom:-6px/-7px/-8px` segun el caso.
+- **Fix movil (fila rota)**: al agrandar el icono, el carrito saltaba a la linea de abajo porque el contenedor Elementor de la fila (`elementor-element-881cea9`) tenia `--flex-wrap-mobile: wrap`. Se forza `--flex-wrap-mobile: nowrap` + `flex-wrap: nowrap !important` en ese contenedor y `flex-wrap: nowrap` en `.header-group-action` (media query <=1023px). Tambien se fijo `--row-gap:0` y `--column-gap:10px`.
+- Nota: el CSS de Elementor se imprime despues del mu-plugin; el override funciona por `!important`.
+- Solo CSS en `wp_head`; no se toco el tema padre ni `functions.php`. Verificado visualmente en movil por el cliente.
