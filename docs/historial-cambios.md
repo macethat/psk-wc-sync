@@ -708,3 +708,8 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - **Fix movil (fila rota)**: al agrandar el icono, el carrito saltaba a la linea de abajo porque el contenedor Elementor de la fila (`elementor-element-881cea9`) tenia `--flex-wrap-mobile: wrap`. Se forza `--flex-wrap-mobile: nowrap` + `flex-wrap: nowrap !important` en ese contenedor y `flex-wrap: nowrap` en `.header-group-action` (media query <=1023px). Tambien se fijo `--row-gap:0` y `--column-gap:10px`.
 - Nota: el CSS de Elementor se imprime despues del mu-plugin; el override funciona por `!important`.
 - Solo CSS en `wp_head`; no se toco el tema padre ni `functions.php`. Verificado visualmente en movil por el cliente.
+### Carrito lateral: traducciones
+- Nuevo mu-plugin `sp-traducciones-carrito.php`: traduce los textos del panel lateral que el tema trae sin traducir (dominio `nutritix`, no estaban en el .po).
+- Mapeos: `Shopping cart` -> **CARRITO**; `close` -> **Cerrar**; `No products in the cart.` -> **Aún no hay productos en el carrito**.
+- Se hace con filtro `gettext` (no se editan templates del tema padre).
+- Verificado con `wp eval-file`: heading, close y mensaje vacio salen en espanol.
