@@ -20,7 +20,15 @@ add_action('wp_head', function () {
 .header-group-action .site-header-wishlist .count{left:14px;bottom:-6px;}
 
 /* Movil */
-.site-header-cart.header-cart-mobile .cart-contents:before{font-size:26px !important;}
+.site-header-cart.header-cart-mobile .cart-contents:before{font-size:24px !important;}
 .site-header-cart.header-cart-mobile .count{left:14px;bottom:-8px;}
+
+/* Movil: evitar que el icono mas grande rompa la fila del header (Elementor usa --flex-wrap-mobile:wrap) */
+@media (max-width:1023px){
+  .elementor-20649 .elementor-element.elementor-element-881cea9{--flex-wrap-mobile:nowrap !important;flex-wrap:nowrap !important;--row-gap:0px;--column-gap:10px;}
+  .elementor-20649 .elementor-element.elementor-element-881cea9 > .e-con-inner{flex-wrap:nowrap !important;}
+  .header-group-action{flex-wrap:nowrap !important;align-items:center !important;}
+  .header-group-action > div{flex:0 0 auto;}
+}
 </style>';
 }, 100);
