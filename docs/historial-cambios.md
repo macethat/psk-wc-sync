@@ -697,3 +697,9 @@ La estructura del CTA pasó por 2 correcciones en los combos 21960/21961/21962:
 - Optimizados: `hero-bg-mobile` 118 KB jpg / 74 KB webp; `hero-bg-square` 126 KB jpg / 81 KB webp.
 - CSS: movil (<=900px) usa `hero-bg-mobile` con opacidad 1 (antes 0.15); se agrego rango tablet (901-1200px) con `hero-bg-square`. Desktop mantiene `hero-bg-desktop`.
 - Todas las URLs con `?ver=20261026b`. Mojeado de la BD corregido en 28 registros (26 captions/contenidos + 2 alt de 22244/22245); backup `/tmp/sp_mojibake_backup_20261026_191414.json`.
+
+### Header: iconos de carrito y favoritos
+- Nuevo mu-plugin `sp-header-icons.php`: cambia el glifo del carrito de bolsa (`e00d`) a **carrito de compras** (`e06a`, `nutritix-icon-shopping-cart`) y agranda los iconos.
+- Tamanos: carrito desktop 21px -> **28px**; favoritos 20px -> **26px**; carrito movil 20px -> **26px**.
+- Contadores (badge 10px) reubicados: `left:14px`, `bottom:-6px/-7px/-8px` segun el caso.
+- Solo CSS en `wp_head`; no se toco el tema padre ni `functions.php`.
