@@ -17,6 +17,7 @@ add_filter('gettext', function ($translated, $text, $domain) {
         'close'                    => 'Cerrar',
         'Close'                    => 'Cerrar',
         'No products in the cart.' => 'Aún no hay productos en el carrito',
+        'View your shopping cart'  => 'Ver tu carrito',
     );
 
     return isset($map[$text]) ? $map[$text] : $translated;
